@@ -1,0 +1,73 @@
+
+#==============
+#=== SCHEDULES
+#==============
+type: vertical-stack
+cards:
+
+  #===========================
+  #=== VIEW SELECTION BUTTONS
+  #===========================
+  - type: entities
+    entities:
+      - type: divider
+    style: >
+      ha-card {
+        background: none;
+        margin-top: -1em;
+        margin-bottom: -1.5em;
+      }
+
+  - type: custom:mod-card
+    style: |
+      ha-card {
+        margin: 0em 1em 0em 1em;
+      }
+    card:
+      type: horizontal-stack
+      cards:
+        
+        - !include
+          - ../../includes/button_boolean_select.yaml
+          - entity: input_boolean.irrigation_show_cycle1
+            name: "[[[ var entity_id = 'input_text.irrigation_cycle1_name'; return states[entity_id].state.toUpperCase(); ]]]"
+            card_font_size: 16px
+            card_font_family: Oswald
+
+        - !include
+          - ../../includes/button_boolean_select.yaml
+          - entity: input_boolean.irrigation_show_cycle2
+            name: "[[[ var entity_id = 'input_text.irrigation_cycle2_name'; return states[entity_id].state.toUpperCase(); ]]]"
+            card_font_size: 16px
+            card_font_family: Oswald
+
+        - !include
+          - ../../includes/button_boolean_select.yaml
+          - entity: input_boolean.irrigation_show_cycle3
+            name: "[[[ var entity_id = 'input_text.irrigation_cycle3_name'; return states[entity_id].state.toUpperCase(); ]]]"
+            card_font_size: 16px
+            card_font_family: Oswald
+
+  - type: entities
+    entities:
+      - type: divider
+    style: >
+      ha-card {
+        background: none;
+        margin-top: -1.5em;
+        margin-bottom: -1em;
+      }
+
+  - !include section_schedules_cycle1.yaml
+
+  - !include section_schedules_cycle2.yaml
+
+  - !include section_schedules_cycle3.yaml
+
+style: |
+  ha-card {
+    background: none;
+    margin-top: -1em;
+    margin-bottom: -1em;
+  }
+
