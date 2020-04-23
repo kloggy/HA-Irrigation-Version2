@@ -1,0 +1,140 @@
+
+#================
+#=== Automations
+#================
+automation:
+  #===================================================================
+  #=== Cycle high temperature figures for the four days before today.
+  #=== Today's figure is collected dynamically
+  #=== AND
+  #=== Reset Actual High Temp Today for a new day
+  #===================================================================
+  - alias: Irrigation Temperature Nightly Update
+    trigger: 
+      - platform: time
+        at: "00:01:00"
+
+    action:
+      #=== Cycle high temperature figures for the four days before today.
+      - service: input_number.set_value
+        entity_id: input_number.irrigation_high_temp_4
+        data_template:
+          value: >
+            {{ states('input_number.irrigation_high_temp_3') }}
+
+      - service: input_number.set_value
+        entity_id: input_number.irrigation_high_temp_3
+        data_template:
+          value: >
+            {{ states('input_number.irrigation_high_temp_2') }}
+
+      - service: input_number.set_value
+        entity_id: input_number.irrigation_high_temp_2
+        data_template:
+          value: >
+            {{ states('input_number.irrigation_high_temp_1') }}
+
+      - service: input_number.set_value
+        entity_id: input_number.irrigation_high_temp_1
+        data_template:
+          value: >
+            {{ states('input_number.irrigation_actual_high_temp_0') }}
+
+      #=== Reset Actual High Temp Today for a new day
+      - service: input_number.set_value
+        data_template:
+          entity_id: input_number.irrigation_actual_high_temp_0
+          value:  >
+            {{ states('sensor.dark_sky_current_temperature') | float }}
+
+
+  #=============================================================
+  #=== Update Actual High Temp Today if temperature has gone up
+  #=============================================================
+  - alias: Irrigation Temperature Update Actual High Temp Today
+    trigger:
+      - platform: state
+        entity_id: sensor.dark_sky_current_temperature
+
+    condition:
+      - condition: template
+        value_template: >
+          {{ states('sensor.dark_sky_current_temperature') | float > states('input_number.irrigation_actual_high_temp_0') | float }}
+
+    action:
+      - service: input_number.set_value
+        data_template:
+          entity_id: input_number.irrigation_actual_high_temp_0
+          value: >
+            {{ states('sensor.dark_sky_current_temperature') }}
+
+
+  #============================================================================
+  #=== Calculate Temperature multiplier
+  #===
+  #=== This multiplier will increase or decrease watering time proportionally
+  #=== based on the difference between the temperature threshold and the 
+  #=== average high temperature over the last few days.
+  #===
+  #=== It is calculated as High Temperature divided by Baseline Temperature.
+  #===
+  #=== For example, if the baseline temperature is set to 25 degrees and the
+  #=== average temperature has been 30 degrees the adjustent will be plus 20%.
+  #=== Likewise if the average temperature has only been 20 degrees the
+  #=== adjustment will be minus 20%.
+  #============================================================================
+  - alias: Irrigation Temperature Calculate Multiplier
+    trigger:
+      - platform: state
+        entity_id:
+          - input_boolean.irrigation_use_forecast_high_temp
+          - input_number.irrigation_days_of_temp_history_used
+          - input_number.irrigation_temperature_baseline
+          - sensor.dark_sky_forecast_daytime_high_temperature_0d
+          - input_number.irrigation_actual_high_temp_0
+          - input_number.irrigation_high_temp_1
+          - input_number.irrigation_high_temp_2
+          - input_number.irrigation_high_temp_3
+          - input_number.irrigation_high_temp_4
+
+      - platform: state
+        entity_id:
+          - input_boolean.irrigation_cycle1_adjust_for_temperature
+          - input_boolean.irrigation_cycle2_adjust_for_temperature
+        to: 'on'
+
+    action:
+      - service: input_number.set_value
+        data_template:
+          entity_id: input_number.irrigation_temp_multiplier
+          value: >
+            {% if is_state('input_boolean.irrigation_use_forecast_high_temp', 'on') %}
+              {% set temp_0 = states('sensor.dark_sky_forecast_daytime_high_temperature_0d') | float %}
+            {% else %}
+              {% set temp_0 = states('input_number.irrigation_actual_high_temp_0') | float %}
+            {% endif %}
+            {% set temp_1 = states('input_number.irrigation_high_temp_1') | float %}
+            {% set temp_2 = states('input_number.irrigation_high_temp_2') | float %}
+            {% set temp_3 = states('input_number.irrigation_high_temp_3') | float %}
+            {% set temp_4 = states('input_number.irrigation_high_temp_4') | float %}
+
+            {% set days_used = states('input_number.irrigation_days_of_temp_history_used') | int %}
+            {% set baseline = states('input_number.irrigation_temperature_baseline') | int %}
+
+            {% set temp_high = temp_0 %}
+            {% if days_used == 1 %}
+              {% set temp_high = (temp_0 + temp_1) / 2  %}
+            {% endif %}
+            {% if days_used == 2 %}
+              {% set temp_high = (temp_0 + temp_1 + temp_2) / 3  %}
+            {% endif %}
+            {% if days_used == 3 %}
+              {% set temp_high = (temp_0 + temp_1 + temp_2 + temp_3) / 4  %}
+            {% endif %}
+            {% if days_used == 4 %}
+              {% set temp_high = (temp_0 + temp_1 + temp_2 + temp_3) / 4  %}
+            {% endif %}
+
+            {% set multiplier = (temp_high / baseline) | round(2) %}
+
+            {{ multiplier }}

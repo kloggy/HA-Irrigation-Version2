@@ -1,0 +1,174 @@
+
+#================
+#=== Automations
+#================
+automation:
+
+  #========================================================================
+  #=== Run a cycle if it is enabled and at the right time on the right day
+  #=== Or a Manual run is requested
+  #========================================================================
+  - alias: Irrigation Triggered
+    trigger:
+
+      #=== Cycle 1 Start Time
+      - platform: template
+        value_template: >
+          {% set start_time = states('sensor.irrigation_cycle1_start_time_in_seconds') | int %}
+          {% set start_time = start_time | timestamp_custom('%H:%M', false) %}
+          {{ states('sensor.time') == start_time }}
+
+      #=== Cycle 2 Start Time
+      - platform: template
+        value_template: >
+          {% set start_time = states('sensor.irrigation_cycle2_start_time_in_seconds') | int %}
+          {% set start_time = start_time | timestamp_custom('%H:%M', false) %}
+          {{ states('sensor.time') == start_time }}
+
+      #=== Cycle 3 Manual Run
+      - platform: state
+        entity_id: input_boolean.irrigation_cycle3_running
+        to: 'on'
+
+    condition:
+      #=== Only continue if Master Control Switch is on
+      - condition: state
+        entity_id: input_boolean.irrigation_master_control_switch
+        state: 'on'
+
+      #=== Only continue if Cycles 1 and 2 are not running
+      #=== NOTE: Cycle 3 is prevented from running if either Cycle 1 or 2 are running by its Start button
+      - condition: state
+        entity_id: input_boolean.irrigation_cycle1_running
+        state: 'off'
+
+      - condition: state
+        entity_id: input_boolean.irrigation_cycle2_running
+        state: 'off'
+
+      #=== Check this cycle is enabled. NOTE: don't check this for cycle 3 
+      - condition: template
+        value_template: >
+          {% set start_time_cycle1 = states('sensor.irrigation_cycle1_start_time_in_seconds') | int %}
+          {% set start_time_cycle1 = start_time_cycle1 | timestamp_custom('%H:%M', false) %}
+          {% if states('sensor.time') == start_time_cycle1 %}
+            {% set cycle = 'cycle1' %} 
+          {% else %}
+            {% set cycle = 'cycle2' %}
+          {% endif %}
+
+          {% if 'cycle3' in trigger.entity_id %}
+            True
+          {% elif states('input_boolean.irrigation_' ~ cycle ~ '_schedule_enabled') =='on' %}
+            True
+          {% else %}
+            False
+          {% endif %}
+
+      #=== Check this cycle runs today. NOTE: cycle 3 doesn't have scheduled days
+      - condition: template
+        value_template: >
+          {% set start_time_cycle1 = states('sensor.irrigation_cycle1_start_time_in_seconds') | int %}
+          {% set start_time_cycle1 = start_time_cycle1 | timestamp_custom('%H:%M', false) %}
+          {% if states('sensor.time') == start_time_cycle1 %}
+            {% set cycle = 'cycle1' %} 
+          {% else %}
+            {% set cycle = 'cycle2' %}
+          {% endif %}
+
+          {% set today = now().strftime('%a') | lower %}
+
+          {% if 'cycle3' in trigger.entity_id %}
+            True
+          {% elif states('input_boolean.irrigation_' ~ cycle ~ '_' ~ today ) == 'on' %}
+            True
+          {% else %}
+            False
+          {% endif %}
+
+    action:
+      #== Set the cycle to be running
+      - service: homeassistant.turn_on
+        data_template:
+          entity_id: >
+            {% set start_time_cycle1 = states('sensor.irrigation_cycle1_start_time_in_seconds') | int %}
+            {% set start_time_cycle1 = start_time_cycle1 | timestamp_custom('%H:%M', false) %}
+
+            {% if 'cycle3' in trigger.entity_id %}
+              {{ 'input_boolean.irrigation_cycle3_running' }}
+            {% elif states('sensor.time') == start_time_cycle1 %}
+              {{ 'input_boolean.irrigation_cycle1_running' }}
+            {% else %}
+              {{ 'input_boolean.irrigation_cycle2_running' }}
+            {% endif %}
+
+      #===================================================
+      #=== SET DETAILS OF LAST RUN FOR THE STATUS SECTION
+      #===================================================
+      #=== Set previous run times for all zones to 'None'
+      - service: input_text.set_value
+        data_template:
+          entity_id: >
+            {% for input_text in states.input_text if '_previous_duration_in_seconds' in input_text.entity_id -%}
+              {{ input_text.entity_id }}
+              {%- if not loop.last %}, {% endif %}
+            {%- endfor %}
+          value: None
+      
+      #=== Set previous total watering time to 'none'
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_previous_total_watering_time
+          value: None
+
+      #=== Set previous cycle total time to zero
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_previous_total_watering_time
+          value: 0
+
+      #=== Update Last Run cycle name
+      - service: input_text.set_value
+        data_template:
+          entity_id: input_text.irrigation_previous_run_cycle_name
+          value: >
+            {% set start_time_cycle1 = states('sensor.irrigation_cycle1_start_time_in_seconds') | int %}
+            {% set start_time_cycle1 = start_time_cycle1 | timestamp_custom('%H:%M', false) %}
+
+            {% if 'cycle3' in trigger.entity_id %}
+              {% set cycle = 'cycle3' %}
+            {% elif states('sensor.time') == start_time_cycle1 %}
+              {% set cycle = 'cycle1' %}
+            {% else %}
+              {% set cycle = 'cycle2' %}
+            {% endif %}
+
+            {{ states('input_text.irrigation_' ~ cycle ~ '_name') }}
+            
+      #=== Update Last Run date and time
+      - service: input_text.set_value
+        data_template:
+          entity_id: input_text.irrigation_previous_run_date_and_time
+          value: >
+            {{ now().strftime("%A %d %B at %H:%M") }}
+            
+
+      #======================
+      #=== START THE PROCESS
+      #======================
+      - service: script.irrigation_irrigate_a_zone
+        data_template:
+          cycle: >
+            {% set start_time_cycle1 = states('sensor.irrigation_cycle1_start_time_in_seconds') | int %}
+            {% set start_time_cycle1 = start_time_cycle1 | timestamp_custom('%H:%M', false) %}
+
+            {% if 'cycle3' in trigger.entity_id %}
+              cycle3
+            {% elif states('sensor.time') == start_time_cycle1 %}
+              cycle1
+            {% else %}
+              cycle2
+            {% endif %}
+          zone: zone1
+          pause: 0
+

@@ -1,0 +1,183 @@
+
+#================
+#=== Automations
+#================
+automation:
+
+  #============================================
+  #=== Reset System When Home Assistant Starts
+  #============================================
+  - alias: Irrigation System Reset
+    trigger:
+      platform: homeassistant
+      event: start
+
+    condition:
+      condition: state
+      entity_id: input_boolean.irrigation_testing_mode
+      state: 'off'
+
+    action:
+      #=== Reset PULSETIME to zero
+      - service: mqtt.publish
+        data_template:
+          topic: >
+            {% set sonoff = states('input_text.irrigation_failsafe_switch_name') %}
+            {% set sonoff = sonoff.split('.')[1] %}
+            {{ sonoff }}/cmnd/pulsetime1
+          payload: 0
+
+      #=== Turn OFF Master Sonoff
+      - service: switch.turn_off
+        data_template:
+          entity_id: >
+            {{ states('input_text.irrigation_failsafe_switch_name') }}
+
+      #=== Turn ON Master Sonoff
+      - delay: "00:00:05"
+
+      - service: switch.turn_on
+        data_template:
+          entity_id: >
+            {{ states('input_text.irrigation_failsafe_switch_name') }}
+
+
+  #=============================
+  #=== Master Control switch ON
+  #=============================
+  - alias: Irrigation Master Control Switch ON
+    trigger:
+      - platform: state
+        entity_id: input_boolean.irrigation_master_control_switch
+        to: 'on'
+
+    action:
+      #=== Turn ON Master Sonoff
+      - service: switch.turn_on
+        data_template:
+          entity_id: >
+            {{ states('input_text.irrigation_failsafe_switch_name') }}
+
+      #=== Turn ON Automations
+      - service: automation.turn_on
+        data_template:
+          entity_id: >
+            {% for automation in states.automation if automation.object_id.startswith('irrigation') %}
+              {{- automation.entity_id }}{% if not loop.last %}, {% endif -%}
+            {% endfor %}
+
+      #=== Turn OFF all schedules
+      - service: input_boolean.turn_off
+        entity_id:
+          - input_boolean.irrigation_cycle1_schedule_enabled
+          - input_boolean.irrigation_cycle2_schedule_enabled
+
+      #=== Reset PULSETIME to zero
+      - service: mqtt.publish
+        data_template:
+          topic: >
+            {% set sonoff = states('input_text.irrigation_failsafe_switch_name') %}
+            {% set sonoff = sonoff.split('.')[1] %}
+            {{ sonoff }}/cmnd/pulsetime1
+          payload: 0
+
+
+  #==============================
+  #=== Master Control switch OFF
+  #==============================
+  - alias: Irrigation Master Control Switch OFF
+    trigger:
+      - platform: state
+        entity_id: input_boolean.irrigation_master_control_switch
+        to: 'off'
+
+    action:
+      #=== Turn OFF Master Sonoff
+      - service: switch.turn_off
+        data_template:
+          entity_id: >
+            {{ states('input_text.irrigation_failsafe_switch_name') }}
+
+      #=== Turn OFF Automations
+      - service: automation.turn_off
+        data_template:
+          entity_id: >
+            {% for automation in states.automation if automation.object_id.startswith('irrigation')  and
+                                                      'irrigation_master_control_switch' not in automation.object_id %}
+              {{- automation.entity_id }}{% if not loop.last %}, {% endif -%}
+            {% endfor %}
+
+
+  # #===========================================
+  # #== Set Sonoff PULSETIME when a zone starts
+  # #===========================================
+  # - alias: Irrigation Set Sonoff PULSETIME When Zone Started
+  #   trigger: 
+  #     - platform: template
+  #       value_template: >
+  #         {% set ns = namespace(state = 'false') %}
+  #         {% for switch in states.switch if switch.object_id.startswith('garden_irrigation_relay_zone') %}
+  #           {% if is_state(switch.entity_id, 'on') %}
+  #             {% set ns.state = 'true' %}
+  #           {% endif %}
+  #         {% endfor %}
+  #         {{ ns.state }}
+
+  #   action:
+  #     #=========================================================================
+  #     #=== Set Sonoff PULSETIME to some seconds longer than the zone runtime
+  #     #===
+  #     #=== This acts as a fail safe in the event of any communication failure
+  #     #=== between HA and the Sonoff. The Sonoff will switch off under its own
+  #     #=== control so closing the valve.
+  #     #===
+  #     #=== Note: From the Tasmota wiki,
+  #     #===   for a Pulsetime upto 11 seconds it is set to 10 * seconds
+  #     #===   for a Pulsetime greater than 11 seconds it is set to 100 + seconds
+  #     #=========================================================================
+  #     - service: mqtt.publish
+  #       data_template:
+  #         topic: >
+  #           {% set sonoff = states('input_text.irrigation_failsafe_switch_name') %}
+  #           {% set sonoff = sonoff.split('.')[1] %}
+  #           {{ sonoff }}/cmnd/pulsetime1
+  #         payload: >
+  #           {% set zone = trigger_entity_id[-1] %}
+  #           {% set duration = state_attr('timer.irrigation_zone' ~ zone ~ '_timer', 'duration') %}
+
+  #           {% set h, m ,s = duration.split(':') %}
+ 
+  #           {% set seconds = (h | int * 3600) + (m | int * 60) + (s | int) %}
+  #           {% if seconds <= 11 %}
+  #             {% set payload = 10 * seconds + 15 %}
+  #           {% else %}
+  #             {% set payload = 100 + (seconds / 60) + 15 %}
+  #           {% endif %}
+  #           {{ payload | int }}
+
+
+  # #===================================================
+  # #== Reset Sonoff PULSETIME to zero when a zone ends
+  # #===================================================
+  # - alias: Irrigation Reset Sonoff PULSETIME When Zone Ended
+  #   trigger: 
+  #     - platform: template
+  #       value_template: >
+  #         {% set ns = namespace(state = 'true') %}
+  #         {% for switch in states.switch if switch.object_id.startswith('garden_irrigation_relay_zone') %}
+  #           {% if is_state(switch.entity_id, 'on') %}
+  #             {% set ns.state = 'false' %}
+  #           {% endif %}
+  #         {% endfor %}
+  #         {{ ns.state }}
+
+  #   action:
+  #     #=== Set Sonoff PULSETIME to zero
+  #     - service: mqtt.publish
+  #       data_template:
+  #         topic: >
+  #           {% set sonoff = states('input_text.irrigation_failsafe_switch_name') %}
+  #           {% set sonoff = sonoff.split('.')[1] %}
+  #           {{ sonoff }}/cmnd/pulsetime1
+  #         payload: 0
+

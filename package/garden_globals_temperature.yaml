@@ -1,0 +1,85 @@
+
+#===================
+#=== Input Booleans
+#===================
+input_boolean:
+  irrigation_use_forecast_high_temp:
+    name: Forecast High Temperature
+    icon: mdi:thermometer
+
+#   irrigation_use_temp_multiplier:
+#     name: Adjust for temperature
+#     icon: mdi:thermometer
+
+
+#==================
+#=== Input_Numbers
+#==================
+input_number:
+  
+  #=== Temperature Days To Use
+  irrigation_days_of_temp_history_used:
+    name: Number of days history to use in calculations
+    min: 0
+    max: 4
+    step: 1
+    icon: mdi:calendar-range
+
+  #=== Temperature multiplier
+  irrigation_temp_multiplier:
+    name: multiplier for temperature
+    min: 0
+    max: 10
+    step: 0.01
+    icon: mdi:thermometer
+
+  #=== The temperature above or below which the duration is adjusted
+  irrigation_temperature_baseline:
+    name: Temperature baseline
+    min: 20
+    max: 40
+    step: 1
+    icon: mdi:thermometer
+    unit_of_measurement: '°C'
+
+
+  #=== Temperature History
+  irrigation_actual_high_temp_0:
+    name: Actual High Temp today
+    min: 0
+    max: 40
+    step: 0.1
+    icon: mdi:thermometer
+    unit_of_measurement: '°C'
+
+  irrigation_high_temp_1:
+    name: Yesterday
+    min: 0
+    max: 40
+    step: 0.1
+    icon: mdi:thermometer
+    unit_of_measurement: '°C'
+
+  irrigation_high_temp_2:
+    name: Two days ago
+    min: 0
+    max: 40
+    step: 0.1
+    icon: mdi:thermometer
+    unit_of_measurement: '°C'
+
+  irrigation_high_temp_3:
+    name: Three days ago
+    min: 0
+    max: 40
+    step: 0.1
+    icon: mdi:thermometer
+    unit_of_measurement: '°C'
+
+  irrigation_high_temp_4:
+    name: Four days ago
+    min: 0
+    max: 40
+    step: 0.1
+    icon: mdi:thermometer
+    unit_of_measurement: '°C'
