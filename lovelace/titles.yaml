@@ -1,0 +1,17 @@
+# lovelace_gen
+
+type: markdown
+style: |
+  ha-card {
+    font-size: {{ font_size | default('20px') }};
+    font-family: {{ font_family | default('var(--primary-font-family)') }};
+    color: {{ color | default('auto') }};
+    height: {{ height | default('3em') }};
+    background-color: {{ background_color | default('transparent') }};
+    margin-top: {{ margin_top | default('-0.5em') }};
+    margin-left: {{ margin_left | default('-0.5em') }};
+    margin-bottom: {{ margin_bottom | default('-0.5em') }};
+    box-shadow: none;
+  }
+content: {{ title }}
+
