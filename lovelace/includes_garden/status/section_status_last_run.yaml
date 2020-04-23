@@ -1,0 +1,140 @@
+# lovelace_gen
+
+#=============
+#=== LAST RUN
+#=============
+# type: entities
+# show_header_toggle: false
+# entities:
+
+type: custom:stack-in-card
+keep:
+  margin: true
+cards:
+
+  #=== LAST RUN HEADING
+  - !include
+    - ../../includes/button_boolean_check_box.yaml
+    - entity: input_boolean.irrigation_show_last_run_details
+      name: DETAILS OF LAST RUN
+      card_font_size: 18px
+      card_font_family: Oswald
+      card_color: var(--secondary-text-color)
+      card_margin_top: -1em
+      card_margin_bottom: -1em
+      card_margin_left: 10px
+      size: 50%
+      off_opacity: 100%
+      grid_template_columns: min-content 10%
+
+  #=== LAST RUN CYCLE DATE AND TIME AND NAME
+  - type: custom:button-card
+    name: "[[[ return states['input_text.irrigation_previous_run_date_and_time'].state + '&nbsp-&nbsp' ]]]"
+    label: "[[[ return states['input_text.irrigation_previous_run_cycle_name'].state ]]]"
+    show_label: true
+    show_icon: false
+    styles:
+      grid:
+        - grid-template-areas: '"n l"'
+        - grid-template-columns: min-content 1fr
+        - grid-template-rows: min-content
+      card:
+        - font-size: 16px
+        - font-family: Oswald
+        - color: var(--secondary-text-color)
+        - padding: 0.5em 0em 0em 10px
+      label:
+        - justify-self: start
+      name:
+        - color: var(--primary-text-color)
+
+  #=== LAST RUN TOTAL WATERING TIME
+  - type: custom:button-card
+    entity: input_text.irrigation_previous_total_watering_time
+    name: >
+      [[[
+        var date = new Date(null);
+        var total_seconds = parseFloat(entity.state);
+        date.setSeconds(total_seconds);
+        return date.toISOString().substr(11, 8);
+      ]]]
+    label: "Total watering time last run -&nbsp"
+    show_label: true
+    show_icon: false
+    styles:
+      grid:
+        - grid-template-areas: '"l n"'
+        - grid-template-columns: min-content 1fr
+        - grid-template-rows: min-content
+      card:
+        - font-size: 14px
+        - font-family: Oswald
+        - color: var(--secondary-text-color)
+        - padding: 0em 0em 0em 10px
+        - margin-top: -0.3em
+      name:
+        - justify-self: start
+      label:
+        - color: var(--primary-text-color)
+
+  # - type: conditional
+  #   conditions:
+  #     - entity: input_boolean.irrigation_show_last_run_details
+  #       state: 'on'
+  #   row:
+  #     type: divider
+
+  - type: entities
+    entities:
+      - type: divider
+
+      - !include
+          - item_status_last_run_line.yaml
+          - entity: input_text.irrigation_zone1_previous_duration_in_seconds
+            zone: zone1
+
+      - !include
+          - item_status_last_run_line.yaml
+          - entity: input_text.irrigation_zone2_previous_duration_in_seconds
+            zone: zone2
+
+      - !include
+          - item_status_last_run_line.yaml
+          - entity: input_text.irrigation_zone3_previous_duration_in_seconds
+            zone: zone3
+
+      - !include
+          - item_status_last_run_line.yaml
+          - entity: input_text.irrigation_zone4_previous_duration_in_seconds
+            zone: zone4
+
+      - !include
+          - item_status_last_run_line.yaml
+          - entity: input_text.irrigation_zone5_previous_duration_in_seconds
+            zone: zone5
+
+      - !include
+          - item_status_last_run_line.yaml
+          - entity: input_text.irrigation_zone6_previous_duration_in_seconds
+            zone: zone6
+
+      - !include
+          - item_status_last_run_line.yaml
+          - entity: input_text.irrigation_zone7_previous_duration_in_seconds
+            zone: zone7
+
+      - !include
+          - item_status_last_run_line.yaml
+          - entity: input_text.irrigation_zone8_previous_duration_in_seconds
+            zone: zone8
+
+    style: |
+      #states {
+        {% raw %}
+        {% set show = states('input_boolean.irrigation_show_last_run_details') %}
+        {% if show == 'off' %}
+          display: none
+        {% endif %}
+        {% endraw %}
+      }
+
