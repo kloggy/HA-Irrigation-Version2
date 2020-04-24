@@ -1,10 +1,16 @@
 <h2>Prerequisites</h2>
 
+Some things need to be setup in your config for this to work as planned.
+
+Most of them are due to that fact that this package makes use of some functions that I have written that are not used only by the irrigation system. I have detailed them here.
+
+----
+
 __sensor.time__ is needed somewhere in your config
 
-I have written in some __notification__ functionality.
-I use it so that when I am away on holiday it tells me when irrigation starts and ends.
-In order for this to be used you will need to define two extra 'helpers' somewhere in your config:
+__Notifications.__ Functionality is included but it makes use of a subsystem that I wrote for use throughout my system. 
+I use it in this case so that when I am away on holiday it tells me when irrigation starts and ends.
+In order for you to be able to adapt this to your own use you will need to define two extra 'helpers' somewhere in your config:
 
 `input_text.notifications_user1_name` and
 
@@ -43,7 +49,7 @@ __I use a theme called `dark_teal`__ (available here https://github.com/aFFekopp
 
 __Weather sensors:__ I use SmartWeather and DarkSky weather sensors to provide the data for duration adjustments.
 
-Smart Weather is available as a custom component (https://github.com/briis/smartweather) but I simply use REST sensors to receive the data.
+__Smart Weather__ is available as a custom component (https://github.com/briis/smartweather) but I simply use REST sensors to receive the data.
 DarkSky will I believe become unavailable in 2021 as Apple have recently bought it.
 
 Look [here](https://smartweather.weatherflow.com/map) and see if there are any stations near you.
@@ -75,6 +81,24 @@ smartweather_resource_1: http://swd.weatherflow.com/swd/rest/observations/statio
 
 Of course there is *no requirement* to use Smartweather but if you use something else you will need to change the Lovelace to fit and also the code that collects rainfall measurements.
 
+__Dark Sky__: The darksky sensor must have `minutely_summary` as one of it's monitored conditions.
+The file `item_schedule_cycle_header` makes use of it and it appears in one line but you will need to make a small change.
+My sensor is called `sensor.dark_sky_current_minutely_summary`. This is due to a historic issue as I have two darksky sensors,
+one which I use for forecast and one for current information hence the different names
+(they both have a different scan_interval but apart from that I can’t remember now why I did that!!).
+
+You must either change your sensor name to match mine or more likely, change the sensor to match yours.
+
+From:
+
+`label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_current_minutely_summary'].state.replace(',', ',<br>'); ]]]"`
+
+to:
+
+`label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_current_summary'].state.replace(',', ',<br>'); ]]]"`
+
+*The schedule start time will not show if this is not correct*
+
 __The file `section_settings_general.yaml`__ needs `sensor.esphome_irrigation_controller_wifi_signal`.
 
 The settings page will not display correctly without it.
@@ -89,13 +113,3 @@ If you do not have this sensor simply delete (or comment) this section of that f
     tap_action: none
 ```
 
-__The file `item_schedule_cycle_header`__ needs `sensor.dark_sky_current_minutely_summary`.
-
-It appears as the `label`:
-
-`label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_current_minutely_summary'].state.replace(',', ',<br>'); ]]]"`
-
-You will need to either change your sensor name to match mine or more likely, change the sensor in the `label` to `sensor.dark_sky_minutely_summary`.
-This is due to a historic issue as I have two darksky sensors,
-one which I use for forecast and one for current information hence the different names
-(they both have a different scan_interval but apart from that I can’t remember now why I did that!!).
