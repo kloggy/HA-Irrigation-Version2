@@ -43,7 +43,7 @@ styles:
     - grid-template-rows: min-content
   card:
     - font-size: 16px
-    - font-family: Oswald
+    - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
     - display: >
         [[[
           if (entity.state == 'idle')
@@ -52,22 +52,6 @@ styles:
         ]]]
     - padding: 0.4em
     - height: 2.4em
-    # - padding: >
-    #     [[[
-    #       if (entity.state == 'idle')
-    #         return '0em';
-    #       else
-    #         return '0.4em';
-    #     ]]]
-    # - height: >
-    #     [[[
-    #       if (entity.state == 'idle')
-    #         return '0em';
-    #       else
-    #         return '2.4em';
-    #     ]]]
-    # - margin-top: -0.5em
-    # - margin-bottom: -0.5em
   label:
     - color: var(--secondary-text-color)
     - justify-self: start
