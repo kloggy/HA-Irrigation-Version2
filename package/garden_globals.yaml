@@ -63,15 +63,6 @@ input_text:
     min: 0
     max: 10
 
-  #===================================
-  #=== Name of Sonoff Failsafe Switch
-  #====================================
-  irrigation_failsafe_switch_name:
-    name: Failsfe Switch Name
-    min: 1
-    max: 20
-    icon: mdi:alphabetical-variant
-
 
 #==================
 #=== Input Numbers
