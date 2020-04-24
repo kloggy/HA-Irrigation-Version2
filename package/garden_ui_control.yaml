@@ -4,6 +4,27 @@
 #================
 automation:
 
+  #======================================
+  #=== SET UI DEFAULTS WHERE APPROPRIATE
+  #======================================
+  #=== Font
+  - alias: Irrigation UI Set Default Font
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_ui_font_family
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_ui_font_family
+          value: Oswald
+
+
   #=============================
   #=== SECTION HEADER SELECTION
   #=============================
