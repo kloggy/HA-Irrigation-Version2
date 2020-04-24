@@ -40,7 +40,7 @@ entities:
                 return 'none';
             ]]]
         - font-size: 16px
-        - font-family: Oswald
+        - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
         - padding: 0px
       today:
         - justify-self: end
