@@ -134,7 +134,7 @@ card:
             styles:
               card:
                 - font-size: 12px
-                - font-family: Oswald
+                - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
                 - background: none
                 - margin: 0em 0em 0em 0em
                 - color: var(--secondary-text-color)
