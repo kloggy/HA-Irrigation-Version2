@@ -27,7 +27,7 @@ styles:
           else return null;
         ]]]
     - font-size: 14px
-    - font-family: Oswald
+    - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
     - padding: 0px
     - height: 1.5em
   name:
@@ -58,20 +58,3 @@ custom_fields:
         time = time.replace("m", " min");
         return time; }
     ]]]
-# custom_fields:
-#   total_yesterday: >
-#     [[[
-#       var zone = '{{ zone }}';
-#       var time = states['sensor.irrigation_' + zone + '_total_time_yesterday'].attributes.value;
-#       time = time.replace("h", "hrs ");
-#       time = time.replace("m", " min");
-#       return time;
-#     ]]]
-#   total_today: >
-#     [[[
-#       var zone = '{{ zone }}';
-#       var time = states['sensor.irrigation_' + zone + '_total_time_today'].attributes.value;
-#       time = time.replace("h", "hrs ");
-#       time = time.replace("m", " min");
-#       return time;
-#     ]]]
