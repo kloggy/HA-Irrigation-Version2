@@ -113,7 +113,7 @@ cards:
               - grid-template-columns: min-content min-content auto 1fr  
               - grid-template-rows: 1fr
             card:
-              - font-family: Oswald
+              - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
               - background: none
               - padding: 5px
               - height: 35px
