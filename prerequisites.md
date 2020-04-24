@@ -82,7 +82,7 @@ smartweather_resource_1: http://swd.weatherflow.com/swd/rest/observations/statio
 Of course there is *no requirement* to use Smartweather but if you use something else you will need to change the Lovelace to fit and also the code that collects rainfall measurements.
 
 __Dark Sky__: The darksky sensor must have `minutely_summary` as one of it's monitored conditions.
-The file `item_schedule_cycle_header` makes use of it and it appears in one line but you will need to make a small change.
+The file `item_schedule_cycle_header.yaml` makes use of it and it appears in one line but you will need to make a small change.
 My sensor is called `sensor.dark_sky_current_minutely_summary`. This is due to a historic issue as I have two darksky sensors,
 one which I use for forecast and one for current information hence the different names
 (they both have a different scan_interval but apart from that I can’t remember now why I did that!!).
