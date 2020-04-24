@@ -45,7 +45,7 @@ cards:
         - box-shadow: none
         - margin: 0em 1em -0.5em 1em
       name:
-        - font-family: Oswald
+        - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
         - font-size: 18px
         - color: var(--secondary-text-color)
         - justify-self: start
