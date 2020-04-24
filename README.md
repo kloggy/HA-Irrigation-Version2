@@ -4,6 +4,8 @@ It is __important__ to understand that I am only using GitHub literally as a rep
 
 One day maybe I'll delve further into how GitHub works but for now I'm afraid that is the situation.
 
+Furthermore, this is not quite a '*pick-it-up-and-drop-it-in*' solution. It nearly is but there are a few idiosyncracities. Be prepared to try it out and spend a short time setting it up.
+
 <h2>Background</h2>
 
 __IMPORTANT__ - This is only a *__preview__* of Version 2 and it will have changes made to it. Please bear that in mind if you decide to use it in any way and be sure to read ALL of this page.
