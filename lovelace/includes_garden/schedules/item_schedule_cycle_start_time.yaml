@@ -59,7 +59,7 @@ styles:
 
   name:
     - align-self: start
-    - font-family: Oswald
+    - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
   label:
     - justify-self: start
     - font-size: 10px
