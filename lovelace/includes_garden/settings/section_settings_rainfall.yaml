@@ -34,6 +34,7 @@ card:
         #=== Number of days history
         - !include
             - item_settings_line.yaml
+              name: Number of days history to use
             - entity: input_number.irrigation_days_of_rainfall_history_used
               secondary_info: (0 to 4) If zero only rainfall today is used
               round: 0
@@ -42,6 +43,7 @@ card:
         - !include
             - item_settings_line.yaml
             - entity: input_number.irrigation_rainfall_threshold
+              name: Rainfall threshold
               secondary_info: If this threshold is reached no watering takes place
               margin_top: -0.5em
 
