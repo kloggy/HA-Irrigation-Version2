@@ -14,7 +14,7 @@ cards:
     styles:
       card:
         - font-size: 18px
-        - font-family: Oswald
+        - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
         - color: var(--secondary-text-color)
         - padding: 1em
       name:
@@ -28,11 +28,6 @@ cards:
             - animation: blink 2s ease infinite
 
   #=== CURRENT ZONE ACTIVITY
-  # - type: conditional
-  #   conditions:
-  #     - entity: input_text.irrigation_current_status
-  #       state_not: SYSTEM IDLE
-  #   card:
   - type: entities
     entities:
       - !include
