@@ -1,5 +1,8 @@
 <h1 align="center">A Garden Irrigation System for Home Assistant (Version2)</h1>
 
+It is __important__ to understand that I am only using GitHub literally as a repository. What that means is I just copy my code from my PC to here so that it can be shared. There is no formal version control here other than that inherent in the Github editing history.
+
+One day maybe I'll delve further into how GitHub works but for now I'm afraid that is the situation.
 
 <h2>Background</h2>
 
