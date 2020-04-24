@@ -63,6 +63,11 @@ input_text:
     min: 0
     max: 10
 
+  irrigation_ui_font_family:
+    name: Irrigation UI font family
+    min: 0
+    max: 30
+
 
 #==================
 #=== Input Numbers
