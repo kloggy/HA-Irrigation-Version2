@@ -40,7 +40,7 @@ cards:
         - grid-template-rows: min-content
       card:
         - font-size: 16px
-        - font-family: Oswald
+        - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
         - color: var(--secondary-text-color)
         - padding: 0.5em 0em 0em 10px
       label:
@@ -68,7 +68,7 @@ cards:
         - grid-template-rows: min-content
       card:
         - font-size: 14px
-        - font-family: Oswald
+        - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
         - color: var(--secondary-text-color)
         - padding: 0em 0em 0em 10px
         - margin-top: -0.3em
@@ -76,13 +76,6 @@ cards:
         - justify-self: start
       label:
         - color: var(--primary-text-color)
-
-  # - type: conditional
-  #   conditions:
-  #     - entity: input_boolean.irrigation_show_last_run_details
-  #       state: 'on'
-  #   row:
-  #     type: divider
 
   - type: entities
     entities:
