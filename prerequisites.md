@@ -95,7 +95,7 @@ From:
 
 to:
 
-`label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_current_summary'].state.replace(',', ',<br>'); ]]]"`
+`label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_minutely_summary'].state.replace(',', ',<br>'); ]]]"`
 
 *The schedule start time will not show if this is not correct*
 
