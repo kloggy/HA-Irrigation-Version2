@@ -81,13 +81,28 @@ smartweather_resource_1: http://swd.weatherflow.com/swd/rest/observations/statio
 
 Of course there is *no requirement* to use Smartweather but if you use something else you will need to change the Lovelace to fit and also the code that collects rainfall measurements.
 
-__Dark Sky__: The darksky sensor must have `minutely_summary` as one of it's monitored conditions.
-The file `item_schedule_cycle_header.yaml` makes use of it and it appears in one line but you will need to make a small change.
+__Dark Sky__: The following minimal configuaration is needed:
+
+```
+sensor:
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    forecast:
+      - 0
+    monitored_conditions:
+      - temperature_high           
+```
+
+There are also two small changes needed.
+
+Firstly,
+
+In file `item_schedule_cycle_header.yaml` you will need to make a small change.
 My sensor is called `sensor.dark_sky_current_minutely_summary`. This is due to a historic issue as I have two darksky sensors,
 one which I use for forecast and one for current information hence the different names
 (they both have a different scan_interval but apart from that I can’t remember now why I did that!!).
 
-You must either change your sensor name to match mine or more likely, change the sensor to match yours.
+You must change the line:
 
 From:
 
@@ -98,6 +113,19 @@ to:
 `label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_minutely_summary'].state.replace(',', ',<br>'); ]]]"`
 
 *The schedule start time will not show if this is not correct*
+
+Secondly,
+
+You need to edit one line in `section_settings_temperature.yaml` in order to show the temperature graph. 
+
+In the `custom:mini-graph-card` find the line:
+
+`        - entity: sensor.dark_sky_forecast_daytime_high_temperature_0d`
+
+and change it to:
+
+`        - entity: sensor.dark_sky_daytime_high_temperature_0d`
+
 
 __The file `section_settings_general.yaml`__ needs `sensor.esphome_irrigation_controller_wifi_signal`.
 
