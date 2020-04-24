@@ -44,7 +44,7 @@ styles:
           else return null;
         ]]]
     - font-size: 14px
-    - font-family: Oswald
+    - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
     - color: var(--secondary-text-color)
     - padding: 0px
     - height: 1.5em
