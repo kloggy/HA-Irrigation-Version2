@@ -32,7 +32,7 @@ cards:
           styles:
             card:
               - font-size: 16px
-              - font-family: Oswald
+              - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
               - background: none
               - box-shadow: none
               # - card_padding: 5px
