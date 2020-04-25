@@ -34,8 +34,8 @@ card:
         #=== Number of days history
         - !include
             - item_settings_line.yaml
-              name: Number of days history to use
             - entity: input_number.irrigation_days_of_rainfall_history_used
+              name: Number of days history to use
               secondary_info: (0 to 4) If zero only rainfall today is used
               round: 0
 
