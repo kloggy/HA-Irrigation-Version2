@@ -3,10 +3,6 @@
 #=============
 #=== LAST RUN
 #=============
-# type: entities
-# show_header_toggle: false
-# entities:
-
 type: custom:stack-in-card
 keep:
   margin: true
@@ -77,10 +73,27 @@ cards:
       label:
         - color: var(--primary-text-color)
 
+  #=== DIVIDER
   - type: entities
     entities:
       - type: divider
+    style: >
+      #states {
+        {% raw %}
+        {% set show = states('input_boolean.irrigation_show_last_run_details') %}
+        {% if show == 'off' %}
+          display: none;
+        {% endif %}
+        {% endraw %}
+      }
+      ha-card {
+        margin-top: -1.5em;
+        margin-bottom: -2em;
+      }
 
+  #=== ZONE DETAILS
+  - type: entities
+    entities:
       - !include
           - item_status_last_run_line.yaml
           - entity: input_text.irrigation_zone1_previous_duration_in_seconds
@@ -122,6 +135,10 @@ cards:
             zone: zone8
 
     style: |
+      ha-card {
+        margin-top: -1em;
+        margin-bottom: -1em;
+      }
       #states {
         {% raw %}
         {% set show = states('input_boolean.irrigation_show_last_run_details') %}
