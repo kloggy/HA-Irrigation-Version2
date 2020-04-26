@@ -36,7 +36,6 @@ automation:
         state: 'unknown'
 
     action:
-    action:
       - service: input_text.set_value
         data:
           entity_id: input_text.irrigation_cycle1_name
