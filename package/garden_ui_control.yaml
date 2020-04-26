@@ -24,6 +24,58 @@ automation:
           entity_id: input_text.irrigation_ui_font_family
           value: Oswald
 
+  #=== CYCLE 1
+  - alias: Irrigation UI Set Default Cycle 1 Name
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_cycle1_name
+        state: 'unknown'
+
+    action:
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_cycle1_name
+          value: Morning Cycle
+
+  #=== CYCLE 2
+  - alias: Irrigation UI Set Default Cycle 2 Name
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_cycle2_name
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_cycle2_name
+          value: Afternoon Cycle
+
+  #=== CYCLE 3
+  - alias: Irrigation UI Set Default Cycle 3 Name
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_cycle3_name
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_cycle3_name
+          value: Manual Cycle
+
 
   #=============================
   #=== SECTION HEADER SELECTION
