@@ -2,7 +2,9 @@
 
 Some things need to be setup in your config for this to work as planned.
 
-Most of them are due to that fact that this package makes use of some functions that I have written that are not used only by the irrigation system. I have detailed them here.
+Most of them are due to that fact that this package makes use of some functions that I have written that are not used only by the irrigation system.
+
+I have detailed them here (please let me know if you come across anything I have forgotten so that I can update this readme).
 
 ----
 
@@ -19,6 +21,7 @@ In order for you to be able to adapt this to your own use you will need to defin
 Mine are not in this package because they are part of my notification system.
 The actual notifications are also handled outside the package so some changes will be needed to suit whatever notification methods you choose to use.
 
+(@http_edo13 has posted how they use Telegram here: https://community.home-assistant.io/t/my-garden-irrigation/99686/404)
 
 __The Lovelace interface__ makes use of many custom cards (all installable using HACS https://github.com/hacs):
 
@@ -35,7 +38,8 @@ __The Lovelace interface__ makes use of many custom cards (all installable using
 Don't forget to update your `resources` as per the instruction in HACS
 
 
-__I use the Google font Oswald.__ I may consider in future making the font an option so that the user can change it via the UI but that is very low on my priorites.
+__I use the Google font family Oswald.__ I have allowed the user to change the font family name via the UI and currently it will be reflected in *most* of the UI. I am not sure how it will affect the layout if you change it but the option is there to play with if you want to.
+
 In the meantime to use Oswald add the following lines to your Lovelace `resources` section:
 
 ```
@@ -44,7 +48,7 @@ In the meantime to use Oswald add the following lines to your Lovelace `resource
   type: css
 ```
 
-__I use a theme called `dark_teal`__ (available here https://github.com/aFFekopp/dark_teal and via HACS) but I *think* it should work with the default HA theme as well.
+__I use a theme called `dark_teal`__ (available here https://github.com/aFFekopp/dark_teal and via HACS) but it should work with the default HA theme (and any other 'well behaved' theme) as well.
 
 
 __Weather sensors:__ I use SmartWeather and DarkSky weather sensors to provide the data for duration adjustments.
@@ -52,9 +56,9 @@ __Weather sensors:__ I use SmartWeather and DarkSky weather sensors to provide t
 __Smart Weather__ is available as a custom component (https://github.com/briis/smartweather) but I simply use REST sensors to receive the data.
 DarkSky will I believe become unavailable in 2021 as Apple have recently bought it.
 
-Look [here](https://smartweather.weatherflow.com/map) and see if there are any stations near you.
+For SmartWeather, look [here](https://smartweather.weatherflow.com/map) and see if there are any stations near you. I use five stations local to me and then using a series of sensors take the average. Rainfall data is notoriously hard to collect unless you have your own weather station so I have to leave it up to you to decide how to measure it for you locality. This is probably the part of the stystem  that will need the most attention to customise for you. Or of course you can simply just choose not to use it.
 
-If there are you need to note the station number and then create a REST sensor for each station like this,
+If there are local stations for you then note the station number(s) and then create a REST sensor for each station like this,
 
 ```
   - platform: rest
@@ -79,7 +83,7 @@ My secret looks like this:
 smartweather_resource_1: http://swd.weatherflow.com/swd/rest/observations/station/STATION_NO?api_key=MY_KEY
 ```
 
-Of course there is *no requirement* to use Smartweather but if you use something else you will need to change the Lovelace to fit and also the code that collects rainfall measurements.
+Of course there is *no requirement* to use Smartweather for rainfall data but if you use something else you will need to change the Lovelace to fit and also the code that collects rainfall measurements.
 
 __Dark Sky__: The following minimal configuaration is needed:
 
@@ -93,7 +97,7 @@ sensor:
       - temperature_high           
 ```
 
-There are also two small changes needed.
+There are also two small code changes needed.
 
 Firstly,
 
