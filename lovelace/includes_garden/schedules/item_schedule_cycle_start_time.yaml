@@ -19,14 +19,17 @@ show_icon: false
 label: >
   [[[
     var cycle = '{{ cycle }}';
-    var end_time = new Date(null);
-    var start_time = parseInt(states['sensor.irrigation_cycle' + cycle + '_start_time_in_seconds'].state);
-    var duration = parseInt(states['sensor.irrigation_cycle' + cycle + '_duration_in_seconds'].state);
-    var total_seconds = start_time + duration;
+    if (states['input_boolean.irrigation_cycle' + cycle + '_schedule_enabled'].state == 'off')
+      return "";
+    else
+      var end_time = new Date(null);
+      var start_time = parseInt(states['sensor.irrigation_cycle' + cycle + '_start_time_in_seconds'].state);
+      var duration = parseInt(states['sensor.irrigation_cycle' + cycle + '_duration_in_seconds'].state);
+      var total_seconds = start_time + duration;
 
-    end_time.setSeconds(total_seconds);
-    
-    return "<br>(Will end about " + end_time.toISOString().substr(11, 5) + ")";    
+      end_time.setSeconds(total_seconds);
+      
+      return "<br>(Will end about " + end_time.toISOString().substr(11, 5) + ")";
   ]]]
 color: var(--paper-item-icon-active-color)
 size: 100%
