@@ -97,6 +97,7 @@ sensor:
       - 0
     monitored_conditions:
       - temperature_high           
+      - minutely_summary 
 ```
 
 There are also two small code changes needed.
