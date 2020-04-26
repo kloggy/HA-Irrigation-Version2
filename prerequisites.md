@@ -118,7 +118,7 @@ to:
 
 `label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_minutely_summary'].state.replace(',', ',<br>'); ]]]"`
 
-*The schedule start time will not show if this is not correct*
+*The schedule start time will not show if this is not correct.* (I have just seen the changes for the latest `button-card` v3.3.1 and I am not sure if this statement is still correct).
 
 Secondly,
 
@@ -135,7 +135,8 @@ and change it to:
 
 __The file `section_settings_general.yaml`__ needs `sensor.esphome_irrigation_controller_wifi_signal`.
 
-The settings page will not display correctly without it.
+*The settings page will not display correctly without it.* (I have just seen the changes for the latest `button-card` v3.3.1 and I am not sure if this statement is still correct).
+
 If you do not have this sensor simply delete (or comment) this section of that file.
 
 ```
