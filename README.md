@@ -22,11 +22,11 @@ One reason for this decision was that version 1 had been one of the first things
 
 Also, being early 2020 many of us found ourselves with too much time on our hands due to the Corona virus so it seemed like a perfect project to pass some of the time.
 
-as All that time was not necessarily a good thing though as this project has ended up growing organically day by day rather than through good design. Furthermore as I learnt new techniques in Lovelace this became as much a project about the user interface as it did about the irrigation.
+All that time was not necessarily a good thing though as this project has ended up growing organically day by day rather than through good design. Furthermore as I learnt new techniques in Lovelace this became as much a project about the user interface as it did about the irrigation.
 
-I am by no means a Javascript or CSS programmer so as I learn more, I may well go back at some point and rewrite some sections. 
+I am by no means a Javascript or CSS programmer so as I learn more, I may well go back at some point and rewrite (improve?) some sections. 
 
-Version 1 was designed around a Sonoff 4 Channel but for version 2, I will use an 8 relay board controlled with an ESP32.
+Version 1 was designed around a Sonoff 4ch but for version 2, I will use an 8 relay board controlled with an ESP32.
 This in itself should make little difference as ultimately all the package does is turn switches on and off.
 
 This package has been designed with two scheduled cycles per day with each cycle having up to 8 zones. The number of zones can be configured from the UI and like version 1, if more zones are needed some of the 'globals' need to be replicated.
@@ -35,11 +35,11 @@ Both scheduled cycles can be set to run at any time on any day(s) of the week.
 
 A manual cycle is also provided.
 
-The watering times can be automatically adjusted based on rainfall and temperature and whilst I think these have been improved in this version, like version 1 this is quite experimental. It is different to version 1 in that both the rainfall and temperature adjustments can be turned on or off independently of each other.
+The watering times can be automatically adjusted based on rainfall and temperature and whilst I think these have been improved in this version, like version 1 this is quite experimental. It is different to version 1 in that both the rainfall and temperature adjustments can be turned on or off independently of each other and for each cycle.
 
-Almost everything can be set from the UI including the friendly names of cycles and zones. Tap/click on most fields to change them in a pop-up but remember that if you have several browser tabs open the pop-ups may appear on a different tab!  
+Almost everything can be set from the UI including the friendly names of cycles and zones. Tap/click on most fields to change them in a pop-up (but remember that if you have several browser tabs open the pop-ups may appear on a different tab!). 
 
-__Note -__ Extensive use is made of `!include` to avoid code repetion. The files here are in the folder structure you need to replicate but you can easily change the code if it suits you to have your own structure.
+__Note -__ Extensive use is made of `!include` to avoid code repetion. The files here are in the folder structure you need to replicate but you can easily change the code if it suits you to have your own folder structure.
 
 
 <h2>Prerequisites</h2>
