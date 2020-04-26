@@ -54,7 +54,7 @@ __I use a theme called `dark_teal`__ (available here https://github.com/aFFekopp
 __Weather sensors:__ I use SmartWeather and DarkSky weather sensors to provide the data for duration adjustments.
 
 __Smart Weather__ is available as a custom component (https://github.com/briis/smartweather) but I simply use REST sensors to receive the data.
-DarkSky will I believe become unavailable in 2021 as Apple have recently bought it.
+
 
 For SmartWeather, look [here](https://smartweather.weatherflow.com/map) and see if there are any stations near you. I use five stations local to me and then using a series of sensors take the average. Rainfall data is notoriously hard to collect unless you have your own weather station so I have to leave it up to you to decide how to measure it for you locality. This is probably the part of the stystem  that will need the most attention to customise for you. Or of course you can simply just choose not to use it.
 
@@ -87,7 +87,9 @@ Of course there is *no requirement* to use Smartweather for rainfall data but if
 
 There are some pointers for setting SmartWeather up [here](https://github.com/kloggy/HA-Irrigation-Version2/blob/master/smartweather_example.md).
 
-__Dark Sky__: The following minimal configuaration is needed:
+__Dark Sky__: (DarkSky will I believe become unavailable in 2021 as Apple have recently bought it.)
+
+The following minimal configuaration is needed:
 
 ```
 sensor:
