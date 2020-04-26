@@ -85,6 +85,8 @@ smartweather_resource_1: http://swd.weatherflow.com/swd/rest/observations/statio
 
 Of course there is *no requirement* to use Smartweather for rainfall data but if you use something else you will need to change the Lovelace to fit and also the code that collects rainfall measurements.
 
+There are some pointers for setting SmartWeather up [here](https://github.com/kloggy/HA-Irrigation-Version2/blob/master/smartweather_example.md)
+
 __Dark Sky__: The following minimal configuaration is needed:
 
 ```
