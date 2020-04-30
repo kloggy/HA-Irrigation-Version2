@@ -38,6 +38,7 @@ cards:
                 var cycle2_time = states['input_datetime.irrigation_cycle2_start_time'].state.substr(0, 5);
                 var cycle1_name = states['input_text.irrigation_cycle1_name'].state;
                 var cycle2_name = states['input_text.irrigation_cycle2_name'].state;
+                var cycle3_name = states['input_text.irrigation_cycle3_name'].state;
 
                 var cycle1_running = states['input_boolean.irrigation_cycle1_running'].state;
                 var cycle2_running = states['input_boolean.irrigation_cycle2_running'].state;
