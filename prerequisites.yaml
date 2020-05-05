@@ -1,0 +1,105 @@
+
+#================================================================
+#===
+#===               THIS IS NOT PART OF THE PACKAGE
+#===
+#=== This file contains some examples of how to include sections 
+#=== that are needed but not included as part of the package.
+#===
+#===                   DO NOT COPY IT BLINDLY!!
+#===
+#================================================================
+
+#================
+#=== Input texts
+#================
+input_text:
+  notifications_user1_name:
+    min: 0
+    max: 20
+
+  notifications_user2_name:
+    min: 0
+    max: 20
+    
+    
+#============
+#=== Sensors
+#============
+sensor:
+  #==================
+  #=== Time and Date 
+  #==================
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+
+  #==================================================
+  #=== DarkSky (See the readme for more information)
+  #==================================================
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    forecast:
+      - 0
+    monitored_conditions:
+      - temperature_high           
+      - minutely_summary 
+
+
+  #=================================================================
+  #=== Create the icons for Weather Outlook on the Cycle Start time
+  #=================================================================
+  - platform: template
+    sensors:
+      weather_just_icon:
+        friendly_name: "mdi Real Weather Icon"
+        icon_template: >-
+            {% if is_state("sensor.dark_sky_current_icon","clear-day") %} mdi:weather-sunny 
+            {% elif is_state("sensor.dark_sky_current_icon","clear-night") %} mdi:weather-night 
+            {% elif is_state("sensor.dark_sky_current_icon","rain") %} mdi:weather-rainy
+            {% elif is_state("sensor.dark_sky_current_icon","snow") %} mdi:weather-snowy
+            {% elif is_state("sensor.dark_sky_current_icon","fog") %} mdi:weather-fog
+            {% elif is_state("sensor.dark_sky_current_icon","sleet") %} mdi:weather-partly-snowy-rainy
+            {% elif is_state("sensor.dark_sky_current_icon","wind") %} mdi:weather-windy
+            {% elif is_state("sensor.dark_sky_current_icon","cloudy") %} mdi:weather-cloudy
+            {% elif is_state("sensor.dark_sky_current_icon","partly-cloudy-day") %} mdi:weather-partly-cloudy
+            {% elif is_state("sensor.dark_sky_current_icon","partly-cloudy-night") %} mdi:weather-night-partly-cloudy
+            {% elif is_state("sensor.dark_sky_current_icon","hail") %} mdi:weather-hail
+            {% elif is_state("sensor.dark_sky_current_icon","lightning") %} mdi:weather-lightning
+            {% elif is_state("sensor.dark_sky_current_icon","thunderstorm") %} mdi:weather-lightning-rainy
+            {% endif %}
+        value_template: >-
+            {% if is_state("sensor.dark_sky_current_icon","clear-day") %} weather-sunny 
+            {% elif is_state("sensor.dark_sky_current_icon","clear-night") %} weather-night 
+            {% elif is_state("sensor.dark_sky_current_icon","rain") %} weather-rainy
+            {% elif is_state("sensor.dark_sky_current_icon","snow") %} weather-snowy
+            {% elif is_state("sensor.dark_sky_current_icon","fog") %} weather-fog
+            {% elif is_state("sensor.dark_sky_current_icon","sleet") %} weather-partly-snowy-rainy
+            {% elif is_state("sensor.dark_sky_current_icon","wind") %} weather-windy
+            {% elif is_state("sensor.dark_sky_current_icon","cloudy") %} weather-cloudy
+            {% elif is_state("sensor.dark_sky_current_icon","partly-cloudy-day") %} weather-partly-cloudy
+            {% elif is_state("sensor.dark_sky_current_icon","partly-cloudy-night") %} weather-night-partly-cloudy
+            {% elif is_state("sensor.dark_sky_current_icon","hail") %} weather-hail
+            {% elif is_state("sensor.dark_sky_current_icon","lightning") %} weather-lightning
+            {% elif is_state("sensor.dark_sky_current_icon","thunderstorm") %} weather-lightning-rainy
+            {% endif %}
+
+  #=======================================================
+  #=== SmartWeather (See the readme for more information)
+  #=======================================================
+  - platform: rest
+    resource: !secret smartweather_resource_1
+    name: smartweather_1
+    value_template: >
+      {{ value_json.station_id }}
+    json_attributes:
+      - status
+      - station_units
+      - obs    
+    scan_interval:
+      minutes: NUMBER OF SECONDS
+      
+#=== Smartweather secret
+smartweather_resource_1: http://swd.weatherflow.com/swd/rest/observations/station/STATION_NUMBER?api_key=API_KEY
+
