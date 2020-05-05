@@ -85,6 +85,7 @@ sensor:
             {% elif is_state("sensor.dark_sky_current_icon","thunderstorm") %} weather-lightning-rainy
             {% endif %}
 
+
   #=======================================================
   #=== SmartWeather (See the readme for more information)
   #=======================================================
