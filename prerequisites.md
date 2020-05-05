@@ -34,6 +34,8 @@ __The Lovelace interface__ makes use of many custom cards (all installable using
 - stack-in-card (https://github.com/custom-cards/stack-in-card)
 - mini-graph-card (https://github.com/kalkih/mini-graph-card)
 - lovelace_gen (https://github.com/thomasloven/hass-lovelace_gen) 
+- layout-card (https://github.com/thomasloven/lovelace-layout-card)
+- state-switch (https://github.com/thomasloven/lovelace-state-switch)
 
 Don't forget to update your `resources` as per the instruction in HACS
 
