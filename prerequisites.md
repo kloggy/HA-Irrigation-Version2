@@ -40,7 +40,7 @@ __The Lovelace interface__ makes use of many custom cards (all installable using
 Don't forget to update your `resources` as per the instruction in HACS
 
 
-__I use the Google font family Oswald.__ I have allowed the user to change the font family name via the UI and currently it will be reflected in *most* of the UI. I am not sure how it will affect the layout if you change it but the option is there to play with if you want to.
+__I use the Google font family Oswald.__ I have allowed the user to change the font family name via the UI and currently it will be reflected in *some* of the UI. I am not sure how it will affect the layout if you change it but the option is there to play with if you want to.
 
 In the meantime to use Oswald add the following lines to your Lovelace `resources` section:
 
