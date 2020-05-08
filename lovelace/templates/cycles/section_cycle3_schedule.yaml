@@ -1,0 +1,78 @@
+
+#============
+#=== CYCLE 3
+#============
+type: entities
+entities:
+
+  #===================
+  #=== CYCLE 3 HEADER
+  #===================
+  - type: custom:hui-element
+    card_type: vertical-stack
+    cards:
+
+      - !include
+        - item_cycle_header.yaml
+        - cycle: 3
+
+      - type: custom:hui-element
+        row_type: divider
+
+      #==================
+      #=== CYCLE 3 ZONES
+      #==================
+      #=== Zone 1
+      - type: entities
+        entities:
+          - !include
+            - item_cycle_zone_duration_line.yaml
+            - cycle: 3
+              zone: 1
+
+          #=== Zone 2
+          - !include
+            - item_cycle_zone_duration_line.yaml
+            - cycle: 3
+              zone: 2
+
+          #=== Zone 3
+          - !include
+            - item_cycle_zone_duration_line.yaml
+            - cycle: 3
+              zone: 3
+
+          #=== Zone 4
+          - !include
+            - item_cycle_zone_duration_line.yaml
+            - cycle: 3
+              zone: 4
+
+          #=== Zone 5
+          - !include
+            - item_cycle_zone_duration_line.yaml
+            - cycle: 3
+              zone: 5
+
+          #=== Zone 6
+          - !include
+            - item_cycle_zone_duration_line.yaml
+            - cycle: 3
+              zone: 6
+
+          #=== Zone 7
+          - !include
+            - item_cycle_zone_duration_line.yaml
+            - cycle: 3
+              zone: 7
+
+          #=== Zone 8
+          - !include
+            - item_cycle_zone_duration_line.yaml
+            - cycle: 3
+              zone: 8
+
+style: >
+  ha-card {
+    margin-top: -0.75em;
+  }

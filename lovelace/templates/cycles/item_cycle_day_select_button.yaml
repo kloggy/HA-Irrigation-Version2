@@ -1,0 +1,28 @@
+# lovelace_gen
+
+#===============================
+#=== Schedule Day Select Button
+#===============================
+type: custom:button-card
+entity: {{ entity }}
+show_icon: false
+name: >
+  {{ name }}
+styles:
+  card:
+    - font-size: 12px
+    - border-radius: 10px
+    - padding: 0.3em
+state:
+  - value: 'on'
+    styles:
+      card:
+        - background-color: {{ on_background_color | default('var(--primary-background-color)') }}
+        - border: {{ on_border | default('1px solid var(--accent-color)') }}
+  - value: 'off'
+    styles:
+      card:
+        - background-color: transparent
+        - color: {{ off_color | default('var(--secondary-text-color)') }}
+        - opacity: {{ off_opacity | default('50%') }}
+

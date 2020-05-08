@@ -1,0 +1,154 @@
+# lovelace_gen
+
+#===================
+#=== CYCLES 1 AND 2
+#===================
+type: entities
+entities:
+
+  #===================
+  #=== CYCLE 1 HEADER
+  #===================
+  - type: custom:hui-element
+    card_type: vertical-stack
+    cards:
+
+      - !include
+        - item_cycle_header.yaml
+        - cycle: {{ cycle }}
+
+      - type: custom:hui-element
+        row_type: divider
+
+      #==========================
+      #=== CYCLE 1 SCHEDULE CARD
+      #==========================
+      - type: horizontal-stack
+        cards:
+
+          #=== Start Time
+          - !include
+            - item_cycle_start_time.yaml
+            - entity: sensor.irrigation_cycle{{ cycle }}_start_time_in_seconds
+              cycle: 1
+
+          - type: vertical-stack
+            cards:
+              #=== Temperature Adjustment Select Button
+              - !include
+                - item_cycle_weather_check_box.yaml
+                - entity: input_boolean.irrigation_cycle{{ cycle }}_adjust_for_temperature
+                  name: Adjust For Temperature
+
+              #=== Rainfall Adjustment Select Button
+              - !include
+                - item_cycle_weather_check_box.yaml
+                - entity: input_boolean.irrigation_cycle{{ cycle }}_adjust_for_rainfall
+                  name: Adjust For Rainfall
+
+      #========================
+      #=== CYCLE 1 DAY BUTTONS
+      #========================
+      - type: horizontal-stack
+        cards:
+
+          - !include
+            - item_cycle_day_select_button.yaml
+            - entity: input_boolean.irrigation_cycle{{ cycle }}_every_day
+              name: ALL
+              off_opacity: 100%
+              on_background_color: auto
+              on_border: none
+              off_color: auto
+
+          - !include
+            - item_cycle_day_select_button.yaml
+            - entity: input_boolean.irrigation_cycle{{ cycle }}_mon
+              name: Mon
+
+          - !include
+            - item_cycle_day_select_button.yaml
+            - entity: input_boolean.irrigation_cycle{{ cycle }}_tue
+              name: Tue
+
+          - !include
+            - item_cycle_day_select_button.yaml
+            - entity: input_boolean.irrigation_cycle{{ cycle }}_wed
+              name: Wed
+
+          - !include
+            - item_cycle_day_select_button.yaml
+            - entity: input_boolean.irrigation_cycle{{ cycle }}_thu
+              name: Thu
+
+          - !include
+            - item_cycle_day_select_button.yaml
+            - entity: input_boolean.irrigation_cycle{{ cycle }}_fri
+              name: Fri
+
+          - !include
+            - item_cycle_day_select_button.yaml
+            - entity: input_boolean.irrigation_cycle{{ cycle }}_sat
+              name: Sat
+
+          - !include
+            - item_cycle_day_select_button.yaml
+            - entity: input_boolean.irrigation_cycle{{ cycle }}_sun
+              name: Sun
+
+      #===========================
+      #=== CYCLE 1 ZONE DURATIONS
+      #===========================
+      #=== Zone 1
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: {{ cycle }}
+          zone: 1
+
+      #=== Zone 2
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: {{ cycle }}
+          zone: 2
+
+      #=== Zone 3
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: {{ cycle }}
+          zone: 3
+
+      #=== Zone 4
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: {{ cycle }}
+          zone: 4
+
+      #=== Zone 5
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: {{ cycle }}
+          zone: 5
+
+      #=== Zone 6
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: {{ cycle }}
+          zone: 6
+
+      #=== Zone 7
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: {{ cycle }}
+          zone: 7
+
+      #=== Zone 8
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: {{ cycle }}
+          zone: 8
+
+style: >
+  ha-card {
+    margin-top: -0.75em;
+  }
+
