@@ -8,7 +8,9 @@ Furthermore, this is not quite a '*pick-it-up-and-drop-it-in*' solution. It near
 
 <h2>Background</h2>
 
-__IMPORTANT__ - This is only a *__preview__* of Version 2 and it will have changes made to it. Please bear that in mind if you decide to use it in any way and be sure to read ALL of this page.
+__IMPORTANT__ - This is a *__beta__* of Version 2. It has a few cosmetic improvements (IMO) over the preview and I have completely restructured the Lovelace code. I think it might now be more efficient and also every section is in its own file so that should make it easier if you wish to change anything.
+
+As far as I know, and no one who used the preview told me otherwise, it works perfectly. If you decide to use it in any way and be sure to read ALL of this page.
 
 __IMPORTANT__ - Please note that as it stands this assumes using `yaml` mode for Lovelace.
 
@@ -18,13 +20,13 @@ I wrote this package mainly because Version 1 of my irrigation package worked so
 
 Whilst I believe that version 1 could easily cope with this by the careful use of copy and paste I decided to do a complete rewrite.
 
-One reason for this decision was that version 1 had been one of the first things I did with HA and I always thought that there were things I could have done better.
+One reason for this decision was that version 1 had been one of the first things I did with HA and I always thought that there were things I could have done better. Furthermore, Lovelace appeared since then so thereis scope to do much more with the user interface.
 
 Also, being early 2020 many of us found ourselves with too much time on our hands due to the Corona virus so it seemed like a perfect project to pass some of the time.
 
-All that time was not necessarily a good thing though as this project has ended up growing organically day by day rather than through good design. Furthermore as I learnt new techniques in Lovelace this became as much a project about the user interface as it did about the irrigation.
+All that time did not necessarily work in its favour though and this project has ended up growing organically rather necessarilythan through good design. Furthermore as I learnt new techniques in Lovelace this became as much a project about the user interface as it did about the irrigation.
 
-I am by no means a Javascript or CSS programmer so as I learn more, I may well go back at some point and rewrite (improve?) some sections. 
+I am by no means a Javascript or CSS programmer so there may well be things I (or you) can improve on at some point in the future. 
 
 Version 1 was designed around a Sonoff 4ch but for version 2, I will use an 8 relay board controlled with an ESP32.
 This in itself should make little difference as ultimately all the package does is turn switches on and off.
@@ -39,7 +41,9 @@ The watering times can be automatically adjusted based on rainfall and temperatu
 
 Almost everything can be set from the UI including the friendly names of cycles and zones. Tap/click on most fields to change them in a pop-up (but remember that if you have several browser tabs open the pop-ups may appear on a different tab!). 
 
-__Note -__ Extensive use is made of `!include` to avoid code repetion. The files here are in the folder structure you need to replicate but you can easily change the code if it suits you to have your own folder structure.
+__Note -__ Extensive use is made of `!include` to avoid code repetion. You need to replicate folder structure in order for it to work. You can change the lovelace code if it suits you to have your own folder structure but I can't help if you do that.
+
+As it stands you need a `lovelace` folder and the folder that your packages are in.
 
 
 <h2>Prerequisites</h2>
