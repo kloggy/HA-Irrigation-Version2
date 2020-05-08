@@ -73,12 +73,12 @@ DarkSky is used for temperature data and there are *two small code changes neede
 
 Firstly,
 
-In file `item_schedule_cycle_header.yaml` you will need to make a small change.
+In file `lovelace/templates/garden/cycles/item_cycle_header.yaml` you will need to make a small change.
 My sensor is called `sensor.dark_sky_current_minutely_summary`. This is due to a historic issue as I have two darksky sensors,
 one which I use for forecast and one for current information hence the different names
 (they both have a different scan_interval but apart from that I can’t remember now why I did that!!).
 
-You must change the line:
+Therefore, you must change the line:
 
 From:
 
@@ -88,11 +88,9 @@ to:
 
 `label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_minutely_summary'].state.replace(',', ',<br>'); ]]]"`
 
-*The schedule start time will not show if this is not correct.* (I have just seen the changes for the latest `button-card` v3.3.1 and I am not sure if this statement is still correct).
-
 Secondly,
 
-You need to edit one line in `section_settings_temperature.yaml` in order to show the temperature graph. 
+You need to edit one line in `lovelace/templates/garden/settings/temperature/item_settings_temperature_graph.yaml` in order to show the temperature graph. 
 
 In the `custom:mini-graph-card` find the line:
 
@@ -101,20 +99,4 @@ In the `custom:mini-graph-card` find the line:
 and change it to:
 
 `        - entity: sensor.dark_sky_daytime_high_temperature_0d`
-
-
-__The file `section_settings_general.yaml`__ needs `sensor.esphome_irrigation_controller_wifi_signal`.
-
-*The settings page will not display correctly without it.* (I have just seen the changes for the latest `button-card` v3.3.1 and I am not sure if this statement is still correct).
-
-If you do not have this sensor simply delete (or comment) this section of that file.
-
-```
-#=== Irigation controller WiFi signal strength
-- !include
-  - item_settings_line.yaml
-  - entity: sensor.esphome_irrigation_controller_wifi_signal
-    name: Irrigation Controller WiFi Signal Strength
-    tap_action: none
-```
 
