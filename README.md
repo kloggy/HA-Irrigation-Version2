@@ -10,7 +10,7 @@ Furthermore, this is not quite a '*pick-it-up-and-drop-it-in*' solution. It near
 
 __IMPORTANT__ - This is a *__beta__* of Version 2. It has a few cosmetic improvements (IMO) over the preview and I have completely restructured the Lovelace code. I think it might now be more efficient and also every section is in its own file so that should make it easier if you wish to change anything.
 
-As far as I know, and no one who used the preview told me otherwise, it works perfectly. If you decide to use it in any way and be sure to read ALL of this page.
+As far as I know, and no one who used the preview told me otherwise, it works perfectly. If you decide to use it in any way be sure to read ALL of this page.
 
 __IMPORTANT__ - Please note that as it stands this assumes using `yaml` mode for Lovelace.
 
