@@ -11,7 +11,7 @@ automation:
   - alias: Irrigation Rainfall Cycle Data
     trigger: 
       - platform: time
-        at: "00:01:00"
+        at: "00:10:00"
 
     action:
       - service: input_number.set_value

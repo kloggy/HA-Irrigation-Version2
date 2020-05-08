@@ -178,12 +178,6 @@ input_boolean:
     icon: mdi:play-circle-outline
     initial: 'off'
     
-  #=======================
-  #=== Show Cycle 1 in UI
-  #=======================
-  irrigation_show_cycle1:
-    name: Show Cycle 1
-
   #===============================================
   #=== Cycle 1 durations are adjusted for weather
   #===============================================
@@ -194,7 +188,6 @@ input_boolean:
   irrigation_cycle1_adjust_for_rainfall:
     name: Cycle 1 Adjust For Rainfall
     icon: mdi:weather-rainy
-
 
   #=================================
   #=== Days on which to run Cycle 1

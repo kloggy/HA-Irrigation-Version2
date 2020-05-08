@@ -178,12 +178,6 @@ input_boolean:
     icon: mdi:play-circle-outline
     initial: 'off'
 
-  #=======================
-  #=== Show Cycle 2 in UI
-  #=======================
-  irrigation_show_cycle2:
-    name: Show Cycle 2
-
   #===============================================
   #=== Cycle 2 durations are adjusted for weather
   #===============================================

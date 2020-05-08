@@ -1,17 +1,17 @@
 
-# #===================
-# #=== Input Booleans
-# #===================
-# input_boolean:
-#   irrigation_use_rainfall_multiplier:
-#     name: Adjust for rainfall
-#     icon: mdi:weather-rainy
-
 #==================
 #=== Input_Numbers
 #==================
 input_number:
   
+  #=== Rainfall Multiplier
+  irrigation_rainfall_multiplier:
+    name: Multiplier for rainfall
+    min: 0
+    max: 1
+    step: 0.01
+    icon: mdi:weather-rainy
+
   #=== Rainfall Days To Use
   irrigation_days_of_rainfall_history_used:
     name: Number of days history to use in calculations
@@ -21,14 +21,6 @@ input_number:
     mode: box
     icon: mdi:calendar-range
     
-  #=== Rainfall Multiplier
-  irrigation_rainfall_multiplier:
-    name: Multiplier for rainfall
-    min: 0
-    max: 1
-    step: 0.01
-    icon: mdi:weather-rainy
-
   #=== Amount of rain before irrigation is stopped
   irrigation_rainfall_threshold:
     name: Rainfall threshold
@@ -105,5 +97,3 @@ input_number:
     mode: box
     icon: mdi:weather-rainy
     unit_of_measurement: '%'
-
-

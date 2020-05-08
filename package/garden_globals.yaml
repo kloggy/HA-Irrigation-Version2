@@ -21,22 +21,6 @@ input_boolean:
     name: Irrigation Testing Mode
     icon: mdi:alert-circle-outline
 
-  #=== Show settings in UI
-  irrigation_show_general_settings:
-    name: General
-
-  irrigation_show_rainfall_settings:
-    name: Rainfall
-
-  irrigation_show_temperature_settings:
-    name: Temperature
-
-  irrigation_show_last_run_details:
-    name: Last Run
-
-  irrigation_show_status_history:
-    name: Status History
-
 
 #================
 #=== Input Texts

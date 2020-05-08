@@ -7,23 +7,11 @@ input_boolean:
     name: Forecast High Temperature
     icon: mdi:thermometer
 
-#   irrigation_use_temp_multiplier:
-#     name: Adjust for temperature
-#     icon: mdi:thermometer
-
 
 #==================
 #=== Input_Numbers
 #==================
 input_number:
-  
-  #=== Temperature Days To Use
-  irrigation_days_of_temp_history_used:
-    name: Number of days history to use in calculations
-    min: 0
-    max: 4
-    step: 1
-    icon: mdi:calendar-range
 
   #=== Temperature multiplier
   irrigation_temp_multiplier:
@@ -33,6 +21,15 @@ input_number:
     step: 0.01
     icon: mdi:thermometer
 
+  #=== Temperature Days To Use
+  irrigation_days_of_temp_history_used:
+    name: Number of days history to use in calculations
+    min: 0
+    max: 4
+    step: 1
+    mode: box
+    icon: mdi:calendar-range
+
   #=== The temperature above or below which the duration is adjusted
   irrigation_temperature_baseline:
     name: Temperature baseline
@@ -40,6 +37,7 @@ input_number:
     max: 40
     step: 1
     icon: mdi:thermometer
+    mode: box
     unit_of_measurement: '°C'
 
 

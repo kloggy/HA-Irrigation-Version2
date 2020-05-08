@@ -132,9 +132,9 @@ script:
           value: Changing Zone...
 
 
-      #=============================
-      #=== LOOP OR STOP THE PROCESS
-      #=============================
+      #==============================================
+      #=== LOOP OR DO THE END PROCESSING IF ALL DONE
+      #==============================================
       #=== When the loop counter reaches the number of zones
       #===    then go to Cycle End Processing
       #=== If less than the number of zones

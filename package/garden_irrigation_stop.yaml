@@ -45,13 +45,6 @@ script:
               {%- if not loop.last %}, {% endif %}
             {%- endfor %}
 
-          ### ORIGINAL
-          # entity_id: > 
-          #   {% for switch_name in states.input_text if 'switch_entity_id' in switch_name.entity_id -%}
-          #     {{ states(switch_name.entity_id) }}
-          #     {%- if not loop.last %}, {% endif %}
-          #   {%- endfor %}
-
       #=== Update Status to Idle
       - service: input_text.set_value
         data:

@@ -158,13 +158,6 @@ input_boolean:
     icon: mdi:play-circle-outline
     initial: 'off'
 
-  #=======================
-  #=== Show Cycle 3 in UI
-  #=======================
-  irrigation_show_cycle3:
-    name: Show Cycle 3
-
-
   #===========================
   #=== Skip Zone For Next Run
   #===========================

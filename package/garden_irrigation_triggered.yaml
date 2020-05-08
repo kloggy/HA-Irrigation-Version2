@@ -9,8 +9,13 @@ automation:
   #=== Or a Manual run is requested
   #========================================================================
   - alias: Irrigation Triggered
-    trigger:
 
+    #================================================
+    #=== TRIGGERS
+    #===    At scheduled Cycle 1 or Cycle 2 Run Time
+    #===    Cycle 3 manually started 
+    #================================================
+    trigger:
       #=== Cycle 1 Start Time
       - platform: template
         value_template: >
@@ -30,6 +35,13 @@ automation:
         entity_id: input_boolean.irrigation_cycle3_running
         to: 'on'
 
+    #=================================================
+    #=== CONDITIONS
+    #===    Master Control switch must be On
+    #===    No other cycle is currently running
+    #===    The cycle is enabled
+    #===    The cycle is scheduled to run on this day
+    #=================================================
     condition:
       #=== Only continue if Master Control Switch is on
       - condition: state
@@ -86,6 +98,12 @@ automation:
             False
           {% endif %}
 
+    #===============================================
+    #=== ACTIONS
+    #===    Indicate to system that cycle is runing
+    #===    Update details of last run
+    #===    Start the irrigation process
+    #===============================================
     action:
       #== Set the cycle to be running
       - service: homeassistant.turn_on

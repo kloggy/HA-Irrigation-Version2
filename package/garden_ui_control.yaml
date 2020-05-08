@@ -1,4 +1,74 @@
 
+#===================
+#=== Input Booleans
+#===================
+input_boolean:
+
+  #======================
+  #=== Show Cycles in UI
+  #======================
+  irrigation_ui_show_cycle1:
+    name: Show Cycle 1
+
+  irrigation_ui_show_cycle2:
+    name: Show Cycle 2
+
+  irrigation_ui_show_cycle3:
+    name: Show Cycle 3
+
+  #========================
+  #=== Show Settings in UI
+  #========================
+  irrigation_ui_show_general_settings:
+    name: General
+
+  irrigation_ui_show_rainfall_settings:
+    name: Rainfall
+
+  irrigation_ui_show_temperature_settings:
+    name: Temperature
+
+  #====================================
+  #=== Show History and Last Run in UI
+  #====================================
+  irrigation_ui_show_last_run_details:
+    name: Last Run
+
+  irrigation_ui_show_status_history:
+    name: Status History
+
+
+#============
+#=== Sensors
+#============
+sensor:
+  - platform: template
+    sensors:
+      irrigation_ui_selected_cycle:
+        value_template: >
+          {% if is_state('input_boolean.irrigation_ui_show_cycle1', 'on') %}   
+            cycle1
+          {% elif is_state('input_boolean.irrigation_ui_show_cycle2', 'on') %}   
+            cycle2
+          {% elif is_state('input_boolean.irrigation_ui_show_cycle3', 'on') %}   
+            cycle3
+          {% else %}
+            no cycle selected
+          {% endif %}
+
+      irrigation_ui_selected_settings:
+        value_template: >
+          {% if is_state('input_boolean.irrigation_ui_show_general_settings', 'on') %}   
+            general
+          {% elif is_state('input_boolean.irrigation_ui_show_rainfall_settings', 'on') %}   
+            rainfall
+          {% elif is_state('input_boolean.irrigation_ui_show_temperature_settings', 'on') %}   
+            temperature
+          {% else %}
+            no settings selected
+          {% endif %}
+
+
 #================
 #=== Automations
 #================
@@ -7,7 +77,9 @@ automation:
   #======================================
   #=== SET UI DEFAULTS WHERE APPROPRIATE
   #======================================
+  #=========
   #=== Font
+  #=========
   - alias: Irrigation UI Set Default Font
     trigger:
       - platform: homeassistant
@@ -24,7 +96,10 @@ automation:
           entity_id: input_text.irrigation_ui_font_family
           value: Oswald
 
+
+  #============
   #=== CYCLE 1
+  #============
   - alias: Irrigation UI Set Default Cycle 1 Name
     trigger:
       - platform: homeassistant
@@ -41,7 +116,10 @@ automation:
           entity_id: input_text.irrigation_cycle1_name
           value: Morning Cycle
 
+
+  #============
   #=== CYCLE 2
+  #============
   - alias: Irrigation UI Set Default Cycle 2 Name
     trigger:
       - platform: homeassistant
@@ -58,7 +136,10 @@ automation:
           entity_id: input_text.irrigation_cycle2_name
           value: Afternoon Cycle
 
+
+  #============
   #=== CYCLE 3
+  #============
   - alias: Irrigation UI Set Default Cycle 3 Name
     trigger:
       - platform: homeassistant
@@ -79,16 +160,16 @@ automation:
   #=============================
   #=== SECTION HEADER SELECTION
   #=============================
-  #==============================
-  # Show Cycle Selection Buttons
-  #==============================
-  - alias: Irrigation UI Show Cycle Selection Buttons
+  #=====================
+  # Show Selected Cycle
+  #=====================
+  - alias: Irrigation UI Show Selected Cycle
     trigger:
       - platform: state
         entity_id:
-          - input_boolean.irrigation_show_cycle1
-          - input_boolean.irrigation_show_cycle2
-          - input_boolean.irrigation_show_cycle3
+          - input_boolean.irrigation_ui_show_cycle1
+          - input_boolean.irrigation_ui_show_cycle2
+          - input_boolean.irrigation_ui_show_cycle3
         to: 'on'
 
     action:
@@ -96,27 +177,59 @@ automation:
         data_template:
           entity_id: >
             {% if 'cycle1' in trigger.entity_id %}   
-              input_boolean.irrigation_show_cycle2,
-              input_boolean.irrigation_show_cycle3
+              input_boolean.irrigation_ui_show_cycle2,
+              input_boolean.irrigation_ui_show_cycle3
             {% elif 'cycle2' in trigger.entity_id %}
-              input_boolean.irrigation_show_cycle1,
-              input_boolean.irrigation_show_cycle3
+              input_boolean.irrigation_ui_show_cycle1,
+              input_boolean.irrigation_ui_show_cycle3
             {% else %}
-              input_boolean.irrigation_show_cycle1,
-              input_boolean.irrigation_show_cycle2
+              input_boolean.irrigation_ui_show_cycle1,
+              input_boolean.irrigation_ui_show_cycle2
             {% endif %}
 
 
-  #=================================
-  # Show Settings Selection Buttons
-  #=================================
-  - alias: Irrigation UI Show Settings Selection Buttons
+  #===========================
+  # Prevent No Selected Cycle
+  #===========================
+  - alias: Irrigation UI Prevent No Selected Cycle
     trigger:
       - platform: state
         entity_id:
-          - input_boolean.irrigation_show_general_settings
-          - input_boolean.irrigation_show_rainfall_settings
-          - input_boolean.irrigation_show_temperature_settings
+          - input_boolean.irrigation_ui_show_cycle1
+          - input_boolean.irrigation_ui_show_cycle2
+          - input_boolean.irrigation_ui_show_cycle3
+        to: 'off'
+
+    condition:
+      - condition: state
+        entity_id: input_boolean.irrigation_ui_show_cycle1
+        state: 'off'
+
+      - condition: state
+        entity_id: input_boolean.irrigation_ui_show_cycle2
+        state: 'off'
+
+      - condition: state
+        entity_id: input_boolean.irrigation_ui_show_cycle3
+        state: 'off'
+
+    action:
+      - service: input_boolean.turn_on
+        data_template:
+          entity_id: >
+            {{ trigger.entity_id }}
+
+
+  #========================
+  # Show Selected Settings
+  #========================
+  - alias: Irrigation UI Show Selected Settings
+    trigger:
+      - platform: state
+        entity_id:
+          - input_boolean.irrigation_ui_show_general_settings
+          - input_boolean.irrigation_ui_show_rainfall_settings
+          - input_boolean.irrigation_ui_show_temperature_settings
         to: 'on'
 
     action:
@@ -124,15 +237,47 @@ automation:
         data_template:
           entity_id: >
             {% if 'general' in trigger.entity_id %}   
-              input_boolean.irrigation_show_rainfall_settings,
-              input_boolean.irrigation_show_temperature_settings
+              input_boolean.irrigation_ui_show_rainfall_settings,
+              input_boolean.irrigation_ui_show_temperature_settings
             {% elif 'rainfall' in trigger.entity_id %}
-              input_boolean.irrigation_show_general_settings,
-              input_boolean.irrigation_show_temperature_settings
+              input_boolean.irrigation_ui_show_general_settings,
+              input_boolean.irrigation_ui_show_temperature_settings
             {% else %}
-              input_boolean.irrigation_show_general_settings,
-              input_boolean.irrigation_show_rainfall_settings
+              input_boolean.irrigation_ui_show_general_settings,
+              input_boolean.irrigation_ui_show_rainfall_settings
             {% endif %}
+
+
+  #==============================
+  # Prevent No Selected Settings
+  #==============================
+  - alias: Irrigation UI Prevent No Selected Settings
+    trigger:
+      - platform: state
+        entity_id:
+          - input_boolean.irrigation_ui_show_general_settings
+          - input_boolean.irrigation_ui_show_rainfall_settings
+          - input_boolean.irrigation_ui_show_temperature_settings
+        to: 'off'
+
+    condition:
+      - condition: state
+        entity_id: input_boolean.irrigation_ui_show_general_settings
+        state: 'off'
+
+      - condition: state
+        entity_id: input_boolean.irrigation_ui_show_rainfall_settings
+        state: 'off'
+
+      - condition: state
+        entity_id: input_boolean.irrigation_ui_show_temperature_settings
+        state: 'off'
+
+    action:
+      - service: input_boolean.turn_on
+        data_template:
+          entity_id: >
+            {{ trigger.entity_id }}
 
 
   #=============================================================
@@ -153,9 +298,9 @@ automation:
         data_template:
           entity_id: >
             {% if 'rainfall' in trigger.entity_id %}
-              input_boolean.irrigation_show_rainfall_settings
+              input_boolean.irrigation_ui_show_rainfall_settings
             {% else %}
-              input_boolean.irrigation_show_temperature_settings
+              input_boolean.irrigation_ui_show_temperature_settings
             {% endif %}
 
   #=== END OF SECTION HEADER SELECTION BUTTONS
@@ -373,360 +518,4 @@ automation:
             {{ value }}
             
   #=== END OF ZONE DURATION CHANGES
-
-
-
-
-
-
-
-
-
-
-  # #=================================================================
-  # #=== Set Cycle Start 'input_datetime' based on the 'input_select'
-  # #=== Set Cycle Duration
-  # #=== Set Cycle End Time
-  # #===
-  # #=== Triggers
-  # #===   When a Cycle schedule is enabled
-  # #===   When the start time is changed
-  # #===   When a Duration is changed 
-  # #===   When a zone's skipped status changes
-  # #===   When any weather adjustment is turned on or off
-  # #===
-  # #=== If Cycle 1 is enabled and ends after Cycle 2 is due to start
-  # #===   Advance Cycle 2 start time
-  # #=================================================================
-  # - alias: Irrigation UI Update Cycle Times
-  #   trigger:
-  #     - platform: state
-  #       entity_id:
-  #         - input_boolean.irrigation_cycle1_schedule_enabled
-  #         - input_boolean.irrigation_cycle2_schedule_enabled
-  #       to: 'on'
-
-  #     - platform: state
-  #       entity_id:
-  #         - input_boolean.irrigation_cycle1_adjust_for_temperature
-  #         - input_boolean.irrigation_cycle1_adjust_for_rainfall
-  #         - input_boolean.irrigation_cycle2_adjust_for_temperature
-  #         - input_boolean.irrigation_cycle2_adjust_for_rainfall
-
-  #         - input_select.irrigation_cycle1_start_time
-  #         - input_select.irrigation_cycle2_start_time
-
-  #         - input_number.irrigation_cycle1_zone1_duration
-  #         - input_number.irrigation_cycle1_zone2_duration
-  #         - input_number.irrigation_cycle1_zone3_duration
-  #         - input_number.irrigation_cycle1_zone4_duration
-  #         - input_number.irrigation_cycle1_zone5_duration
-  #         - input_number.irrigation_cycle1_zone6_duration
-  #         - input_number.irrigation_cycle1_zone7_duration
-  #         - input_number.irrigation_cycle1_zone8_duration
-
-  #         - input_number.irrigation_cycle2_zone1_duration
-  #         - input_number.irrigation_cycle2_zone2_duration
-  #         - input_number.irrigation_cycle2_zone3_duration
-  #         - input_number.irrigation_cycle2_zone4_duration
-  #         - input_number.irrigation_cycle2_zone5_duration
-  #         - input_number.irrigation_cycle2_zone6_duration
-  #         - input_number.irrigation_cycle2_zone7_duration
-  #         - input_number.irrigation_cycle2_zone8_duration
-
-  #         - input_boolean.irrigation_cycle1_zone1_skip
-  #         - input_boolean.irrigation_cycle1_zone2_skip
-  #         - input_boolean.irrigation_cycle1_zone3_skip
-  #         - input_boolean.irrigation_cycle1_zone4_skip
-  #         - input_boolean.irrigation_cycle1_zone5_skip
-  #         - input_boolean.irrigation_cycle1_zone6_skip
-  #         - input_boolean.irrigation_cycle1_zone7_skip
-  #         - input_boolean.irrigation_cycle1_zone8_skip
-
-  #         - input_boolean.irrigation_cycle2_zone1_skip
-  #         - input_boolean.irrigation_cycle2_zone2_skip
-  #         - input_boolean.irrigation_cycle2_zone3_skip
-  #         - input_boolean.irrigation_cycle2_zone4_skip
-  #         - input_boolean.irrigation_cycle2_zone5_skip
-  #         - input_boolean.irrigation_cycle2_zone6_skip
-  #         - input_boolean.irrigation_cycle2_zone7_skip
-  #         - input_boolean.irrigation_cycle2_zone8_skip
-
-  #   action:
-  #     #=== Set the Start Time 'input_datetime' based on the 'input_select'
-  #     - service: input_datetime.set_datetime
-  #       data_template:
-  #         entity_id: >
-  #           {% set cycle = 'cycle1' if 'cycle1' in trigger.entity_id else 'cycle2' %}            
-            
-  #           input_datetime.irrigation_{{ cycle }}_start_time
-  #         time: >
-  #           {% set cycle = 'cycle1' if 'cycle1' in trigger.entity_id else 'cycle2' %}            
-            
-  #           {{ states('input_select.irrigation_' ~ cycle ~ '_start_time') }}
-
-  #     #=== Update the duration 'input_datetime'
-  #     - service: input_datetime.set_datetime
-  #       data_template:
-  #         entity_id: >
-  #           {% set cycle = 'cycle1' if 'cycle1' in trigger.entity_id else 'cycle2' %}            
-            
-  #           input_datetime.irrigation_{{ cycle }}_duration
-  #         time: >
-  #           {% set ns = namespace(duration = 0) %}
-  #           {% set ns.cycle = 'cycle1' if 'cycle1' in trigger.entity_id else 'cycle2' %}            
-  #           {% for zone in states.input_number
-  #                 if zone.entity_id.startswith('input_number.irrigation_' ~ ns.cycle) and 
-  #                   (zone.entity_id.endswith('duration') or zone.entity_id.endswith('skip')) %}
-
-  #             {% if is_state('input_boolean.irrigation_' ~ ns.cycle ~ '_zone' ~ loop.index ~ '_skip', 'off') %}
-  #               {% set ns.duration = ns.duration + zone.state | float %}
-  #             {% endif %}
-  #           {% endfor %}
-
-  #           {% set cycle = 'cycle1' if 'cycle1' in trigger.entity_id else 'cycle2' %}            
-
-  #           {# Adjust for rainfall #}
-  #           {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_adjust_for_rainfall', 'on') %}
-  #             {% set ns.duration = ns.duration * states('input_number.irrigation_rainfall_multiplier') | float %}
-  #           {% endif %}
-
-  #           {# Adjust for temperature #}
-  #           {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_adjust_for_temperature', 'on') %}
-  #             {% set ns.duration = ns.duration * states('input_number.irrigation_temp_multiplier') | float %}
-  #           {% endif %}
-            
-  #           {{ (ns.duration * 60) | timestamp_custom('%H:%M', false) }}
-
-  #     #=== Set the End Time 'input_datetime'
-  #     - service: input_datetime.set_datetime
-  #       data_template:
-  #         entity_id: >
-  #           {% set cycle = 'cycle1' if 'cycle1' in trigger.entity_id else 'cycle2' %}            
-            
-  #           input_datetime.irrigation_{{ cycle }}_end_time
-  #         time: >
-  #           {% set cycle = 'cycle1' if 'cycle1' in trigger.entity_id else 'cycle2' %}            
-
-  #           {% set duration = state_attr('input_datetime.irrigation_' ~ cycle ~ '_duration', 'timestamp') %}
-  #           {% set cycle_start = state_attr('input_datetime.irrigation_' ~ cycle ~ '_start_time', 'timestamp') %}
-
-  #           {{ (cycle_start + duration) | timestamp_custom('%H:%M', false) }}
-
-  #     #=== Check Cycle 1 is Enabled
-  #     - condition: state
-  #       entity_id: input_boolean.irrigation_cycle1_schedule_enabled
-  #       state:  'on'
-
-  #     #=== Check no overlap between the two cycles
-  #     - condition: template
-  #       value_template: >
-  #         {% set cycle1_end = state_attr('input_datetime.irrigation_cycle1_end_time', 'timestamp') %}
-  #         {% set cycle2_start = state_attr('input_datetime.irrigation_cycle2_start_time', 'timestamp') %}
-
-  #         {{ (cycle1_end + 600) >= cycle2_start }}
-
-  #     #=== Advance Cycle 2 start time if needed
-  #     - service: input_select.select_next
-  #       data_template:
-  #         entity_id: >
-  #           input_select.irrigation_cycle2_start_time
-
-
-  # #=================================================================
-  # #=== Set Cycle Start 'input_datetime' based on the 'input_select'
-  # #=== When HA starts (this makes sure it is correct afer testing)
-  # #=================================================================
-  # - alias: Irrigation UI Update Cycle Times
-  #   trigger:
-  #     - platform: homeassistant
-  #       event: start
-
-  #   action:
-  #     #=== Set the Start Time 'input_datetimes' based on the 'input_selects'
-  #     - service: input_datetime.set_datetime
-  #       data_template:
-  #         entity_id: >
-  #           input_datetime.irrigation_cycle1_start_time
-  #         time: >
-  #           {{ states('input_select.irrigation_cycle1_start_time') }}
-
-  #     - service: input_datetime.set_datetime
-  #       data_template:
-  #         entity_id: >
-  #           input_datetime.irrigation_cycle2_start_time
-  #         time: >
-  #           {{ states('input_select.irrigation_cycle2_start_time') }}
-
-
-  # #=============================
-  # #=== Individual day selected
-  # #=== If all days are selected
-  # #=== Turn on 'Every Day'
-  # #=============================
-  # - alias: Irrigation UI Cycle Day Selected
-  #   trigger: 
-  #     - platform: state
-  #       entity_id:
-  #         - input_boolean.irrigation_cycle1_mon
-  #         - input_boolean.irrigation_cycle1_tue
-  #         - input_boolean.irrigation_cycle1_wed
-  #         - input_boolean.irrigation_cycle1_thu
-  #         - input_boolean.irrigation_cycle1_fri
-  #         - input_boolean.irrigation_cycle1_sat
-  #         - input_boolean.irrigation_cycle1_sun
-
-  #         - input_boolean.irrigation_cycle2_mon
-  #         - input_boolean.irrigation_cycle2_tue
-  #         - input_boolean.irrigation_cycle2_wed
-  #         - input_boolean.irrigation_cycle2_thu
-  #         - input_boolean.irrigation_cycle2_fri
-  #         - input_boolean.irrigation_cycle2_sat
-  #         - input_boolean.irrigation_cycle2_sun
-  #       to: 'on'
-
-  #   action:
-  #     #=== Check if all days are on
-  #     - condition: template
-  #       value_template: >
-  #         {% set cycle = 'cycle1' if 'cycle1' in trigger.entity_id else 'cycle2' %}            
-  #         {{      
-  #           is_state('input_boolean.irrigation_' ~ cycle ~ '_mon', 'on') and
-  #           is_state('input_boolean.irrigation_' ~ cycle ~ '_tue', 'on') and
-  #           is_state('input_boolean.irrigation_' ~ cycle ~ '_wed', 'on') and
-  #           is_state('input_boolean.irrigation_' ~ cycle ~ '_thu', 'on') and
-  #           is_state('input_boolean.irrigation_' ~ cycle ~ '_fri', 'on') and
-  #           is_state('input_boolean.irrigation_' ~ cycle ~ '_sat', 'on') and
-  #           is_state('input_boolean.irrigation_' ~ cycle ~ '_sun', 'on')
-  #         }}
-
-  #     #=== Turn on 'Every Day'
-  #     - service: input_boolean.turn_on
-  #       data_template:
-  #         entity_id: >
-  #           {% set cycle = 'cycle1' if 'cycle1' in trigger.entity_id else 'cycle2' %}            
-            
-  #           input_boolean.irrigation_{{ cycle }}_every_day
-
-
-  # #================================
-  # #=== Individual day de-selected
-  # #=== Turn 'Every Day' off
-  # #================================
-  # - alias: Irrigation UI Cycle Day Deselected
-  #   trigger: 
-  #     - platform: state
-  #       entity_id:
-  #         - input_boolean.irrigation_cycle1_mon
-  #         - input_boolean.irrigation_cycle1_tue
-  #         - input_boolean.irrigation_cycle1_wed
-  #         - input_boolean.irrigation_cycle1_thu
-  #         - input_boolean.irrigation_cycle1_fri
-  #         - input_boolean.irrigation_cycle1_sat
-  #         - input_boolean.irrigation_cycle1_sun
-
-  #         - input_boolean.irrigation_cycle2_mon
-  #         - input_boolean.irrigation_cycle2_tue
-  #         - input_boolean.irrigation_cycle2_wed
-  #         - input_boolean.irrigation_cycle2_thu
-  #         - input_boolean.irrigation_cycle2_fri
-  #         - input_boolean.irrigation_cycle2_sat
-  #         - input_boolean.irrigation_cycle2_sun
-  #       to: 'off'
-
-  #   action:
-  #     #=== Turn off 'Every Day'
-  #     - service: input_boolean.turn_off
-  #       data_template:
-  #         entity_id: >
-  #           {% set cycle = 'cycle1' if 'cycle1' in trigger.entity_id else 'cycle2' %}            
-            
-  #           input_boolean.irrigation_{{ cycle }}_every_day
-
-  # #==================================
-  # #=== Zone Duration changed to zero
-  # #=== Turn on 'Skip'
-  # #==================================
-  # - alias: Irrigation UI Zone Duration To Zero
-  #   trigger:
-  #     - platform: numeric_state
-  #       entity_id:
-  #         - input_number.irrigation_cycle1_zone1_duration
-  #         - input_number.irrigation_cycle1_zone2_duration
-  #         - input_number.irrigation_cycle1_zone3_duration
-  #         - input_number.irrigation_cycle1_zone4_duration
-  #         - input_number.irrigation_cycle1_zone5_duration
-  #         - input_number.irrigation_cycle1_zone6_duration
-  #         - input_number.irrigation_cycle1_zone7_duration
-  #         - input_number.irrigation_cycle1_zone8_duration
-
-  #         - input_number.irrigation_cycle2_zone1_duration
-  #         - input_number.irrigation_cycle2_zone2_duration
-  #         - input_number.irrigation_cycle2_zone3_duration
-  #         - input_number.irrigation_cycle2_zone4_duration
-  #         - input_number.irrigation_cycle2_zone5_duration
-  #         - input_number.irrigation_cycle2_zone6_duration
-  #         - input_number.irrigation_cycle2_zone7_duration
-  #         - input_number.irrigation_cycle2_zone8_duration
-  #       below: 1
-
-  #   action:
-  #     - service: input_boolean.turn_on
-  #       data_template:
-  #         entity_id: >
-  #           {% set cycle = 'cycle1' if 'cycle1' in trigger.entity_id else 'cycle2' %}            
-  #           {% set zone = 'zone1' if 'zone1' in trigger.entity_id else zone %}
-  #           {% set zone = 'zone2' if 'zone2' in trigger.entity_id else zone %}
-  #           {% set zone = 'zone3' if 'zone3' in trigger.entity_id else zone %}
-  #           {% set zone = 'zone4' if 'zone4' in trigger.entity_id else zone %}
-  #           {% set zone = 'zone5' if 'zone5' in trigger.entity_id else zone %}
-  #           {% set zone = 'zone6' if 'zone6' in trigger.entity_id else zone %}
-  #           {% set zone = 'zone7' if 'zone7' in trigger.entity_id else zone %}
-  #           {% set zone = 'zone8' if 'zone8' in trigger.entity_id else zone %}
-            
-  #           input_boolean.irrigation_{{ cycle }}_{{ zone }}_skip
-
-
-  # #======================================
-  # #=== Zone Duration changed to non-zero
-  # #=== Turn off 'Skip'
-  # #======================================
-  # - alias: Irrigation UI Zone Duration From Zero
-  #   trigger:
-  #     - platform: numeric_state
-  #       entity_id:
-  #         - input_number.irrigation_cycle1_zone1_duration
-  #         - input_number.irrigation_cycle1_zone2_duration
-  #         - input_number.irrigation_cycle1_zone3_duration
-  #         - input_number.irrigation_cycle1_zone4_duration
-  #         - input_number.irrigation_cycle1_zone5_duration
-  #         - input_number.irrigation_cycle1_zone6_duration
-  #         - input_number.irrigation_cycle1_zone7_duration
-  #         - input_number.irrigation_cycle1_zone8_duration
-
-  #         - input_number.irrigation_cycle2_zone1_duration
-  #         - input_number.irrigation_cycle2_zone2_duration
-  #         - input_number.irrigation_cycle2_zone3_duration
-  #         - input_number.irrigation_cycle2_zone4_duration
-  #         - input_number.irrigation_cycle2_zone5_duration
-  #         - input_number.irrigation_cycle2_zone6_duration
-  #         - input_number.irrigation_cycle2_zone7_duration
-  #         - input_number.irrigation_cycle2_zone8_duration
-  #       above: 0
-
-  #   action:
-  #     - service: input_boolean.turn_off
-  #       data_template:
-  #         entity_id: >
-  #           {% set cycle = 'cycle1' if 'cycle1' in trigger.entity_id else 'cycle2' %}            
-  #           {% set zone = 'zone1' if 'zone1' in trigger.entity_id else zone %}
-  #           {% set zone = 'zone2' if 'zone2' in trigger.entity_id else zone %}
-  #           {% set zone = 'zone3' if 'zone3' in trigger.entity_id else zone %}
-  #           {% set zone = 'zone4' if 'zone4' in trigger.entity_id else zone %}
-  #           {% set zone = 'zone5' if 'zone5' in trigger.entity_id else zone %}
-  #           {% set zone = 'zone6' if 'zone6' in trigger.entity_id else zone %}
-  #           {% set zone = 'zone7' if 'zone7' in trigger.entity_id else zone %}
-  #           {% set zone = 'zone8' if 'zone8' in trigger.entity_id else zone %}
-            
-  #           input_boolean.irrigation_{{ cycle }}_{{ zone }}_skip
 
