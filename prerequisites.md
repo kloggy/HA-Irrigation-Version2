@@ -28,12 +28,11 @@ __The Lovelace interface__ makes use of many custom cards (all installable using
 
 - card-mod (https://github.com/thomasloven/lovelace-card-mod)
 - browser_mod (https://github.com/thomasloven/hass-browser_mod)
+- lovelace_gen (https://github.com/thomasloven/hass-lovelace_gen)
 - button-card (https://github.com/custom-cards/button-card)
 - multiple-entity-row (https://github.com/benct/lovelace-multiple-entity-row)
 - config-template-card (https://github.com/iantrich/config-template-card)
-- stack-in-card (https://github.com/custom-cards/stack-in-card)
 - mini-graph-card (https://github.com/kalkih/mini-graph-card)
-- lovelace_gen (https://github.com/thomasloven/hass-lovelace_gen) 
 - layout-card (https://github.com/thomasloven/lovelace-layout-card)
 - state-switch (https://github.com/thomasloven/lovelace-state-switch)
 
