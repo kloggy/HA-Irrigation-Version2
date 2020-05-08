@@ -1,0 +1,29 @@
+# lovelace_gen
+
+#==========================
+#=== Boolean Select Button
+#==========================
+type: custom:button-card
+entity: {{ entity }}
+show_icon: false
+name: >
+  {{ name }}
+styles:
+  card:
+    - font-size: {{ card_font_size | default('12px') }}
+    - font-family: {{ card_font_family | default('var(--primary-font-family)') }}
+    - border-radius: {{ card_border_radius | default('10px') }}
+    - padding: {{ card_padding | default('0.3em') }}
+    - background-color: var(--primary-background-color)
+state:
+  - value: 'on'
+    styles:
+      card:
+        - border: {{ on_border | default('1px solid var(--accent-color)') }}
+  - value: 'off'
+    styles:
+      card:
+        - background-color: transparent
+        - color: {{ off_color | default('var(--secondary-text-color)') }}
+        - opacity: {{ off_opacity | default('50%') }}
+
