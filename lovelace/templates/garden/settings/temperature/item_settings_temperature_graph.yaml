@@ -3,10 +3,10 @@
 type: custom:mini-graph-card
 entities:
   - entity: sensor.dark_sky_current_temperature
-    color: IndianRed
+    color: SteelBlue
     show_legend: false
   - entity: sensor.dark_sky_forecast_daytime_high_temperature_0d
-    color: SteelBlue
+    color: IndianRed
     show_legend: false
   - entity: binary_sensor.above_horizon
     name: Night
