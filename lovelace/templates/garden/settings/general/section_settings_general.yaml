@@ -1,0 +1,90 @@
+
+#=====================
+#=== GENERAL SETTINGS
+#=====================
+type: entities
+entities:
+
+  - type: custom:hui-element
+    card_type: vertical-stack
+    cards:
+
+      #=== Irrigation Master Control and Testing Mode
+      - type: horizontal-stack
+        cards:
+
+          #=== Irrigation Master Control switch
+          - !include
+            - ../item_settings_check_box_with_entity_icon.yaml
+            - entity: input_boolean.irrigation_master_control_switch
+              on_name: "System is ON"
+              off_name: "System is OFF"
+
+          #=== Irrigation Testing Mode
+          - !include
+            - ../item_settings_check_box_with_entity_icon.yaml
+            - entity: input_boolean.irrigation_testing_mode
+
+      #=== Testing mode warning
+      - !include item_settings_test_mode_warning.yaml
+
+      #=== Notify users
+      - !include item_settings_notify_users.yaml
+
+      #=== Edit user names
+      - !include item_settings_edit_user_names.yaml
+
+
+      #-------------------------
+      - type: custom:hui-element
+        row_type: divider
+      #-------------------------
+
+
+      #=== UI Font
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_text.irrigation_ui_font_family
+            name: User interface font
+            icon: mdi:format-font
+
+      #=== Number of zones
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_number_of_zones
+            name: Number of zones defined
+
+      #=== Minimum duration when using weather adjustments
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_weather_adjusted_minimum_duration_in_seconds
+            name: Minimum number of seconds to run a zone
+            secondary_info: When using weather adjustments
+            margin_top: -0.5em
+
+      #=== Maximum duration when using weather adjustments
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_weather_adjusted_maximum_duration_in_minutes
+            name: Maximum number of minutes to run a zone
+            secondary_info: When using weather adjustments
+            margin_top: -0.5em
+
+
+      #-------------------------
+      - type: custom:hui-element
+        row_type: divider
+      #-------------------------
+
+
+      #=== Irigation controller WiFi signal strength
+      - !include
+          - ../item_settings_line.yaml
+          - entity: sensor.esphome_irrigation_controller_wifi_signal
+            name: Irrigation Controller WiFi Signal Strength
+            tap_action: none
+
+style: >
+  ha-card {
+    margin-top: -0.75em;
+  }

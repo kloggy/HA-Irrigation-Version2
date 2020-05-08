@@ -1,0 +1,42 @@
+
+#==============
+#=== SCHEDULES
+#==============
+type: entities
+entities:
+
+  #===========================
+  #=== VIEW SELECTION BUTTONS
+  #===========================
+  - type: custom:hui-element
+    row_type: divider
+
+  - type: custom:hui-element
+    card_type: horizontal-stack
+    cards:
+      - !include
+        - ../garden_section_select_button.yaml
+        - entity: input_boolean.irrigation_ui_show_cycle1
+          name: "[[[ var entity_id = 'input_text.irrigation_cycle1_name'; return states[entity_id].state.toUpperCase(); ]]]"
+
+      - !include
+        - ../garden_section_select_button.yaml
+        - entity: input_boolean.irrigation_ui_show_cycle2
+          name: "[[[ var entity_id = 'input_text.irrigation_cycle2_name'; return states[entity_id].state.toUpperCase(); ]]]"
+
+      - !include
+        - ../garden_section_select_button.yaml
+        - entity: input_boolean.irrigation_ui_show_cycle3
+          name: "[[[ var entity_id = 'input_text.irrigation_cycle3_name'; return states[entity_id].state.toUpperCase(); ]]]"
+
+
+  - type: custom:hui-element
+    row_type: divider
+
+style: >
+  ha-card {
+    background: none;
+    margin-top: -0.5em;
+  }
+
+

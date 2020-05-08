@@ -1,0 +1,35 @@
+
+#=== Use Forecast High Temperature
+type: custom:hui-element
+card_type: horizontal-stack
+cards:
+  - type: custom:button-card
+    color-type: blank_card
+
+  - type: custom:button-card
+    entity: input_boolean.irrigation_use_forecast_high_temp
+    name: Use forecast high temperature
+    icon: mdi:check-box-outline
+    size: 60%
+    styles:
+      grid:
+        - grid-template-areas: '"n i"'
+        - grid-template-columns: '1fr 15%'
+        - grid-template-rows: 1fr
+      card:
+        - padding: 0em 1em
+        - margin-top: 0.2em
+        - font-size: 12px
+      name:
+        - justify-self: right
+        - align-self: center
+    state:
+      - value: 'off'
+        icon: mdi:checkbox-blank-outline
+        styles:
+          card:
+            - color: var(--secondary-text-color)
+            - opacity: 50%
+          icon:
+            - color: var(--secondary-text-color)
+

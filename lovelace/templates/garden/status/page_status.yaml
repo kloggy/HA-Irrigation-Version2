@@ -1,0 +1,39 @@
+
+type: vertical-stack
+cards:
+
+  #=========================
+  #=== SYSTEM STATUS HEADER
+  #=========================
+  - !include section_status_header.yaml
+
+  #===================
+  #=== CURRENT STATUS
+  #===================
+  - type: conditional
+    conditions:
+      - entity: input_boolean.irrigation_master_control_switch
+        state: "on"
+    card: 
+      !include current/section_status_current_status.yaml
+
+  #=============
+  #=== LAST RUN
+  #=============
+  - type: conditional
+    conditions:
+      - entity: input_boolean.irrigation_master_control_switch
+        state: "on"
+    card:
+      !include last_run/section_status_last_run.yaml
+
+  #============
+  #=== HISTORY
+  #============
+  - type: conditional
+    conditions:
+      - entity: input_boolean.irrigation_master_control_switch
+        state: "on"
+    card:
+      !include history/section_status_history.yaml
+

@@ -1,0 +1,29 @@
+# lovelace_gen
+
+#==========================
+#=== Boolean Select Button
+#==========================
+type: custom:button-card
+entity: {{ entity }}
+show_icon: false
+name: >
+  {{ name }}
+styles:
+  card:
+    - border-radius: 10px
+    - padding: 0.3em
+    - background-color: transparent
+  name:
+    - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+    - font-size: 16px
+state:
+  - value: 'on'
+    styles:
+      card:
+        - border: 1px solid var(--accent-color)
+  - value: 'off'
+    styles:
+      card:
+        - color: var(--secondary-text-color)
+        - opacity: 50%
+

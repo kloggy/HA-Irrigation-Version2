@@ -1,0 +1,59 @@
+
+#=============
+#=== SETTINGS
+#=============
+type: entities
+entities:
+
+  #===============================
+  #=== SETTINGS SELECTION BUTTONS
+  #===============================
+  - type: custom:hui-element
+    row_type: divider
+
+  - type: custom:hui-element
+    card_type: horizontal-stack
+    cards:
+      #=== SETTINGS TITLE BUTTON
+      - type: custom:button-card
+        name: -- SETTINGS --
+        styles:
+          card:
+            - font-size: 16px
+            - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+            - background: none
+            - margin: 0.1em 0em 0em 0em
+            - border-radius: 0px
+
+        tap_action:
+          action: none
+
+      #=== GENERAL
+      - !include
+        - ../garden_section_select_button.yaml
+        - entity: input_boolean.irrigation_ui_show_general_settings
+          name: GENERAL
+
+      #=== RAINFALL
+      - !include
+        - ../garden_section_select_button.yaml
+        - entity: input_boolean.irrigation_ui_show_rainfall_settings
+          name: RAINFALL
+
+      #=== TEMPERATURE
+      - !include
+        - ../garden_section_select_button.yaml
+        - entity: input_boolean.irrigation_ui_show_temperature_settings
+          name: TEMPERATURE
+
+      #=== HELP BUTTON
+      - !include item_settings_help_button.yaml
+
+  - type: custom:hui-element
+    row_type: divider
+
+style: >
+  ha-card {
+    background: none;
+    margin-top: -0.5em;
+  }

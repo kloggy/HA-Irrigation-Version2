@@ -1,0 +1,50 @@
+
+#=== Testing mode warning
+type: horizontal-stack
+cards:
+
+  - type: custom:button-card
+    color_type: blank_card
+    styles:
+      card:
+        - box-shadow: none
+        - background-color: transparent
+        - display: >
+            [[[
+              if (states['input_boolean.irrigation_testing_mode'].state != 'on')
+                return 'none';
+            ]]]
+
+  - type: custom:button-card
+    entity: input_boolean.irrigation_testing_mode
+    name: >
+      [[[
+        if (entity.state == 'on')
+          return 'Warning! Testing mode converts run<br>times from minutes to seconds';
+      ]]]
+    styles:
+      grid:
+        - grid-template-areas: '"n"'
+        - grid-template-columns: 1fr
+        - grid-template-rows: min-content
+      card:
+        - display: >
+            [[[
+              if (entity.state != 'on')
+                return 'none';
+              else return null;
+            ]]]
+        - height: 2.5em
+        - font-size: 12px
+        - box-shadow: none
+        - background-color: transparent
+        - padding: 0em 1em 0.2em
+        - margin-top: 0em
+        - margin-bottom: 0.5em
+      name:
+        - color: var(--secondary-text-color)
+    state:
+      - value: 'on'
+        styles:
+          card:
+            - animation: blink 2s ease 1s 3

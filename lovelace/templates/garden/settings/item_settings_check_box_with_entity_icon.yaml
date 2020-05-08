@@ -1,0 +1,60 @@
+# Lovelace_gen
+
+#=======================================
+#=== Boolean Check Box With Entity Icon
+#=======================================
+type: custom:button-card
+color_type: icon
+entity: {{ entity }}
+show_state: false
+show_name: true
+name: {{ name }}
+icon: {{ icon }}
+show_icon: true
+size: {{ size | default('40%') }}
+lock:
+  enabled: {{ lock_enabled  | default('false') }}
+tap_action:
+  action: {{ tap_action | default('toggle') }}
+styles:
+  grid:
+    - grid-template-areas: '"i n check_box"'
+    - grid-template-columns: {{ icon_grid_size | default('20%') ~ ' ' ~ name_grid_size | default('auto') ~ ' ' ~ check_box_icon_grid_size | default('15%') }}
+    - grid-template-rows: 1fr
+  lock:
+    - color: {{ lock_color | default('red') }}
+  card:
+    - height: {{ card_height | default('3.5em') }}
+    - font-size: {{ card_font_size | default('12px') }}
+    - border-radius: {{ card_border_radius | default('10px') }}
+  name:
+    - justify-self: {{ name_justify_self | default('start') }}
+  custom_fields:
+    check_box:
+      - justify-self: {{ check_box_justify_self | default('') }}
+custom_fields:
+  check_box: >
+    [[[
+      var on_icon = '{{ on_icon | default("mdi:checkbox-marked") }}';
+      var off_icon = '{{ off_icon | default("mdi:checkbox-blank-outline") }}';
+      
+      if (entity.state == 'on')
+          return '<ha-icon icon="' + on_icon + '"></ha-icon>';
+      else
+          return '<ha-icon icon="' + off_icon + '"></ha-icon>';
+    ]]] 
+state:
+  - value: 'on'
+    name: {{ on_name }}
+    styles:
+      card:
+        - background-color: {{ card_background_on_color | default('var(--primary-background-color)') }}
+        - border: 1px solid var(--accent-color)
+  - value: 'off'
+    name: {{ off_name }}
+    styles:
+      card:
+        - color: {{ card_off_color | default('var(--secondary-text-color)') }}
+      icon:
+        - color: {{ icon_off_color | default('var(--secondary-text-color)') }}
+

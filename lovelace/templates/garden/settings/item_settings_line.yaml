@@ -1,0 +1,24 @@
+# lovelace_gen
+
+type: custom:multiple-entity-row
+entity: {{ entity }}
+name: {{ name }}
+icon: {{ icon | default('') }}
+secondary_info: {{ secondary_info | default('') }}
+tap_action:
+  action: {{ tap_action | default('call-service') }}
+  service: browser_mod.popup
+  service_data:
+    title: {{ name }}
+    card:
+      type: entities
+      entities:
+        - entity: {{ entity }}
+          name: ' '
+          icon: {{ icon | default('') }}
+    deviceID:
+      - this
+    style:
+      font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+      font-size: 14px
+      opacity: 0.9

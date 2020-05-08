@@ -1,0 +1,40 @@
+
+#=== Edit user names
+type: custom:button-card
+name: '•  Edit user names '
+icon: mdi:dots-horizontal
+styles:
+  grid:
+    - grid-template-areas: '"n i"'
+    - grid-template-columns: 1fr 5%
+    - grid-template-rows: min-content
+  card:
+    - height: 1em
+    - font-size: 12px
+    - padding: 0em 1em 0em
+    - margin-top: 0em
+  name:
+    - color: var(--secondary-text-color)
+    - justify-self: right
+  icon:
+    - width: 25px
+tap_action:
+  action: call-service
+  service: browser_mod.popup
+  service_data:
+    title: "User names"
+    card:
+      type: entities
+      entities:
+        - entity: input_text.notifications_user1_name
+          name: User 1
+        - entity: input_text.notifications_user2_name
+          name: User 2
+    deviceID:
+      - this
+    style:
+      font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+      font-size: 14px
+      border-radius: 1em
+      box-shadow: 0em 0em 0.5em
+      opacity: 0.9
