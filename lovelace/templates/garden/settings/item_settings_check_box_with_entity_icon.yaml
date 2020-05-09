@@ -1,16 +1,12 @@
 # Lovelace_gen
 
-#=======================================
-#=== Boolean Check Box With Entity Icon
-#=======================================
+#===============================
+#=== Check Box With Entity Icon
+#===============================
 type: custom:button-card
 color_type: icon
 entity: {{ entity }}
-show_state: false
-show_name: true
 name: {{ name }}
-icon: {{ icon }}
-show_icon: true
 size: 40%
 tap_action:
   action: toggle
@@ -28,8 +24,8 @@ styles:
 custom_fields:
   check_box: >
     [[[
-      var on_icon = '{{ on_icon | default("mdi:checkbox-marked") }}';
-      var off_icon = '{{ off_icon | default("mdi:checkbox-blank-outline") }}';
+      var on_icon = 'mdi:checkbox-marked';
+      var off_icon = 'mdi:checkbox-blank-outline';
       
       if (entity.state == 'on')
           return '<ha-icon icon="' + on_icon + '"></ha-icon>';
