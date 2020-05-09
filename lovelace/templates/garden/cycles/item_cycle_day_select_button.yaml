@@ -17,12 +17,12 @@ state:
   - value: 'on'
     styles:
       card:
-        - background-color: {{ on_background_color | default('var(--primary-background-color)') }}
-        - border: {{ on_border | default('1px solid var(--accent-color)') }}
+        - background-color: var(--primary-background-color)
+        - border: 1px solid var(--accent-color)
   - value: 'off'
     styles:
       card:
         - background-color: transparent
-        - color: {{ off_color | default('var(--secondary-text-color)') }}
-        - opacity: {{ off_opacity | default('50%') }}
+        - color: var(--secondary-text-color)
+        - opacity: 50%
 
