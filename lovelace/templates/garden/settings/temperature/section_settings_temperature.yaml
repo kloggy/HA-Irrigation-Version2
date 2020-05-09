@@ -11,7 +11,7 @@ entities:
 
       #=== Temperature Settings
       - !include
-          - ../../titles.yaml
+          - ../../../titles.yaml
           - title: TEMPERATURE SETTINGS
             font_size: 18px
             font_family: Oswald
@@ -41,7 +41,7 @@ entities:
 
       #=== Temperature Data
       - !include
-          - ../../titles.yaml
+          - ../../../titles.yaml
           - title: TEMPERATURE DATA
             font_size: 18px
             font_family: Oswald
@@ -83,7 +83,7 @@ entities:
 
       #=== Forecast vs. Actual High Temperature
       - !include
-          - ../../titles.yaml
+          - ../../../titles.yaml
           - title:  HIGH TEMPERATURE - <font color=IndianRed>Forecast</font> vs. <font color=SteelBlue>Actual</font>
             font_size: 18px
             font_family: Oswald
@@ -106,7 +106,7 @@ entities:
 
       #=== Temperature History
       - !include
-          - ../../titles.yaml
+          - ../../../titles.yaml
           - title: TEMPERATURE HISTORY
             font_size: 18px
             font_family: Oswald
