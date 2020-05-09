@@ -37,27 +37,3 @@ style: |
 content: >
   {{ header_level }} {{ title }}
 
-# type: markdown
-# style: |
-#   ha-card {
-#     margin-top: {{ margin_top | default('-0.5em') }};
-#     margin-left: {{ margin_left | default('-0.5em') }};
-#     margin-bottom: {{ margin_bottom | default('-0.5em') }};
-#     background-color: {{ background_color | default('transparent') }};
-#   }
-#   h2 {
-#     font-family: {{ font_family | default('var(--primary-font-family)') }};
-#     font-size: {{ font_size | default('20px') }};
-#     font-weight: 100;
-#     color: {{ color | default('auto') }};
-#     padding-left: {{ padding_left | default('0.5em') }};
-#     border-left: {{ border_left | default('3px solid rgba(255, 155, 0)') }};
-#     box-shadow: none;
-#   }
-# content: >
-#   {% raw %}
-#   {% set header_level = {% endraw %} '{{ header_level | default('2') }}' {% raw %} %}
-#   {%- set mapper = {'1':'#','2':'##','3':'###','4':'####','5':'#####','6':'######'} %}
-#   {% set header = mapper[header_level] %}
-#   {{ header }}{% endraw %} {{ title }}
-
