@@ -11,7 +11,7 @@ entities:
 
       #=== General Rainfall Settings
       - !include
-          - ../../titles.yaml
+          - ../../../titles.yaml
           - title: GENERAL RAINFALL SETTINGS
             font_size: 18px
             font_family: Oswald
@@ -44,7 +44,7 @@ entities:
 
       #=== Percentage Of Rainfall To Include
       - !include
-          - ../../titles.yaml
+          - ../../../titles.yaml
           - title: RAINFALL INCLUDED IN CALCULATIONS
             font_size: 18px
             font_family: Oswald
@@ -89,7 +89,7 @@ entities:
 
       #=== Rainfall Data
       - !include
-          - ../../titles.yaml
+          - ../../../titles.yaml
           - title: RAINFALL DATA
             font_size: 18px
             font_family: Oswald
