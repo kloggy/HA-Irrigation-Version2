@@ -34,11 +34,16 @@ tap_action:
   action: call-service
   service: browser_mod.popup
   service_data:
-    title: Cycle {{ cycle }} Settings
+    title: >
+      [[[
+        var entity_id = 'input_text.irrigation_cycle{{ cycle }}_name';
+        return states[entity_id].state.toUpperCase() + ' START TIME';
+      ]]]
     card:
-      type: entities
-      entities:
-        - entity: input_datetime.irrigation_cycle{{ cycle }}_start_time
+      type: custom:time-picker-card
+      entity: input_datetime.irrigation_cycle{{ cycle }}_start_time
+      hide:
+        name: true
     deviceID:
       - this
     style:
