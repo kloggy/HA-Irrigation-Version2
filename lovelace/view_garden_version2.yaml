@@ -1,68 +1,84 @@
+# lovelace_gen
 
 title: Garden
 path: garden
 # icon: mdi:flower
+# icon: mdi:tree
 icon: mdi:sprinkler-variant
 # theme: irrigation_theme
-
+panel: true
 cards:
 
-  #==================
-  #=== SYSTEM STATUS
-  #==================
-  - type: vertical-stack
+  - type: custom:layout-card
+    layout: horizontal
     cards:
 
-      #=== SYSTEM STATUS HEADER
-      - !include includes_garden/status/section_status_header.yaml
-
-      #=== CURRENT STATUS
-      - type: conditional
-        conditions:
-          - entity: input_boolean.irrigation_master_control_switch
-            state: "on"
-        card:
-          !include includes_garden/status/section_status_current_status.yaml
-
-      #=== LAST RUN
-      - type: conditional
-        conditions:
-          - entity: input_boolean.irrigation_master_control_switch
-            state: "on"
-        card:
-          !include includes_garden/status/section_status_last_run.yaml
-
-      #=== HISTORY
-      - type: conditional
-        conditions:
-          - entity: input_boolean.irrigation_master_control_switch
-            state: "on"
-        card:
-          !include includes_garden/status/section_status_history.yaml
+      #==================
+      #=== SYSTEM STATUS
+      #==================
+      - !include templates/garden/status/page_status.yaml
 
 
-  #==============
-  #=== SCHEDULES 
-  #==============
-  - type: vertical-stack
-    cards:
-      - type: conditional
-        conditions:
-          - entity: input_boolean.irrigation_master_control_switch
-            state: "on"
-        card: 
-          !include includes_garden/schedules/page_schedules.yaml
+      #==============
+      #=== SCHEDULES 
+      #==============
+      - type: vertical-stack
+        cards:
+          - type: conditional
+            conditions:
+              - entity: input_boolean.irrigation_master_control_switch
+                state: "on"
+            card: 
+              !include templates/garden/cycles/page_cycles.yaml
+
+          - type: conditional
+            conditions:
+              - entity: input_boolean.irrigation_master_control_switch
+                state: "on"
+            card: 
+              type: custom:hui-element
+              card_type: custom:state-switch
+              entity: sensor.irrigation_ui_selected_cycle
+              default: cycle1
+              states:
+                cycle1:
+                  !include
+                    - templates/garden/cycles/section_cycle1_2_schedule.yaml
+                    - cycle: 1
+                cycle2:
+                  !include
+                    - templates/garden/cycles/section_cycle1_2_schedule.yaml
+                    - cycle: 2
+                cycle3:
+                  !include templates/garden/cycles/section_cycle3_schedule.yaml
 
 
-  #=============
-  #=== SETTINGS
-  #=============
-  - type: vertical-stack
-    cards:
-      - type: conditional
-        conditions:
-          - entity: input_boolean.irrigation_master_control_switch
-            state: "on"
-        card:
-          !include includes_garden/settings/page_settings.yaml
+      #=============
+      #=== SETTINGS
+      #=============
+      - type: vertical-stack
+        cards:
+          - type: conditional
+            conditions:
+              - entity: input_boolean.irrigation_master_control_switch
+                state: "on"
+            card:
+              !include templates/garden/settings/page_settings.yaml
+
+          - type: conditional
+            conditions:
+              - entity: input_boolean.irrigation_master_control_switch
+                state: "on"
+            card:
+              type: custom:hui-element
+              card_type: custom:state-switch
+              entity: sensor.irrigation_ui_selected_settings
+              default: general
+              states:
+                general:
+                  !include templates/garden/settings/general/section_settings_general.yaml
+                rainfall:
+                  !include templates/garden/settings/rainfall/section_settings_rainfall.yaml
+                temperature:
+                  !include templates/garden/settings/temperature/section_settings_temperature.yaml
 
