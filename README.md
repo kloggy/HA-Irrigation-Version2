@@ -58,4 +58,4 @@ __Disclaimer__ - This has __NOT__ been extensivley tested. In fact as of now it 
 Likewise if you come up with any improvements also please tell me!
 
 
-<img src="https://github.com/kloggy/HA-Irrigation-Version2/blob/master/screenshots/screenshot-v2.png">
+<img src="https://github.com/kloggy/HA-Irrigation-Version2/blob/master/screenshots/screenshot-v2.jpg">
