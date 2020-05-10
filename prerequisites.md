@@ -36,6 +36,7 @@ __The Lovelace interface__ makes use of many custom cards (all installable using
 - mini-graph-card (https://github.com/kalkih/mini-graph-card)
 - layout-card (https://github.com/thomasloven/lovelace-layout-card)
 - state-switch (https://github.com/thomasloven/lovelace-state-switch)
+- time-picker-card (https://github.com/GeorgeSG/lovelace-time-picker-card)
 
 Don't forget to update your `resources` as per the instruction in HACS
 
