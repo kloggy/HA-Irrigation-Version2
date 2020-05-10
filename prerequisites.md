@@ -29,6 +29,7 @@ __The Lovelace interface__ makes use of many custom cards (all installable using
 - card-mod (https://github.com/thomasloven/lovelace-card-mod)
 - browser_mod (https://github.com/thomasloven/hass-browser_mod)
 - lovelace_gen (https://github.com/thomasloven/hass-lovelace_gen)
+- hui-element (https://github.com/thomasloven/lovelace-hui-element)
 - button-card (https://github.com/custom-cards/button-card)
 - multiple-entity-row (https://github.com/benct/lovelace-multiple-entity-row)
 - config-template-card (https://github.com/iantrich/config-template-card)
