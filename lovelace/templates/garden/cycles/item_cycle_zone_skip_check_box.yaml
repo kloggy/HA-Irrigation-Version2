@@ -18,6 +18,7 @@ styles:
     - height: 3.4em
     - margin-top: 0.1em
     - font-size: 12px
+    - box-shadow: none
   name:
     - justify-self: center
 state:
