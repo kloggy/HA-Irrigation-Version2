@@ -1,5 +1,7 @@
 
+#===============================================
 #=== Forecast vs. Actual High Temperature Graph
+#===============================================
 type: custom:mini-graph-card
 entities:
   - entity: sensor.dark_sky_current_temperature
@@ -32,4 +34,8 @@ state_map:
     label: 'Night'
 tap_action:
   action: none
+style: >
+  ha-card {
+    box-shadow: none;
+  }
 
