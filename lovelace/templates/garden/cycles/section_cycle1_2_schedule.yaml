@@ -30,7 +30,7 @@ entities:
           - !include
             - item_cycle_start_time.yaml
             - entity: sensor.irrigation_cycle{{ cycle }}_start_time_in_seconds
-              cycle: 1
+              cycle: {{ cycle }}
 
           - type: vertical-stack
             cards:
