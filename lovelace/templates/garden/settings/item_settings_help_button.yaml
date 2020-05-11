@@ -71,6 +71,7 @@ styles:
     - height: 35px
     - width: 45px
     - border-radius: 10px
+    - box-shadow: "0px 0px 0px 0px"
   icon:
     - width: 45px
     - color: var(--accent-color)
