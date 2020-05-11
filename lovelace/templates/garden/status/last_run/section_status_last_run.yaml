@@ -65,6 +65,7 @@ entities:
         - color: var(--secondary-text-color)
         - padding: 0em 0em 0em 10px
         - margin-top: -0.3em
+        - background: none
       name:
         - justify-self: start
       label:
