@@ -1,8 +1,8 @@
 # lovelace_gen
 
-#======================
-#=== Boolean Check Box
-#======================
+#===================================
+#=== SMARTWEATHER STATION CHECK BOX
+#===================================
 type: custom:button-card
 entity: {{ entity }}
 name: {{ name }}
@@ -16,6 +16,7 @@ styles:
     - height: 3.5em
     - margin-top: -0.1em
     - font-size: 14px
+    - box-shadow: none
   name:
     - justify-self: right
 state:
