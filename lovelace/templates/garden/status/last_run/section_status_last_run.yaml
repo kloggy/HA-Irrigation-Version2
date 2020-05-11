@@ -118,6 +118,8 @@ entities:
     style: |
       ha-card {
         margin-bottom: -1em;
+        background: none;
+        box-shadow: none;
       }
       #states {
         {% raw %}
@@ -128,3 +130,8 @@ entities:
         {% endraw %}
       }
 
+style: |
+  ha-card {
+    background: none;
+    box-shadow: none;
+  }
