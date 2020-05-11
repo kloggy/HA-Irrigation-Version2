@@ -90,7 +90,10 @@ entities:
             deviceID:
               - this
             style:
-              font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+              font-family: >
+                [[[
+                  return states['input_text.irrigation_ui_font_family'].state
+                ]]]
               font-size: 14px
               box-shadow: 0em 0em 0.5em
               opacity: 0.9
@@ -101,8 +104,12 @@ entities:
             - grid-template-columns: min-content min-content auto 1fr  
             - grid-template-rows: 1fr
           card:
-            - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+            - font-family: >
+                [[[
+                  return states['input_text.irrigation_ui_font_family'].state
+                ]]]
             - background: none
+            - box-shadow: none
             - padding: 5px
             - height: 35px
           name:
@@ -200,6 +207,7 @@ entities:
         styles:
           card:
             - background: none
+            - box-shadow: none
             - height: 35px
             - width: >
                 [[[
@@ -231,6 +239,7 @@ entities:
         show_name: false
         styles:
           card:
+            - box-shadow: none
             - background: none
             - height: 35px
             - width: >
