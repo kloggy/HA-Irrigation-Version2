@@ -55,6 +55,7 @@ cards:
         - margin-left: 0.5em
         - padding: 0em
         - box-shadow: none
+        - background: none
       name:
         - font-family: >
             [[[
