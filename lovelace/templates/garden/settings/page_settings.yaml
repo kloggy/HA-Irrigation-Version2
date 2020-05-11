@@ -20,11 +20,13 @@ entities:
         styles:
           card:
             - font-size: 16px
-            - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+            - font-family: >
+                [[[
+                  return states['input_text.irrigation_ui_font_family'].state
+                ]]]
             - background: none
             - margin: 0.1em 0em 0em 0em
             - box-shadow: none
-            - border-radius: 0px
 
         tap_action:
           action: none
@@ -56,5 +58,7 @@ entities:
 style: >
   ha-card {
     background: none;
+    box-shadow: none;
     margin-top: -0.5em;
+    margin-bottom: -0.75em;
   }
