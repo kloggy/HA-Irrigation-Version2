@@ -11,8 +11,9 @@ styles:
   card:
     - height: 1em
     - font-size: 12px
-    - padding: 0em 1em 0em
+    - padding: 0em 0.2em 0em
     - margin-top: 0em
+    - box-shadow: none
   name:
     - color: var(--secondary-text-color)
     - justify-self: right
