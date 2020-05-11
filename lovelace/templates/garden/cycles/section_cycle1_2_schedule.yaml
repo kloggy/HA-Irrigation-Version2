@@ -149,6 +149,9 @@ entities:
 
 style: >
   ha-card {
+    background: none;
+    box-shadow: none;
     margin-top: -0.75em;
   }
+
 
