@@ -71,8 +71,15 @@ entities:
             - item_cycle_zone_duration_line.yaml
             - cycle: 3
               zone: 8
+        style: >
+          ha-card {
+            background: none;
+            box-shadow: none;
+          }
 
 style: >
   ha-card {
     margin-top: -0.75em;
+    background: none;
+    box-shadow: none;
   }
