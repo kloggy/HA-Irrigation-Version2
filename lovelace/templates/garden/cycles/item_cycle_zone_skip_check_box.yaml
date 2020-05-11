@@ -19,6 +19,7 @@ styles:
     - margin-top: 0.1em
     - font-size: 12px
     - box-shadow: none
+    - background: none
   name:
     - justify-self: center
 state:
