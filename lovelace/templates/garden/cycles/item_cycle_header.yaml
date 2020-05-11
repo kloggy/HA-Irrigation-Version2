@@ -9,8 +9,15 @@ cards:
   #=== Title and Weather Outlook
   - type: custom:button-card
     entity: sensor.weather_just_icon
-    name: "[[[ var entity_id = 'input_text.irrigation_cycle{{ cycle }}_name'; return states[entity_id].state.toUpperCase() + ' SCHEDULE'; ]]]"
-    label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_current_minutely_summary'].state.replace(',', ',<br>'); ]]]"
+    name: >
+      [[[
+        var entity_id = 'input_text.irrigation_cycle{{ cycle }}_name';
+        return states[entity_id].state.toUpperCase() + ' SCHEDULE';
+      ]]]
+    label: >
+      [[[
+        return 'Weather Outlook: ' + states['sensor.dark_sky_current_minutely_summary'].state.replace(',', ',<br>');
+      ]]]
     show_label: true
     size: 80%
     tap_action:
@@ -27,7 +34,10 @@ cards:
         deviceID:
           - this
         style:
-          font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+          font-family: >
+            [[[
+              return states['input_text.irrigation_ui_font_family'].state
+            ]]]
           font-size: 14px
           border-radius: 1em
           box-shadow: 0em 0em 0.5em
@@ -44,8 +54,12 @@ cards:
         - border-radius: 0px
         - margin-left: 0.5em
         - padding: 0em
+        - box-shadow: none
       name:
-        - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+        - font-family: >
+            [[[
+              return states['input_text.irrigation_ui_font_family'].state
+            ]]]
         - font-size: 18px
         - color: var(--secondary-text-color)
         - justify-self: start
@@ -71,6 +85,7 @@ cards:
         - background: none
         - height: 45px
         - width: 45px
+        - box-shadow: none
       icon:
         - width: 25px
     state:
@@ -108,6 +123,7 @@ cards:
           card:
             - color: var(--secondary-text-color)
             - opacity: 50%
+            - box-shadow: none
           icon:
             - color: var(--secondary-text-color)
       - value: 'on'
@@ -158,6 +174,7 @@ cards:
         - background: none
         - height: 45px
         - width: 45px
+        - box-shadow: none
         - display: >
             [[[
               var cycle = '{{ cycle }}';
