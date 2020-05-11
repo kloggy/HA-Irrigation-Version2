@@ -61,7 +61,8 @@ styles:
     - height: 3.25em
     - margin-top: -0.5em
     - margin-left: 0.75em
-    - box-shadow: none    
+    - box-shadow: none
+    - background: none
   name:
     - align-self: start
     - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
