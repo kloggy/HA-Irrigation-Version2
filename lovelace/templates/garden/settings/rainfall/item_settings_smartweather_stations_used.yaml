@@ -1,5 +1,7 @@
 
+#===============================
 #=== SmartWeather Stations Used
+#===============================
 
 type: custom:hui-element
 card_type: horizontal-stack
@@ -11,7 +13,7 @@ cards:
         - font-size: 12px
         - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
         - background: none
-        # - margin: 0em 0em 0em 0em
+        - box-shadow: none
         - color: var(--secondary-text-color)
     tap_action:
       action: call-service
