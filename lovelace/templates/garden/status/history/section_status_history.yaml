@@ -37,7 +37,10 @@ entities:
             #     ]]]
             - padding: 0em
             - font-size: 16px
-            - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+            - font-family: >
+                [[[
+                  return states['input_text.irrigation_ui_font_family'].state
+                ]]]
           today:
             - justify-self: end
           yesterday:
@@ -84,6 +87,8 @@ entities:
     style: |
       ha-card {
         margin-bottom: -1em;
+        background: none;
+        box-shadow: none
       }
       #states {
         {% raw %}
@@ -93,4 +98,9 @@ entities:
         {% endif %}
         {% endraw %}
       }
+style: |
+  ha-card {
+    background: none;
+    box-shadow: none
+  }
 
