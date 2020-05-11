@@ -28,13 +28,7 @@ entities:
             - grid-template-columns: 25% 25% min-content
             - grid-template-rows: 1fr
           card:
-            # - display: >
-            #     [[[
-            #       var show_history = states['input_boolean.irrigation_ui_show_status_history'].state;
-            #       if (show_history == 'off' )
-            #         return 'none';
-            #       else return 'unset';
-            #     ]]]
+            - background: none
             - padding: 0em
             - font-size: 16px
             - font-family: >
