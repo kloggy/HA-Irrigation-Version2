@@ -267,4 +267,5 @@ style: >
   ha-card {
     background: none;
     margin-top: -0.5em;
+    box_shadow: none
   }
