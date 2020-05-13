@@ -2,24 +2,33 @@
 
 <h2>MOST IMPORTANT</h2>
 
-I am posting this project *purely as a way to share it* because people showed an interest in Version 1. It is not presented as a 'turn-key' solution. It is purely *my personal solution* which I am more than happy for anyone to use in any way they see fit. Please understand that Version 2 will require some configuration and customisation on your part to make it work. I am prepared to help people get it working but only if you have shown that you have tried more than just copying the files. The prerequisites are documented and must be followed.
+__This is NOT quite a '*pick-it-up-and-drop-it-in*' solution. There are a few idiosyncracities which require some understanding of Home Assistant in general and of Lovelace in particular.__
+
+__Be prepared to spend some time setting it up if you choose to try it out__
+
+
+<h2>Prerequisites</h2>
+
+There are some [prerequisites](https://github.com/kloggy/HA-Irrigation-Version2/blob/master/prerequisites.md) to setting this up. PLEASE READ THEM. Any questions posted that look like they haven't been read may be ignored.
+
+
+Please note that as it stands this assumes that you are using `yaml` mode for Lovelace because that is what I use.
 
 
 <h2> Also Important</h2>
+
+I am posting this project *purely as a way to share it* because people showed an interest in Version 1. It is not presented as a 'turn-key' solution. It is purely *my personal solution* which I am more than happy for anyone to use in any way they see fit. Please understand that Version 2 will require some configuration and customisation on your part to make it work. I am prepared to help people get it working but only if you have shown that you have tried more than just copying the files. The prerequisites are documented and must be followed.
 
 I am only using GitHub literally as a repository. What that means is I just copy my code from my PC to here so that it can be shared. There is no formal version control here other than that inherent in the Github editing history.
 
 One day maybe I'll delve further into how GitHub works but for now I'm afraid that is the situation.
 
-Furthermore, this is not quite a '*pick-it-up-and-drop-it-in*' solution. It nearly is but there are a few idiosyncracities. Be prepared to try it out and spend a short time setting it up.
 
 <h2>Background</h2>
 
 __IMPORTANT__ - This is now a *__beta__* of Version 2. For anyone who was using the 'Preview' it has a few cosmetic improvements (IMO) and I have completely restructured the Lovelace code. I think it might now be more efficient and also every section is in its own file so that should make it easier if you wish to change anything.
 
 As far as I know, and no one who used the preview told me otherwise, it works perfectly. If you decide to use it in any way be sure to read ALL of this page.
-
-__IMPORTANT__ - Please note that as it stands this assumes using `yaml` mode for Lovelace.
 
 -----
 
@@ -51,11 +60,6 @@ Almost everything can be set from the UI including the friendly names of cycles 
 __Note -__ Extensive use is made of `!include` to avoid code repetion. You need to replicate the folder structure in order for it to work. You can change the lovelace code if it suits you and so have your own folder structure but I can't help if you choose to do that.
 
 As it stands you need a `lovelace` folder and the folder that your packages are in.
-
-
-<h2>Prerequisites</h2>
-
-There are some [prerequisites](https://github.com/kloggy/HA-Irrigation-Version2/blob/master/prerequisites.md) to setting this up. PLEASE READ THEM. 
 
 --------------
 
