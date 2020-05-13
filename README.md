@@ -1,6 +1,13 @@
 <h1 align="center">A Garden Irrigation System for Home Assistant (Version2)</h1>
 
-It is __important__ to understand that I am only using GitHub literally as a repository. What that means is I just copy my code from my PC to here so that it can be shared. There is no formal version control here other than that inherent in the Github editing history.
+<h2>MOST IMPORTANT</h2>
+
+I am posting this project *purely as a way to share it* because people showed an interest in Version 1. It is not presented as a 'turn-key' solution. It is purely *my personal solution* which I am more than happy for anyone to use in any way they see fit. Please understand that Version 2 will require some configuration and customisation on your part to make it work. I am prepared to help people get it working but only if you have shown that you have tried more than just copying the files. The prerequisites are documented and must be followed.
+
+
+<h2> Also Important</h2>
+
+I am only using GitHub literally as a repository. What that means is I just copy my code from my PC to here so that it can be shared. There is no formal version control here other than that inherent in the Github editing history.
 
 One day maybe I'll delve further into how GitHub works but for now I'm afraid that is the situation.
 
