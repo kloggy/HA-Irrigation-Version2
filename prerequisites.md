@@ -69,7 +69,11 @@ Of course there is *no requirement* to use Smartweather for rainfall data but if
 
 There are some pointers for setting SmartWeather up [here](https://github.com/kloggy/HA-Irrigation-Version2/blob/master/smartweather_example.md).
 
-__Dark Sky__: (DarkSky will I believe become unavailable in 2021 as Apple have recently bought it.)
+__Dark Sky__:
+
+DarkSky will I believe become unavailable in 2021 as Apple have recently bought it.
+
+UPDATE: I have just been told that you can no longer get a *new* api code.
 
 DarkSky is used for temperature data and there are *two small code changes needed*.
 
