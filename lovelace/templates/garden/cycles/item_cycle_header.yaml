@@ -16,7 +16,7 @@ cards:
       ]]]
     label: >
       [[[
-        return 'Weather Outlook: ' + states['sensor.dark_sky_current_minutely_summary'].state.replace(',', ',<br>');
+        return states['sensor.dark_sky_current_minutely_summary'] ? 'Weather Outlook: ' + states['sensor.dark_sky_current_minutely_summary'].state.replace(',', ',<br>') : 'DarkSky not configured correctly';
       ]]]
     show_label: true
     size: 80%
