@@ -23,12 +23,15 @@ The actual notifications are also handled outside the package so some changes wi
 
 (@http_edo13 has posted how they use Telegram here: https://community.home-assistant.io/t/my-garden-irrigation/99686/404)
 
-__The Lovelace interface__ makes use of many custom cards (all installable using HACS https://github.com/hacs):
+__The Lovelace interface__ makes use of many custom integrations/cards (all installable using HACS https://github.com/hacs):
 
 
-- card-mod (https://github.com/thomasloven/lovelace-card-mod)
 - browser_mod (https://github.com/thomasloven/hass-browser_mod)
 - lovelace_gen (https://github.com/thomasloven/hass-lovelace_gen)
+
+--------
+
+- card-mod (https://github.com/thomasloven/lovelace-card-mod)
 - hui-element (https://github.com/thomasloven/lovelace-hui-element)
 - button-card (https://github.com/custom-cards/button-card)
 - multiple-entity-row (https://github.com/benct/lovelace-multiple-entity-row)
