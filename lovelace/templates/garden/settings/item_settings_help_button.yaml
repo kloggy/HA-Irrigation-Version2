@@ -7,7 +7,7 @@ tap_action:
   action: call-service
   service: browser_mod.popup
   service_data:
-    title: "\U00002139 INFORMATION"
+    title: " &nbsp \U00002139 &nbsp &nbsp INFORMATION"
     card:
       type:  markdown
       content: >
@@ -19,15 +19,18 @@ tap_action:
         Tap a Zone to edit its information
 
 
-        ---
+        Selecting Testing Mode will change run times to seconds.
 
+        e.g a run time of 5 minutes will run for 5 seconds.
+
+
+        ---
 
 
         * #### Adjust For Weather (Experimental)
 
         Turning on weather adjustments will adjust watering time based on temperature
         and/or rainfall. See Settings.
-
 
 
         ---
