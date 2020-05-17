@@ -25,7 +25,7 @@ entities:
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_days_of_rainfall_history_used
             name: Number of days history to use
-            secondary_info: (0 to 4) If zero only rainfall today is used
+            label: (0 to 4) If zero only rainfall today is used
             round: 0
 
       #=== Rainfall threshold
@@ -33,7 +33,7 @@ entities:
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_rainfall_threshold
             name: Rainfall threshold
-            secondary_info: If this threshold is reached no watering takes place
+            label: If this threshold is reached no watering takes place
 
 
       #-------------------------
@@ -58,27 +58,30 @@ entities:
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_rainfall_percentage_1
             name: Yesterday
+            unit: '%'
+            padding: 0.5em 0em 0.5em 0em
 
       #=== Two days ago
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_rainfall_percentage_2
             name: Two days ago
-            margin_top: -0.5em
+            unit: '%'
+            padding: 0em 0em 0.5em 0em
 
       #=== Three days ago
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_rainfall_percentage_3
             name: Three days ago
-            margin_top: -0.5em
+            unit: '%'
+            padding: 0em 0em 0.5em 0em
 
       #=== Four days ago
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_rainfall_percentage_4
             name: Four days ago
-            margin_top: -0.5em
 
 
       #-------------------------
@@ -104,15 +107,19 @@ entities:
           - entity: input_number.irrigation_rainfall_multiplier
             name: Multiplier used in calculations
             secondary_info: Calculated based on rainfall and threshold
+            round: 2
+            padding: 0.5em 0em 0.5em 0em
             tap_action: none
 
-      #=== The average of all Smartweather sensors
+      #=== Rainfall today (The average of all Smartweather sensors)
       - !include
           - ../item_settings_line.yaml
           - entity: sensor.smartweather_average_rain_today
             name: Rainfall today
             secondary_info: The average of all Smartweather sensors
             icon: mdi:weather-rainy
+            unit: mm
+            round: 1
             tap_action: none
 
       #=== Rainfall yesterday
@@ -120,6 +127,8 @@ entities:
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_rainfall_1
             name: Rainfall Yesterday
+            unit: mm
+            round: 1
             tap_action: none
 
       #=== Rainfall two days ago
@@ -127,24 +136,27 @@ entities:
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_rainfall_2
             name: Two days ago
+            unit: mm
+            round: 1
             tap_action: none
-            margin_top: -0.5em
 
       #=== Rainfall three days ago
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_rainfall_3
             name: Three days ago
+            unit: mm
+            round: 1
             tap_action: none
-            margin_top: -0.5em
 
       #=== Rainfall four days ago
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_rainfall_4
             name: Four days ago
+            unit: mm
+            round: 1
             tap_action: none
-            margin_top: -0.5em
 
       #=== SmartWeather Stations Used
       - !include item_settings_smartweather_stations_used.yaml
