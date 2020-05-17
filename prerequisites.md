@@ -34,7 +34,6 @@ __The Lovelace interface__ makes use of many custom integrations/cards (all inst
 - card-mod (https://github.com/thomasloven/lovelace-card-mod)
 - hui-element (https://github.com/thomasloven/lovelace-hui-element)
 - button-card (https://github.com/custom-cards/button-card)
-- multiple-entity-row (https://github.com/benct/lovelace-multiple-entity-row)
 - config-template-card (https://github.com/iantrich/config-template-card)
 - mini-graph-card (https://github.com/kalkih/mini-graph-card)
 - layout-card (https://github.com/thomasloven/lovelace-layout-card)
