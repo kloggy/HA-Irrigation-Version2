@@ -47,6 +47,8 @@ entities:
           - entity: input_text.irrigation_ui_font_family
             name: User interface font
             icon: mdi:format-font
+            numeric_state: 'false'
+            padding: 0.5em 0em 0.5em 0em
 
       #=== Number of zones
       - !include
@@ -60,7 +62,6 @@ entities:
           - entity: input_number.irrigation_weather_adjusted_minimum_duration_in_seconds
             name: Minimum number of seconds to run a zone
             secondary_info: When using weather adjustments
-            margin_top: -0.5em
 
       #=== Maximum duration when using weather adjustments
       - !include
@@ -68,7 +69,6 @@ entities:
           - entity: input_number.irrigation_weather_adjusted_maximum_duration_in_minutes
             name: Maximum number of minutes to run a zone
             secondary_info: When using weather adjustments
-            margin_top: -0.5em
 
 
       #-------------------------
@@ -82,7 +82,9 @@ entities:
           - ../item_settings_line.yaml
           - entity: sensor.esphome_irrigation_controller_wifi_signal
             name: Irrigation Controller WiFi Signal Strength
+            numeric_state: 'false'
             tap_action: none
+            padding: 0.5em 0em 0.5em 0em
 
 style: >
   ha-card {
