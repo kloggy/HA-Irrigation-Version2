@@ -25,14 +25,15 @@ entities:
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_days_of_temp_history_used
             name: Number of days data to use
-            secondary_info: (0 to 4) If zero only the temperature today is used
+            label: (0 to 4) If zero only the temperature today is used
 
       #=== Temperature Baseline
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_temperature_baseline
             name: Baseline temperature
-            secondary_info: Exceeding this temperature increases the watering time
+            label: Exceeding this temperature increases the watering time
+            unit: °C
 
       #-------------------------
       - type: custom:hui-element
@@ -54,7 +55,8 @@ entities:
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_temp_multiplier
             name: Multiplier used in calculations
-            secondary_info: Calculated based on temperature and baseline
+            label: Calculated based on temperature and baseline
+            round: 2
             tap_action: none
 
       #=== Actual High Temperature
@@ -62,17 +64,18 @@ entities:
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_actual_high_temp_0
             name: High temperature today (Actual)
+            round: 1
+            unit: °C
             tap_action: none
-            margin_top: -0.5em
 
       #=== Forecast High Temperature
       - !include
           - ../item_settings_line.yaml
           - entity: sensor.dark_sky_forecast_daytime_high_temperature_0d
             name: High temperature today (Forecast)
+            round: 1
+            unit: °C
             tap_action: none
-            margin_bottom: -1em
-            margin_top: -0.5em
 
 
       #-------------------------
@@ -119,31 +122,37 @@ entities:
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_high_temp_1
             name: Yesterday
+            round: 1
+            unit: °C
             tap_action: none
+            padding: 0.5em 0em 0.5em 0em
 
       #=== High Temperature 2 Days Ago
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_high_temp_2
             name: Two days ago
+            round: 1
+            unit: °C
             tap_action: none
-            margin_top: -0.5em
 
       #=== High Temperature 3 Days Ago
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_high_temp_3
             name: Three days ago
+            round: 1
+            unit: °C
             tap_action: none
-            margin_top: -0.5em
 
       #=== High Temperature 4 Days Ago
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_high_temp_4
             name: Four days ago
+            unit: °C
+            round: 1
             tap_action: none
-            margin_top: -0.5em
 
 style: >
   ha-card {
