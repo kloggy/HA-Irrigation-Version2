@@ -99,9 +99,17 @@ to:
 
 Secondly,
 
-You need to edit one line in `lovelace/templates/garden/settings/temperature/item_settings_temperature_graph.yaml` in order to show the temperature graph. 
+You need to edit two lines in `lovelace/templates/garden/settings/temperature/item_settings_temperature_graph.yaml` in order to show the temperature graph. 
 
 In the `custom:mini-graph-card` find the line:
+
+`  - entity: sensor.dark_sky_current_temperature`
+
+and change it to
+
+`  - entity: sensor.dark_sky_temperature`
+
+also,
 
 `        - entity: sensor.dark_sky_forecast_daytime_high_temperature_0d`
 
