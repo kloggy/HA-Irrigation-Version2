@@ -17,6 +17,7 @@ name: {{ name }}
 icon: {{ icon }}
 show_label: true
 label: {{ label }}
+size: 30%
 tap_action:
   action: {{ tap_action | default('call-service') }}
   service: browser_mod.popup
