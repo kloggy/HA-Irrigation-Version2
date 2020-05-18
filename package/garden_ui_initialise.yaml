@@ -27,6 +27,66 @@ automation:
           value: Oswald
 
 
+  #================
+  #=== User Name 1
+  #================
+  - alias: Irrigation UI Set User Name 1
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.notifications_user1_name
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.notifications_user1_name
+          value: User 1
+
+
+  #================
+  #=== User Name 2
+  #================
+  - alias: Irrigation UI Set User Name 2
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.notifications_user2_name
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.notifications_user2_name
+          value: User 2
+
+
+  #===================
+  #=== Current status
+  #===================
+  - alias: Irrigation UI Set Default Current Status
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_current_status
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_current_status
+          value: NOTHING SCHEDULED
+
+
   #=================
   #=== Cycle 1 Name
   #=================
