@@ -52,6 +52,7 @@ styles:
   card:
     - font-size: 14px
     - padding: {{ padding | default('0em 0em 0.5em 0em') }}
+    - box-shadow: none
   name: 
     - justify-self: start
   label:
