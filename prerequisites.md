@@ -85,7 +85,7 @@ one which I use for forecast and one for current information hence the different
 
 Because of that there are *some small code changes you need to make*.
 
-1.  In file `lovelace/templates/garden/cycles/item_cycle_header.yaml` you will need to make a small change.
+__1.__  In file `lovelace/templates/garden/cycles/item_cycle_header.yaml` you will need to make a small change.
 
     Change the line from:
 
@@ -95,7 +95,7 @@ Because of that there are *some small code changes you need to make*.
 
     `label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_minutely_summary'].state.replace(',', ',<br>'); ]]]"`
 
-2.  In the file `lovelace/templates/garden/settings/temperature/item_settings_temperature_graph.yaml` you need to edit _two_ lines in order to show the temperature graph. 
+__2.__  In the file `lovelace/templates/garden/settings/temperature/item_settings_temperature_graph.yaml` you need to edit _two_ lines in order to show the temperature graph. 
 
     Change the line:
 
@@ -113,7 +113,7 @@ Because of that there are *some small code changes you need to make*.
 
     `        - entity: sensor.dark_sky_daytime_high_temperature_0d`
 
-3.  In the file `package/garden_weather_temperature.yaml you need to edit _two_ lines.
+__3.__  In the file `package/garden_weather_temperature.yaml you need to edit _two_ lines.
 
     Change the line:
 
