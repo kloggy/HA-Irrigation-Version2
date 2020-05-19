@@ -87,49 +87,49 @@ Because of that there are *some small code changes you need to make*.
 
 1.  In file `lovelace/templates/garden/cycles/item_cycle_header.yaml` you will need to make a small change.
 
-Change the line from:
+    Change the line from:
 
-`label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_current_minutely_summary'].state.replace(',', ',<br>'); ]]]"`
+    `label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_current_minutely_summary'].state.replace(',', ',<br>'); ]]]"`
 
-to:
+    to:
 
-`label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_minutely_summary'].state.replace(',', ',<br>'); ]]]"`
+    `label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_minutely_summary'].state.replace(',', ',<br>'); ]]]"`
 
-2. In the file `lovelace/templates/garden/settings/temperature/item_settings_temperature_graph.yaml` you need to edit _two_ lines in order to show the temperature graph. 
+2.  In the file `lovelace/templates/garden/settings/temperature/item_settings_temperature_graph.yaml` you need to edit _two_ lines in order to show the temperature graph. 
 
-Change the line:
+    Change the line:
 
-`  - entity: sensor.dark_sky_current_temperature`
+    `  - entity: sensor.dark_sky_current_temperature`
 
-to
+    to
 
-`  - entity: sensor.dark_sky_temperature`
+    `  - entity: sensor.dark_sky_temperature`
 
-and change the line:
+    and change the line:
 
-`        - entity: sensor.dark_sky_forecast_daytime_high_temperature_0d`
+    `        - entity: sensor.dark_sky_forecast_daytime_high_temperature_0d`
 
-to:
+    to:
 
-`        - entity: sensor.dark_sky_daytime_high_temperature_0d`
+    `        - entity: sensor.dark_sky_daytime_high_temperature_0d`
 
-3. In the file `package/garden_weather_temperature.yaml you need to edit _two_ lines.
+3.  In the file `package/garden_weather_temperature.yaml you need to edit _two_ lines.
 
-Change the line:
+    Change the line:
 
-`          {{ states('sensor.dark_sky_current_temperature') | float > states('input_number.irrigation_actual_high_temp_0') | float }}`
+    `          {{ states('sensor.dark_sky_current_temperature') | float > states('input_number.irrigation_actual_high_temp_0') | float }}`
 
-to:
+    to:
 
-`          {{ states('sensor.dark_sky_temperature') | float > states('input_number.irrigation_actual_high_temp_0') | float }}`
+    `          {{ states('sensor.dark_sky_temperature') | float > states('input_number.irrigation_actual_high_temp_0') | float }}`
 
-and change the line:
+    and change the line:
 
-`            {{ states('sensor.dark_sky_current_temperature') }}`
+    `            {{ states('sensor.dark_sky_current_temperature') }}`
 
-to:
+    to:
 
-`            {{ states('sensor.dark_sky_temperature') }}`
+    `            {{ states('sensor.dark_sky_temperature') }}`
 
 
 
