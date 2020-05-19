@@ -113,23 +113,14 @@ __2.__  In the file `lovelace/templates/garden/settings/temperature/item_setting
 
     - entity: sensor.dark_sky_daytime_high_temperature_0d
 
-__3.__  In the file `package/garden_weather_temperature.yaml you need to edit _two_ lines.
+__3.__  In the file `package/garden_weather_temperature.yaml you need to make changes.
 
-   Change the line:
+  Find all occurances of :
 
-    {{ states('sensor.dark_sky_current_temperature') | float > states('input_number.irrigation_actual_high_temp_0') | float }}
+    `sensor.dark_sky_current` and `sensor.dark_sky_forecast`
 
-   to:
-
-    {{ states('sensor.dark_sky_temperature') | float > states('input_number.irrigation_actual_high_temp_0') | float }}
-
-   and change the line:
-
-    {{ states('sensor.dark_sky_current_temperature') }}
-
-   to:
-
-    {{ states('sensor.dark_sky_temperature') }}
-
-
-
+  And change them to:
+   
+    `sensor.dark_sky`
+    
+    
