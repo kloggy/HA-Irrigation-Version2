@@ -77,18 +77,17 @@ DarkSky will I believe become unavailable in 2021 as Apple have recently bought 
 
 UPDATE: I have just been told that you can no longer get a *new* api code.
 
-DarkSky is used for temperature data and there are *two small code changes needed*.
+DarkSky is used for temperature data.
 
-Firstly,
-
-In file `lovelace/templates/garden/cycles/item_cycle_header.yaml` you will need to make a small change.
 My sensor is called `sensor.dark_sky_current_minutely_summary`. This is due to a historic issue as I have two darksky sensors,
 one which I use for forecast and one for current information hence the different names
 (they both have a different scan_interval but apart from that I can’t remember now why I did that!!).
 
-Therefore, you must change the line:
+Because of that there are *some small code changes you need to make*.
 
-From:
+1.  In file `lovelace/templates/garden/cycles/item_cycle_header.yaml` you will need to make a small change.
+
+Change the line from:
 
 `label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_current_minutely_summary'].state.replace(',', ',<br>'); ]]]"`
 
@@ -96,23 +95,41 @@ to:
 
 `label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_minutely_summary'].state.replace(',', ',<br>'); ]]]"`
 
-Secondly,
+2. In the file `lovelace/templates/garden/settings/temperature/item_settings_temperature_graph.yaml` you need to edit _two_ lines in order to show the temperature graph. 
 
-You need to edit two lines in `lovelace/templates/garden/settings/temperature/item_settings_temperature_graph.yaml` in order to show the temperature graph. 
-
-In the `custom:mini-graph-card` find the line:
+Change the line:
 
 `  - entity: sensor.dark_sky_current_temperature`
 
-and change it to
+to
 
 `  - entity: sensor.dark_sky_temperature`
 
-also,
+and change the line:
 
 `        - entity: sensor.dark_sky_forecast_daytime_high_temperature_0d`
 
-and change it to:
+to:
 
 `        - entity: sensor.dark_sky_daytime_high_temperature_0d`
+
+3. In the file `package/garden_weather_temperature.yaml you need to edit _two_ lines.
+
+Change the line:
+
+`          {{ states('sensor.dark_sky_current_temperature') | float > states('input_number.irrigation_actual_high_temp_0') | float }}`
+
+to:
+
+`          {{ states('sensor.dark_sky_temperature') | float > states('input_number.irrigation_actual_high_temp_0') | float }}`
+
+and change the line:
+
+`            {{ states('sensor.dark_sky_current_temperature') }}`
+
+to:
+
+`            {{ states('sensor.dark_sky_temperature') }}`
+
+
 
