@@ -11,7 +11,7 @@ state_display: >
     var unit = '{{ unit }}';
     var round = '{{ round }}';
     var statestr = entity.state;
-    
+
     if (isNaN(statestr))
       return statestr;
     else if(unit.length > 0)
@@ -28,7 +28,12 @@ tap_action:
   action: {{ tap_action | default('call-service') }}
   service: browser_mod.popup
   service_data:
-    title: {{ name }}
+    title: >
+      [[[
+        var unit = '{{ unit }}'
+        var name = '{{ name }}'
+        return name + ' (' + unit.trim() + ')';
+      ]]]
     card:
       type: entities
       entities:
