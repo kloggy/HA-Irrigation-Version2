@@ -37,5 +37,7 @@ tap_action:
 style: >
   ha-card {
     box-shadow: none;
+    background: none;
+    border-radius: 0px;
   }
 
