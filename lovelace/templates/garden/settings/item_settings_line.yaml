@@ -8,10 +8,16 @@ entity: {{ entity }}
 show_state: true
 state_display: >
   [[[
-    if ('{{ numeric_state }}' == 'false')
-      return entity.state;
+    var unit = '{{ unit }}';
+    var round = '{{ round }}';
+    var statestr = entity.state;
+    
+    if (isNaN(statestr))
+      return statestr;
+    else if(unit.length > 0)
+      return parseFloat(statestr).toFixed(round) + unit;
     else
-      return parseFloat(entity.state).toFixed({{ round }}) + '{{ unit | default('') }}';
+      return parseFloat(statestr).toFixed(round);
   ]]]
 name: {{ name }}
 icon: {{ icon }}
