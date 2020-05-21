@@ -17,6 +17,7 @@ styles:
     - margin-top: -0.1em
     - font-size: 14px
     - box-shadow: none
+    - background: none
   name:
     - justify-self: right
 state:
