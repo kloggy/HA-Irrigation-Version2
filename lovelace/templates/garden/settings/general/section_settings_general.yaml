@@ -60,15 +60,17 @@ entities:
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_weather_adjusted_minimum_duration_in_seconds
-            name: Minimum number of seconds to run a zone
+            name: Minimum time to run a zone
             secondary_info: When using weather adjustments
+            unit: ' secs'
 
       #=== Maximum duration when using weather adjustments
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_weather_adjusted_maximum_duration_in_minutes
-            name: Maximum number of minutes to run a zone
+            name: Maximum time to run a zone
             secondary_info: When using weather adjustments
+            unit: ' secs'
 
 
       #-------------------------
