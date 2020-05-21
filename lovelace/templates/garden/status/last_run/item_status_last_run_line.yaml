@@ -49,6 +49,7 @@ styles:
     - padding: 0px
     - height: 1.5em
     - background: none
+    - box-shadow: none
   name:
     - justify-self: end
   label:
