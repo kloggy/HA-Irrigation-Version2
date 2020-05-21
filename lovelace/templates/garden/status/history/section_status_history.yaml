@@ -29,6 +29,7 @@ entities:
             - grid-template-rows: 1fr
           card:
             - background: none
+            - box-shadow: none
             - padding: 0em
             - font-size: 16px
             - font-family: >
