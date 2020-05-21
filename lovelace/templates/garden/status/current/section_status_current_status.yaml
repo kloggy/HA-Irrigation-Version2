@@ -17,6 +17,7 @@ entities:
         - color: var(--secondary-text-color)
         - padding: 0em
         - border-radius: 0em
+        - background: none
       state:
         - justify-self: start
         - padding-left: 0.5em 
