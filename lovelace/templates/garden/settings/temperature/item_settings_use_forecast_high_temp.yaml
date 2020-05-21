@@ -20,6 +20,7 @@ cards:
         - margin-top: 0.2em
         - font-size: 12px
         - box-shadow: none
+        - background: none
       name:
         - justify-self: right
         - align-self: center
