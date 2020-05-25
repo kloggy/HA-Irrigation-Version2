@@ -131,9 +131,12 @@ entities:
               - padding: 0em 0.5em
               - color: >
                   [[[
-                    if (states['binary_sensor.irrigation_cycle_start_clash'].state == 'on')
-                      return 'rgb(255, 165, 0)';
-                    else return 'var(--primary-background-color)';
+                    switch(states['binary_sensor.irrigation_cycle_start_clash'].state) {
+                      case 'on':
+                        return 'rgb(255, 165, 0)';
+                      case 'off':
+                        return 'transparent';
+                    }
                   ]]]
             warning:
               - color: rgb(255, 165, 0)
