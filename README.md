@@ -36,7 +36,7 @@ I wrote this package mainly because Version 1 of my irrigation package worked so
 
 Whilst I believe that Version 1 could easily cope with this by the careful use of copy and paste I decided to do a complete rewrite.
 
-One reason for this decision was that Version 1 had been one of the first things I did with HA and I always thought that there were things I could have done better. Furthermore, Lovelace appeared since then so thereis scope to do much more with the user interface.
+One reason for this decision was that Version 1 had been one of the first things I did with HA and I always thought that there were things I could have done better. Furthermore, Lovelace appeared since then so there is scope to do much more with the user interface.
 
 Also, being early 2020 many of us found ourselves with too much time on our hands due to the Corona virus so it seemed like a perfect project to pass some of the time.
 
@@ -57,7 +57,7 @@ The watering times can be automatically adjusted based on rainfall and temperatu
 
 Almost everything can be set from the UI including the friendly names of cycles and zones. Tap/click on most fields to change them in a pop-up (but remember that if you have several browser tabs open the pop-ups may appear on a different tab!). 
 
-__Note -__ Extensive use is made of `!include` to avoid code repetion. You need to replicate the folder structure in order for it to work. You can change the lovelace code if it suits you and so have your own folder structure but I can't help if you choose to do that.
+__Note -__ Extensive use is made of `!include` to avoid code repetition. You need to replicate the folder structure in order for it to work. You can change the lovelace code if it suits you and so have your own folder structure but I can't help if you choose to do that.
 
 As it stands you need a `lovelace` folder and the folder that your packages are in.
 
