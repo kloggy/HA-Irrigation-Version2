@@ -1,8 +1,6 @@
 <h2>Prerequisites</h2>
 
-Some things need to be setup in your config for this to work as planned.
-
-Most of them are due to that fact that this package makes use of some functions that I have written that are not used only by the irrigation system.
+Some things need to be setup in your config outside of this package.
 
 I have detailed them here and provided example yaml code in `prerequisites.yaml`.
 
@@ -37,90 +35,25 @@ __The Lovelace interface__ makes use of many custom integrations/cards (all inst
 - config-template-card (https://github.com/iantrich/config-template-card)
 - mini-graph-card (https://github.com/kalkih/mini-graph-card)
 - layout-card (https://github.com/thomasloven/lovelace-layout-card)
+(This might be optional, I don't need to use it anymore but if your columns don't display in the right order
+then look in `view_garden_version2.yaml`, there are some lines that need to be uncommented.)
 - state-switch (https://github.com/thomasloven/lovelace-state-switch)
 - time-picker-card (https://github.com/GeorgeSG/lovelace-time-picker-card)
 
-Don't forget to update your `resources` as per the instruction in HACS
 
+__Fonts__ You can chnage the font used via the UI. It defaults to whatever is used in your current theme but a condensed font will display better as there is a lot squeezed onto the screen.
 
-__I use the Google font family Oswald.__ I have allowed the user to change the font family name via the UI and currently it will be reflected in *some* of the UI. I am not sure how it will affect the layout if you change it but the option is there to play with if you want to.
-
-In the meantime to use Oswald add the following lines to your Lovelace `resources` section:
+I have had good success with Oswald and Dosis but you can experiment with any font you like.
+To use these fonts add the following lines to your Lovelace `resources` section:
 
 ```
 #=== FONTS
 - url: https://fonts.googleapis.com/css?family=Oswald
   type: css
+- url: https://fonts.googleapis.com/css?family=Dosis
+  type: css
 ```
 
-__I use a theme called `dark_teal`__ (available here https://github.com/aFFekopp/dark_teal and via HACS) but it should work with the default HA theme (and any other 'well behaved' theme) as well.
+__I use a theme called `dark_teal`__ (available here https://github.com/aFFekopp/dark_teal and via HACS) but it works with the default HA theme and should do with any other 'well behaved' theme as well.
 
-
-__Weather sensors:__ I use SmartWeather and DarkSky weather sensors to provide the data for duration adjustments.
-
-__Smart Weather__ is available as a custom component (https://github.com/briis/smartweather) but I simply use REST sensors to receive the data.
-
-
-For SmartWeather, look [here](https://smartweather.weatherflow.com/map) and see if there are any stations near you. I use five stations local to me and then using a series of sensors take the average. Rainfall data is notoriously hard to collect unless you have your own weather station so I have to leave it up to you to decide how to measure it for you locality. This is probably the part of the stystem  that will need the most attention to customise for you. Or of course you can simply just choose not to use it.
-
-If there are local stations for you then note the station number(s) and then create a REST sensor for each station.
-
-You'll also need to register for an `api_key`.
-
-Of course there is *no requirement* to use Smartweather for rainfall data but if you use something else you will need to change the Lovelace to fit and also the code that collects rainfall measurements.
-
-There are some pointers for setting SmartWeather up [here](https://github.com/kloggy/HA-Irrigation-Version2/blob/master/smartweather_example.md).
-
-__Dark Sky__:
-
-DarkSky will I believe become unavailable in 2021 as Apple have recently bought it.
-
-UPDATE: I have just been told that you can no longer get a *new* api code.
-
-DarkSky is used for temperature data.
-
-My sensor is called `sensor.dark_sky_current_minutely_summary`. This is due to a historic issue as I have two darksky sensors,
-one which I use for forecast and one for current information hence the different names
-(they both have a different scan_interval but apart from that I can’t remember now why I did that!!).
-
-Because of that there are *some small code changes you need to make*.
-
-__1.__  In file `lovelace/templates/garden/cycles/item_cycle_header.yaml` you will need to make a small change.
-
-   Change the line from:
-
-    label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_current_minutely_summary'].state.replace(',', ',<br>'); ]]]"
-
-   to:
-
-    label: "[[[ return 'Weather Outlook: ' + states['sensor.dark_sky_minutely_summary'].state.replace(',', ',<br>'); ]]]"
-
-__2.__  In the file `lovelace/templates/garden/settings/temperature/item_settings_temperature_graph.yaml` you need to edit _two_ lines in order to show the temperature graph. 
-
-   Change the line:
-
-    - entity: sensor.dark_sky_current_temperature
-
-   to
-
-    - entity: sensor.dark_sky_temperature
-
-   and change the line:
-
-    - entity: sensor.dark_sky_forecast_daytime_high_temperature_0d
-
-   to:
-
-    - entity: sensor.dark_sky_daytime_high_temperature_0d
-
-__3.__  In the file `package/garden_weather_temperature.yaml you need to make changes.
-
-  Find all occurances of :
-
-    `sensor.dark_sky_current` and `sensor.dark_sky_forecast`
-
-  And change them to:
-   
-    `sensor.dark_sky`
-    
-    
+__Weather sensors:__ See https://github.com/kloggy/HA-Irrigation-Version2/blob/master/Weather%20Sensors.md
