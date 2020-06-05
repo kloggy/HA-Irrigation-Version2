@@ -1,17 +1,16 @@
-# lovelace_gen
 
 title: Garden
 path: garden
-# icon: mdi:flower
-# icon: mdi:tree
 icon: mdi:sprinkler-variant
-# theme: irrigation_theme
-panel: true
+
+# ADD this line if columns not displaying correctly
+# panel: true
 cards:
 
-  - type: custom:layout-card
-    layout: horizontal
-    cards:
+  # ADD these three lines if columns not displaying correctly
+  # - type: custom:layout-card
+  #   layout: horizontal
+  #   cards:
 
       #==================
       #=== SYSTEM STATUS
@@ -19,9 +18,9 @@ cards:
       - !include templates/garden/status/page_status.yaml
 
 
-      #==============
-      #=== SCHEDULES 
-      #==============
+      #===========
+      #=== CYCLES 
+      #===========
       - type: vertical-stack
         cards:
           - type: conditional
@@ -81,4 +80,3 @@ cards:
                   !include templates/garden/settings/rainfall/section_settings_rainfall.yaml
                 temperature:
                   !include templates/garden/settings/temperature/section_settings_temperature.yaml
-
