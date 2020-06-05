@@ -2,9 +2,8 @@
 
 <h2>MOST IMPORTANT</h2>
 
-__This is NOT quite a '*pick-it-up-and-drop-it-in*' solution. There are a few idiosyncracities which require some understanding of Home Assistant in general and of Lovelace in particular.__
-
-__Be prepared to spend some time setting it up if you choose to try it out__
+__The latest version (uploaded 05/06/2020) goes some way towards removing many of the annoyances and issues that people experienced when setting this up for the first time. I now cautiously hope that this is virtually a '*pick-it-up-and-drop-it-in*' solution.
+Please note the word 'cautiously' and I still recommend some understanding of Home Assistant in general and of Lovelace in particular if you choose to try this out__
 
 
 <h2>Prerequisites</h2>
@@ -26,9 +25,13 @@ One day maybe I'll delve further into how GitHub works but for now I'm afraid th
 
 <h2>Background</h2>
 
-__IMPORTANT__ - This is now a *__beta__* of Version 2. For anyone who was using the 'Preview' it has a few cosmetic improvements (IMO) and I have completely restructured the Lovelace code. I think it might now be more efficient and also every section is in its own file so that should make it easier if you wish to change anything.
+__IMPORTANT__ - This is still(!) to be considered a *__beta__* of Version 2 but unless anyone finds anything I think I am done with it! I can't think of any improvements, at least not ones that I think I want to attempt! This version has many cosmetic improvements (IMO) as well as some functional ones:
+- Each Zone within a Cycle can be scheduled to run on selected days
+- All weather sensors are user configuarable and (I think) can be completely ignored if you don't want to use the weather adjustmenst.
 
-As far as I know, and no one who used the preview told me otherwise, it works perfectly. If you decide to use it in any way be sure to read ALL of this page.
+I have further restructured the Lovelace code so that everything is in the `templates/garden` folder. Any *files* you have that are in the `template` folder left over form an old version can be removed (unless of course you have a use for them elsewhere).
+
+If you decide to use it in any way be sure to read ALL of this page.
 
 -----
 
@@ -49,11 +52,11 @@ This in itself should make little difference as ultimately all the package does 
 
 This package has been designed with two scheduled cycles per day with each cycle having up to eight zones. The number of zones can be configured from the UI and like Version 1, if more zones are needed some of the 'globals' need to be replicated (but I have not tried this).
 
-Both scheduled cycles can be set to run at any time on any day(s) of the week.
+All zones can bescheduled to run on any days of the week.
 
 A manual cycle is also provided.
 
-The watering times can be automatically adjusted based on rainfall and temperature and whilst I think this has been improved in Version 2, as in Version 1 this is quite experimental. It is different to (better than) Version 1 in that both the rainfall and temperature adjustments can be turned on or off independently of each other and separately for each cycle.
+The watering times can be automatically adjusted based on rainfall and temperature and whilst I think this has been improved in Version 2, as in Version 1 this is quite experimental. It is different to (better than) Version 1 in that both the rainfall and temperature adjustments can be turned on or off independently of each other and separately for each cycle and the sensors used can easily be configured to be any weather source you choose.
 
 Almost everything can be set from the UI including the friendly names of cycles and zones. Tap/click on most fields to change them in a pop-up (but remember that if you have several browser tabs open the pop-ups may appear on a different tab!). 
 
@@ -69,4 +72,4 @@ __Disclaimer__ - This has __NOT__ been extensivley tested. In fact as of now it 
 Likewise if you come up with any improvements also please tell me!
 
 
-<img src="https://github.com/kloggy/HA-Irrigation-Version2/blob/master/screenshots/screenshot-v2.jpg">
+<img src="https://github.com/kloggy/HA-Irrigation-Version2/blob/master/screenshots/screenshot-v2.png">
