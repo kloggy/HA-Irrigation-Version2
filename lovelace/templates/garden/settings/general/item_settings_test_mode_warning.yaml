@@ -1,5 +1,7 @@
 
-#=== Testing mode warning
+#=========================
+#=== TESTING MODE WARNING
+#=========================
 type: horizontal-stack
 cards:
 
