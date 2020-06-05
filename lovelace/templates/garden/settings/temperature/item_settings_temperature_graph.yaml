@@ -1,14 +1,16 @@
 
 #===============================================
-#=== Forecast vs. Actual High Temperature Graph
+#=== Forecast High vs. Actual Temperature Graph
 #===============================================
 type: custom:mini-graph-card
 entities:
-  - entity: sensor.dark_sky_current_temperature
-    color: SteelBlue
-    show_legend: false
-  - entity: sensor.dark_sky_forecast_daytime_high_temperature_0d
+  #=== Forecast
+  - entity: sensor.irrigation_sensor_forecast_high_temp
     color: IndianRed
+    show_legend: false
+  #=== Actual
+  - entity: sensor.irrigation_sensor_current_temp
+    color: SteelBlue
     show_legend: false
   - entity: binary_sensor.above_horizon
     name: Night
@@ -17,14 +19,17 @@ entities:
     show_line: false
     show_points: false
     show_legend: false
+lower_bound: 0
 line_width: 2
 hours_to_show: 48
 points_per_hour: 4
 aggregate_func: min
 show:
+  fill: fade
   name: false
   state: false
-  labels: true
+  labels: false
+  points: false
   labels_secondary: false
   icon: false
 state_map:

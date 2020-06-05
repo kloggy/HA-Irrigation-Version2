@@ -10,15 +10,28 @@ entities:
     cards:
 
       #=== Temperature Settings
-      - !include
-          - ../../../titles.yaml
-          - title: TEMPERATURE SETTINGS
-            font_size: 18px
-            font_family: Oswald
-            color: var(--secondary-text-color)
-            margin_top: -1em
-            margin_bottom: -1em
-            border_left_color: var(--accent-color)
+      - type: custom:button-card  
+        show_icon: false
+        name: TEMPERATURE SETTINGS
+        tap_action:
+          action: none
+        styles: &title_style
+          card:
+            - color: var(--secondary-text-color)
+            - border-radius: 0em
+            - background: none
+            - padding-top: 0em
+            - padding-bottom: 0em
+            - padding-left: 0.5em
+            - font-family: >
+                [[[
+                  return states['input_text.irrigation_ui_font_family'].state
+                ]]]
+            - font-size: 18px
+          name:
+            - justify-self: start
+            - border-left: 3px solid var(--accent-color)
+            - padding-left: 0.5em
 
       #=== Number of days to use
       - !include
@@ -33,7 +46,6 @@ entities:
           - entity: input_number.irrigation_temperature_baseline
             name: Baseline temperature
             label: Exceeding this temperature increases the watering time
-            unit: °C
 
       #-------------------------
       - type: custom:hui-element
@@ -41,40 +53,34 @@ entities:
       #-------------------------
 
       #=== Temperature Data
-      - !include
-          - ../../../titles.yaml
-          - title: TEMPERATURE DATA
-            font_size: 18px
-            font_family: Oswald
-            color: var(--secondary-text-color)
-            margin_bottom: -1em
-            border_left_color: var(--accent-color)
+      - type: custom:button-card  
+        show_icon: false
+        name: TEMPERATURE DATA
+        tap_action:
+          action: none
+        styles: *title_style
 
       #=== Temperature Multiplier
       - !include
-          - ../item_settings_line.yaml
+          - ../item_settings_multiplier_line.yaml
           - entity: input_number.irrigation_temp_multiplier
-            name: Multiplier used in calculations
+            name: "Current Multiplier ( \U00002139 )"
             label: Calculated based on temperature and baseline
-            round: 2
-            tap_action: none
 
-      #=== Actual High Temperature
+      #=== Highest Forecast High Temperature Today
       - !include
           - ../item_settings_line.yaml
-          - entity: input_number.irrigation_actual_high_temp_0
-            name: High temperature today (Actual)
+          - entity: input_number.irrigation_temperature_highest_forecast_high_temp_today
+            name: Highest forecasted temperature today
             round: 1
-            unit: °C
             tap_action: none
 
-      #=== Forecast High Temperature
+  #=== Highest Actual Temperature Today
       - !include
           - ../item_settings_line.yaml
-          - entity: sensor.dark_sky_forecast_daytime_high_temperature_0d
-            name: High temperature today (Forecast)
+          - entity: input_number.irrigation_temperature_highest_actual_temp_today
+            name: Highest actual temperature recorded today
             round: 1
-            unit: °C
             tap_action: none
 
 
@@ -84,15 +90,13 @@ entities:
       #-------------------------
 
 
-      #=== Forecast vs. Actual High Temperature
-      - !include
-          - ../../../titles.yaml
-          - title:  HIGH TEMPERATURE - <font color=IndianRed>Forecast</font> vs. <font color=SteelBlue>Actual</font>
-            font_size: 18px
-            font_family: Oswald
-            color: var(--secondary-text-color)
-            margin_bottom: -1.5em
-            border_left_color: var(--accent-color)
+      #=== Forecast High vs. Actual Temperature
+      - type: custom:button-card  
+        show_icon: false
+        name:  HIGH TEMPERATURE - <font color=IndianRed>Forecast</font> vs. <font color=SteelBlue>Actual</font>
+        tap_action:
+          action: none
+        styles: *title_style
 
       #=== Forecast vs. Actual High Temperature Graph
       - !include item_settings_temperature_graph.yaml
@@ -108,14 +112,37 @@ entities:
 
 
       #=== Temperature History
-      - !include
-          - ../../../titles.yaml
-          - title: TEMPERATURE HISTORY
-            font_size: 18px
-            font_family: Oswald
-            color: var(--secondary-text-color)
-            margin_bottom: -1em
-            border_left_color: var(--accent-color)
+      - type: custom:button-card  
+        show_icon: false
+        name: HIGH TEMPERATURE HISTORY
+        tap_action:
+          action: none
+        styles: *title_style
+
+      - type: custom:button-card
+        show_icon: false
+        name: Zero days data selected (only using today)
+        tap_action:
+          action: none
+        styles:
+          card:
+            - color: var(--primary-text-color)
+            - border-radius: 0em
+            - background: none
+            - padding-top: 0em
+            - padding-bottom: 0em
+            - padding-left: 0.5em
+            - font-family: >
+                [[[
+                  return states['input_text.irrigation_ui_font_family'].state
+                ]]]
+            - font-size: 14px
+            - display: >
+                [[[ return states['input_number.irrigation_days_of_temp_history_used'].state > 0 ? 'none' : 'unset' ]]]
+          name:
+            - justify-self: start
+            - padding-left: 1.2em
+        
 
       #=== High Temperature Yesterday
       - !include
@@ -123,9 +150,9 @@ entities:
           - entity: input_number.irrigation_high_temp_1
             name: Yesterday
             round: 1
-            unit: °C
             tap_action: none
-            padding: 0.5em 0em 0.5em 0em
+            name_padding: 0.5em 0em 0em 0em
+            display_condition: "[[[ return states['input_number.irrigation_days_of_temp_history_used'].state < 1 ? 'none' : 'unset' ]]]"
 
       #=== High Temperature 2 Days Ago
       - !include
@@ -133,8 +160,9 @@ entities:
           - entity: input_number.irrigation_high_temp_2
             name: Two days ago
             round: 1
-            unit: °C
             tap_action: none
+            name_padding: 0.5em 0em 0em 0em
+            display_condition: "[[[ return states['input_number.irrigation_days_of_temp_history_used'].state < 2 ? 'none' : 'unset' ]]]"
 
       #=== High Temperature 3 Days Ago
       - !include
@@ -142,17 +170,19 @@ entities:
           - entity: input_number.irrigation_high_temp_3
             name: Three days ago
             round: 1
-            unit: °C
             tap_action: none
+            name_padding: 0.5em 0em 0em 0em
+            display_condition: "[[[ return states['input_number.irrigation_days_of_temp_history_used'].state < 3 ? 'none' : 'unset' ]]]"
 
       #=== High Temperature 4 Days Ago
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_high_temp_4
             name: Four days ago
-            unit: °C
             round: 1
             tap_action: none
+            name_padding: 0.5em 0em 0em 0em
+            display_condition: "[[[ return states['input_number.irrigation_days_of_temp_history_used'].state < 4 ? 'none' : 'unset' ]]]"
 
 style: >
   ha-card {
