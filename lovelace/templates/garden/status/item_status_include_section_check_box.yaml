@@ -5,7 +5,20 @@
 #=============================
 type: custom:button-card
 entity: {{ entity }}
-name: {{ name }}
+name: >
+  [[[
+    var name = '{{ name }}';
+    if (name == 'DETAILS OF LAST RUN' &&
+        (
+        states['input_boolean.irrigation_cycle1_running'].state == 'on' ||
+        states['input_boolean.irrigation_cycle2_running'].state == 'on' ||
+        states['input_boolean.irrigation_cycle3_running'].state == 'on'
+        )
+      )
+      return 'DETAILS OF THIS RUN';
+    else
+      return name;
+  ]]]
 icon: mdi:check-box-outline
 size: 50%
 styles:
@@ -15,15 +28,18 @@ styles:
     - grid-template-rows: 1fr
   card:
     - color: var(--secondary-text-color)
+    - border-radius: 0em
     - background: none
-    - height: 3.5em
-    - margin-top: -1em
-    - margin-bottom: -1em
-    - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+    - padding-top: 0em
+    - padding-bottom: 0em
+    - font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
     - font-size: 18px
+  img_cell:
+    - padding-bottom: 0.1em
   name:
-    - justify-self: right
-    - align-self: center
     - border-left: 3px solid var(--accent-color)
     - padding-left: 0.5em
 state:

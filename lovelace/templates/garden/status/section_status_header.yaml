@@ -5,8 +5,7 @@
 type: entities
 entities:
 
-  - type: custom:hui-element
-    row_type: divider
+  - type: divider
 
   - type: custom:hui-element
     card_type: horizontal-stack
@@ -70,7 +69,8 @@ entities:
             [[[
               if (states['binary_sensor.irrigation_cycle_start_clash'].state == 'on')
                 return 'call-service';
-              else return 'none';
+              else
+                return 'none';
             ]]]
           service: browser_mod.popup
           service_data:
@@ -78,15 +78,15 @@ entities:
             card:
               type: markdown
               content: |
-                <font face="Roboto">
-
                 #### WARNING! You have overlapping cycle schedules...
 
                 {{ state_attr('binary_sensor.irrigation_cycle_start_clash', 'clash_text') }}
 
                 Please check and correct.
-
-                </font>
+              style: >
+                ha-card {
+                  border-radius: 0em 0em 1em 1em
+                }
             deviceID:
               - this
             style:
@@ -96,12 +96,13 @@ entities:
                 ]]]
               font-size: 14px
               box-shadow: 0em 0em 0.5em
+              border-radius: 1em
               opacity: 0.9
 
         styles:
           grid:
             - grid-template-areas: '"l n clash_icon warning"'
-            - grid-template-columns: min-content min-content auto 1fr  
+            - grid-template-columns: min-content min-content 10% 1fr  
             - grid-template-rows: 1fr
           card:
             - font-family: >
@@ -110,8 +111,7 @@ entities:
                 ]]]
             - background: none
             - box-shadow: none
-            - padding: 5px
-            - height: 35px
+            - padding: 0.3em 0em 0em 0.5em
           name:
             - justify-self: start
             - align-self: start
@@ -120,7 +120,8 @@ entities:
                 [[[
                   if (states['input_boolean.irrigation_master_control_switch'].state == 'off')
                     return 'rgb(255, 165, 0)';
-                  else return 'var(--secondary-text-color)';
+                  else
+                    return 'var(--secondary-text-color)';
                 ]]]
           label:
             - color: var(--primary-text-color)
@@ -173,7 +174,7 @@ entities:
               else 
                 return 'none';
             ]]]
-          service: script.irrigation_stop_irrigation
+          service: script.irrigation_cancel_irrigation
           service_data:
             cycle: >
               [[[
@@ -211,16 +212,13 @@ entities:
           card:
             - background: none
             - box-shadow: none
-            - height: 35px
-            - width: >
+            - width: 1.8em
+            - display: >
                 [[[
-                  if (states['input_boolean.irrigation_cycle1_running'].state == 'on')
-                    return '35px';
-                  else if (states['input_boolean.irrigation_cycle2_running'].state == 'on')
-                    return '35px';
-                  else if (states['input_boolean.irrigation_cycle3_running'].state == 'on')
-                    return '35px';
-                  else return '0px';
+                  if (states['input_boolean.irrigation_cycle1_running'].state == 'off' &&
+                      states['input_boolean.irrigation_cycle2_running'].state == 'off' &&
+                      states['input_boolean.irrigation_cycle3_running'].state == 'of')
+                    return 'none';
                 ]]]
           icon:
             - color: >
@@ -233,9 +231,9 @@ entities:
                     return 'red';
                   else return 'var(--primary-background-color)';
                 ]]]
-            - width: 35px
+            - width: 1.8em
 
-      #=== MASTER CONTROL SWITCH (When on)
+      #=== MASTER CONTROL SWITCH (When off)
       - type: custom:button-card
         entity: input_boolean.irrigation_master_control_switch
         icon: mdi:toggle-switch-off-outline
@@ -244,31 +242,29 @@ entities:
           card:
             - box-shadow: none
             - background: none
-            - height: 35px
             - width: >
                 [[[
                   if (states['input_boolean.irrigation_master_control_switch'].state == 'off')
-                    return '55px';
-                  else return '0px';
+                    return '1.8em';
+                  else return '0em';
                 ]]]
           icon:
             - color: var(--text-color)
-            - width: 45px
+            - width: 1.8em
 
     style: >
       ha-card {
         background: none;
         margin-top: -0.75em;
-        margin-bottom: -1em;
         box-shadow: none;
       }
 
-  - type: custom:hui-element
-    row_type: divider
+  - type: divider
 
 style: >
   ha-card {
     background: none;
     margin-top: -0.5em;
-    box_shadow: none
+    margin-bottom: -0.3em;
+    box-shadow: none;
   }
