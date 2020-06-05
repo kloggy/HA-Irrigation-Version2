@@ -65,7 +65,7 @@ entities:
         - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
         - color: var(--secondary-text-color)
         - padding: 0em 0em 0em 10px
-        - margin-top: -0.3em
+        - margin-top: -0em
         - background: none
         - box-shadow: none
       name:
@@ -121,7 +121,7 @@ entities:
 
     style: |
       ha-card {
-        margin-bottom: -1em;
+        # margin-bottom: -1em;
         background: none;
         box-shadow: none;
       }
@@ -132,6 +132,8 @@ entities:
           display: none;
         {% endif %}
         {% endraw %}
+        padding-top: 0em;
+        padding-bottom: 0em;
       }
 
 style: |

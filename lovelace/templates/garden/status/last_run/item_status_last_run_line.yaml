@@ -9,12 +9,10 @@ name: >
   ]]]
 label: >
   [[[
-    if (entity.state == 'skip')
-      return 'Zone skipped';
-    else if (entity.state == 'below minimum')
-      return 'Duration below minumum';
-    else if (entity.state == 'None')
-      return "0' " + '00"';
+    if (entity.state === '')
+      return '';
+    else if (isNaN(entity.state))
+      return entity.state;
     else 
       var total_seconds = parseFloat(entity.state);
       var minutes = (total_seconds / 60).toFixed();
@@ -47,7 +45,6 @@ styles:
     - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
     - color: var(--secondary-text-color)
     - padding: 0px
-    - height: 1.5em
     - background: none
     - box-shadow: none
   name:
