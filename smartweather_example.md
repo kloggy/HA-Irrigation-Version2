@@ -19,6 +19,17 @@ questions but remember that I am only offering this file as a guide to help you.
 
 DO NOT SIMPLY COPY THIS FILE AND INCLUDE IN YOUR CONFIG WITHOUT UNDERSTANDING IT!
 
+__secrets.yaml__
+```
+smartweather_api_key: [SMARTWEATHER_API_KEY]
+smartweather_location_code_1: [CODE1]
+smartweather_location_code_2: [CODE2]
+smartweather_location_code_3: [CODE3]
+smartweather_location_code_4: [CODE4]
+smartweather_location_code_5: [CODE5]
+```
+
+
 __smartweather.yaml__
 ```
 #===================
@@ -67,33 +78,6 @@ input_text:
     initial: !secret smartweather_location_code_5
 
 
-  #=== Smartweather Location Names
-  smartweather_location_name1:
-    min: 0
-    max: 30
-    initial: !secret smartweather_location_name_1
-
-  smartweather_location_name2:
-    min: 0
-    max: 30
-    initial: !secret smartweather_location_name_2
-
-  smartweather_location_name3:
-    min: 0
-    max: 30
-    initial: !secret smartweather_location_name_3
-
-  smartweather_location_name4:
-    min: 0
-    max: 30
-    initial: !secret smartweather_location_name_4
-
-  smartweather_location_name5:
-    min: 0
-    max: 30
-    initial: !secret smartweather_location_name_5
-
-
 #============
 #=== Sensors
 #============
@@ -117,6 +101,7 @@ sensor:
     value_template: >
       {{ value_json.station_id }}
     json_attributes:
+      - station_name
       - status
       - station_units
       - obs    
@@ -130,6 +115,7 @@ sensor:
     value_template: >
       {{ value_json.station_id }}
     json_attributes:
+      - station_name
       - status
       - station_units
       - obs    
@@ -143,6 +129,7 @@ sensor:
     value_template: >
       {{ value_json.station_id }}
     json_attributes:
+      - station_name
       - status
       - station_units
       - obs    
@@ -156,6 +143,7 @@ sensor:
     value_template: >
       {{ value_json.station_id }}
     json_attributes:
+      - station_name
       - status
       - station_units
       - obs    
@@ -169,6 +157,7 @@ sensor:
     value_template: >
       {{ value_json.station_id }}
     json_attributes:
+      - station_name
       - status
       - station_units
       - obs    
@@ -416,33 +405,6 @@ sensor:
           {% endif %}
         unit_of_measurement: mm
 
-      # #=== Average Smartweather Rain
-      # smartweather_average_rain_today:
-      #   friendly_name: SmartWeather Average Rain Today
-      #   entity_id:
-      #     - sensor.smartweather_2_rain_today
-      #     - sensor.smartweather_3_rain_today
-      #     - sensor.smartweather_5_rain_today
-      #   value_template: >
-      #     {% set entities = ['sensor.smartweather_2_rain_today',
-      #                        'sensor.smartweather_3_rain_today',
-      #                        'sensor.smartweather_5_rain_today'] %}
-      #     {% set ns = namespace(count=0, value=0) %}
-      #     {% for e in entities %}
-      #       {% set s = states(e) %}
-      #       {% if s != 'unknown' and
-      #             s != 'unavailable' and
-      #             s != '' %}
-      #         {% set ns.count = ns.count + 1 %}
-      #         {% set ns.value = ns.value + s | float %}
-      #       {% endif %}
-      #     {% endfor %}
-      #     {% if ns.count == 0 %}
-      #       'unavailable'
-      #     {% else %}
-      #       {{ (ns.value / ns.count) | round(1) }}
-      #     {% endif %}
-      #   unit_of_measurement: mm
 
       #================================
       #=== SmartWeather Rain Yesterday 
@@ -511,32 +473,6 @@ sensor:
             unknown
           {% endif %}
         unit_of_measurement: mm
-
-      # #=== Average SmartWeather Rain Yesterday
-      # smartweather_average_rain_yesterday:
-      #   friendly_name: SmartWeather Average Rain Yesterday
-      #   entity_id:
-      #     - sensor.smartweather_2_rain_yesterday
-      #     - sensor.smartweather_3_rain_yesterday
-      #     - sensor.smartweather_5_rain_yesterday
-      #   value_template: >
-      #     {% set entities = ['sensor.smartweather_2_rain_yesterday',
-      #                        'sensor.smartweather_3_rain_yesterday',
-      #                        'sensor.smartweather_5_rain_yesterday'] %}
-      #     {% set ns = namespace(count=0, value=0) %}
-      #     {% for e in entities %}
-      #       {% set s = states(e) %}
-      #       {% if s != 'unknown' %}
-      #         {% set ns.count = ns.count + 1 %}
-      #         {% set ns.value = ns.value + s | float %}
-      #       {% endif %}
-      #     {% endfor %}
-      #     {% if ns.count == 0 %}
-      #       'unavailable'
-      #     {% else %}
-      #       {{ (ns.value / ns.count) | round(1) }}
-      #     {% endif %}
-      #   unit_of_measurement: mm
 
 
 #================
