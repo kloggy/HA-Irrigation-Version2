@@ -10,15 +10,28 @@ entities:
     cards:
 
       #=== General Rainfall Settings
-      - !include
-          - ../../../titles.yaml
-          - title: GENERAL RAINFALL SETTINGS
-            font_size: 18px
-            font_family: Oswald
-            color: var(--secondary-text-color)
-            margin_top: -1em
-            margin_bottom: -1em
-            border_left_color: var(--accent-color)
+      - type: custom:button-card  
+        show_icon: false
+        name: GENERAL RAINFALL SETTINGS
+        tap_action:
+          action: none
+        styles: &title_style
+          card:
+            - color: var(--secondary-text-color)
+            - border-radius: 0em
+            - background: none
+            - padding-top: 0em
+            - padding-bottom: 0em
+            - padding-left: 0.5em
+            - font-family: >
+                [[[
+                  return states['input_text.irrigation_ui_font_family'].state
+                ]]]
+            - font-size: 18px
+          name:
+            - justify-self: start
+            - border-left: 3px solid var(--accent-color)
+            - padding-left: 0.5em
 
       #=== Number of days history
       - !include
@@ -35,7 +48,6 @@ entities:
             name: Rainfall threshold
             label: If this threshold is reached no watering takes place
 
-
       #-------------------------
       - type: custom:hui-element
         row_type: divider
@@ -43,22 +55,59 @@ entities:
 
 
       #=== Percentage Of Rainfall To Include
-      - !include
-          - ../../../titles.yaml
-          - title: RAINFALL INCLUDED IN CALCULATIONS
-            font_size: 18px
-            font_family: Oswald
-            color: var(--secondary-text-color)
-            margin_top: -0.5em
-            margin_bottom: -1.5em
-            border_left_color: var(--accent-color)
+      - type: custom:hui-element
+        card_type: horizontal-stack
+        cards:
+
+          - type: custom:button-card  
+            show_icon: false
+            name: RAINFALL INCLUDED IN CALCULATIONS
+            tap_action:
+              action: none
+            styles: *title_style
+
+          - type: custom:button-card
+            icon: mdi:square-edit-outline
+            styles:
+              card:
+                - width: 4em
+                - padding-right: 0.5em
+            tap_action:
+              action: call-service
+              service: browser_mod.popup
+              service_data:
+                title: Rainfall Included in Calculations
+                card:
+                  type: entities
+                  entities:
+                    - entity: input_number.irrigation_rainfall_percentage_1
+                    - entity: input_number.irrigation_rainfall_percentage_2
+                    - entity: input_number.irrigation_rainfall_percentage_3
+                    - entity: input_number.irrigation_rainfall_percentage_4
+                  style: >
+                    ha-card {
+                      box-shadow: none;
+                      border-radius: 0em 0em 1em 1em;
+                      background: var(--paper-dialog-background-color);
+                    }
+                deviceID:
+                  - this
+                style:
+                  font-family: >
+                    [[[
+                      return states['input_text.irrigation_ui_font_family'].state
+                    ]]]
+                  box-shadow: 0em 0em 0.5em
+                  border-radius: 1em
+                  opacity: 0.9
+
 
       #=== Yesterday
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_rainfall_percentage_1
             name: Yesterday
-            unit: '%'
+            tap_action: none
             padding: 0.5em 0em 0.5em 0em
 
       #=== Two days ago
@@ -66,7 +115,7 @@ entities:
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_rainfall_percentage_2
             name: Two days ago
-            unit: '%'
+            tap_action: none
             padding: 0em 0em 0.5em 0em
 
       #=== Three days ago
@@ -74,13 +123,14 @@ entities:
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_rainfall_percentage_3
             name: Three days ago
-            unit: '%'
+            tap_action: none
             padding: 0em 0em 0.5em 0em
 
       #=== Four days ago
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_rainfall_percentage_4
+            tap_action: none
             name: Four days ago
 
 
@@ -91,72 +141,68 @@ entities:
 
 
       #=== Rainfall Data
-      - !include
-          - ../../../titles.yaml
-          - title: RAINFALL DATA
-            font_size: 18px
-            font_family: Oswald
-            color: var(--secondary-text-color)
-            margin_top: -0.5em
-            margin_bottom: -1em
-            border_left_color: var(--accent-color)
+      - type: custom:button-card  
+        show_icon: false
+        name: RAINFALL DATA
+        tap_action:
+          action: none
+        styles: *title_style
 
       #=== Multiplier used in calculations
       - !include
-          - ../item_settings_line.yaml
+          - ../item_settings_multiplier_line.yaml
           - entity: input_number.irrigation_rainfall_multiplier
-            name: Multiplier used in calculations
+            name: "Current Multiplier ( \U00002139 )"
             secondary_info: Calculated based on rainfall and threshold
-            round: 2
-            padding: 0.5em 0em 0.5em 0em
-            tap_action: none
 
-      #=== Rainfall today (The average of all Smartweather sensors)
+      #=== Rainfall today
       - !include
           - ../item_settings_line.yaml
-          - entity: sensor.smartweather_average_rain_today
+          - entity: sensor.irrigation_sensor_rainfall_today
             name: Rainfall today
-            secondary_info: The average of all Smartweather sensors
             icon: mdi:weather-rainy
-            unit: mm
             round: 1
             tap_action: none
 
       #=== Rainfall yesterday
       - !include
           - ../item_settings_line.yaml
-          - entity: input_number.irrigation_rainfall_1
+          - entity: sensor.irrigation_sensor_rainfall_yesterday
             name: Rainfall Yesterday
-            unit: mm
+            icon: mdi:weather-rainy
             round: 1
             tap_action: none
+            display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 1 ? 'none' : 'unset' ]]]"
 
       #=== Rainfall two days ago
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_rainfall_2
             name: Two days ago
-            unit: mm
             round: 1
+            name_padding: 0.5em 0em 0em 0em
             tap_action: none
+            display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 2 ? 'none' : 'unset' ]]]"
 
       #=== Rainfall three days ago
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_rainfall_3
             name: Three days ago
-            unit: mm
             round: 1
+            name_padding: 0.5em 0em 0em 0em
             tap_action: none
+            display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 3 ? 'none' : 'unset' ]]]"
 
       #=== Rainfall four days ago
       - !include
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_rainfall_4
             name: Four days ago
-            unit: mm
             round: 1
+            name_padding: 0.5em 0em 0em 0em
             tap_action: none
+            display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 4 ? 'none' : 'unset' ]]]"
 
       #=== SmartWeather Stations Used
       - !include item_settings_smartweather_stations_used.yaml

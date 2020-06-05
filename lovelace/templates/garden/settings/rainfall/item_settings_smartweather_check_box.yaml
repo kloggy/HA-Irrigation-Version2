@@ -5,21 +5,43 @@
 #===================================
 type: custom:button-card
 entity: {{ entity }}
-name: {{ name }}
+name: >
+  [[[
+    var entity = '{{ entity }}';
+    var code = entity.slice(-1);
+    return states['sensor.smartweather_' + code].state;
+  ]]]
+show_label: true
+# label: "Label"
+label: >
+  [[[
+    var entity = '{{ entity }}';
+    var code = entity.slice(-1);
+    return states['sensor.smartweather_' + code].attributes.station_name;
+  ]]]
 icon: mdi:check-box-outline
-size: 100%
+size: 50%
 styles:
   grid:
-    - grid-template-areas: '"n i"'
-    - grid-template-columns: '1fr 25%'
+    - grid-template-areas: '"n i" "l l"'
+    - grid-template-columns: 'min-content 1fr'
+  img_cell:
+    - justify-content: start
   card:
     - height: 3.5em
-    - margin-top: -0.1em
+    - margin-top: -0.5em
     - font-size: 14px
     - box-shadow: none
     - background: none
+    - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
   name:
-    - justify-self: right
+    - height: 1em
+    - justify-self: left
+    - padding: 0em 0.5em 0em 0em
+  label:
+    - justify-self: left
+    - font-size: 10px
+    - padding: 0em 0em 0em 0em
 state:
   - value: 'off'
     icon: mdi:checkbox-blank-outline
