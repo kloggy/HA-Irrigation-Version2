@@ -77,26 +77,26 @@ automation:
             False
           {% endif %}
 
-      #=== Check this cycle runs today. NOTE: cycle 3 doesn't have scheduled days
-      - condition: template
-        value_template: >
-          {% set start_time_cycle1 = states('sensor.irrigation_cycle1_start_time_in_seconds') | int %}
-          {% set start_time_cycle1 = start_time_cycle1 | timestamp_custom('%H:%M', false) %}
-          {% if states('sensor.time') == start_time_cycle1 %}
-            {% set cycle = 'cycle1' %} 
-          {% else %}
-            {% set cycle = 'cycle2' %}
-          {% endif %}
+      # #=== Check this cycle runs today. NOTE: cycle 3 doesn't have scheduled days
+      # - condition: template
+      #   value_template: >
+      #     {% set start_time_cycle1 = states('sensor.irrigation_cycle1_start_time_in_seconds') | int %}
+      #     {% set start_time_cycle1 = start_time_cycle1 | timestamp_custom('%H:%M', false) %}
+      #     {% if states('sensor.time') == start_time_cycle1 %}
+      #       {% set cycle = 'cycle1' %} 
+      #     {% else %}
+      #       {% set cycle = 'cycle2' %}
+      #     {% endif %}
 
-          {% set today = now().strftime('%a') | lower %}
+      #     {% set today = now().strftime('%a') | lower %}
 
-          {% if 'cycle3' in trigger.entity_id %}
-            True
-          {% elif states('input_boolean.irrigation_' ~ cycle ~ '_' ~ today ) == 'on' %}
-            True
-          {% else %}
-            False
-          {% endif %}
+      #     {% if 'cycle3' in trigger.entity_id %}
+      #       True
+      #     {% elif states('input_boolean.irrigation_' ~ cycle ~ '_' ~ today ) == 'on' %}
+      #       True
+      #     {% else %}
+      #       False
+      #     {% endif %}
 
     #===============================================
     #=== ACTIONS
@@ -123,15 +123,16 @@ automation:
       #===================================================
       #=== SET DETAILS OF LAST RUN FOR THE STATUS SECTION
       #===================================================
-      #=== Set previous run times for all zones to 'None'
+      #=== Set previous run times for all zones to ' '
       - service: input_text.set_value
         data_template:
           entity_id: >
-            {% for input_text in states.input_text if '_previous_duration_in_seconds' in input_text.entity_id -%}
+            {% for input_text in states.input_text if input_text.object_id.startswith('irrigation_zone') and
+                                                      input_text.object_id.endswith('_previous_duration_in_seconds')  -%}
               {{ input_text.entity_id }}
               {%- if not loop.last %}, {% endif %}
             {%- endfor %}
-          value: None
+          value: ''
       
       #=== Set previous total watering time to 'none'
       - service: input_text.set_value

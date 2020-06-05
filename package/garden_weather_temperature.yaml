@@ -3,16 +3,188 @@
 #=== Automations
 #================
 automation:
+
+  #======================================================
+  #=== Set Default Temperature Sensors where appropriate
+  #======================================================
+  #=== Forecast High Temperature Sensor
+  - alias: Irrigation Set Default Forecast High Temperature Sensor
+    trigger:
+      - platform: homeassistant
+        event: start
+
+      - platform: state
+        entity_id: input_text.irrigation_external_sensor_forecast_high_temp
+        to: ''
+
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_forecast_high_temp
+          state: 'unknown'
+
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_forecast_high_temp
+          state: ''
+
+    action:
+      - service: input_text.set_value
+        data_template:
+          entity_id: input_text.irrigation_external_sensor_forecast_high_temp
+          value:  sensor.dark_sky_daytime_high_temperature_0d
+
+  #=== Current Temperature Sensor
+  - alias: Irrigation Set Default Current Temperature Sensor Sensor
+    trigger:
+      - platform: homeassistant
+        event: start
+
+      - platform: state
+        entity_id: input_text.irrigation_external_sensor_current_temp
+        to: ''
+
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_current_temp
+          state: 'unknown'
+
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_current_temp
+          state: ''
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_external_sensor_current_temp
+          value: sensor.dark_sky_current_temperature
+
+
+  #======================================================
+  #=== Initialise the Temperature Sensors when HA starts
+  #======================================================
+  - alias: Irrigation Initialise Temperature Sensors
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    action:
+      - service: homeassistant.update_entity
+        data:
+          entity_id: 
+            - sensor.irrigation_sensor_forecast_high_temp
+            - sensor.irrigation_sensor_current_temp
+
+
+  #===========================================================================
+  #=== Synchronise the sensor for Forecast High Temp with the external sensor
+  #===========================================================================
+  - alias: Irrigation Synchronise Sensor Forecast High Temp
+    trigger:
+      - platform: event
+        event_type: state_changed
+
+    condition:
+      - condition: template
+        value_template: >
+          {{ 
+            trigger.event.data.entity_id in [
+              'input_text.irrigation_external_sensor_forecast_high_temp',
+              states('input_text.irrigation_external_sensor_forecast_high_temp')
+            ]
+          }}
+
+    action:
+      - service: homeassistant.update_entity
+        entity_id: sensor.irrigation_sensor_forecast_high_temp
+
+
+  #================================================================
+  #=== Synchronise the sensor for Current Temp the external sensor
+  #=================================================================
+  - alias: Irrigation Synchronise Sensor Current Temp
+    trigger:
+      - platform: event
+        event_type: state_changed
+
+    condition:
+      - condition: template
+        value_template: >
+          {{ 
+            trigger.event.data.entity_id in [
+              'input_text.irrigation_external_sensor_current_temp',
+              states('input_text.irrigation_external_sensor_current_temp')
+            ]
+          }}
+
+    action:
+      - service: homeassistant.update_entity
+        entity_id: sensor.irrigation_sensor_current_temp
+
+
+  #================================================================
+  #=== Update Highest Actual Temp Today if temperature has gone up
+  #================================================================
+  - alias: Irrigation Temperature Update Highest Actual Temp Today
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.irrigation_sensor_current_temp
+
+    condition:
+      - condition: template
+        value_template: >
+          {{
+            states('sensor.irrigation_sensor_current_temp') | float >
+            states('input_number.irrigation_temperature_highest_actual_temp_today') | float
+          }}
+
+    action:
+      - service: input_number.set_value
+        data_template:
+          entity_id: input_number.irrigation_temperature_highest_actual_temp_today
+          value: >
+            {{ states('sensor.irrigation_sensor_current_temp') | float }}
+
+
+  #=====================================================================
+  #=== Update Highest Forecast High Temperature Today if it has gone up
+  #=====================================================================
+  - alias: Irrigation Temperature Update Highest Forecast High Temp Today
+    trigger:
+      - platform: state
+        entity_id:
+          - sensor.irrigation_sensor_forecast_high_temp
+
+    condition:
+      - condition: template
+        value_template: >
+          {{
+            states('sensor.irrigation_sensor_forecast_high_temp') | float >
+            states('input_number.irrigation_temperature_highest_forecast_high_temp_today') | float
+          }}
+
+    action:
+      - service: input_number.set_value
+        data_template:
+          entity_id: input_number.irrigation_temperature_highest_forecast_high_temp_today
+          value: >
+            {{ states('sensor.irrigation_sensor_forecast_high_temp') | float }}
+
+
   #===================================================================
   #=== Cycle high temperature figures for the four days before today.
   #=== Today's figure is collected dynamically
   #=== AND
   #=== Reset Actual High Temp Today for a new day
+  #=== (Done at 00:30 to give sensors time to update)
   #===================================================================
   - alias: Irrigation Temperature Nightly Update
     trigger: 
       - platform: time
-        at: "00:01:00"
+        at: "00:00:01"
 
     action:
       #=== Cycle high temperature figures for the four days before today.
@@ -38,39 +210,67 @@ automation:
         entity_id: input_number.irrigation_high_temp_1
         data_template:
           value: >
-            {{ states('input_number.irrigation_actual_high_temp_0') }}
+            {{ states('input_number.irrigation_temperature_highest_actual_temp_today') }}
 
       #=== Reset Actual High Temp Today for a new day
       - service: input_number.set_value
         data_template:
-          entity_id: input_number.irrigation_actual_high_temp_0
+          entity_id: input_number.irrigation_temperature_highest_actual_temp_today
           value:  >
-            {{ states('sensor.dark_sky_current_temperature') | float }}
+            {{ states('sensor.irrigation_sensor_current_temp') | float }}
 
 
-  #=============================================================
-  #=== Update Actual High Temp Today if temperature has gone up
-  #=============================================================
-  - alias: Irrigation Temperature Update Actual High Temp Today
-    trigger:
-      - platform: state
-        entity_id: sensor.dark_sky_current_temperature
-
-    condition:
-      - condition: template
-        value_template: >
-          {{ states('sensor.dark_sky_current_temperature') | float > states('input_number.irrigation_actual_high_temp_0') | float }}
+  #=================================================================
+  #=== Cycle temperature history figures for the four previous days
+  #=== and reset todays actual high temp
+  #=================================================================
+  - alias: Irrigation Temperature Nightly Update
+    trigger: 
+      - platform: time
+        at: "00:00:01"
 
     action:
       - service: input_number.set_value
+        entity_id: input_number.irrigation_high_temp_4
         data_template:
-          entity_id: input_number.irrigation_actual_high_temp_0
           value: >
-            {{ states('sensor.dark_sky_current_temperature') }}
+            {{ states('input_number.irrigation_high_temp_3') }}
+
+      - service: input_number.set_value
+        entity_id: input_number.irrigation_high_temp_3
+        data_template:
+          value: >
+            {{ states('input_number.irrigation_high_temp_2') }}
+
+      - service: input_number.set_value
+        entity_id: input_number.irrigation_high_temp_2
+        data_template:
+          value: >
+            {{ states('input_number.irrigation_high_temp_1') }}
+
+      - service: input_number.set_value
+        entity_id: input_number.irrigation_high_temp_1
+        data_template:
+          value: >
+            {{ states('input_number.irrigation_temperature_highest_actual_temp_today') }}
+
+      #=== Reset Todays Highest Actual Temp
+      - service: input_number.set_value
+        entity_id: input_number.irrigation_temperature_highest_actual_temp_today
+        data_template:
+          value: >
+            {{ states('sensor.irrigation_sensor_current_temp') }}
+
+      #=== Reset Todays Forecast High Temperature
+      - service: input_number.set_value
+        entity_id: input_number.irrigation_temperature_highest_forecast_high_temp_today
+        data_template:
+          value: >
+            {{ states('sensor.irrigation_sensor_forecast_high_temp') }}
 
 
   #============================================================================
-  #=== Calculate Temperature multiplier
+  #=== Calculate Temperature Multiplier
   #===
   #=== This multiplier will increase or decrease watering time proportionally
   #=== based on the difference between the temperature threshold and the 
@@ -87,31 +287,29 @@ automation:
     trigger:
       - platform: state
         entity_id:
-          - input_boolean.irrigation_use_forecast_high_temp
           - input_number.irrigation_days_of_temp_history_used
           - input_number.irrigation_temperature_baseline
-          - sensor.dark_sky_forecast_daytime_high_temperature_0d
-          - input_number.irrigation_actual_high_temp_0
+          - input_number.irrigation_temperature_highest_actual_temp_today
+          - input_number.irrigation_temperature_highest_forecast_high_temp_today
           - input_number.irrigation_high_temp_1
           - input_number.irrigation_high_temp_2
           - input_number.irrigation_high_temp_3
           - input_number.irrigation_high_temp_4
-
-      - platform: state
-        entity_id:
-          - input_boolean.irrigation_cycle1_adjust_for_temperature
-          - input_boolean.irrigation_cycle2_adjust_for_temperature
-        to: 'on'
+          - input_select.irrigation_high_temp_options
 
     action:
       - service: input_number.set_value
         data_template:
           entity_id: input_number.irrigation_temp_multiplier
           value: >
-            {% if is_state('input_boolean.irrigation_use_forecast_high_temp', 'on') %}
-              {% set temp_0 = states('sensor.dark_sky_forecast_daytime_high_temperature_0d') | float %}
+            {% if is_state('input_select.irrigation_high_temp_options', 'Use Forecast') %}
+              {% set temp_0 = states('input_number.irrigation_temperature_highest_forecast_high_temp_today') | float %}
+            {% elif is_state('input_select.irrigation_high_temp_options', 'Use Actual') %}
+              {% set temp_0 = states('input_number.irrigation_temperature_highest_actual_temp_today') | float %}
             {% else %}
-              {% set temp_0 = states('input_number.irrigation_actual_high_temp_0') | float %}
+              {% set temps = [states('input_number.irrigation_temperature_highest_forecast_high_temp_today') | float,
+                              states('input_number.irrigation_temperature_highest_actual_temp_today') | float ] %}
+              {% set temp_0 = temps | max %}                
             {% endif %}
             {% set temp_1 = states('input_number.irrigation_high_temp_1') | float %}
             {% set temp_2 = states('input_number.irrigation_high_temp_2') | float %}

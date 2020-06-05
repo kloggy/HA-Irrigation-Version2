@@ -81,15 +81,15 @@ script:
       - service: script.notify
         data_template:
           tell: >
-            {% set user1 = states('input_text.notifications_user1_name') %}
-            {% set user2 = states('input_text.notifications_user2_name') %}
+            {% set user1 = states('input_text.notifications_user1_name') | lower %}
+            {% set user2 = states('input_text.notifications_user2_name') | lower %}
             {% if is_state('input_boolean.irrigation_notify_user1', 'on') and
                   is_state('input_boolean.irrigation_notify_user2', 'on') %}
-              {{ (user1 | lower) ~ '_and_' ~ (user2 | lower) }}
+              {{ user1 ~ '_and_' ~ user2 }}
             {% elif is_state('input_boolean.irrigation_notify_user1', 'on') %}
-              {{ (user1 | lower ) }}
+              {{ user1 }}
             {% else %}
-              {{ (user2 | lower) }}
+              {{ user2 }}
             {% endif %}
           message: >
             {% set cycle_name = states('input_text.irrigation_' ~ cycle ~ '_name') %}

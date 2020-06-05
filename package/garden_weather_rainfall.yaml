@@ -4,14 +4,133 @@
 #================
 automation:
 
-  #===========================================================
-  #=== Cycle rainfall figures for the four days before today.
-  #=== Today's figure is collected at the time of calculation
-  #===========================================================
-  - alias: Irrigation Rainfall Cycle Data
+  #===================================================
+  #=== Set Default Rainfall Sensors where appropriate
+  #===================================================
+  #=== Rainfall Today Sensor
+  - alias: Irrigation Set Default Rainfall Today Sensor
+    trigger:
+      - platform: homeassistant
+        event: start
+
+      - platform: state
+        entity_id: input_text.irrigation_external_sensor_rainfall_today
+        to: ''
+
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_rainfall_today
+          state: 'unknown'
+
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_rainfall_today
+          state: ''
+
+    action:
+      - service: input_text.set_value
+        data_template:
+          entity_id: input_text.irrigation_external_sensor_rainfall_today
+          value: sensor.smartweather_average_rain_today
+
+  #=== Rainfall Yesterday Sensor
+  - alias: Irrigation Set Default Rainfall Yesterday Sensor
+    trigger:
+      - platform: homeassistant
+        event: start
+
+      - platform: state
+        entity_id: input_text.irrigation_external_sensor_rainfall_yesterday
+        to: ''
+
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_rainfall_yesterday
+          state: 'unknown'
+
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_rainfall_yesterday
+          state: ''
+
+    action:
+      - service: input_text.set_value
+        data_template:
+          entity_id: input_text.irrigation_external_sensor_rainfall_yesterday
+          value: sensor.smartweather_average_rain_yesterday
+
+
+  #===================================================
+  #=== Initialise the Rainfall Sensors when HA starts
+  #===================================================
+  - alias: Irrigation Initialise Rainfall Sensors
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    action:
+      - service: homeassistant.update_entity
+        data:
+          entity_id: 
+            - sensor.irrigation_sensor_rainfall_today
+            - sensor.irrigation_sensor_rainfall_yesterday
+
+
+  #=======================================================================
+  #=== Synchronise the sensor for Rainfall Today with the external sensor
+  #=======================================================================
+  - alias: Irrigation Synchronise Sensor Rainfall Today
+    trigger:
+      - platform: event
+        event_type: state_changed
+
+    condition:
+      - condition: template
+        value_template: >
+          {{ 
+            trigger.event.data.entity_id in [
+              'input_text.irrigation_external_sensor_rainfall_today',
+              states('input_text.irrigation_external_sensor_rainfall_today')
+            ]
+          }}
+
+    action:
+      - service: homeassistant.update_entity
+        entity_id: sensor.irrigation_sensor_rainfall_today
+
+
+  #===========================================================================
+  #=== Synchronise the sensor for Rainfall Yesterday with the external sensor
+  #===========================================================================
+  - alias: Irrigation Synchronise Sensor Rainfall Yesterday
+    trigger:
+      - platform: event
+        event_type: state_changed
+
+    condition:
+      - condition: template
+        value_template: >
+          {{ 
+            trigger.event.data.entity_id in [
+              'input_text.irrigation_external_sensor_rainfall_yesterday',
+              states('input_text.irrigation_external_sensor_rainfall_yesterday')
+            ]
+          }}
+
+    action:
+      - service: homeassistant.update_entity
+        entity_id: sensor.irrigation_sensor_rainfall_yesterday
+
+
+  #===============================================================
+  #=== Cycle rainfall history figures for the four previous days.
+  #===============================================================
+  - alias: Irrigation Rainfall Nightly Update
     trigger: 
       - platform: time
-        at: "00:10:00"
+        at: "00:00:01"
 
     action:
       - service: input_number.set_value
@@ -32,12 +151,6 @@ automation:
           value: >
             {{ states('input_number.irrigation_rainfall_1') }}
 
-      - service: input_number.set_value
-        entity_id: input_number.irrigation_rainfall_1
-        data_template:
-          value: >
-            {{ states('sensor.smartweather_average_rain_yesterday') | int }}
-
 
   #==============================================================================
   #=== Calculate rain multiplier
@@ -53,28 +166,23 @@ automation:
   - alias: Irrigation Rainfall Calculate Multiplier
     trigger:
       - platform: state
-        entity_id: 
+        entity_id:
           - input_number.irrigation_days_of_rainfall_history_used
-          - sensor.smartweather_average_rain_today
           - input_number.irrigation_rainfall_threshold
           - input_number.irrigation_rainfall_percentage_1
           - input_number.irrigation_rainfall_percentage_2
           - input_number.irrigation_rainfall_percentage_3
           - input_number.irrigation_rainfall_percentage_4
-
-      - platform: state
-        entity_id:
-          - input_boolean.irrigation_cycle1_adjust_for_rainfall
-          - input_boolean.irrigation_cycle2_adjust_for_rainfall
-        to: 'on'
+          - sensor.irrigation_sensor_rainfall_today
+          - sensor.irrigation_sensor_rainfall_yesterday
 
     action:
       - service: input_number.set_value
         data_template:
           entity_id: input_number.irrigation_rainfall_multiplier
           value: >
-            {% set rain_0 = states('sensor.smartweather_average_rain_today') | float %}
-            {% set rain_1 = states('input_number.irrigation_rainfall_1')  | float%}
+            {% set rain_0 = states('sensor.irrigation_sensor_rainfall_today') | float %}
+            {% set rain_1 = states('sensor.irrigation_sensor_rainfall_yesterday') | float %}
             {% set rain_2 = states('input_number.irrigation_rainfall_2')  | float%}
             {% set rain_3 = states('input_number.irrigation_rainfall_3')  | float%}
             {% set rain_4 = states('input_number.irrigation_rainfall_4')  | float%}

@@ -1,13 +1,4 @@
 
-#===========
-#=== Notify
-#===========
-notify:
-  - platform: file
-    name: irrigation_test
-    filename: my-log-irrigation_test.log
-
-
 #===================
 #=== Input Booleans
 #===================
@@ -51,6 +42,7 @@ input_text:
     name: Irrigation UI font family
     min: 0
     max: 30
+    icon: mdi:format-font
 
 
 #==================
@@ -64,7 +56,7 @@ input_number:
     max: 60
     step: 1
     mode: box
-    unit_of_measurement: sec
+    unit_of_measurement: secs
     icon: mdi:timer-sand-empty
 
   irrigation_weather_adjusted_maximum_duration_in_minutes: 
@@ -73,7 +65,7 @@ input_number:
     max: 120
     step: 1
     mode: box
-    unit_of_measurement: min
+    unit_of_measurement: mins
     icon: mdi:timer-sand-full
 
   irrigation_failsafe_time_in_seconds:

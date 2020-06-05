@@ -224,136 +224,8 @@ automation:
 
 
   #==========================
-  #=== DAY SELECTION BUTTONS
-  #==========================
-  #=============================================
-  #=== 'Every Day' selected so turn All Days on
-  #=============================================
-  - alias: Irrigation UI Cycle1 Selection Control Every Day
-    trigger: 
-      - platform: state
-        entity_id: 
-          - input_boolean.irrigation_cycle1_every_day
-          - input_boolean.irrigation_cycle2_every_day
-        to: 'on'
-
-    action:
-      - service: input_boolean.turn_on
-        data_template:
-          entity_id: >
-            {% set cycle = 'cycle1' if 'cycle1' in trigger.entity_id else 'cycle2' %}            
-            input_boolean.irrigation_{{ cycle }}_mon,
-            input_boolean.irrigation_{{ cycle }}_tue,
-            input_boolean.irrigation_{{ cycle }}_wed,
-            input_boolean.irrigation_{{ cycle }}_thu,
-            input_boolean.irrigation_{{ cycle }}_fri,
-            input_boolean.irrigation_{{ cycle }}_sat,
-            input_boolean.irrigation_{{ cycle }}_sun
-
-
-  #=============================
-  #=== Day button selected
-  #=== If all days are selected
-  #=== Turn on 'Every Day'
-  #=== Else off 'Every Day'
-  #=============================
-  - alias: Irrigation UI Cycle Day Button
-    trigger: 
-      - platform: state
-        entity_id:
-          - input_boolean.irrigation_cycle1_mon
-          - input_boolean.irrigation_cycle1_tue
-          - input_boolean.irrigation_cycle1_wed
-          - input_boolean.irrigation_cycle1_thu
-          - input_boolean.irrigation_cycle1_fri
-          - input_boolean.irrigation_cycle1_sat
-          - input_boolean.irrigation_cycle1_sun
-
-          - input_boolean.irrigation_cycle2_mon
-          - input_boolean.irrigation_cycle2_tue
-          - input_boolean.irrigation_cycle2_wed
-          - input_boolean.irrigation_cycle2_thu
-          - input_boolean.irrigation_cycle2_fri
-          - input_boolean.irrigation_cycle2_sat
-          - input_boolean.irrigation_cycle2_sun
-
-    action:
-      - service_template: >
-          {% if trigger.to_state.state == 'on' %}
-            {% set cycle = 'cycle1' if 'cycle1' in trigger.entity_id else 'cycle2' %}            
-            {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_mon', 'on') and
-                  is_state('input_boolean.irrigation_' ~ cycle ~ '_tue', 'on') and
-                  is_state('input_boolean.irrigation_' ~ cycle ~ '_wed', 'on') and
-                  is_state('input_boolean.irrigation_' ~ cycle ~ '_thu', 'on') and
-                  is_state('input_boolean.irrigation_' ~ cycle ~ '_fri', 'on') and
-                  is_state('input_boolean.irrigation_' ~ cycle ~ '_sat', 'on') and
-                  is_state('input_boolean.irrigation_' ~ cycle ~ '_sun', 'on') %}
-              input_boolean.turn_on
-            {% else %}
-              input_boolean.turn_off
-            {% endif %}
-          {% else %}
-              input_boolean.turn_off
-          {% endif %}
-        data_template:
-          entity_id: >
-            {% set cycle = 'cycle1' if 'cycle1' in trigger.entity_id else 'cycle2' %}            
-            input_boolean.irrigation_{{ cycle }}_every_day
-
-  #=== END OF DAY SELECTION BUTTONS
-
-
-  #==========================
   #=== ZONE DURATION CHANGES
   #==========================
-  #======================================================
-  #=== If a duration is set to zero turn on Skip
-  #=== If a duration changes to above zero turn off Skip
-  #======================================================
-  - alias: Irrigation UI Zone Duration To Or From Zero
-    trigger:
-      - platform: state
-        entity_id:
-          - input_number.irrigation_cycle1_zone1_duration
-          - input_number.irrigation_cycle1_zone2_duration
-          - input_number.irrigation_cycle1_zone3_duration
-          - input_number.irrigation_cycle1_zone4_duration
-          - input_number.irrigation_cycle1_zone5_duration
-          - input_number.irrigation_cycle1_zone6_duration
-          - input_number.irrigation_cycle1_zone7_duration
-          - input_number.irrigation_cycle1_zone8_duration
-
-          - input_number.irrigation_cycle2_zone1_duration
-          - input_number.irrigation_cycle2_zone2_duration
-          - input_number.irrigation_cycle2_zone3_duration
-          - input_number.irrigation_cycle2_zone4_duration
-          - input_number.irrigation_cycle2_zone5_duration
-          - input_number.irrigation_cycle2_zone6_duration
-          - input_number.irrigation_cycle2_zone7_duration
-          - input_number.irrigation_cycle2_zone8_duration
-
-    action:
-      - service_template: >
-          {% if trigger.to_state.state == '0.0' %}
-            input_boolean.turn_on
-          {% else %}
-            input_boolean.turn_off
-          {% endif %}
-        data_template:
-          entity_id: >
-            {% set cycle = 'cycle1' if 'cycle1' in trigger.entity_id else 'cycle2' %}            
-            {% set zone = 'zone1' if 'zone1' in trigger.entity_id else zone %}
-            {% set zone = 'zone2' if 'zone2' in trigger.entity_id else zone %}
-            {% set zone = 'zone3' if 'zone3' in trigger.entity_id else zone %}
-            {% set zone = 'zone4' if 'zone4' in trigger.entity_id else zone %}
-            {% set zone = 'zone5' if 'zone5' in trigger.entity_id else zone %}
-            {% set zone = 'zone6' if 'zone6' in trigger.entity_id else zone %}
-            {% set zone = 'zone7' if 'zone7' in trigger.entity_id else zone %}
-            {% set zone = 'zone8' if 'zone8' in trigger.entity_id else zone %}
-            
-            input_boolean.irrigation_{{ cycle }}_{{ zone }}_skip
-
-
   #==================================================
   #=== Zone Duration updated
   #=== Keep input_number slider and box synchronised
@@ -414,6 +286,7 @@ automation:
           - input_number.irrigation_cycle3_zone8_duration_box
 
     action:
+      #=== Keep input_number slider and box synchronised
       - service: input_number.set_value
         data_template:
           entity_id: >

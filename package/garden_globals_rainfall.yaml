@@ -1,9 +1,70 @@
 
+#============
+#=== Sensors
+#============
+sensor:
+  - platform: template
+
+    #=========================================================
+    #=== Internal sensors that are based on the external ones
+    #=== that have been user defined in the input texts.
+    #===
+    #=== These sensors are synchronised manually in an
+    #=== automation when the external ones change
+    #=========================================================
+    sensors:
+      irrigation_sensor_rainfall_today:
+        value_template: >
+          {{ states(states('input_text.irrigation_external_sensor_rainfall_today')) }}
+        icon_template: mdi-weather-rainy
+        unit_of_measurement: mm
+
+
+      irrigation_sensor_rainfall_yesterday:
+        value_template: >
+          {{ states(states('input_text.irrigation_external_sensor_rainfall_yesterday')) }}
+        icon_template: mdi-weather-rainy
+        unit_of_measurement: mm
+
+
+#===================
+#=== Input Booleans
+#===================
+input_boolean:
+  irrigation_show_smartweather_stations:
+    name: Show SmartWeather Stations
+    icon: mdi:weather-rainy
+
+
+#================
+#=== Input Texts
+#================
+input_text:
+
+  #==============================
+  #=== User defined sensor names
+  #==============================
+
+  #=== Sensor for rainfall today
+  irrigation_external_sensor_rainfall_today:
+    name: Rainfall Today Sensor
+    icon: mdi:weather-pouring
+    min: 0
+    max: 100
+
+  #=== Sensor for rainfall yesterday
+  irrigation_external_sensor_rainfall_yesterday:
+    name: Rainfall Yesterday Sensor
+    icon: mdi:weather-pouring
+    min: 0
+    max: 100
+
+
 #==================
 #=== Input_Numbers
 #==================
 input_number:
-  
+
   #=== Rainfall Multiplier
   irrigation_rainfall_multiplier:
     name: Multiplier for rainfall
@@ -32,12 +93,7 @@ input_number:
 
 
   #=== Rainfall History
-  irrigation_rainfall_1:
-    name: Yesterday
-    min: 0
-    max: 100
-    icon: mdi:weather-rainy
-    unit_of_measurement: 'mm'
+  #=== Today and yesterday are sensors
 
   irrigation_rainfall_2:
     name: Two days ago
@@ -97,3 +153,5 @@ input_number:
     mode: box
     icon: mdi:weather-rainy
     unit_of_measurement: '%'
+
+

@@ -15,16 +15,26 @@ automation:
       - platform: homeassistant
         event: start
 
-    condition:
-      - condition: state
+      - platform: state
         entity_id: input_text.irrigation_ui_font_family
-        state: 'unknown'
+        to: ''
+
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_text.irrigation_ui_font_family
+          state: 'unknown'
+
+        - condition: state
+          entity_id: input_text.irrigation_ui_font_family
+          state: ''
 
     action:
       - service: input_text.set_value
         data:
           entity_id: input_text.irrigation_ui_font_family
-          value: Oswald
+          value: var(--primary-font-family)
 
 
   #================
