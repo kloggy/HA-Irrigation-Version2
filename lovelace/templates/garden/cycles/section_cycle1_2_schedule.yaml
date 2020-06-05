@@ -6,13 +6,13 @@
 type: entities
 entities:
 
-  #===================
-  #=== CYCLE 1 HEADER
-  #===================
   - type: custom:hui-element
     card_type: vertical-stack
     cards:
 
+      #=================
+      #=== CYCLE HEADER
+      #=================
       - !include
         - item_cycle_header.yaml
         - cycle: {{ cycle }}
@@ -20,9 +20,9 @@ entities:
       - type: custom:hui-element
         row_type: divider
 
-      #==========================
-      #=== CYCLE 1 SCHEDULE CARD
-      #==========================
+      #========================
+      #=== CYCLE SCHEDULE CARD
+      #========================
       - type: horizontal-stack
         cards:
 
@@ -46,59 +46,9 @@ entities:
                 - entity: input_boolean.irrigation_cycle{{ cycle }}_adjust_for_rainfall
                   name: Adjust For Rainfall
 
-      #========================
-      #=== CYCLE 1 DAY BUTTONS
-      #========================
-      - type: horizontal-stack
-        cards:
-
-          - !include
-            - item_cycle_day_select_button.yaml
-            - entity: input_boolean.irrigation_cycle{{ cycle }}_every_day
-              name: ALL
-              off_opacity: 100%
-              on_background_color: auto
-              on_border: none
-              off_color: auto
-
-          - !include
-            - item_cycle_day_select_button.yaml
-            - entity: input_boolean.irrigation_cycle{{ cycle }}_mon
-              name: Mon
-
-          - !include
-            - item_cycle_day_select_button.yaml
-            - entity: input_boolean.irrigation_cycle{{ cycle }}_tue
-              name: Tue
-
-          - !include
-            - item_cycle_day_select_button.yaml
-            - entity: input_boolean.irrigation_cycle{{ cycle }}_wed
-              name: Wed
-
-          - !include
-            - item_cycle_day_select_button.yaml
-            - entity: input_boolean.irrigation_cycle{{ cycle }}_thu
-              name: Thu
-
-          - !include
-            - item_cycle_day_select_button.yaml
-            - entity: input_boolean.irrigation_cycle{{ cycle }}_fri
-              name: Fri
-
-          - !include
-            - item_cycle_day_select_button.yaml
-            - entity: input_boolean.irrigation_cycle{{ cycle }}_sat
-              name: Sat
-
-          - !include
-            - item_cycle_day_select_button.yaml
-            - entity: input_boolean.irrigation_cycle{{ cycle }}_sun
-              name: Sun
-
-      #===========================
-      #=== CYCLE 1 ZONE DURATIONS
-      #===========================
+      #=========================
+      #=== CYCLE ZONE DURATIONS
+      #=========================
       #=== Zone 1
       - !include
         - item_cycle_zone_duration_line.yaml
@@ -152,5 +102,4 @@ style: >
     box-shadow: none;
     margin-top: -0.75em;
   }
-
 

@@ -18,67 +18,132 @@ style: |
   }
 card:
 
-  type: horizontal-stack
+  type: vertical-stack
   cards:
 
-    - type: custom:config-template-card
-      variables:
-        - states['input_text.irrigation_zone{{ zone }}_name'].state
-        - states['input_text.irrigation_cycle{{ cycle }}_name'].state
-        - states['timer.irrigation_zone{{ zone }}_timer'].state
-      entities:
-        - input_text.irrigation_zone{{ zone }}_name
-        - input_number.irrigation_cycle{{ cycle }}_zone{{ zone }}_duration
-        - timer.irrigation_zone{{ zone }}_timer
+    #======================================
+    #===  Duration and Every Day check-box
+    #======================================
+    - type: horizontal-stack
+      cards:
+        - type: custom:config-template-card
+          variables:
+            - states['input_text.irrigation_zone{{ zone }}_name'].state
+            - states['input_text.irrigation_cycle{{ cycle }}_name'].state
+            - states['timer.irrigation_zone{{ zone }}_timer'].state
+          entities:
+            - input_text.irrigation_zone{{ zone }}_name
+            - input_number.irrigation_cycle{{ cycle }}_zone{{ zone }}_duration
+            - timer.irrigation_zone{{ zone }}_timer
+          card:
+            type: entities
+            show_header_toggle: false
+            entities:
+              - entity: input_number.irrigation_cycle{{ cycle }}_zone{{ zone }}_duration
+                name: "${ vars[0] }"
+                icon: "${ vars[2] === 'active' ? 'mdi:sprinkler-variant' : '' }"
+                tap_action:
+                  action: call-service
+                  service: browser_mod.popup
+                  service_data:
+                    title: "${ vars[1] + ' - ' + vars[0] }"
+                    card:
+                      type: entities
+                      entities:
+                        - entity: input_number.irrigation_cycle{{ cycle }}_zone{{ zone }}_duration_box
+                          name: Duration
+                        - entity: input_text.irrigation_zone{{ zone }}_name
+                          name: Zone Name
+                        - entity: input_text.irrigation_zone{{ zone }}_switch_entity_id
+                          name: Switch Name
+                    deviceID:
+                      - this
+                    style:
+                      font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+                      font-size: 14px
+                      border-radius: 1em
+                      box-shadow: 0em 0em 0.5em
+                      opacity: 0.9
+            style: |
+              ha-card {
+                box-shadow: none;
+                background: none;
+              }
+              #states {
+                {% raw %}
+                {% set font = states('input_text.irrigation_ui_font_family') %}
+                {% endraw %}
+                font-family: {% raw %}{{ font }}{% endraw %};
+                font-size: 16px;
+                padding: 0.25em 1em 0.25em 0.25em;
+              }
+              :host {
+                {% raw %}
+                {% set zone = {% endraw %} {{ zone }} {% raw %} %}
+                {% if is_state('timer.irrigation_zone' ~ zone ~ '_timer', 'active') %}
+                  --paper-item-icon-color: var(--paper-item-icon-active-color);
+                {% endif %}
+                {% endraw %}
+                ;
+              }
+
+        #=== Every Day
+        - !include
+          - item_cycle_zone_every_day_check_box.yaml
+          - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_every_day
+
+    #======================
+    #=== Zone Day Buttons
+    #======================
+    - type: conditional
+      conditions:
+        - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_every_day
+          state: "off"
       card:
-        type: entities
-        show_header_toggle: false
-        entities:
-          - entity: input_number.irrigation_cycle{{ cycle }}_zone{{ zone }}_duration
-            name: "${ vars[0] }"
-            icon: "${ vars[2] === 'active' ? 'mdi:sprinkler-variant' : '' }"
-            tap_action:
-              action: call-service
-              service: browser_mod.popup
-              service_data:
-                title: "${ vars[1] + ' - ' + vars[0] }"
-                card:
-                  type: entities
-                  entities:
-                    - entity: input_number.irrigation_cycle{{ cycle }}_zone{{ zone }}_duration_box
-                      name: Duration
-                    - entity: input_text.irrigation_zone{{ zone }}_name
-                      name: Zone Name
-                    - entity: input_text.irrigation_zone{{ zone }}_switch_entity_id
-                      name: Switch Name
-                deviceID:
-                  - this
-                style:
-                  font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
-                  font-size: 14px
-                  border-radius: 1em
-                  box-shadow: 0em 0em 0.5em
-                  opacity: 0.9
+        type: custom:mod-card
         style: |
           ha-card {
-            box-shadow: none;
-            background: none:
+            margin: 0em 0.5em 0.5em 0em
           }
-          #states {
-            padding: 0px 16px;
-          }
-          :host {
-            {% raw %}
-            {% set zone = {% endraw %} {{ zone }} {% raw %} %}
-            {% if is_state('timer.irrigation_zone' ~ zone ~ '_timer', 'active') %}
-              --paper-item-icon-color: var(--paper-item-icon-active-color);
-            {% endif %}
-            {% endraw %}
-            ;
-          }
+        card:
+          type: horizontal-stack
+          cards:
 
-    #=== Skip Zone
-    - !include
-      - item_cycle_zone_skip_check_box.yaml
-      - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_skip
+            - type: custom:button-card
+              color_type: blank-card
+
+            - !include
+              - item_cycle_day_select_button.yaml
+              - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_mon
+                name: Mon
+
+            - !include
+              - item_cycle_day_select_button.yaml
+              - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_tue
+                name: Tue
+
+            - !include
+              - item_cycle_day_select_button.yaml
+              - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_wed
+                name: Wed
+
+            - !include
+              - item_cycle_day_select_button.yaml
+              - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_thu
+                name: Thu
+
+            - !include
+              - item_cycle_day_select_button.yaml
+              - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_fri
+                name: Fri
+
+            - !include
+              - item_cycle_day_select_button.yaml
+              - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_sat
+                name: Sat
+
+            - !include
+              - item_cycle_day_select_button.yaml
+              - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_sun
+                name: Sun
 

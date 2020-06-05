@@ -18,12 +18,13 @@ styles:
     - padding: 0em
     - margin-top: 0.2em
     - margin-bottom: -0.75em
-    - font-size: 12px
+    - font-size: 13px
     - box-shadow: none
     - background: none
+    - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
   name:
     - justify-self: right
-    - align-self: center
+    - align-self: centre
 state:
   - value: 'off'
     icon: mdi:checkbox-blank-outline

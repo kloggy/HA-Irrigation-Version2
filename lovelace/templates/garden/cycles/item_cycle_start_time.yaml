@@ -5,6 +5,10 @@
 #==============================
 type: custom:button-card
 entity: {{ entity }}
+triggers_update: 
+  - sensor.irrigation_cycle{{ cycle }}_duration_in_seconds
+  - input_boolean.irrigation_cycle{{ cycle }}_adjust_for_temperature
+  - input_boolean.irrigation_cycle{{ cycle }}_adjust_for_rainfall
 name: >
   [[[
     var start_time = new Date(null);
@@ -37,20 +41,27 @@ tap_action:
     title: >
       [[[
         var entity_id = 'input_text.irrigation_cycle{{ cycle }}_name';
-        return states[entity_id].state.toUpperCase() + ' START TIME';
+        return states[entity_id].state.toUpperCase() + ' SCHEDULE';
       ]]]
     card:
       type: custom:time-picker-card
       entity: input_datetime.irrigation_cycle{{ cycle }}_start_time
-      hide:
-        name: true
+      name: Start Time
+      layout:
+        name: inside
+      style: >
+        ha-card {
+          border-radius: 0em 0em 1em 1em
+        }
     deviceID:
       - this
     style:
-      font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
-      font-size: 14px
-      border-radius: 1em
+      font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
       box-shadow: 0em 0em 0.5em
+      border-radius: 1em
       opacity: 0.9
 styles:
   grid:
@@ -63,9 +74,13 @@ styles:
     - margin-left: 0.75em
     - box-shadow: none
     - background: none
+    - font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
   name:
     - align-self: start
-    - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
   label:
     - justify-self: start
-    - font-size: 10px
+    - font-size: 11px
+    - padding: 0.8em 0em 0em 0em
