@@ -18,6 +18,7 @@ entities:
         styles: &title_style
           card:
             - color: var(--secondary-text-color)
+            - box-shadow: none
             - border-radius: 0em
             - background: none
             - padding-top: 0em
@@ -70,6 +71,7 @@ entities:
             icon: mdi:square-edit-outline
             styles:
               card:
+                - box-shadow: none
                 - width: 4em
                 - padding-right: 0.5em
             tap_action:
