@@ -44,13 +44,10 @@ styles:
   card:
     - color: var(--accent-color)
     - font-size: 16px
-    - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
-    # - display: >
-    #     [[[
-    #       if (entity.state == 'idle')
-    #         return 'none';
-    #       else return null;
-    #     ]]]
+    - font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
     - padding: 0.4em
     - height: 2.4em
   label:
@@ -59,20 +56,3 @@ styles:
     - justify-text: start
   icon:
     - color: var(--accent-color)
-# state:
-#   - value: active
-#     styles:
-#       card:
-#         - color: var(--accent-color)
-#       icon:
-#         - color: var(--accent-color)
-#       label:
-#         - color: var(--secondary-text-color)
-  # - operator: default
-  #   styles:
-  #     card:
-  #       - color: var(--primary-background-color)
-  #     icon:
-  #       - color: var(--primary-background-color)
-  #     label:
-  #       - color: var(--primary-background-color)

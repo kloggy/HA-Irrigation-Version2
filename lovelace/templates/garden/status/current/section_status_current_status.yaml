@@ -13,7 +13,10 @@ entities:
     styles:
       card:
         - font-size: 18px
-        - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+        - font-family: >
+            [[[
+              return states['input_text.irrigation_ui_font_family'].state
+            ]]]
         - color: var(--secondary-text-color)
         - padding: 0em
         - border-radius: 0em
@@ -130,6 +133,9 @@ entities:
 style: >
   ha-card {
     box-shadow: none;
-    margin-top: -0.75em;
+    margin-top: -0.5em;
+  }
+  #states {
+    padding-bottom: 0.3em;
   }
 
