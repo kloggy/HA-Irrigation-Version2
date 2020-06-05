@@ -1,6 +1,9 @@
 # lovelace_gen
 
 type: custom:button-card
+triggers_update:
+  - sensor.irrigation_{{ zone }}_total_time_today
+  - sensor.irrigation_{{ zone }}_total_time_yesterday
 name: >
   [[[
     var zone = '{{ zone }}';

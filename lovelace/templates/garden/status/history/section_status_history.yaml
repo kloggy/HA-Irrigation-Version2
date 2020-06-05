@@ -81,9 +81,9 @@ entities:
 
     style: |
       ha-card {
-        margin-bottom: -1em;
+        # margin-bottom: -1em;
         background: none;
-        box-shadow: none
+        box-shadow: none;
       }
       #states {
         {% raw %}
@@ -92,9 +92,11 @@ entities:
           display: none;
         {% endif %}
         {% endraw %}
+        padding-top: 0em;
+        padding-bottom: 0em;
       }
 style: |
   ha-card {
-    box-shadow: none
+    box-shadow: none;
   }
 
