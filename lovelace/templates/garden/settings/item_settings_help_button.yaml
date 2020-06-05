@@ -1,15 +1,26 @@
 
+#================
 #=== HELP BUTTON
+#================
 type: custom:button-card
 icon: mdi:information-outline
 show_name: false
+size: 100%
+styles:
+  card:
+    - background: none
+    # - height: 1.9em
+    - width: 1.9em
+    - box-shadow: none
+  icon:
+    - color: var(--accent-color)
 tap_action:
   action: call-service
   service: browser_mod.popup
   service_data:
     title: " &nbsp \U00002139 &nbsp &nbsp INFORMATION"
     card:
-      type:  markdown
+      type: markdown
       content: >
         Tap a Cycle Start Time to edit the schedule time
 
@@ -19,7 +30,7 @@ tap_action:
         Tap a Zone to edit its information
 
 
-        Selecting Testing Mode will change run times to seconds.
+        Selecting 'Testing Mode' will change run times to seconds.
 
         e.g a run time of 5 minutes will run for 5 seconds.
 
@@ -27,54 +38,26 @@ tap_action:
         ---
 
 
-        * #### Adjust For Weather (Experimental)
+        #### Adjusting Duration For Weather (Experimental)
 
         Turning on weather adjustments will adjust watering time based on temperature
-        and/or rainfall. See Settings.
+        and/or rainfall.
 
 
-        ---
+        See RAINFALL & TEMPERATURE settings.
+      style: >
+        ha-card {
+          border-radius: 0em 0em 1em 1em
+        }
 
-
-        * #### Rain multiplier
-        
-        This multiplier will decrease watering time proportionally
-        based on the difference between the rainfall threshold and the amount of
-        rain over the last few days. If the threshold is reached then it will
-        stop it altogether.
-
-
-        ---
-
-
-        * #### Temperature multiplier
-
-        This multiplier will increase or decrease watering time proportionally
-        based on the difference between the temperature threshold and the 
-        average high temperature over the last few days.
-
-        It is calculated as High Temperature divided by Baseline Temperature.
-
-        For example, if the baseline temperature is set to 25 degrees and the
-        average temperature has been 30 degrees the adjustent will be plus 20%.
-        Likewise if the average temperature has only been 20 degrees the
-        adjustment will be minus 20%.
-
-        </font>
     deviceID:
       - this
     style:
-      font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+      font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
       font-size: 14px
       box-shadow: 0em 0em 0.5em
+      border-radius: 1em
       opacity: 0.9
-styles:
-  card:
-    - background: none
-    - height: 35px
-    - width: 45px
-    - border-radius: 10px
-    - box-shadow: "0px 0px 0px 0px"
-  icon:
-    - width: 45px
-    - color: var(--accent-color)

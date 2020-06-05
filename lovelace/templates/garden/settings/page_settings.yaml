@@ -8,8 +8,7 @@ entities:
   #===============================
   #=== SETTINGS SELECTION BUTTONS
   #===============================
-  - type: custom:hui-element
-    row_type: divider
+  - type: divider
 
   - type: custom:hui-element
     card_type: horizontal-stack
@@ -52,13 +51,12 @@ entities:
       #=== HELP BUTTON
       - !include item_settings_help_button.yaml
 
-  - type: custom:hui-element
-    row_type: divider
+  - type: divider
 
 style: >
   ha-card {
     background: none;
     box-shadow: none;
     margin-top: -0.5em;
-    margin-bottom: -0.75em;
+    margin-bottom: -0.9em;
   }

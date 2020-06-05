@@ -6,41 +6,48 @@
 type: custom:button-card
 entity: {{ entity }}
 show_state: true
-state_display: >
-  [[[
-    var unit = '{{ unit }}';
-    var round = '{{ round }}';
-    var unit_om = entity.attributes.unit_of_measurement ? entity.attributes.unit_of_measurement : '';
-    var statestr = entity.state;
-
-    if (isNaN(statestr))
-      return statestr;
-    else if(unit.length > 0)
-      return parseFloat(statestr).toFixed(round) + ' ' + unit;
-    else
-      return parseFloat(statestr).toFixed(round) + ' ' + unit_om;
-  ]]]
 name: {{ name }}
 icon: {{ icon }}
 show_label: true
 label: {{ label }}
 size: 30%
 tap_action:
-  action: {{ tap_action | default('call-service') }}
+  action: call-service
   service: browser_mod.popup
   service_data:
-    title: >
-      [[[
-        var units = entity.attributes.unit_of_measurement ? ' (' + entity.attributes.unit_of_measurement + ')' : '';
-        var name = '{{ name }}'
-        return name + units;
-      ]]]
+    title: " &nbsp \U00002139 &nbsp &nbsp WEATHER ADJUSTMENTS"
     card:
-      type: entities
-      entities:
-        - entity: {{ entity }}
-          name: ' '
-          icon: {{ icon }}
+      type: markdown
+      content: >
+        ### Rain multiplier
+        
+        This multiplier will decrease watering time proportionally
+        based on the difference between the rainfall threshold and the amount of
+        rain over the last few days.
+
+        
+        If the threshold is reached then it will stop it altogether.
+
+
+        ---
+
+
+        ### Temperature multiplier
+
+        This multiplier will increase or decrease watering time proportionally
+        based on the difference between the temperature threshold and the 
+        average high temperature over the last few days.
+
+
+        It is calculated as High Temperature divided by Baseline Temperature.
+
+
+        For example, if the baseline temperature is set to 25 degrees and the
+        average temperature has been 30 degrees the adjustent will be plus 20%.
+
+
+        Likewise if the average temperature has only been 20 degrees the
+        adjustment will be minus 20%.
       style: >
         ha-card {
           border-radius: 0em 0em 1em 1em
@@ -69,13 +76,11 @@ styles:
   card:
     - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
     - font-size: 15px
-    - padding: {{ padding | default('0em 0em 0.5em 0em') }}
+    - padding: 0em 0em 0.5em 0em
     - background: none
     - box-shadow: none
-    - display: "{{ display_condition }}"
   name: 
     - justify-self: start
-    - padding: {{ name_padding }}
   label:
     - justify-self: start
     - color: var(--secondary-text-color)

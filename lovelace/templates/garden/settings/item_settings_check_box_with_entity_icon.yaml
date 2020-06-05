@@ -1,13 +1,16 @@
 # Lovelace_gen
 
-#===============================
-#=== Check Box With Entity Icon
-#===============================
+#=======================================
+#=== Boolean Check Box With Entity Icon
+#=======================================
 type: custom:button-card
 color_type: icon
 entity: {{ entity }}
+show_state: false
+show_name: true
 name: {{ name }}
-size: 40%
+show_icon: true
+size: 50%
 tap_action:
   action: toggle
 styles:
@@ -15,12 +18,19 @@ styles:
     - grid-template-areas: '"i n check_box"'
     - grid-template-columns: 20% auto 15%
     - grid-template-rows: 1fr
+  img_cell:
+    - padding: 0em
   card:
-    - height: 3.5em
-    - font-size: 12px
-    - border-radius: 10px
+    - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+    - padding: 0em
+    - height: 2.5em
+    - font-size: 14px
+    - border-radius: 5px
   name:
     - justify-self: start
+  custom_fields:
+    check_box:
+      - padding: 0.4em
 custom_fields:
   check_box: >
     [[[
