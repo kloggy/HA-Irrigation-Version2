@@ -82,10 +82,9 @@ styles:
 state:
   - value: unavailable
     styles:
-      card:
-        - color: var(--accent-color)
       icon:
         - color: var(--accent-color)
         - animation: blink 2s ease infinite
       state:
+        - color: var(--accent-color)
         - animation: blink 2s ease infinite
