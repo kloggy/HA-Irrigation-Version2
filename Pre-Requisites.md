@@ -10,6 +10,12 @@ I have detailed them here and provided example yaml code in `prerequisites.yaml`
 
 __sensor.time__ is needed somewhere in your config
 
+__sun2.__ This is a custom component (installable through HACS) that provides lots of solar information and creates `binary_sensor.above_horizon` which is used in the graphs.
+
+
+However, if you prefer, you could easily provide your own `binary_sensor` using the core Sun component. The state of `sun.sun` is either `above_horizon` or `below_horizon`.
+
+
 __Notifications.__ Functionality is included but it makes use of a subsystem that I wrote for use throughout my system. 
 I use it in this case so that when I am away on holiday it tells me when irrigation starts and ends.
 In order for you to be able to adapt this to your own use you will need to define two extra 'helpers' somewhere in your config:
@@ -41,7 +47,7 @@ then look in `view_garden_version2.yaml`, there are some lines that need to be u
 - time-picker-card (https://github.com/GeorgeSG/lovelace-time-picker-card)
 
 
-__Fonts__ You can chnage the font used via the UI. It defaults to whatever is used in your current theme but a condensed font will display better as there is a lot squeezed onto the screen.
+__Fonts__ You can change the font used via the UI. It defaults to whatever is used in your current theme but a condensed font will display better as there is a lot squeezed onto the screen.
 
 I have had good success with Oswald and Dosis but you can experiment with any font you like.
 To use these fonts add the following lines to your Lovelace `resources` section:
