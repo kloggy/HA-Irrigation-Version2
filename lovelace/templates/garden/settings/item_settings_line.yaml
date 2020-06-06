@@ -79,3 +79,13 @@ styles:
   label:
     - justify-self: start
     - color: var(--secondary-text-color)
+state:
+  - value: unavailable
+    styles:
+      card:
+        - color: var(--accent-color)
+      icon:
+        - color: var(--accent-color)
+        - animation: blink 2s ease infinite
+      state:
+        - animation: blink 2s ease infinite
