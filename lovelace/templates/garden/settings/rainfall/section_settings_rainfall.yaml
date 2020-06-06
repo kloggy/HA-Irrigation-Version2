@@ -161,7 +161,7 @@ entities:
       - !include
           - ../item_settings_line.yaml
           - entity: sensor.irrigation_sensor_rainfall_today
-            name: Rainfall today
+            name: Rainfall Today
             icon: mdi:weather-rainy
             round: 1
             tap_action: none
