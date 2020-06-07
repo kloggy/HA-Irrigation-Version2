@@ -37,6 +37,7 @@ cards:
               else return null;
             ]]]
         - height: 2.5em
+        - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
         - font-size: 12px
         - box-shadow: none
         - background-color: transparent
