@@ -1,0 +1,105 @@
+
+#================
+#=== Input Texts
+#================
+input_text:
+
+  irrigation_external_sensor_controller_wifi:
+    name: Irrigation Controller WiFi Signal Strength
+    icon: mdi:wifi
+    min: 0
+    max: 100
+
+
+#============
+#=== Sensors
+#============
+sensor:
+  - platform: template
+
+    #=========================================================
+    #=== Internal sensors that are based on the external ones
+    #=== that have been user defined in the input texts.
+    #===
+    #=== These sensors are synchronised manually in an
+    #=== automation when the external ones change
+    #=========================================================
+    sensors:
+      irrigation_sensor_controller_wifi:
+        value_template: >
+          {{ states(states('input_text.irrigation_external_sensor_controller_wifi')) }}
+        icon_template: mdi:wifi
+        unit_of_measurement: dB
+
+
+#================
+#=== Automations
+#================
+automation:
+
+  #==============================================
+  #=== Set default Controller WiFi Signal Sensor
+  #==============================================
+  - alias: Irrigation Set Default Controller WiFi Signal Sensor
+    trigger:
+      - platform: homeassistant
+        event: start
+
+      - platform: state
+        entity_id: input_text.irrigation_external_sensor_controller_wifi
+        to: ''
+
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_controller_wifi
+          state: 'unknown'
+
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_controller_wifi
+          state: ''
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_external_sensor_controller_wifi
+          value: sensor.esphome_irrigation_controller_wifi_signal
+
+
+  #===============================================================
+  #=== Initialise the Controller WiFi Signal Sensor when HA starts
+  #===============================================================
+  - alias: Irrigation Initialise Controller WiFi Signal Sensors
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    action:
+      - service: homeassistant.update_entity
+        data:
+          entity_id: 
+            - sensor.irrigation_external_sensor_controller_wifi
+
+
+  # #===================================================================================
+  # #=== Synchronise the sensor for the Controller WiFi Signal with the external sensor
+  # #===================================================================================
+  # - alias: Irrigation Synchronise Sensor WiFi Controller
+  #   trigger:
+  #     - platform: event
+  #       event_type: state_changed
+
+  #   condition:
+  #     - condition: template
+  #       value_template: >
+  #         {{ 
+  #           trigger.event.data.entity_id in [
+  #             'input_text.irrigation_external_sensor_controller_wifi',
+  #             states('input_text.irrigation_external_sensor_controller_wifi')
+  #           ]
+  #         }}
+
+  #   action:
+  #     - service: homeassistant.update_entity
+  #       entity_id: sensor.irrigation_external_sensor_controller_wifi
