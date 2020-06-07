@@ -11,13 +11,10 @@ cards:
     color_type: blank-card
 
   - type: custom:button-card
-    color_type: blank-card
-
-  - type: custom:button-card
     name: '•  Edit user names '
     icon: mdi:square-edit-outline
     # icon: mdi:dots-horizontal
-    size: 90%
+    size: 80%
     styles:
       grid:
         - grid-template-areas: '"n i"'
@@ -26,7 +23,7 @@ cards:
       card:
         - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
         - font-size: 12px
-        - padding: 0em 0.5em 0em
+        - padding: 0em 0.2em 0em
         - margin-top: 0em
         - box-shadow: none
       name:
