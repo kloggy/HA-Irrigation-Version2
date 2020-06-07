@@ -16,14 +16,14 @@ sensor:
       irrigation_sensor_rainfall_today:
         value_template: >
           {{ states(states('input_text.irrigation_external_sensor_rainfall_today')) }}
-        icon_template: mdi-weather-rainy
+        icon_template: mdi:weather-rainy
         unit_of_measurement: mm
 
 
       irrigation_sensor_rainfall_yesterday:
         value_template: >
           {{ states(states('input_text.irrigation_external_sensor_rainfall_yesterday')) }}
-        icon_template: mdi-weather-rainy
+        icon_template: mdi:weather-rainy
         unit_of_measurement: mm
 
 
