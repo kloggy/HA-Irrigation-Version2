@@ -1,0 +1,76 @@
+# lovelace_gen
+
+#===========================
+#=== Controller WiFi Signal
+#===========================
+type: custom:button-card
+entity: {{ entity }}
+name: {{ name }}
+show_state: true
+show_label: true
+size: 30%
+styles:
+  grid:
+    - grid-template-areas: '"i n s"'
+    - grid-template-columns: 15% auto 15%
+    - grid-template-rows: min-content
+  card:
+    - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+    - font-size: 15px
+    - padding: 0em 0em 0.5em 0em
+    - background: none
+    - box-shadow: none
+  name: 
+    - justify-self: start
+  label:
+    - justify-self: start
+    - color: var(--secondary-text-color)
+state:
+  - value: 'unavailable'
+    styles:
+      icon:
+        - color: var(--accent-color)
+        - animation: blink 2s ease infinite
+      state:
+        - color: var(--accent-color)
+        - animation: blink 2s ease infinite
+tap_action:
+  action: call-service
+  service: browser_mod.popup
+  service_data:
+    title: Irrigation Controller WiFi Signal Sensor
+    card:
+      type: vertical-stack
+      cards:
+        - type: markdown
+          content: Leave blank to reset to default.
+          style: >
+            ha-card {
+              box-shadow: none;
+              padding: 0em 0em 0em 1em;
+              background: var(--paper-dialog-background-color);
+              margin: 0em;
+            }
+            p {
+              font-size: 18px;
+            }
+        - type: entities
+          entities:
+            - entity: input_text.irrigation_external_sensor_controller_wifi
+              name: Font Name
+          style: >
+            ha-card {
+              box-shadow: none;
+              border-radius: 0em 0em 1em 1em;
+              background: var(--paper-dialog-background-color);
+            }
+    deviceID:
+      - this
+    style:
+      font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
+      box-shadow: 0em 0em 0.5em
+      border-radius: 1em
+      opacity: 0.9
