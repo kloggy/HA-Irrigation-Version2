@@ -149,7 +149,7 @@ automation:
         entity_id: input_number.irrigation_rainfall_2
         data_template:
           value: >
-            {{ states('input_number.irrigation_rainfall_1') }}
+            {{ states(states('input_text.irrigation_external_sensor_rainfall_yesterday')) }}
 
 
   #==============================================================================
