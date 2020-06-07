@@ -178,28 +178,6 @@ entities:
                       border-radius: 0em 0em 1em 1em;
                       background: var(--paper-dialog-background-color);
                     }
-                # - type: markdown
-                #   content: >
-                #     You must also create a sensor to provide the Weather Outlook:
-
-
-                #     <span>sensor.irrigation_weather_outlook</span>
-                #   style: >
-                #     ha-card {
-                #       box-shadow: none;
-                #       padding: 0em 0em 0em 1em;
-                #       background: var(--paper-dialog-background-color);
-                #       margin: 0em;
-                #     }
-                #     span {
-                #       display: block;
-                #       text-align: center;
-                #       font-family: roboto;
-                #       font-size: 14px;
-                #     }
-                #     p {
-                #       font-size: 18px;
-                #     }
             deviceID:
               - this
             style:
@@ -238,14 +216,19 @@ entities:
       #-------------------------
 
 
-      #=== Irigation controller WiFi signal strength
-      - !include
-          - ../item_settings_line.yaml
-          - entity: sensor.esphome_irrigation_controller_wifi_signal
-            name: Irrigation Controller WiFi Signal Strength
-            tap_action: none
-            padding: 0.5em 0em 0.5em 0em
-
+      - type: custom:config-template-card
+        variables:
+          - states['input_text.irrigation_external_sensor_controller_wifi'].state
+        entities:
+          - input_text.irrigation_external_sensor_controller_wifi
+          - input_text.irrigation_ui_font_family
+        card:
+          !include
+            - item_settings_controller_wifi_signal.yaml
+            - entity: "${vars[0]}"
+              name: Irrigation Controller WiFi Signal Strength
+              tap_action: none
+              padding: 0.5em 0em 0.5em 0em
 style: >
   ha-card {
     box-shadow: none;
