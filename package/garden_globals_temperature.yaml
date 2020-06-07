@@ -16,13 +16,13 @@ sensor:
       irrigation_sensor_forecast_high_temp:
         value_template: >
           {{ states(states('input_text.irrigation_external_sensor_forecast_high_temp')) }}
-        icon_template: mdi-thermometer-high
+        icon_template: mdi:thermometer-high
         unit_of_measurement: '°C'
 
       irrigation_sensor_current_temp:
         value_template: >
           {{ states(states('input_text.irrigation_external_sensor_current_temp')) }}
-        icon_template: mdi-thermometer-low
+        icon_template: mdi:thermometer-low
         unit_of_measurement: '°C'
 
 
