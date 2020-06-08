@@ -15,7 +15,7 @@ __sun2.__ This is a custom component (installable through HACS) that provides lo
 
 However, if you prefer, you could easily provide your own `binary_sensor` using the core Sun component. The state of `sun.sun` is either `above_horizon` or `below_horizon`.
 
-__Recorder__ In order to show the irrigation times on the 'History' page you must have the `recorder` component installed. this is include in Home Assistant by default.
+__Recorder.__ In order to show the irrigation times on the 'History' page you must have the `recorder` component installed. This is included in Home Assistant by default.
 
 If you have configured `recorder` to _include_ entities you will need to include the eight sensors:
 
