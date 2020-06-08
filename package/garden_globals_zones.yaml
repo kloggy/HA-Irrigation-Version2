@@ -198,12 +198,55 @@ input_text:
 #============
 sensor:
 
+  - platform: template
+
+    #======================================================
+    #=== Sensors used to detect when the valves are on for
+    #=== use  in the history sensors
+    #===
+    #=== These are based on the valve switch names that
+    #=== have been user defined in the input texts.
+    #======================================================
+    sensors:
+      irrigation_sensor_zone1_switch:
+        value_template: >
+          {{ states(states('input_text.irrigation_zone1_switch_entity_id')) }}
+
+      irrigation_sensor_zone2_switch:
+        value_template: >
+          {{ states(states('input_text.irrigation_zone2_switch_entity_id')) }}
+
+      irrigation_sensor_zone3_switch:
+        value_template: >
+          {{ states(states('input_text.irrigation_zone3_switch_entity_id')) }}
+
+      irrigation_sensor_zone4_switch:
+        value_template: >
+          {{ states(states('input_text.irrigation_zone4_switch_entity_id')) }}
+
+      irrigation_sensor_zone5_switch:
+        value_template: >
+          {{ states(states('input_text.irrigation_zone5_switch_entity_id')) }}
+
+      irrigation_sensor_zone6_switch:
+        value_template: >
+          {{ states(states('input_text.irrigation_zone6_switch_entity_id')) }}
+
+      irrigation_sensor_zone7_switch:
+        value_template: >
+          {{ states(states('input_text.irrigation_zone7_switch_entity_id')) }}
+
+      irrigation_sensor_zone8_switch:
+        value_template: >
+          {{ states(states('input_text.irrigation_zone8_switch_entity_id')) }}
+
+
   #=================================
   #=== Zone History Sensors - TODAY
   #=================================
   - platform: history_stats
     name: irrigation_zone1_total_time_today
-    entity_id: switch.garden_irrigation_relay_zone1
+    entity_id: sensor.irrigation_sensor_zone1_switch
     state: 'on'
     type: time
     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
@@ -211,7 +254,7 @@ sensor:
 
   - platform: history_stats
     name: irrigation_zone2_total_time_today
-    entity_id: switch.garden_irrigation_relay_zone2
+    entity_id: sensor.irrigation_sensor_zone2_switch
     state: 'on'
     type: time
     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
@@ -219,7 +262,7 @@ sensor:
 
   - platform: history_stats
     name: irrigation_zone3_total_time_today
-    entity_id: switch.garden_irrigation_relay_zone3
+    entity_id: sensor.irrigation_sensor_zone3_switch
     state: 'on'
     type: time
     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
@@ -227,7 +270,7 @@ sensor:
 
   - platform: history_stats
     name: irrigation_zone4_total_time_today
-    entity_id: switch.garden_irrigation_relay_zone4
+    entity_id: sensor.irrigation_sensor_zone4_switch
     state: 'on'
     type: time
     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
@@ -235,7 +278,7 @@ sensor:
 
   - platform: history_stats
     name: irrigation_zone5_total_time_today
-    entity_id: switch.garden_irrigation_relay_zone5
+    entity_id: sensor.irrigation_sensor_zone5_switch
     state: 'on'
     type: time
     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
@@ -243,7 +286,7 @@ sensor:
 
   - platform: history_stats
     name: irrigation_zone6_total_time_today
-    entity_id: switch.garden_irrigation_relay_zone6
+    entity_id: sensor.irrigation_sensor_zone6_switch
     state: 'on'
     type: time
     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
@@ -251,7 +294,7 @@ sensor:
 
   - platform: history_stats
     name: irrigation_zone7_total_time_today
-    entity_id: switch.garden_irrigation_relay_zone7
+    entity_id: sensor.irrigation_sensor_zone7_switch
     state: 'on'
     type: time
     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
@@ -259,7 +302,7 @@ sensor:
 
   - platform: history_stats
     name: irrigation_zone8_total_time_today
-    entity_id: switch.garden_irrigation_relay_zone8
+    entity_id: sensor.irrigation_sensor_zone8_switch
     state: 'on'
     type: time
     start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
@@ -270,7 +313,7 @@ sensor:
   #=====================================
   - platform: history_stats
     name: irrigation_zone1_total_time_yesterday
-    entity_id: switch.garden_irrigation_relay_zone1
+    entity_id: sensor.irrigation_sensor_zone1_switch
     state: 'on'
     type: time
     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
@@ -279,7 +322,7 @@ sensor:
 
   - platform: history_stats
     name: irrigation_zone2_total_time_yesterday
-    entity_id: switch.garden_irrigation_relay_zone2
+    entity_id: sensor.irrigation_sensor_zone2_switch
     state: 'on'
     type: time
     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
@@ -288,7 +331,7 @@ sensor:
 
   - platform: history_stats
     name: irrigation_zone3_total_time_yesterday
-    entity_id: switch.garden_irrigation_relay_zone3
+    entity_id: sensor.irrigation_sensor_zone3_switch
     state: 'on'
     type: time
     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
@@ -297,7 +340,7 @@ sensor:
 
   - platform: history_stats
     name: irrigation_zone4_total_time_yesterday
-    entity_id: switch.garden_irrigation_relay_zone4
+    entity_id: sensor.irrigation_sensor_zone4_switch
     state: 'on'
     type: time
     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
@@ -306,7 +349,7 @@ sensor:
 
   - platform: history_stats
     name: irrigation_zone5_total_time_yesterday
-    entity_id: switch.garden_irrigation_relay_zone5
+    entity_id: sensor.irrigation_sensor_zone5_switch
     state: 'on'
     type: time
     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
@@ -315,7 +358,7 @@ sensor:
 
   - platform: history_stats
     name: irrigation_zone6_total_time_yesterday
-    entity_id: switch.garden_irrigation_relay_zone6
+    entity_id: sensor.irrigation_sensor_zone6_switch
     state: 'on'
     type: time
     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
@@ -324,7 +367,7 @@ sensor:
 
   - platform: history_stats
     name: irrigation_zone7_total_time_yesterday
-    entity_id: switch.garden_irrigation_relay_zone7
+    entity_id: sensor.irrigation_sensor_zone7_switch
     state: 'on'
     type: time
     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
@@ -333,7 +376,7 @@ sensor:
 
   - platform: history_stats
     name: irrigation_zone8_total_time_yesterday
-    entity_id: switch.garden_irrigation_relay_zone8
+    entity_id: sensor.irrigation_sensor_zone8_switch
     state: 'on'
     type: time
     end: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'

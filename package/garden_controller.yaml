@@ -26,6 +26,8 @@ sensor:
     #=========================================================
     sensors:
       irrigation_sensor_controller_wifi:
+        entity_id:
+          - input_text.irrigation_external_sensor_controller_wifi
         value_template: >
           {{ states(states('input_text.irrigation_external_sensor_controller_wifi')) }}
         icon_template: mdi:wifi
@@ -80,6 +82,64 @@ automation:
         data:
           entity_id: 
             - sensor.irrigation_external_sensor_controller_wifi
+
+
+  #===================================================
+  #=== Synchronise the Zone Switch Sensors
+  #=== These need to be updated as tehy are templated
+  #=== on the switch name provided by through the UI
+  #=== and are used in the history statistics sensors 
+  #===================================================
+  - alias: Irrigation Synchronise Sensor Zone Switches
+    trigger:
+      - platform: event
+        event_type: state_changed
+
+    condition:
+      - condition: template
+        value_template: >
+          {{ 
+            trigger.event.data.entity_id in [
+              'input_text.irrigation_zone1_switch_entity_id',
+              'input_text.irrigation_zone2_switch_entity_id',
+              'input_text.irrigation_zone3_switch_entity_id',
+              'input_text.irrigation_zone4_switch_entity_id',
+              'input_text.irrigation_zone5_switch_entity_id',
+              'input_text.irrigation_zone6_switch_entity_id',
+              'input_text.irrigation_zone7_switch_entity_id',
+              'input_text.irrigation_zone8_switch_entity_id',
+              states('input_text.irrigation_zone1_switch_entity_id'),
+              states('input_text.irrigation_zone2_switch_entity_id'),
+              states('input_text.irrigation_zone3_switch_entity_id'),
+              states('input_text.irrigation_zone4_switch_entity_id'),
+              states('input_text.irrigation_zone5_switch_entity_id'),
+              states('input_text.irrigation_zone6_switch_entity_id'),
+              states('input_text.irrigation_zone7_switch_entity_id'),
+              states('input_text.irrigation_zone8_switch_entity_id')
+            ]
+          }}
+
+    action:
+      - service: homeassistant.update_entity
+        data_template:
+          entity_id: >
+            {% if 'zone1' in trigger.event.data.entity_id %}
+              sensor.irrigation_sensor_zone1_switch
+            {% elif 'zone2' in trigger.event.data.entity_id %}
+              sensor.irrigation_sensor_zone2_switch
+            {% elif 'zone3' in trigger.event.data.entity_id %}
+              sensor.irrigation_sensor_zone3_switch
+            {% elif 'zone4' in trigger.event.data.entity_id %}
+              sensor.irrigation_sensor_zone4_switch
+            {% elif 'zone5' in trigger.event.data.entity_id %}
+              sensor.irrigation_sensor_zone5_switch
+            {% elif 'zone6' in trigger.event.data.entity_id %}
+              sensor.irrigation_sensor_zone6_switch
+            {% elif 'zone7' in trigger.event.data.entity_id %}
+              sensor.irrigation_sensor_zone7_switch
+            {% else %}
+              sensor.irrigation_sensor_zone8_switch
+            {% endif %}
 
 
   # #===================================================================================
