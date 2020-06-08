@@ -45,12 +45,15 @@ tap_action:
   action: call-service
   service: browser_mod.popup
   service_data:
-    title: Irrigation Controller WiFi Signal Sensor
+    title: Irrigation Controller
     card:
       type: vertical-stack
       cards:
         - type: markdown
-          content: Leave blank to reset to default.
+          content: Enter the name of the sensor for your irrigation controller WiFi signal strength.
+
+
+                  Leave blank to reset to default.
           style: >
             ha-card {
               box-shadow: none;
@@ -64,7 +67,29 @@ tap_action:
         - type: entities
           entities:
             - entity: input_text.irrigation_external_sensor_controller_wifi
-              name: Font Name
+              name: Sensor Name
+            - type: section
+          style: >
+            ha-card {
+              box-shadow: none;
+              border-radius: 0em 0em 1em 1em;
+              background: var(--paper-dialog-background-color);
+            }
+        - type: markdown
+          content: You can diable the switches to prevent irrigation while testing
+          style: >
+            ha-card {
+              box-shadow: none;
+              padding: 0em 0em 0em 1em;
+              background: var(--paper-dialog-background-color);
+              margin: 0em;
+            }
+            p {
+              font-size: 18px;
+            }
+        - type: entities
+          entities:
+            - entity: input_boolean.irrigation_disable_switches
           style: >
             ha-card {
               box-shadow: none;
