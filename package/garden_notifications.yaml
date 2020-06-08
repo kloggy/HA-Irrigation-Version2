@@ -55,8 +55,8 @@ automation:
             {% else %}
               cycle2
             {% endif %}
-        
-          
+
+
 #============
 #=== Scripts
 #============
@@ -92,33 +92,10 @@ script:
               {{ user2 }}
             {% endif %}
           message: >
-            {% set cycle_name = states('input_text.irrigation_' ~ cycle ~ '_name') %}
-
-            {% set ns = namespace(total_time = 0) %}
-            {% for zone in states.input_number if zone.entity_id.startswith('input_number.irrigation_' ~ cycle ~ '_zone') and
-                                                  zone.entity_id.endswith('_duration') %}
-              {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_zone' ~ loop.index ~ '_skip', 'off') %}                                   
-                {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_adjust_for_weather', 'off') %}
-                  {% set ns.total_time = ns.total_time + states(zone.entity_id) | float %}
-                {% else %}
-
-                  {# Adjust for rainfall #}
-                  {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_adjust_for_rainfall', 'on') %}
-                    {% set ns.total_time = ns.total_time * states('input_number.irrigation_rainfall_multiplier') | float %}
-                  {% endif %}
-
-                  {# Adjust for temperature #}
-                  {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_adjust_for_temperature', 'on') %}
-                    {% set ns.total_time = ns.total_time * states('input_number.irrigation_temp_multiplier') | float %}
-                  {% endif %}
-            
-                {% endif %}
-              {% endif %}
-            {% endfor %}
             I thought you'd like to know that the {{ cycle_name }} has just started.
 
 
-            The total watering time should be about {{ (ns.total_time * 60) | timestamp_custom('%H:%M', false) }} but I'll let you know when it has finished.
+            The total watering time should be about {{ (states('sensor.irrigation_' ~ cycle ~ '_duration_in_seconds') | int / 60) | int }} minutes but I'll let you know when it has finished.
 
 
             I hope you're having a lovely holiday!
@@ -145,6 +122,7 @@ script:
           tell: >
             {% set user1 = states('input_text.notifications_user1_name') %}
             {% set user2 = states('input_text.notifications_user2_name') %}
+
             {% if is_state('input_boolean.irrigation_notify_user1', 'on') and
                   is_state('input_boolean.irrigation_notify_user2', 'on') %}
               {{ (user1 | lower) ~ '_and_' ~ (user2 | lower) }}
