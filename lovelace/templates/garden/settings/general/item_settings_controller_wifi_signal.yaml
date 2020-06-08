@@ -6,6 +6,13 @@
 type: custom:button-card
 entity: {{ entity }}
 name: {{ name }}
+icon: >
+  [[[
+    if (states[states['input_text.irrigation_external_sensor_controller_wifi'].state].state == 'unavailable') 
+      return 'mdi:wifi-off';
+    else
+      return 'mdi:wifi';
+  ]]]
 show_state: true
 show_label: true
 size: 30%
