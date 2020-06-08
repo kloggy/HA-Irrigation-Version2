@@ -1,8 +1,8 @@
 # lovelace_gen
 
-#==============================================================
-#===  A line for each zone showing duration and skip check-box
-#==============================================================
+#===================================================================
+#===  A line for each zone showing duration and every day check-box
+#===================================================================
 type: custom:mod-card
 style: |
   ha-card {
