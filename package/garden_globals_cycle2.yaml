@@ -222,6 +222,7 @@ sensor:
         friendly_name: Cycle 2 Zone 1 Actual Duration In Seconds
         entity_id:
           - sensor.date
+          - input_boolean.irrigation_testing_mode
           - input_boolean.irrigation_ui_show_cycle2
           - input_boolean.irrigation_cycle2_schedule_enabled
           - input_boolean.irrigation_cycle2_adjust_for_rainfall
@@ -275,6 +276,7 @@ sensor:
         friendly_name: Cycle 2 Zone 2 Actual Duration In Seconds
         entity_id:
           - sensor.date
+          - input_boolean.irrigation_testing_mode
           - input_boolean.irrigation_ui_show_cycle2
           - input_boolean.irrigation_cycle2_schedule_enabled
           - input_boolean.irrigation_cycle2_adjust_for_rainfall
@@ -328,6 +330,7 @@ sensor:
         friendly_name: Cycle 2 Zone 3 Actual Duration In Seconds
         entity_id:
           - sensor.date
+          - input_boolean.irrigation_testing_mode
           - input_boolean.irrigation_ui_show_cycle2
           - input_boolean.irrigation_cycle2_schedule_enabled
           - input_boolean.irrigation_cycle2_adjust_for_rainfall
@@ -381,6 +384,7 @@ sensor:
         friendly_name: Cycle 2 Zone 4 Actual Duration In Seconds
         entity_id:
           - sensor.date
+          - input_boolean.irrigation_testing_mode
           - input_boolean.irrigation_ui_show_cycle2
           - input_boolean.irrigation_cycle2_schedule_enabled
           - input_boolean.irrigation_cycle2_adjust_for_rainfall
@@ -434,6 +438,7 @@ sensor:
         friendly_name: Cycle 2 Zone 5 Actual Duration In Seconds
         entity_id:
           - sensor.date
+          - input_boolean.irrigation_testing_mode
           - input_boolean.irrigation_ui_show_cycle2
           - input_boolean.irrigation_cycle2_schedule_enabled
           - input_boolean.irrigation_cycle2_adjust_for_rainfall
@@ -487,6 +492,7 @@ sensor:
         friendly_name: Cycle 2 Zone 6 Actual Duration In Seconds
         entity_id:
           - sensor.date
+          - input_boolean.irrigation_testing_mode
           - input_boolean.irrigation_ui_show_cycle2
           - input_boolean.irrigation_cycle2_schedule_enabled
           - input_boolean.irrigation_cycle2_adjust_for_rainfall
@@ -540,6 +546,7 @@ sensor:
         friendly_name: Cycle 2 Zone 7 Actual Duration In Seconds
         entity_id:
           - sensor.date
+          - input_boolean.irrigation_testing_mode
           - input_boolean.irrigation_ui_show_cycle2
           - input_boolean.irrigation_cycle2_schedule_enabled
           - input_boolean.irrigation_cycle2_adjust_for_rainfall
@@ -593,6 +600,7 @@ sensor:
         friendly_name: Cycle 2 Zone 8 Actual Duration In Seconds
         entity_id:
           - sensor.date
+          - input_boolean.irrigation_testing_mode
           - input_boolean.irrigation_ui_show_cycle2
           - input_boolean.irrigation_cycle2_schedule_enabled
           - input_boolean.irrigation_cycle2_adjust_for_rainfall
