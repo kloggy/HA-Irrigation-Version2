@@ -1,4 +1,15 @@
 
+#==================
+#=== Input Selects
+#==================
+input_select:
+  irrigation_language_select:
+    name: Language
+    options: 
+      - English
+      - Italian
+
+
 #===================
 #=== Input Booleans
 #===================
@@ -11,6 +22,10 @@ input_boolean:
   irrigation_testing_mode:
     name: Irrigation Testing Mode
     icon: mdi:alert-circle-outline
+
+  irrigation_disable_switches:
+    name: Disable Switches 
+    icon: mdi:electric-switch
 
 
 #================

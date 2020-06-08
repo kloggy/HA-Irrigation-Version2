@@ -59,7 +59,7 @@ script:
   #===  zone  - [zone1, zone2, ... zone8]
   #=============================================================
   irrigation_start_zone:
-    description: Irrigartion Start A Zone
+    description: Irrigation Start A Zone
     fields: 
       cycle:
         description: Cycle to run
@@ -245,12 +245,6 @@ script:
           duration: >
             {{ duration }}
 
-      #=== Start watering
-      - service: switch.turn_on
-        data_template:
-          entity_id: >
-            {{ states('input_text.irrigation_' ~ zone ~ '_switch_entity_id') }}
-
       #=== Update last run details for this zone
       - service: input_text.set_value
         data_template:
@@ -258,3 +252,15 @@ script:
             input_text.irrigation_{{ zone }}_previous_duration_in_seconds
           value: >
               Watering
+
+      #=== Continue if switches are not disabled
+      - condition: state
+        entity_id: input_boolean.irrigation_disable_switches
+        state:  'off'
+
+      #=== Start watering
+      - service: switch.turn_on
+        data_template:
+          entity_id: >
+            {{ states('input_text.irrigation_' ~ zone ~ '_switch_entity_id') }}
+
