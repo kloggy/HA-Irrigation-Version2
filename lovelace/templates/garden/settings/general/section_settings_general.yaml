@@ -225,6 +225,7 @@ entities:
           - states['input_text.irrigation_external_sensor_controller_wifi'].state
         entities:
           - input_text.irrigation_external_sensor_controller_wifi
+          - ${states['input_text.irrigation_external_sensor_controller_wifi'].state}
           - input_text.irrigation_ui_font_family
         card:
           !include
@@ -239,64 +240,6 @@ entities:
           - item_settings_warning.yaml
           - entity: input_boolean.irrigation_disable_switches
             name: 'Warning! Switches disabled'
-
-
-      # - type: custom:button-card
-      #   name: "[[[ return states['input_text.irrigation_external_sensor_controller_wifi'].attributes.friendly_name; ]]]"
-      #   icon: >
-      #     [[[
-      #       if (states[states['input_text.irrigation_external_sensor_controller_wifi'].state].state == 'unavailable') 
-      #         return 'mdi:wifi-off';
-      #       else
-      #         return 'mdi:wifi';
-      #     ]]]
-      #   size: 30%
-      #   custom_fields:
-      #     wifi_state: >
-      #       [[[
-      #         var sensor = states[states['input_text.irrigation_external_sensor_controller_wifi'].state].state;
-      #         var unit = (states[states['input_text.irrigation_external_sensor_controller_wifi'].state].state != 'unavailable') ?
-      #                     states[states['input_text.irrigation_external_sensor_controller_wifi'].state].attributes.unit_of_measurement : null;
-      #         return states[states['input_text.irrigation_external_sensor_controller_wifi'].state].state + ' ' + unit;
-      #       ]]]
-      #   styles:
-      #     grid:
-      #       - grid-template-areas: '"i n wifi_state"'
-      #       - grid-template-columns: 15% auto 15%
-      #       - grid-template-rows: min-content
-      #     card:
-      #       - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
-      #       - font-size: 15px
-      #       - padding: 0em 0em 0.5em 0em
-      #       - background: none
-      #       - box-shadow: none
-      #     name: 
-      #       - justify-self: start
-      #     icon:
-      #       - color: >
-      #           [[[
-      #             if (states[states['input_text.irrigation_external_sensor_controller_wifi'].state].state == 'unavailable') 
-      #               return 'var(--accent-color)';
-      #           ]]]
-      #       - animation: >
-      #           [[[
-      #             if (states[states['input_text.irrigation_external_sensor_controller_wifi'].state].state == 'unavailable') 
-      #               return 'blink 2s ease infinite';
-      #           ]]]
-      #     custom_fields:
-      #       wifi_state:
-      #           - color: >
-      #               [[[
-      #                 if (states[states['input_text.irrigation_external_sensor_controller_wifi'].state].state == 'unavailable') 
-      #                   return 'var(--accent-color)';
-      #               ]]]
-      #           - animation: >
-      #               [[[
-      #                 if (states[states['input_text.irrigation_external_sensor_controller_wifi'].state].state == 'unavailable') 
-      #                   return 'blink 2s ease infinite';
-      #               ]]]
-
-
 
 style: >
   ha-card {

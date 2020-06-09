@@ -6,20 +6,14 @@
 type: custom:button-card
 entity: {{ entity }}
 name: {{ name }}
-icon: >
-  [[[
-    if (states[states['input_text.irrigation_external_sensor_controller_wifi'].state].state == 'unavailable') 
-      return 'mdi:wifi-off';
-    else
-      return 'mdi:wifi';
-  ]]]
+icon: "[[[ return entity.state == 'unavailable' ? 'mdi:wifi-off' : 'mdi:wifi'; ]]]"
 show_state: true
-show_label: true
+state_display: "[[[ return entity.state == 'unavailable' ? 'unavailable' : entity_state; ]]]"
 size: 30%
 styles:
   grid:
     - grid-template-areas: '"i n s"'
-    - grid-template-columns: 15% auto 15%
+    - grid-template-columns: 15% auto 20%
     - grid-template-rows: min-content
   card:
     - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
@@ -29,9 +23,6 @@ styles:
     - box-shadow: none
   name: 
     - justify-self: start
-  label:
-    - justify-self: start
-    - color: var(--secondary-text-color)
 state:
   - value: 'unavailable'
     styles:
@@ -76,7 +67,7 @@ tap_action:
               background: var(--paper-dialog-background-color);
             }
         - type: markdown
-          content: You can diable the switches to prevent irrigation while testing
+          content: You can disable the switches to prevent irrigation while testing.
           style: >
             ha-card {
               box-shadow: none;
