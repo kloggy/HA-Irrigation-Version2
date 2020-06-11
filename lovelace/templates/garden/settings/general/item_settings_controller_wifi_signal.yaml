@@ -8,7 +8,7 @@ entity: {{ entity }}
 name: {{ name }}
 icon: "[[[ return entity.state == 'unavailable' ? 'mdi:wifi-off' : 'mdi:wifi'; ]]]"
 show_state: true
-state_display: "[[[ return entity.state == 'unavailable' ? 'unavailable' : entity_state; ]]]"
+state_display: "[[[ return entity.state == 'unavailable' ? 'unavailable' : entity.state; ]]]"
 size: 30%
 styles:
   grid:
