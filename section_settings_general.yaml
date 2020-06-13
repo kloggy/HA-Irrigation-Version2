@@ -1,0 +1,111 @@
+
+#=====================
+#=== GENERAL SETTINGS
+#=====================
+type: entities
+entities:
+
+  - type: custom:hui-element
+    card_type: vertical-stack
+    cards:
+
+      #=== Irrigation Master Control and Testing Mode
+      - type: horizontal-stack
+        cards:
+
+          #=== Irrigation Master Control switch
+          - !include
+            - ../item_settings_check_box_with_entity_icon.yaml
+            - entity: input_boolean.irrigation_master_control_switch
+              on_name: "System is ON"
+              off_name: "System is OFF"
+
+          #=== Irrigation Testing Mode
+          - !include
+            - ../item_settings_check_box_with_entity_icon.yaml
+            - entity: input_boolean.irrigation_testing_mode
+
+      #=== Testing mode warning
+      - !include
+          - item_settings_warning.yaml
+          - entity: input_boolean.irrigation_testing_mode
+            name: 'Warning! Testing mode converts run<br>times from minutes to seconds'
+
+      #=== Notify users
+      - !include item_settings_notify_users.yaml
+
+      #=== Edit user names
+      - !include item_settings_edit_user_names.yaml
+
+
+      #-------------------------
+      - type: custom:hui-element
+        row_type: divider
+      #-------------------------
+
+
+      #=== UI Font
+      - !include item_settings_ui_font.yaml
+
+      #=== Weather Sensors
+      - !include item_settings_weather_sensors.yaml
+
+      #=== Number of zones
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_number_of_zones
+            name: Number Of Zones
+
+      #=== Pause between zones
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_pause_between_zones_in_seconds
+            name: Pause Between Zones
+
+      #=== Minimum duration when using weather adjustments
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_weather_adjusted_minimum_duration_in_seconds
+            name: Minimum Time To Run A Zone
+            label: When using weather adjustments
+
+      #=== Maximum duration when using weather adjustments
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_weather_adjusted_maximum_duration_in_minutes
+            name: Maximum Time To Run A Zone
+            label: When using weather adjustments
+
+
+      #-------------------------
+      - type: custom:hui-element
+        row_type: divider
+      #-------------------------
+
+
+      #=== Controller WiFi Signal
+      - type: custom:config-template-card
+        variables:
+          - states['input_text.irrigation_external_sensor_controller_wifi'].state
+        entities:
+          - input_text.irrigation_external_sensor_controller_wifi
+          - ${states['input_text.irrigation_external_sensor_controller_wifi'].state}
+          - input_text.irrigation_ui_font_family
+        card:
+          !include
+            - item_settings_controller_wifi_signal.yaml
+            - entity: "${vars[0]}"
+              name: Irrigation Controller WiFi Signal Strength
+              tap_action: none
+              padding: 0.5em 0em 0.5em 0em
+
+      #=== Testing mode warning
+      - !include
+          - item_settings_warning.yaml
+          - entity: input_boolean.irrigation_disable_switches
+            name: 'Warning! Switches disabled'
+
+style: >
+  ha-card {
+    box-shadow: none;
+  }
