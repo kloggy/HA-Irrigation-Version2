@@ -161,7 +161,7 @@ script:
             {% set next_zone = (zone[-1] | int) + 1 %}
             zone{{ next_zone | string }}
           pause: >
-            3
+            {{ states('input_number.irrigation_pause_between_zones_in_seconds') | int }}
 
 
   #====================================
