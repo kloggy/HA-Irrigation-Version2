@@ -65,6 +65,15 @@ input_text:
 #==================
 input_number:
 
+  irrigation_pause_between_zones_in_seconds: 
+    name: Pause Between Zones In Seconds
+    min: 3
+    max: 15
+    step: 1
+    mode: box
+    unit_of_measurement: secs
+    icon: mdi:timer
+
   irrigation_weather_adjusted_minimum_duration_in_seconds: 
     name: Minimum Duration After Weather Adjustment In Seconds
     min: 1
