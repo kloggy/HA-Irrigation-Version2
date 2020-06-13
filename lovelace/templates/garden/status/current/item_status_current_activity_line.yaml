@@ -29,8 +29,6 @@ label: >
       return zone_name;
     else if (zone_timer_status == 'active')
       return 'Watering ' + zone_name;
-    else if (states['input_boolean.irrigation_' + cycle + '_' + zone + '_skip'].state == 'skip')
-      return zone_name + ' (Skip)';
     else
       return zone_name;
   ]]]
