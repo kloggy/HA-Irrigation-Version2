@@ -173,7 +173,9 @@ entities:
                     - type: section
                       label: Temperature Sensors
                     - entity: input_text.irrigation_external_sensor_forecast_high_temp
+                      name: Forecast High Temperature
                     - entity: input_text.irrigation_external_sensor_current_temp
+                      name: Current Temperature
                     # - type: section
                   style: >
                     ha-card {
@@ -197,6 +199,12 @@ entities:
           - ../item_settings_line.yaml
           - entity: input_number.irrigation_number_of_zones
             name: Number Of Zones
+
+      #=== Pause between zones
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_pause_between_zones_in_seconds
+            name: Pause Between Zones
 
       #=== Minimum duration when using weather adjustments
       - !include
