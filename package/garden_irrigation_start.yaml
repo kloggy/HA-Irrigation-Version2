@@ -161,12 +161,7 @@ script:
             {% set next_zone = (zone[-1] | int) + 1 %}
             zone{{ next_zone | string }}
           pause: >
-            {% set next_zone = (zone[-1] | int) + 1 %}
-            {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_zone' ~ (next_zone | string) ~ '_skip', 'on') %}
-              0
-            {% else %}
-              3
-            {% endif %}
+            3
 
 
   #====================================
@@ -197,16 +192,16 @@ script:
           value: SYSTEM IDLE
 
 
-  #=========================================
-  #=== Start A Timer Unless zone is skipped
+  #=======================================
+  #=== Start A Timer
   #===
   #=== Passed
   #===  cycle - [cycle1, cycle2]
   #===  zone  - [zone1, zone2, ... zone8]
   #===  duration - in seconds
-  #=========================================
+  #=======================================
   irrigation_start_timer:
-    description: Irrigation Start A Timer Unless zone is skipped
+    description: Irrigation Start A Timer
     fields: 
       cycle:
         description: Cycle to run
@@ -219,7 +214,7 @@ script:
         example: 120
 
     sequence:
-      #=== If zone is skipped then duration is zero
+      #=== Continue if duration is not zero
       - condition: template
         value_template: >
           {{ duration != '0' }}
