@@ -13,8 +13,7 @@ cards:
   - type: custom:button-card
     name: '•  Edit user names '
     icon: mdi:square-edit-outline
-    # icon: mdi:dots-horizontal
-    size: 70%
+    size: 60%
     styles:
       grid:
         - grid-template-areas: '"n i"'
@@ -47,10 +46,7 @@ cards:
                   padding: 0em 0em 0em 1em;
                   background: var(--paper-dialog-background-color);
                   margin: 0em;
-                }
-                p {
-                  text-align: centre;
-                  font-size: 18px;
+                  font-size: 16px;
                 }
             - type: entities
               entities:
@@ -67,11 +63,26 @@ cards:
             - type: markdown
               content: >
                 These names are held in:
-
-
-                <span>input_text.notifications_user[1, 2]_name</span>
-
-
+              style: >
+                ha-card {
+                  box-shadow: none;
+                  padding: 0em 0em 0em 1em;
+                  background: var(--paper-dialog-background-color);
+                  font-size: 16px;
+                }
+            - type: markdown
+              content: >
+                input_text.notifications_user[1, 2]_name
+              style: >
+                ha-card {
+                  box-shadow: none;
+                  background: var(--paper-dialog-background-color);
+                  text-align: center;
+                  font-family: Roboto;
+                  font-size: 16px;
+                }
+            - type: markdown
+              content: >
                 and can be used in your notification processing as approriate.
 
 
@@ -85,16 +96,7 @@ cards:
                   box-shadow: none;
                   padding: 0em 0em 0em 1em;
                   background: var(--paper-dialog-background-color);
-                  margin: 0em;
-                }
-                span {
-                  display: block;
-                  text-align: center;
-                  font-family: roboto;
-                  font-size: 14px;
-                }
-                p {
-                  font-size: 18px;
+                  font-size: 16px;
                 }
         deviceID:
           - this
