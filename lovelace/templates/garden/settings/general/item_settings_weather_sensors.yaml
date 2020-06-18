@@ -32,32 +32,28 @@ tap_action:
         - type: markdown
           content: >
             For the Weather Outlook you need to create the following sensor:
-
-
-            <span>sensor.irrigation_weather_outlook</span>
-
-
-            Leave any of the following sensors blank to reset to default.
           style: >
             ha-card {
               box-shadow: none;
               padding: 0em 0em 0em 1em;
               background: var(--paper-dialog-background-color);
-              margin: 0em;
+              font-size: 16px;
             }
-            span {
-              display: block;
+        - type: markdown
+          content: >
+            sensor.irrigation_weather_outlook
+          style: >
+            ha-card {
+              box-shadow: none;
+              background: var(--paper-dialog-background-color);
               text-align: center;
-              font-family: roboto;
-              font-size: 14px;
-            }
-            p {
-              font-size: 18px;
+              font-family: Roboto;
+              font-size: 16px;
             }
         - type: entities
           entities:
             - type: section
-              label: Rainfall Sensors
+              label: Rainfall Sensors (leave blank to reset default)
             - entity: input_text.irrigation_external_sensor_rainfall_today
               name: Rain Today
             - entity: input_text.irrigation_external_sensor_rainfall_yesterday
@@ -65,7 +61,7 @@ tap_action:
             - entity: input_boolean.irrigation_show_smartweather_stations
               name: Using SmartWeather (show stations)
             - type: section
-              label: Temperature Sensors
+              label: Temperature Sensors (leave blank to reset default)
             - entity: input_text.irrigation_external_sensor_forecast_high_temp
               name: Forecast High Temperature
             - entity: input_text.irrigation_external_sensor_current_temp
