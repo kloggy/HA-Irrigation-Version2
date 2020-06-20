@@ -96,11 +96,7 @@ script:
       - service: switch.turn_off
         data_template:
           entity_id: >
-            {% if is_state('switch.garden_irrigation_relay_' ~ zone, 'unavailable') %}
-              none
-            {% else %}
-              switch.garden_irrigation_relay_{{ zone }}
-            {% endif %}
+            {{ states('input_text.irrigation_' ~ zone ~ '_switch_entity_id') }}
 
 
       #============================
