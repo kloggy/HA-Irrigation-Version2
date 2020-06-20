@@ -48,8 +48,7 @@ __The Lovelace interface__ makes use of many custom integrations/cards (all inst
 - config-template-card (https://github.com/iantrich/config-template-card)
 - mini-graph-card (https://github.com/kalkih/mini-graph-card)
 - layout-card (https://github.com/thomasloven/lovelace-layout-card)
-(This might be optional, I don't need to use it anymore but if your columns don't display in the right order
-then look in `view_garden_version2.yaml`, there are some lines that need to be uncommented.)
+This is optional but recommended. Sometimes updates to HA (and hence Lovelece) will cause the columns not to display in the correct order. I always use it now, but if you don't and your columns don't display in the right order then look in `view_garden_version2.yaml`, there are some lines that need to be uncommented.
 - state-switch (https://github.com/thomasloven/lovelace-state-switch)
 - time-picker-card (https://github.com/GeorgeSG/lovelace-time-picker-card)
 
