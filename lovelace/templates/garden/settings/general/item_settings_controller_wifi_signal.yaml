@@ -6,12 +6,12 @@
 type: custom:button-card
 entity: {{ entity }}
 name: {{ name }}
-icon: "[[[ return entity.state == 'unavailable' ? 'mdi:wifi-off' : 'mdi:wifi'; ]]]"
+icon: "[[[ return (entity === undefined || entity.state == 'unavailable') ? 'mdi:wifi-off' : 'mdi:wifi'; ]]]"
 show_state: true
 state_display: >
   [[[
     var statestr = (entity === undefined || entity.state === undefined) ? 'undefined' : entity.state;
-    var unit_om = entity.attributes.unit_of_measurement ? entity.attributes.unit_of_measurement : '';
+    var unit_om = (statestr != 'undefined' && entity.attributes.unit_of_measurement) ? entity.attributes.unit_of_measurement : '';
     return statestr + ' ' + unit_om;
   ]]]
 size: 30%
