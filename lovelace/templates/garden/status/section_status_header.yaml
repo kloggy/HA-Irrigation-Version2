@@ -96,9 +96,9 @@ entities:
                   return cycle1_name + ' at ' + cycle1_start_time;
               else if (cycle2_schedule_enabled == 'on' && cycle2_runs_today && cycle2_start_time > time_now)
                   return cycle2_name + ' at ' + cycle2_start_time;
-              else if (cycle1_schedule_enabled == 'on' && cycle1_runs_tomorrow && cycle1_start_time < time_now)
+              else if (cycle1_schedule_enabled == 'on' && cycle1_runs_tomorrow)
                   return 'Tomorrow at ' + cycle1_start_time;
-              else if (cycle2_schedule_enabled == 'on' && cycle2_runs_tomorrow && cycle2_start_time < time_now)
+              else if (cycle2_schedule_enabled == 'on' && cycle2_runs_tomorrow)
                   return 'Tomorrow at ' + cycle2_start_time;
               else return 'NOTHING SCHEDULED';
           ]]]
