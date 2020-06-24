@@ -50,6 +50,43 @@ card:
                     card:
                       type: entities
                       entities:
+                        - type: custom:hui-element
+                          card_type: horizontal-stack
+                          cards:
+                            - type: custom:button-card
+                              entity: script.irrigation_run_a_single_zone_on_demand
+                              name: Run This Zone Now
+                              icon: mdi:play-circle-outline
+                              size: 90%
+                              styles:
+                                grid:
+                                  - grid-template-areas: '"i n"'
+                                  - grid-template-columns: 20% 1fr
+                                  - grid-template-rows: 1fr
+                                card:
+                                  - display: >
+                                      if (states['input_boolean.irrigation_cycle1_running'].state == 'on' ||
+                                          states['input_boolean.irrigation_cycle2_running'].state == 'on' ||
+                                          states['input_boolean.irrigation_cycle3_running'].state == 'on' )
+                                        return none;
+                                      ]]]
+                                  - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+                                  - font-size: 14px
+                                  - background-color: var(--primary-background-color)
+                                  - border: 1px solid var(--accent-color)
+                                  - padding: 0.5em
+                                  - border-radius: 5px
+                                icon:
+                                  - color: green
+                              tap_action:
+                                action: call-service
+                                service: script.irrigation_run_a_single_zone_on_demand
+                                service_data:
+                                  zone: {{ zone }}
+
+                            - type: custom:button-card
+                              color_type: blank-card
+
                         - entity: input_number.irrigation_cycle{{ cycle }}_zone{{ zone }}_duration_box
                           name: Duration
                         - entity: input_text.irrigation_zone{{ zone }}_name
