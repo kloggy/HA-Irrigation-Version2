@@ -51,7 +51,7 @@ cards:
       card:
         - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
         - border-radius: 0px
-        - margin-left: 0.5em
+        - margin-left: 0em
         - padding: 0em
         - box-shadow: none
         - background: none
