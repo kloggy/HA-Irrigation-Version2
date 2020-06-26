@@ -4,12 +4,12 @@
 #============
 script:
 
-  #================================
+  #=======================================
   #=== Run a Single Zone On Demand
   #===
   #=== Passed
-  #===  zone  - [1, 2, ... 8]
-  #================================
+  #===  zone  - [zone1, zone2, ... zone8]
+  #=======================================
   irrigation_run_a_single_zone_on_demand:
     description: Irrigate A Single Zone On Demand
     fields: 
@@ -39,7 +39,7 @@ script:
       #=== Save current settings
       - service: scene.create
         data:
-          scene_id: cycle3
+          scene_id: irrigation_cycle3
           snapshot_entities:
             - input_boolean.irrigation_cycle1_schedule_enabled
             - input_boolean.irrigation_cycle2_schedule_enabled
@@ -58,11 +58,11 @@ script:
           - input_boolean.irrigation_cycle1_schedule_enabled
           - input_boolean.irrigation_cycle2_schedule_enabled
 
-      #=== Set all zone durations in Cycle 3 to zero
+      #=== Set zone durations not being run in Cycle 3 to zero
       - service: input_number.set_value
         data_template:
           entity_id: >
-            {% if zone != 1 %}
+            {% if zone != 'zone1' %}
               input_number.irrigation_cycle3_zone1_duration
             {% else %}
               none
@@ -72,7 +72,7 @@ script:
       - service: input_number.set_value
         data_template:
           entity_id: >
-            {% if zone != 2 %}
+            {% if zone != 'zone2' %}
               input_number.irrigation_cycle3_zone2_duration
             {% else %}
               none
@@ -82,7 +82,7 @@ script:
       - service: input_number.set_value
         data_template:
           entity_id: >
-            {% if zone != 3 %}
+            {% if zone != 'zone3' %}
               input_number.irrigation_cycle3_zone3_duration
             {% else %}
               none
@@ -92,7 +92,7 @@ script:
       - service: input_number.set_value
         data_template:
           entity_id: >
-            {% if zone != 4 %}
+            {% if zone != 'zone4' %}
               input_number.irrigation_cycle3_zone4_duration
             {% else %}
               none
@@ -102,7 +102,7 @@ script:
       - service: input_number.set_value
         data_template:
           entity_id: >
-            {% if zone != 5 %}
+            {% if zone != 'zone5' %}
               input_number.irrigation_cycle3_zone5_duration
             {% else %}
               none
@@ -112,7 +112,7 @@ script:
       - service: input_number.set_value
         data_template:
           entity_id: >
-            {% if zone != 6 %}
+            {% if zone != 'zone6' %}
               input_number.irrigation_cycle3_zone6_duration
             {% else %}
               none
@@ -122,7 +122,7 @@ script:
       - service: input_number.set_value
         data_template:
           entity_id: >
-            {% if zone != 7 %}
+            {% if zone != 'zone7' %}
               input_number.irrigation_cycle3_zone7_duration
             {% else %}
               none
@@ -132,7 +132,7 @@ script:
       - service: input_number.set_value
         data_template:
           entity_id: >
-            {% if zone != 8 %}
+            {% if zone != 'zone8' %}
               input_number.irrigation_cycle3_zone8_duration
             {% else %}
               none
@@ -154,4 +154,4 @@ script:
       #=== Restore previous settings
       - service: scene.turn_on
         data:
-          entity_id: scene.cycle3
+          entity_id: scene.irrigation_cycle3
