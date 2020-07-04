@@ -8,6 +8,8 @@ I have detailed them here and provided example yaml code in `prerequisites.yaml`
 
 ----
 
+__Scenes__ are used in this package. If you use `default_config:` there is no need to add anything as it is included automatically (see - https://www.home-assistant.io/integrations/default_config/) if not then somewhere (usually in your `configuration.yaml`) you must include the line `scene:`
+
 __sensor.time__ is needed somewhere in your config
 
 __sun2.__ This is a custom component (installable through HACS) that provides lots of solar information and creates `binary_sensor.above_horizon` which is used in the graphs.
