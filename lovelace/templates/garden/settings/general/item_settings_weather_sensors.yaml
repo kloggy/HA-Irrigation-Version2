@@ -54,6 +54,8 @@ tap_action:
           entities:
             - type: section
               label: Rainfall Sensors (leave blank to reset default)
+            - entity: input_text.irrigation_external_sensor_raining_now
+              name: Raining Now
             - entity: input_text.irrigation_external_sensor_rainfall_today
               name: Rain Today
             - entity: input_text.irrigation_external_sensor_rainfall_yesterday
