@@ -49,6 +49,12 @@ entities:
             name: Rainfall threshold
             label: If this threshold is reached no watering takes place
 
+      #=== Ignore schedules if raining
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_boolean.irrigation_ignore_schedule_if_raining
+            name: Ignore schedules if it is raining
+
       #-------------------------
       - type: custom:hui-element
         row_type: divider
@@ -208,6 +214,24 @@ entities:
 
       #=== SmartWeather Stations Used
       - !include item_settings_smartweather_stations_used.yaml
+
+
+      #-------------------------
+      - type: custom:hui-element
+        row_type: divider
+      #-------------------------
+
+
+      #=== Forecast Rain vs. Actual Rain
+      - type: custom:button-card  
+        show_icon: false
+        name:  RAINFALL - <font color=IndianRed>Forecast</font> vs. <font color=SteelBlue>Actual</font>
+        tap_action:
+          action: none
+        styles: *title_style
+
+      #=== Forecast vs. Actual Rian Graph
+      - !include item_settings_rainfall_graph.yaml
 
 style: >
   ha-card {
