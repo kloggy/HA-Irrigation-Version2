@@ -47,6 +47,8 @@ cards:
         - margin-bottom: 0em
       name:
         - color: var(--secondary-text-color)
+    tap_action:
+      action: none
     state:
       - value: 'on'
         styles:
