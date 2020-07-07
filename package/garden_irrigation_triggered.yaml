@@ -35,12 +35,13 @@ automation:
         entity_id: input_boolean.irrigation_cycle3_running
         to: 'on'
 
-    #=================================================
+    #===================================================
     #=== CONDITIONS
     #===    Master Control switch must be On
     #===    No other cycle is currently running
     #===    The cycle is enabled
-    #=================================================
+    #===    It is not raining now if option is selected
+    #===================================================
     condition:
       #=== Only continue if Master Control Switch is on
       - condition: state
@@ -75,6 +76,21 @@ automation:
           {% else %}
             False
           {% endif %}
+
+      #=== Check it is not raining if that option is enabled. NOTE: don't check this for cycle 3
+      - condition: template
+        value_template: >
+          {% if 'cycle3' in trigger.entity_id %}
+            True
+          {% elif states('input_boolean.irrigation_ignore_schedule_if_raining') == 'off' %}
+            True
+          {% elif states('input_boolean.irrigation_ignore_schedule_if_raining') == 'on' and
+                  states('input_text.irrigation_external_sensor_raining_now') == 'off' %}
+            True
+          {% else %}
+            False
+          {% endif %}
+
 
     #===============================================
     #=== ACTIONS

@@ -61,6 +61,33 @@ automation:
           entity_id: input_text.irrigation_external_sensor_rainfall_yesterday
           value: sensor.smartweather_average_rain_yesterday
 
+  #=== Raining Now Sensor
+  - alias: Irrigation Set Default Raining Now Sensor
+    trigger:
+      - platform: homeassistant
+        event: start
+
+      - platform: state
+        entity_id: input_text.irrigation_external_sensor_raining_now
+        to: ''
+
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_raining_now
+          state: 'unknown'
+
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_raining_now
+          state: ''
+
+    action:
+      - service: input_text.set_value
+        data_template:
+          entity_id: input_text.irrigation_external_sensor_raining_now
+          value: binary_sensor.raining_now
+
 
   #===================================================
   #=== Initialise the Rainfall Sensors when HA starts
@@ -76,6 +103,7 @@ automation:
           entity_id: 
             - sensor.irrigation_sensor_rainfall_today
             - sensor.irrigation_sensor_rainfall_yesterday
+            - binary_sensor.irrigation_sensor_raining_now
 
 
   #=======================================================================
@@ -124,6 +152,29 @@ automation:
         entity_id: sensor.irrigation_sensor_rainfall_yesterday
 
 
+  #====================================================================
+  #=== Synchronise the sensor for Raining now with the external sensor
+  #====================================================================
+  - alias: Irrigation Synchronise Sensor Raining Now
+    trigger:
+      - platform: event
+        event_type: state_changed
+
+    condition:
+      - condition: template
+        value_template: >
+          {{ 
+            trigger.event.data.entity_id in [
+              'input_text.irrigation_external_sensor_raining_now',
+              states('input_text.irrigation_external_sensor_raining_now')
+            ]
+          }}
+
+    action:
+      - service: homeassistant.update_entity
+        entity_id: sensor.irrigation_sensor_raining_now
+
+
   #===============================================================
   #=== Cycle rainfall history figures for the four previous days.
   #===============================================================
@@ -150,7 +201,6 @@ automation:
         data_template:
           value: >
             {{ states(states('input_text.irrigation_external_sensor_rainfall_yesterday')) | float }}
-
 
   #==============================================================================
   #=== Calculate rain multiplier

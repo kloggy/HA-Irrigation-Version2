@@ -26,6 +26,14 @@ sensor:
         icon_template: mdi:weather-rainy
         unit_of_measurement: mm
 
+binary_sensor:
+  - platform: template
+    sensors:
+      irrigation_sensor_raining_now:
+        value_template: >
+          {{ states(states('input_text.irrigation_external_sensor_raining_now')) }}
+        icon_template: mdi:weather-pouring
+
 
 #===================
 #=== Input Booleans
@@ -34,6 +42,10 @@ input_boolean:
   irrigation_show_smartweather_stations:
     name: Show SmartWeather Stations
     icon: mdi:weather-rainy
+
+  irrigation_ignore_schedule_if_raining:
+    name: Ignore schedules if it is raining
+    icon: mdi:calendar-remove
 
 
 #================
@@ -59,6 +71,13 @@ input_text:
     min: 0
     max: 100
 
+  #=== Sensor for raining now
+  irrigation_external_sensor_raining_now:
+    name: Raining Now
+    icon: mdi:weather-pouring
+    min: 0
+    max: 100
+  
 
 #==================
 #=== Input_Numbers
