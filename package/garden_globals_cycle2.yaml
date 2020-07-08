@@ -206,16 +206,14 @@ sensor:
       irrigation_cycle2_duration_in_seconds:
         friendly_name: Cycle 2 Duration In Seconds
         value_template: >
-          {{
-            states('sensor.irrigation_cycle2_zone1_actual_duration_in_seconds') | int +
-            states('sensor.irrigation_cycle2_zone2_actual_duration_in_seconds') | int +
-            states('sensor.irrigation_cycle2_zone3_actual_duration_in_seconds') | int +
-            states('sensor.irrigation_cycle2_zone4_actual_duration_in_seconds') | int +
-            states('sensor.irrigation_cycle2_zone5_actual_duration_in_seconds') | int +
-            states('sensor.irrigation_cycle2_zone6_actual_duration_in_seconds') | int +
-            states('sensor.irrigation_cycle2_zone7_actual_duration_in_seconds') | int +
-            states('sensor.irrigation_cycle2_zone8_actual_duration_in_seconds') | int
-          }}
+          {% set ns = namespace(duration = 0) %}
+          {% for zone in states.sensor if zone.object_id.startswith('irrigation_cycle2_zone') and 
+                                          zone.object_id.endswith('_actual_duration_in_seconds') %}
+            {% if loop.index <= states('input_number.irrigation_number_of_zones') | int %}
+              {% set ns.duration = ns.duration + (zone.state | int) %}
+            {% endif %}
+          {% endfor %}
+          {{ ns.duration }}
 
       #=== Actual Zone durations in seconds
       irrigation_cycle2_zone1_actual_duration_in_seconds:
