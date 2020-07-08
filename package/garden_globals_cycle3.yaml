@@ -168,6 +168,15 @@ sensor:
       #=== Cycle 3 Duration In Seconds
       irrigation_cycle3_duration_in_seconds:
         friendly_name: Cycle 3 Duration In Seconds
+        entity_id:
+          - sensor.irrigation_cycle3_zone1_actual_duration_in_seconds
+          - sensor.irrigation_cycle3_zone2_actual_duration_in_seconds
+          - sensor.irrigation_cycle3_zone3_actual_duration_in_seconds
+          - sensor.irrigation_cycle3_zone4_actual_duration_in_seconds
+          - sensor.irrigation_cycle3_zone5_actual_duration_in_seconds
+          - sensor.irrigation_cycle3_zone6_actual_duration_in_seconds
+          - sensor.irrigation_cycle3_zone7_actual_duration_in_seconds
+          - sensor.irrigation_cycle3_zone8_actual_duration_in_seconds
         value_template: >
           {% set ns = namespace(duration = 0) %}
           {% for zone in states.sensor if zone.object_id.startswith('irrigation_cycle3_zone') and 
