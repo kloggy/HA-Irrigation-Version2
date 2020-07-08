@@ -206,6 +206,7 @@ sensor:
       irrigation_cycle2_duration_in_seconds:
         friendly_name: Cycle 2 Duration In Seconds
         entity_id:
+          - input_number.irrigation_number_of_zones
           - sensor.irrigation_cycle2_zone1_actual_duration_in_seconds
           - sensor.irrigation_cycle2_zone2_actual_duration_in_seconds
           - sensor.irrigation_cycle2_zone3_actual_duration_in_seconds
