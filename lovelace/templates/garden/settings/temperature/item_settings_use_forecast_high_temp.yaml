@@ -75,4 +75,5 @@ cards:
               font-size: 14px
               box-shadow: 0em 0em 0.5em
               border-radius: 1em
+              overflow: hidden
               opacity: 0.9
