@@ -37,7 +37,6 @@ card:
             - timer.irrigation_zone{{ zone }}_timer
           card:
             type: entities
-            show_header_toggle: false
             entities:
               - entity: input_number.irrigation_cycle{{ cycle }}_zone{{ zone }}_duration
                 name: "${ vars[0] }"
@@ -97,7 +96,9 @@ card:
                                   - display: >
                                       [[[
                                         var zone = '{{ zone }}';
-                                        if (states['input_boolean.irrigation_cycle1_running'].state == 'on' ||
+                                        if (states['input_boolean.irrigation_ui_show_cycle3'].state != 'on')
+                                          return 'none';
+                                        else if (states['input_boolean.irrigation_cycle1_running'].state == 'on' ||
                                             states['input_boolean.irrigation_cycle2_running'].state == 'on')
                                           return 'none';
                                         else if (
@@ -172,6 +173,7 @@ card:
                       font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
                       box-shadow: 0em 0em 0.5em
                       border-radius: 1em
+                      overflow: hidden
                       opacity: 0.9
 
             style: |

@@ -37,8 +37,9 @@ cards:
               return states['input_text.irrigation_ui_font_family'].state
             ]]]
           font-size: 14px
-          border-radius: 1em
           box-shadow: 0em 0em 0.5em
+          border-radius: 1em
+          overflow: hidden
           opacity: 0.9
     styles:
       grid:
@@ -175,6 +176,7 @@ cards:
         - height: 45px
         - width: 45px
         - box-shadow: none
+        - margin-top: -0.1em
         - display: >
             [[[
               var cycle = '{{ cycle }}';
