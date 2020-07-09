@@ -79,6 +79,7 @@ card:
             font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
             box-shadow: 0em 0em 0.5em
             border-radius: 1em
+            overflow: hidden
             opacity: 0.9
 
     #========================
