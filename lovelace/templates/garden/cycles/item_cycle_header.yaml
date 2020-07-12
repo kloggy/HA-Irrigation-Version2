@@ -17,34 +17,11 @@ cards:
     show_state: true
     show_entity_picture: true # Disable if using mdi icons
     show_icon: true
-    size: 80%
-    tap_action:
-      action: call-service
-      service: browser_mod.popup
-      service_data:
-        title: Cycle {{ cycle }} Settings
-        card:
-          type: entities
-          entities:
-            - entity: input_text.irrigation_cycle{{ cycle }}_name
-              name: Name
-              icon: mdi:alphabetical-variant
-        deviceID:
-          - this
-        style:
-          font-family: >
-            [[[
-              return states['input_text.irrigation_ui_font_family'].state
-            ]]]
-          font-size: 14px
-          box-shadow: 0em 0em 0.5em
-          border-radius: 1em
-          overflow: hidden
-          opacity: 0.9
+    size: 100%
     styles:
       grid:
         - grid-template-areas: '"n n" "i s"'
-        - grid-template-columns: min-content min-content  
+        - grid-template-columns: min-content 1fr  
         - grid-template-rows: 1fr min-content
       img_cell:
         - width: 2em
@@ -68,8 +45,32 @@ cards:
       state:
         - font-size: 13px
         - text-align: left
+        - justify-self: start
         - margin-top: 0.2em
         - padding-left: 0.4em
+    tap_action:
+      action: call-service
+      service: browser_mod.popup
+      service_data:
+        title: Cycle {{ cycle }} Settings
+        card:
+          type: entities
+          entities:
+            - entity: input_text.irrigation_cycle{{ cycle }}_name
+              name: Name
+              icon: mdi:alphabetical-variant
+        deviceID:
+          - this
+        style:
+          font-family: >
+            [[[
+              return states['input_text.irrigation_ui_font_family'].state
+            ]]]
+          font-size: 14px
+          box-shadow: 0em 0em 0.5em
+          border-radius: 1em
+          overflow: hidden
+          opacity: 0.9
 
   #=== Cycle Running Icon
   - type: custom:button-card
