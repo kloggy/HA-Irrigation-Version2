@@ -145,7 +145,8 @@ script:
       #=== If less than the number of zones
       #===    then increment the loop counter and start again
       - service_template: >
-          {% if zone[-1] | int == states('input_number.irrigation_number_of_zones') | int %}
+          {% if (zone | trim('zone') | int)
+          == states('input_number.irrigation_number_of_zones') | int %}
             script.irrigation_cycle_end
           {% else %}
             script.irrigation_irrigate_a_zone
@@ -154,7 +155,7 @@ script:
           cycle: >
             {{ cycle }} 
           zone: >
-            {% set next_zone = (zone[-1] | int) + 1 %}
+            {% set next_zone = (zone | trim('zone') | int) + 1 %}
             zone{{ next_zone | string }}
           pause: >
             {{ states('input_number.irrigation_pause_between_zones_in_seconds') | int }}
@@ -244,7 +245,7 @@ script:
           value: >
               Watering
 
-      #=== Continue if switches are not disabled
+      #=== Continue if switches are not disabled (used when testing)
       - condition: state
         entity_id: input_boolean.irrigation_disable_switches
         state:  'off'
