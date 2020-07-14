@@ -1,8 +1,39 @@
 
 #==================
+#=== Input Selects
+#==================
+input_select:
+  irrigation_cycle1_start_time_type:
+    options: 
+      - Actual Time
+      - Sunrise Offset
+      - Sunset Offset
+
+
+#==================
 #=== Input Numbers
 #==================
 input_number:
+
+  #=====================================
+  #=== Start time Sunrise/Sunset offset
+  #=====================================
+  irrigation_cycle1_start_time_sunrise_offset: 
+    name: Sunrise Offset
+    min: -120
+    max: 120
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:weather-sunset-up
+
+  irrigation_cycle1_start_time_sunset_offset: 
+    name: Sunset Offset
+    min: -120
+    max: 120
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:weather-sunset-down
+
 
   #=====================================
   #=== Cycle 1 zone durations (Sliders)
