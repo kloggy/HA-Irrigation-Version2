@@ -33,7 +33,7 @@ styles:
     - display: >
         [[[
           var zone = '{{ zone }}';
-          zone = Number(zone.substring(4, 5));
+          zone = Number(zone.replace('zone', ''));
           var number_of_zones = Number(states['input_number.irrigation_number_of_zones'].state);
           var show_details = states['input_boolean.irrigation_ui_show_last_run_details'].state;
           if (zone > number_of_zones ||
