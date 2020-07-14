@@ -9,6 +9,7 @@ triggers_update:
   - sensor.irrigation_cycle{{ cycle }}_duration_in_seconds
   - input_boolean.irrigation_cycle{{ cycle }}_adjust_for_temperature
   - input_boolean.irrigation_cycle{{ cycle }}_adjust_for_rainfall
+  - input_select.irrigation_cycle{{ cycle }}_start_time_type
 name: >
   [[[
     var start_time = new Date(null);
@@ -19,7 +20,8 @@ name: >
     return "Start Time: " + start_time.toISOString().substr(11, 5);    
   ]]]
 show_label: true
-show_icon: false
+icon: mdi:theme-light-dark
+show_icon: true
 label: >
   [[[
     var cycle = '{{ cycle }}';
@@ -33,7 +35,41 @@ label: >
     return "<br>(Will end about " + end_time.toISOString().substr(11, 5) + ")";    
   ]]]
 color: var(--paper-item-icon-active-color)
-size: 100%
+size: 60%
+styles:
+  grid:
+    - grid-template-areas: '"n i" "l l"'
+    - grid-template-columns: min-content 15%
+    - grid-template-rows: 1fr min-content
+  card:
+    # - height: 3.25em
+    - margin-top: -0.25em
+    - margin-bottom: -1em
+    - margin-left: 0.75em
+    - box-shadow: none
+    - background: none
+    - font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
+  name:
+    - align-self: start
+    - padding-bottom: 0em
+  label:
+    - position: relative
+    - top: -0.75em
+    - justify-self: start
+    - font-size: 11px
+    - padding: 0em 0em 0em 0em
+  icon:
+    - display: >
+        [[[
+          var cycle = '{{ cycle }}';
+          var type = states['input_select.irrigation_cycle' + cycle + '_start_time_type'].state;
+          if (type == 'Actual Time')      
+            return 'none';
+          else return '';
+        ]]]
 tap_action:
   action: call-service
   service: browser_mod.popup
@@ -44,15 +80,42 @@ tap_action:
         return states[entity_id].state.toUpperCase() + ' SCHEDULE';
       ]]]
     card:
-      type: custom:time-picker-card
-      entity: input_datetime.irrigation_cycle{{ cycle }}_start_time
-      name: Start Time
-      layout:
-        name: inside
-      style: >
-        ha-card {
-          border-radius: 0em 0em 1em 1em
-        }
+      type: entities
+      entities:
+        - entity: input_select.irrigation_cycle{{ cycle }}_start_time_type
+          name: ' '
+          icon: mdi:dummy
+        - type: custom:hui-element
+          card_type: conditional
+          conditions:
+            - entity: input_select.irrigation_cycle{{ cycle }}_start_time_type
+              state: Actual Time
+          card:
+            type: custom:time-picker-card
+            entity: input_datetime.irrigation_cycle{{ cycle }}_start_time
+            name: Start Time
+            layout:
+              name: inside
+        - type: custom:hui-element
+          card_type: conditional
+          conditions:
+            - entity: input_select.irrigation_cycle{{ cycle }}_start_time_type
+              state: Sunrise Offset
+          card:
+            type: entities
+            entities:
+              - entity: input_number.irrigation_cycle{{ cycle }}_start_time_sunrise_offset
+                name: Offset in minutes
+        - type: custom:hui-element
+          card_type: conditional
+          conditions:
+            - entity: input_select.irrigation_cycle{{ cycle }}_start_time_type
+              state: Sunset Offset
+          card:
+            type: entities
+            entities:
+              - entity: input_number.irrigation_cycle{{ cycle }}_start_time_sunset_offset
+                name: Offset in minutes
     deviceID:
       - this
     style:
@@ -64,24 +127,3 @@ tap_action:
       border-radius: 1em
       overflow: hidden
       opacity: 0.9
-styles:
-  grid:
-    - grid-template-areas: '"n" "l"'
-    - grid-template-columns: min-content
-    - grid-template-rows: 1fr min-content
-  card:
-    - height: 3.25em
-    - margin-top: -0.5em
-    - margin-left: 0.75em
-    - box-shadow: none
-    - background: none
-    - font-family: >
-        [[[
-          return states['input_text.irrigation_ui_font_family'].state
-        ]]]
-  name:
-    - align-self: start
-  label:
-    - justify-self: start
-    - font-size: 11px
-    - padding: 0.8em 0em 0em 0em
