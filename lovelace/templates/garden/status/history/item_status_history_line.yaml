@@ -1,65 +1,258 @@
-# lovelace_gen
 
-type: custom:button-card
-triggers_update:
-  - sensor.irrigation_{{ zone }}_total_time_today
-  - sensor.irrigation_{{ zone }}_total_time_yesterday
-name: >
-  [[[
-    var zone = '{{ zone }}';
-    return states['input_text.irrigation_' + zone + '_name'].state + '&nbsp-&nbsp';
-  ]]]
-show_icon: false
-tap_action: 
-  action: none
-styles:
-  grid:
-    - grid-template-areas: '"n total_today total_yesterday"'
-    - grid-template-columns: 25% 25% min-content
-    - grid-template-rows: 1fr
-  card:
-    - display: >
-        [[[
-          var zone = '{{ zone }}';
-          zone = Number(zone.substring(4, 5));
-          var number_of_zones = Number(states['input_number.irrigation_number_of_zones'].state);
-          var show_history = states['input_boolean.irrigation_ui_show_status_history'].state;
-          if (zone > number_of_zones ||
-              show_history == 'off' )
-            return 'none';
-          else return null;
-        ]]]
-    - font-size: 14px
-    - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
-    - padding: 0px
-    - background: none
-    - box-shadow: none
-  name:
-    - justify-self: end
-    - color: var(--secondary-text-color)
-  total_today:
-    - justify-self: start
-    - color: var(--primary-text-color)
-  total_yesterday:
-    - justify-self: start
-    - color: var(--primary-text-color)
-custom_fields:
-  total_yesterday: >
-    [[[
-      var zone = '{{ zone }}';
-      var time = states['sensor.irrigation_' + zone + '_total_time_yesterday'].attributes.value;
-      if(time){
-        time = time.replace("h", "hrs ");
-        time = time.replace("m", " min");
-        return time; }
-    ]]]
-  total_today: >
-    [[[
-      var zone = '{{ zone }}';
-      var time = states['sensor.irrigation_' + zone + '_total_time_today'].attributes.value;
-      if(time){
-        time = time.replace("h", "hrs ");
-        time = time.replace("m", " min");
-        return time; }
-    ]]]
+#============
+#=== Scripts
+#============
+script:
+
+  #================================================
+  #=== Irrigate A Zone
+  #===
+  #=== Call the script that actually does the work
+  #=== This script loops for every zone.
+  #===
+  #=== Passed
+  #===  cycle - [cycle1, cycle2, cycle3]
+  #===  zone  - [zone1, zone2, ... zone8]
+  #===  pause - Seconds pause between zones
+  #===
+  #===  The pause is used for two reasons:
+  #===  1. to allow HA state machine to stabalise
+  #===  2. to allow the physical valves to reset
+  #================================================
+  irrigation_irrigate_a_zone:
+    description: Irrigate A Zone
+    fields: 
+      cycle:
+        description: Cycle to run
+        example: cycle1
+      zone:
+        description: Zone to irrigate
+        example: zone1
+      pause:
+        description: Pause between zones (seconds)
+        example: 3
+
+    sequence:
+      #=== Make sure the script to start a zone is off
+      - service: script.turn_off
+        entity_id: script.irrigation_start_zone
+
+      #=== Pause between zones
+      - delay: >
+          00:00:{{ pause }}
+
+      #=== Call the script to start a zone
+      - service: script.irrigation_start_zone
+        data_template:
+          cycle: "{{ cycle }}"
+          zone: "{{ zone }}"
+
+
+  #============================================================
+  #=== Start A Zone
+  #===
+  #=== This script is called for every zone and passes control
+  #=== back to the calling script until all zones are done
+  #===
+  #=== Passed
+  #===  cycle - [cycle1, cycle2, cycle3]
+  #===  zone  - [zone1, zone2, ... zone8]
+  #=============================================================
+  irrigation_start_zone:
+    description: Irrigation Start A Zone
+    fields: 
+      cycle:
+        description: Cycle to run
+        example: cycle1
+      zone:
+        description: Zone to irrigate
+        example: zone1
+
+    sequence:
+      #=== Only continue if the cycle hasn't been stopped
+      - condition: template
+        value_template: >
+          {{ is_state('input_boolean.irrigation_' ~ cycle ~ '_running', 'on') }}
+
+      #=== Call the script to start the timer
+      #=== Check this cycle/zone runs today.
+      #=== If not pass zero seconds
+      #=== NOTE: cycle 3 doesn't have scheduled days
+      - service: script.irrigation_start_timer
+        data_template:
+          cycle: >
+            {{ cycle }}
+          zone: >
+            {{ zone }}
+          duration: >
+            {{ states('sensor.irrigation_' ~ cycle ~ '_' ~ zone ~ '_actual_duration_in_seconds') | int }}
+
+      #=== Set delay for the same length as the timer
+      - delay:
+          seconds: >
+            {{ states('sensor.irrigation_' ~ cycle ~ '_' ~ zone ~ '_actual_duration_in_seconds') | int }}
+
+      #=== Stop Watering after delay
+      - service: switch.turn_off
+        data_template:
+          entity_id: >
+            {{ states('input_text.irrigation_' ~ zone ~ '_switch_entity_id') }}
+
+
+      #============================
+      #=== SET DETAILS OF LAST RUN
+      #============================
+      #=== Update last run time for this zone
+      - service: input_text.set_value
+        data_template:
+          entity_id: >
+            input_text.irrigation_{{ zone }}_previous_duration_in_seconds
+          value: >
+            {% set duration = states('sensor.irrigation_' ~ cycle ~ '_' ~ zone ~ '_actual_duration_in_seconds') %}
+            {% set today = now().strftime('%a') | lower %}
+
+            {% if cycle == 'cycle3' or
+                  is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_every_day', 'on') or
+                  is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_' ~ today, 'on' ) %}
+              {{ duration }}
+            {% else %}
+              Not scheduled today ({{ today.title() }})
+            {% endif %}
+
+      #=== Update last run total watering time
+      - service: input_text.set_value
+        data_template:
+          entity_id: >
+            input_text.irrigation_previous_total_watering_time
+          value: >
+            {% set duration = states('sensor.irrigation_' ~ cycle ~ '_' ~ zone ~ '_actual_duration_in_seconds') | int %}
+            {% set current_total = states('input_text.irrigation_previous_total_watering_time') | float %}
+
+            {{ (current_total + duration) | string }}
+
+      #=== Update Status
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_current_status
+          value: Changing Zone...
+
+
+      #==============================================
+      #=== LOOP OR DO THE END PROCESSING IF ALL DONE
+      #==============================================
+      #=== When the loop counter reaches the number of zones
+      #===    then go to Cycle End Processing
+      #=== If less than the number of zones
+      #===    then increment the loop counter and start again
+      - service_template: >
+          {% if (zone | trim('zone') | int)
+          == states('input_number.irrigation_number_of_zones') | int %}
+            script.irrigation_cycle_end
+          {% else %}
+            script.irrigation_irrigate_a_zone
+          {% endif %}
+        data_template:
+          cycle: >
+            {{ cycle }} 
+          zone: >
+            {% set next_zone = (zone | trim('zone') | int) + 1 %}
+            zone{{ next_zone | string }}
+          pause: >
+            {{ states('input_number.irrigation_pause_between_zones_in_seconds') | int }}
+
+
+  #====================================
+  #=== Irrigation Cycle End Processing
+  #===
+  #=== Called when all zones are done
+  #===
+  #=== Passed
+  #===  cycle - [cycle1, cycle2]
+  #======================================
+  irrigation_cycle_end:
+    description: Irrigation Cycle End Processing
+    fields: 
+      cycle:
+        description: Cycle to run
+        example: cycle1
+
+    sequence:
+      - service: input_boolean.turn_off
+        data_template:
+          entity_id: >
+            input_boolean.irrigation_{{ cycle }}_running
+
+      #=== Update Status to Idle
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_current_status
+          value: SYSTEM IDLE
+
+
+  #=======================================
+  #=== Start A Timer
+  #===
+  #=== Passed
+  #===  cycle - [cycle1, cycle2]
+  #===  zone  - [zone1, zone2, ... zone8]
+  #===  duration - in seconds
+  #=======================================
+  irrigation_start_timer:
+    description: Irrigation Start A Timer
+    fields: 
+      cycle:
+        description: Cycle to run
+        example: cycle1
+      zone:
+        description: Zone to irrigate
+        example: zone1
+      duration:
+        description: Time to irrigate (seconds)
+        example: 120
+
+    sequence:
+      #=== Continue if duration is not zero
+      - condition: template
+        value_template: >
+          {{ duration != '0' }}
+
+      #=== Update Status with Zone being watered
+      - service: input_text.set_value
+        data_template:
+          entity_id: input_text.irrigation_current_status
+          value: Watering...
+
+      #=== Set FAILSAFE time to 10 seconds longer than the zone runtime
+      - service: input_number.set_value
+        data_template:        
+          entity_id: input_number.irrigation_failsafe_time_in_seconds
+          value: >
+            {{ duration | int + 10 }}
+
+      #=== Start the timer
+      - service: timer.start
+        data_template:
+          entity_id: >
+            timer.irrigation_{{ zone }}_timer
+          duration: >
+            {{ duration }}
+
+      #=== Update last run details for this zone
+      - service: input_text.set_value
+        data_template:
+          entity_id: >
+            input_text.irrigation_{{ zone }}_previous_duration_in_seconds
+          value: >
+              Watering
+
+      #=== Continue if switches are not disabled (used when testing)
+      - condition: state
+        entity_id: input_boolean.irrigation_disable_switches
+        state:  'off'
+
+      #=== Start watering
+      - service: switch.turn_on
+        data_template:
+          entity_id: >
+            {{ states('input_text.irrigation_' ~ zone ~ '_switch_entity_id') }}
 
