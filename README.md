@@ -2,13 +2,13 @@
 
 This is almost a '*pick-it-up-and-drop-it-in*' solution.
 
-__Please note the word 'almost'. I still recommend some understanding of Home Assistant in general and of Lovelace in particular if you choose to try this out__
+__Please note the word 'almost'. I still recommend some understanding of Home Assistant in general and of Lovelace in particular if you choose to try this out.__
 
 Apart from my instructions here, there are some 'real world' guides on how to set up and configure this package which were written by people who have done it. I will link to them here:
 
-By @itajackass - [A guide for Italian people]( https://www.domoticadiy.it/2020/06/irrigazione-smart-my-garden-irrigation-home-assistant/) - perfectly readable using Google Translate.
+By @itajackass - [A guide for Italian people]( https://www.domoticadiy.it/2020/06/irrigazione-smart-my-garden-irrigation-home-assistant/) - perfectly readable using Google Translate and has been confirmed to work by another user.
 
-By @bbogdanmircea - A fork of this project which includes a [How-To](https://github.com/bbogdanmircea/HA-Irrigation-Version2) and whilst it contains some good information I understand that at the time of writing this it is not complete.
+By @bbogdanmircea - A fork of this project which uses more than the default maximum eight zones and also includes a general setup [How-To](https://github.com/bbogdanmircea/HA-Irrigation-Version2). It contains some good information but I understand that at the time of writing this it is not complete.
 
 
 <h2>Prerequisites</h2>
