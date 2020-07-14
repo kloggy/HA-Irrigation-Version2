@@ -3,11 +3,12 @@ __Weather Sensors__
 All weather sensors can be defined by the user.
 
 There are five sensors used in this system
-- Current Temperature
-- Forecast High Temperature Today
-- Total Rainfall so far today: This is notoriously hard to get good data for unless you have a weather station of your own.
+
+1. Current Temperature
+2. Forecast High Temperature Today
+3. Total Rainfall so far today: This is notoriously hard to get good data for unless you have a weather station of your own.
 I use Smartweather to reasonably good effect but I know it is not available in all regions.
-- Actual Rainfall yesterday
+4. Actual Rainfall yesterday
 
 The fifth sensor needs to return any text string describing the weather outlook (or anything else you want!).
 
