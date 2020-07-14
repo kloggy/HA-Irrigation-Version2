@@ -1,10 +1,8 @@
 <h1 align="center">A Garden Irrigation System for Home Assistant (Version2)</h1>
 
-<h2>MOST IMPORTANT</h2>
+This is almost a '*pick-it-up-and-drop-it-in*' solution.
 
-The latest version (uploaded 05/06/2020) goes some way towards removing many of the annoyances and issues that people experienced when setting this up for the first time. I now cautiously hope that this is virtually a '*pick-it-up-and-drop-it-in*' solution.
-
-__Please note the word 'cautiously' and I still recommend some understanding of Home Assistant in general and of Lovelace in particular if you choose to try this out__
+__Please note the word 'almost'. I still recommend some understanding of Home Assistant in general and of Lovelace in particular if you choose to try this out__
 
 Apart from my instructions here, there are some 'real world' guides on how to set up and configure this package which were written by people who have done it. I will link to them here:
 
@@ -21,22 +19,13 @@ There are some [prerequisites](https://github.com/kloggy/HA-Irrigation-Version2/
 Please note that as it stands this assumes that you are using `yaml` mode for Lovelace because that is what I use.
 
 
-<h2> Also Important</h2>
+<h2> Important Notes </h2>
 
-I am posting this project *purely as a way to share it* because people showed an interest in Version 1. It is *my personal solution* which I am more than happy for anyone to use in any way they see fit. I am prepared to help people get this working but only if you have shown that you have tried more than just copying the files. The prerequisites are documented and must be followed.
+Please understand that I am posting this project *purely as a way to share it* because people showed an interest in Version 1. It is *my personal solution* which I am more than happy for anyone to use in any way they see fit. I am prepared to help people get this working but only if you have shown that you have tried more than just copying the files. The prerequisites are documented and must be followed.
 
 I am only using GitHub literally as a repository. What that means is I simply copy my code from my PC to here so that it can be shared. There is no formal version control here other than that inherent in the Github editing history.
 
 One day maybe I'll delve further into how GitHub works but for now I'm afraid that is the situation.
-
-
-__IMPORTANT__ - This is still(!) to be considered a *__beta__* of Version 2 but unless anyone finds anything I think I am done with it! I can't think of any improvements, at least not ones that I think I want to attempt! This version has many cosmetic improvements (IMO) as well as some functional ones:
-- Each Zone within a Cycle can be scheduled to run on selected days
-- All weather sensors are user configuarable and (I think) can be completely ignored if you don't want to use the weather adjustmenst.
-
-I have further restructured the Lovelace code so that everything is in the `templates/garden` folder. Any *files* you have that are in the `template` folder left over from an old version can be removed (unless of course you have a use for them elsewhere).
-
-If you decide to use this package be sure to read ALL of this page!
 
 -----
 
@@ -73,7 +62,7 @@ As it stands you need a `lovelace` folder and of course the usual folder that yo
 
 --------------
 
-__Disclaimer__ - This has __NOT__ been extensivley tested. In fact as of now it has only been used on my desk! Feel free of course to use, adapt or change it in any way you see fit. But if you do find errors I'd be interested to know so I can look at it although no promises can be made regarding how or when I will get to fix anything.
+__Disclaimer__ - I have been using this package now for a few weeks and whilst I do not use all the features I am confident that it all works as it has now also been used by some other people. Feel free of course to use, adapt or change it in any way you see fit. But if you do find errors I'd be interested to know so I can look at it although no promises can be made regarding how or when I will get to fix anything.
 
 
 Likewise if you come up with any improvements also please tell me!
