@@ -79,6 +79,38 @@ entities:
           - item_status_history_line.yaml
           - zone: zone8
 
+      - !include
+          - item_status_history_line.yaml
+          - zone: zone9
+
+      - !include
+          - item_status_history_line.yaml
+          - zone: zone10
+
+      - !include
+          - item_status_history_line.yaml
+          - zone: zone11
+
+      - !include
+          - item_status_history_line.yaml
+          - zone: zone12
+
+      - !include
+          - item_status_history_line.yaml
+          - zone: zone13
+
+      - !include
+          - item_status_history_line.yaml
+          - zone: zone14
+
+      - !include
+          - item_status_history_line.yaml
+          - zone: zone15
+
+      - !include
+          - item_status_history_line.yaml
+          - zone: zone16
+
     style: |
       ha-card {
         # margin-bottom: -1em;
