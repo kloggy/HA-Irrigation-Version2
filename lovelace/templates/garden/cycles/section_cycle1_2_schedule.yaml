@@ -97,6 +97,55 @@ entities:
         - cycle: {{ cycle }}
           zone: 8
 
+      #=== Zone 9
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: {{ cycle }}
+          zone: 9
+
+      #=== Zone 10
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: {{ cycle }}
+          zone: 10
+
+      #=== Zone 11
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: {{ cycle }}
+          zone: 11
+
+      #=== Zone 12
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: {{ cycle }}
+          zone: 12
+
+      #=== Zone 13
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: {{ cycle }}
+          zone: 13
+
+      #=== Zone 14
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: {{ cycle }}
+          zone: 14
+
+      #=== Zone 15
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: {{ cycle }}
+          zone: 15
+
+      #=== Zone 16
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: {{ cycle }}
+          zone: 16
+
+
 style: >
   ha-card {
     box-shadow: none;
