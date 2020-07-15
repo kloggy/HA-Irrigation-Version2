@@ -306,6 +306,158 @@ automation:
         data:
           entity_id: input_text.irrigation_zone8_name
           value: Zone 8
+  
+  #================
+  #=== Zone 9 Name
+  #================
+  - alias: Irrigation UI Set Default Zone 9 Name
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_zone9_name
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_zone9_name
+          value: Zone 9
+
+  #================
+  #=== Zone 10 Name
+  #================
+  - alias: Irrigation UI Set Default Zone 10 Name
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_zone10_name
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_zone10_name
+          value: Zone 10
+
+  #================
+  #=== Zone 11 Name
+  #================
+  - alias: Irrigation UI Set Default Zone 11 Name
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_zone11_name
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_zone11_name
+          value: Zone 11
+
+  #================
+  #=== Zone 12 Name
+  #================
+  - alias: Irrigation UI Set Default Zone 12 Name
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_zone12_name
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_zone12_name
+          value: Zone 12
+
+  #================
+  #=== Zone 13 Name
+  #================
+  - alias: Irrigation UI Set Default Zone 13 Name
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_zone13_name
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_zone13_name
+          value: Zone 13
+
+  #================
+  #=== Zone 14 Name
+  #================
+  - alias: Irrigation UI Set Default Zone 14 Name
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_zone14_name
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_zone14_name
+          value: Zone 14
+
+  #================
+  #=== Zone 15 Name
+  #================
+  - alias: Irrigation UI Set Default Zone 15 Name
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_zone15_name
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_zone15_name
+          value: Zone 15
+
+  #================
+  #=== Zone 16 Name
+  #================
+  - alias: Irrigation UI Set Default Zone 16 Name
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_zone16_name
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_zone16_name
+          value: Zone 16
 
 
 
@@ -460,5 +612,157 @@ automation:
         data:
           entity_id: input_text.irrigation_zone8_switch_entity_id
           value: switch.zone8
+  
+  #============================
+  #=== Zone 9 Switch Entity ID
+  #============================
+  - alias: Irrigation UI Set Default Zone 9 Entity ID
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_zone9_switch_entity_id
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_zone9_switch_entity_id
+          value: switch.zone9
+
+  #============================
+  #=== Zone 10 Switch Entity ID
+  #============================
+  - alias: Irrigation UI Set Default Zone 10 Entity ID
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_zone10_switch_entity_id
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_zone10_switch_entity_id
+          value: switch.zone10
+
+  #============================
+  #=== Zone 11 Switch Entity ID
+  #============================
+  - alias: Irrigation UI Set Default Zone 11 Entity ID
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_zone11_switch_entity_id
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_zone11_switch_entity_id
+          value: switch.zone11
+
+  #============================
+  #=== Zone 12 Switch Entity ID
+  #============================
+  - alias: Irrigation UI Set Default Zone 12 Entity ID
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_zone12_switch_entity_id
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_zone12_switch_entity_id
+          value: switch.zone12
+
+  #============================
+  #=== Zone 13 Switch Entity ID
+  #============================
+  - alias: Irrigation UI Set Default Zone 13 Entity ID
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_zone13_switch_entity_id
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_zone13_switch_entity_id
+          value: switch.zone13
+
+  #============================
+  #=== Zone 14 Switch Entity ID
+  #============================
+  - alias: Irrigation UI Set Default Zone 14 Entity ID
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_zone14_switch_entity_id
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_zone14_switch_entity_id
+          value: switch.zone14
+
+  #============================
+  #=== Zone 15 Switch Entity ID
+  #============================
+  - alias: Irrigation UI Set Default Zone 15 Entity ID
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_zone15_switch_entity_id
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_zone15_switch_entity_id
+          value: switch.zone15
+
+  #============================
+  #=== Zone 16 Switch Entity ID
+  #============================
+  - alias: Irrigation UI Set Default Zone 16 Entity ID
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_zone16_switch_entity_id
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_zone16_switch_entity_id
+          value: switch.zone16
 
 
