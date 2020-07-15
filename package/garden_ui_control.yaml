@@ -250,6 +250,22 @@ automation:
           - input_number.irrigation_cycle1_zone7_duration_box
           - input_number.irrigation_cycle1_zone8_duration
           - input_number.irrigation_cycle1_zone8_duration_box
+          - input_number.irrigation_cycle1_zone9_duration
+          - input_number.irrigation_cycle1_zone9_duration_box
+          - input_number.irrigation_cycle1_zone10_duration
+          - input_number.irrigation_cycle1_zone10_duration_box
+          - input_number.irrigation_cycle1_zone11_duration
+          - input_number.irrigation_cycle1_zone11_duration_box
+          - input_number.irrigation_cycle1_zone12_duration
+          - input_number.irrigation_cycle1_zone12_duration_box
+          - input_number.irrigation_cycle1_zone13_duration
+          - input_number.irrigation_cycle1_zone13_duration_box
+          - input_number.irrigation_cycle1_zone14_duration
+          - input_number.irrigation_cycle1_zone14_duration_box
+          - input_number.irrigation_cycle1_zone15_duration
+          - input_number.irrigation_cycle1_zone15_duration_box
+          - input_number.irrigation_cycle1_zone16_duration
+          - input_number.irrigation_cycle1_zone16_duration_box
 
           - input_number.irrigation_cycle2_zone1_duration
           - input_number.irrigation_cycle2_zone1_duration_box
@@ -267,6 +283,22 @@ automation:
           - input_number.irrigation_cycle2_zone7_duration_box
           - input_number.irrigation_cycle2_zone8_duration
           - input_number.irrigation_cycle2_zone8_duration_box
+          - input_number.irrigation_cycle2_zone9_duration
+          - input_number.irrigation_cycle2_zone9_duration_box
+          - input_number.irrigation_cycle2_zone10_duration
+          - input_number.irrigation_cycle2_zone10_duration_box
+          - input_number.irrigation_cycle2_zone11_duration
+          - input_number.irrigation_cycle2_zone11_duration_box
+          - input_number.irrigation_cycle2_zone12_duration
+          - input_number.irrigation_cycle2_zone12_duration_box
+          - input_number.irrigation_cycle2_zone13_duration
+          - input_number.irrigation_cycle2_zone13_duration_box
+          - input_number.irrigation_cycle2_zone14_duration
+          - input_number.irrigation_cycle2_zone14_duration_box
+          - input_number.irrigation_cycle2_zone15_duration
+          - input_number.irrigation_cycle2_zone15_duration_box
+          - input_number.irrigation_cycle2_zone16_duration
+          - input_number.irrigation_cycle2_zone16_duration_box          
           
           - input_number.irrigation_cycle3_zone1_duration
           - input_number.irrigation_cycle3_zone1_duration_box
@@ -284,6 +316,22 @@ automation:
           - input_number.irrigation_cycle3_zone7_duration_box
           - input_number.irrigation_cycle3_zone8_duration
           - input_number.irrigation_cycle3_zone8_duration_box
+          - input_number.irrigation_cycle3_zone9_duration
+          - input_number.irrigation_cycle3_zone9_duration_box
+          - input_number.irrigation_cycle3_zone10_duration
+          - input_number.irrigation_cycle3_zone10_duration_box
+          - input_number.irrigation_cycle3_zone11_duration
+          - input_number.irrigation_cycle3_zone11_duration_box
+          - input_number.irrigation_cycle3_zone12_duration
+          - input_number.irrigation_cycle3_zone12_duration_box
+          - input_number.irrigation_cycle3_zone13_duration
+          - input_number.irrigation_cycle3_zone13_duration_box
+          - input_number.irrigation_cycle3_zone14_duration
+          - input_number.irrigation_cycle3_zone14_duration_box
+          - input_number.irrigation_cycle3_zone15_duration
+          - input_number.irrigation_cycle3_zone15_duration_box
+          - input_number.irrigation_cycle3_zone16_duration
+          - input_number.irrigation_cycle3_zone16_duration_box          
 
     action:
       #=== Keep input_number slider and box synchronised
