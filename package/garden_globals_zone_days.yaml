@@ -464,7 +464,7 @@ input_boolean:
   #============
   #=== Cycle 2, Zone 1
   irrigation_cycle2_zone1_every_day:
-    name: Cycle 1, Zone 1, Every day
+    name: Cycle 2, Zone 1, Every day
     icon: mdi:numeric-7-box-multiple-outline
 
   irrigation_cycle2_zone1_mon:
@@ -497,7 +497,7 @@ input_boolean:
 
   #=== Cycle 2, Zone 2
   irrigation_cycle2_zone2_every_day:
-    name: Cycle 1, Zone 2, Every day
+    name: Cycle 2, Zone 2, Every day
     icon: mdi:numeric-7-box-multiple-outline
 
   irrigation_cycle2_zone2_mon:
@@ -530,7 +530,7 @@ input_boolean:
 
   #=== Cycle 2, Zone 3
   irrigation_cycle2_zone3_every_day:
-    name: Cycle 1, Zone 3, Every day
+    name: Cycle 2, Zone 3, Every day
     icon: mdi:numeric-7-box-multiple-outline
 
   irrigation_cycle2_zone3_mon:
@@ -563,7 +563,7 @@ input_boolean:
 
   #=== Cycle 2, Zone 4
   irrigation_cycle2_zone4_every_day:
-    name: Cycle 1, Zone 4, Every day
+    name: Cycle 2, Zone 4, Every day
     icon: mdi:numeric-7-box-multiple-outline
 
   irrigation_cycle2_zone4_mon:
@@ -596,7 +596,7 @@ input_boolean:
 
   #=== Cycle 2, Zone 5
   irrigation_cycle2_zone5_every_day:
-    name: Cycle 1, Zone 5, Every day
+    name: Cycle 2, Zone 5, Every day
     icon: mdi:numeric-7-box-multiple-outline
 
   irrigation_cycle2_zone5_mon:
@@ -629,7 +629,7 @@ input_boolean:
 
   #=== Cycle 2, Zone 6
   irrigation_cycle2_zone6_every_day:
-    name: Cycle 1, Zone 6, Every day
+    name: Cycle 2, Zone 6, Every day
     icon: mdi:numeric-7-box-multiple-outline
 
   irrigation_cycle2_zone6_mon:
@@ -662,7 +662,7 @@ input_boolean:
 
   #=== Cycle 2, Zone 7
   irrigation_cycle2_zone7_every_day:
-    name: Cycle 1, Zone 7, Every day
+    name: Cycle 2, Zone 7, Every day
     icon: mdi:numeric-7-box-multiple-outline
 
   irrigation_cycle2_zone7_mon:
@@ -695,7 +695,7 @@ input_boolean:
 
   #=== Cycle 2, Zone 8
   irrigation_cycle2_zone8_every_day:
-    name: Cycle 1, Zone 8, Every day
+    name: Cycle 2, Zone 8, Every day
     icon: mdi:numeric-7-box-multiple-outline
 
   irrigation_cycle2_zone8_mon:
