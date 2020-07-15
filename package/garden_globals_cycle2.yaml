@@ -94,6 +94,62 @@ input_number:
     unit_of_measurement: min
     icon: mdi:numeric-8-box-outline
 
+  irrigation_cycle2_zone9_duration: 
+    name: Cycle 2 zone9 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-9-box-outline
+
+  irrigation_cycle2_zone10_duration: 
+    name: Cycle 2 Zone10 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-10-box-outline
+
+  irrigation_cycle2_zone11_duration: 
+    name: Cycle 2 Zone11 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle2_zone12_duration: 
+    name: Cycle 2 Zone12 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle2_zone13_duration: 
+    name: Cycle 2 Zone13 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle2_zone14_duration: 
+    name: Cycle 2 Zone14 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle2_zone15_duration: 
+    name: Cycle 2 Zone15 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle2_zone16_duration: 
+    name: Cycle 2 Zone16 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-6-box-outline
+
   #=========================================
   #=== Cycle 2 zone durations (Input Boxes)
   #=========================================
@@ -160,6 +216,70 @@ input_number:
     mode: box
     unit_of_measurement: min
     icon: mdi:numeric-8-box-outline
+
+  irrigation_cycle2_zone9_duration_box: 
+    name: Cycle 2 Zone 9 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-9-box-outline
+
+  irrigation_cycle2_zone10_duration_box: 
+    name: Cycle 2 Zone 10 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-10-box-outline
+
+  irrigation_cycle2_zone11_duration_box: 
+    name: Cycle 2 Zone 11 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle2_zone12_duration_box: 
+    name: Cycle 2 Zone 12 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle2_zone13_duration_box: 
+    name: Cycle 2 Zone 13 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle2_zone14_duration_box: 
+    name: Cycle 2 Zone 14 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle2_zone15_duration_box: 
+    name: Cycle 2 Zone 15 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle2_zone16_duration_box: 
+    name: Cycle 2 Zone 16 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-6-box-outline
 
 
 #================
@@ -246,6 +366,14 @@ sensor:
           - sensor.irrigation_cycle2_zone6_actual_duration_in_seconds
           - sensor.irrigation_cycle2_zone7_actual_duration_in_seconds
           - sensor.irrigation_cycle2_zone8_actual_duration_in_seconds
+          - sensor.irrigation_cycle2_zone9_actual_duration_in_seconds
+          - sensor.irrigation_cycle2_zone10_actual_duration_in_seconds
+          - sensor.irrigation_cycle2_zone11_actual_duration_in_seconds
+          - sensor.irrigation_cycle2_zone12_actual_duration_in_seconds
+          - sensor.irrigation_cycle2_zone13_actual_duration_in_seconds
+          - sensor.irrigation_cycle2_zone14_actual_duration_in_seconds
+          - sensor.irrigation_cycle2_zone15_actual_duration_in_seconds
+          - sensor.irrigation_cycle2_zone16_actual_duration_in_seconds
         value_template: >
           {% set ns = namespace(duration = 0) %}
           {% for zone in states.sensor if zone.object_id.startswith('irrigation_cycle2_zone') and 
@@ -680,6 +808,438 @@ sensor:
 
           {% if is_state('input_boolean.irrigation_cycle2_zone8_every_day', 'on') or
                 is_state('input_boolean.irrigation_cycle2_zone8_' ~ today, 'on') %}
+            {% if is_state('input_boolean.irrigation_testing_mode', 'on') %}
+              {{ (duration_secs / 60) | round() }}
+            {% else %}
+              {{ duration_secs | round() }}
+            {% endif %}
+          {% else %}
+            0
+          {% endif %}
+
+      irrigation_cycle2_zone9_actual_duration_in_seconds:
+        friendly_name: Cycle 2 Zone 9 Actual Duration In Seconds
+        entity_id:
+          - sensor.date
+          - input_boolean.irrigation_testing_mode
+          - input_boolean.irrigation_ui_show_cycle2
+          - input_boolean.irrigation_cycle2_schedule_enabled
+          - input_boolean.irrigation_cycle2_adjust_for_rainfall
+          - input_boolean.irrigation_cycle2_adjust_for_temperature
+          - input_number.irrigation_cycle2_zone9_duration
+          - input_boolean.irrigation_cycle2_zone9_every_day
+          - input_boolean.irrigation_cycle2_zone9_mon
+          - input_boolean.irrigation_cycle2_zone9_tue
+          - input_boolean.irrigation_cycle2_zone9_wed
+          - input_boolean.irrigation_cycle2_zone9_thu
+          - input_boolean.irrigation_cycle2_zone9_fri
+          - input_boolean.irrigation_cycle2_zone9_sat
+          - input_boolean.irrigation_cycle2_zone9_sun
+        value_template: >
+          {% set duration_secs = states('input_number.irrigation_cycle2_zone9_duration') | float * 60 %}
+          {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
+          {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
+          {% set today = now().strftime('%a') | lower %}
+
+          {# Adjust for rainfall #}
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') %}
+            {% set duration_secs = duration_secs * states('input_number.irrigation_rainfall_multiplier') | float %}
+          {% endif %}
+
+          {# Adjust for temperature #}
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_temperature', 'on') %}
+            {% set duration_secs = duration_secs * states('input_number.irrigation_temp_multiplier') | float %}
+          {% endif %}
+
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') or
+                is_state('input_boolean.irrigation_cycle2_adjust_for_temperature', 'on') %}
+            {% if duration_secs > max_duration_secs %}
+              {% set duration_secs = max_duration_secs %}
+            {% elif duration_secs < min_duration_secs %}
+              {% set duration_secs = min_duration_secs %}
+            {% endif %}
+          {% endif %}
+
+          {% if is_state('input_boolean.irrigation_cycle2_zone9_every_day', 'on') or
+                is_state('input_boolean.irrigation_cycle2_zone9_' ~ today, 'on') %}
+            {% if is_state('input_boolean.irrigation_testing_mode', 'on') %}
+              {{ (duration_secs / 60) | round() }}
+            {% else %}
+              {{ duration_secs | round() }}
+            {% endif %}
+          {% else %}
+            0
+          {% endif %}
+
+      irrigation_cycle2_zone10_actual_duration_in_seconds:
+        friendly_name: Cycle 2 Zone 10 Actual Duration In Seconds
+        entity_id:
+          - sensor.date
+          - input_boolean.irrigation_testing_mode
+          - input_boolean.irrigation_ui_show_cycle2
+          - input_boolean.irrigation_cycle2_schedule_enabled
+          - input_boolean.irrigation_cycle2_adjust_for_rainfall
+          - input_boolean.irrigation_cycle2_adjust_for_temperature
+          - input_number.irrigation_cycle2_zone10_duration
+          - input_boolean.irrigation_cycle2_zone10_every_day
+          - input_boolean.irrigation_cycle2_zone10_mon
+          - input_boolean.irrigation_cycle2_zone10_tue
+          - input_boolean.irrigation_cycle2_zone10_wed
+          - input_boolean.irrigation_cycle2_zone10_thu
+          - input_boolean.irrigation_cycle2_zone10_fri
+          - input_boolean.irrigation_cycle2_zone10_sat
+          - input_boolean.irrigation_cycle2_zone10_sun
+        value_template: >
+          {% set duration_secs = states('input_number.irrigation_cycle2_zone10_duration') | float * 60 %}
+          {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
+          {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
+          {% set today = now().strftime('%a') | lower %}
+
+          {# Adjust for rainfall #}
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') %}
+            {% set duration_secs = duration_secs * states('input_number.irrigation_rainfall_multiplier') | float %}
+          {% endif %}
+
+          {# Adjust for temperature #}
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_temperature', 'on') %}
+            {% set duration_secs = duration_secs * states('input_number.irrigation_temp_multiplier') | float %}
+          {% endif %}
+
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') or
+                is_state('input_boolean.irrigation_cycle2_adjust_for_temperature', 'on') %}
+            {% if duration_secs > max_duration_secs %}
+              {% set duration_secs = max_duration_secs %}
+            {% elif duration_secs < min_duration_secs %}
+              {% set duration_secs = min_duration_secs %}
+            {% endif %}
+          {% endif %}
+
+          {% if is_state('input_boolean.irrigation_cycle2_zone10_every_day', 'on') or
+                is_state('input_boolean.irrigation_cycle2_zone10_' ~ today, 'on') %}
+            {% if is_state('input_boolean.irrigation_testing_mode', 'on') %}
+              {{ (duration_secs / 60) | round() }}
+            {% else %}
+              {{ duration_secs | round() }}
+            {% endif %}
+          {% else %}
+            0
+          {% endif %}
+
+      irrigation_cycle2_zone11_actual_duration_in_seconds:
+        friendly_name: Cycle 2 Zone 11 Actual Duration In Seconds
+        entity_id:
+          - sensor.date
+          - input_boolean.irrigation_testing_mode
+          - input_boolean.irrigation_ui_show_cycle2
+          - input_boolean.irrigation_cycle2_schedule_enabled
+          - input_boolean.irrigation_cycle2_adjust_for_rainfall
+          - input_boolean.irrigation_cycle2_adjust_for_temperature
+          - input_number.irrigation_cycle2_zone11_duration
+          - input_boolean.irrigation_cycle2_zone11_every_day
+          - input_boolean.irrigation_cycle2_zone11_mon
+          - input_boolean.irrigation_cycle2_zone11_tue
+          - input_boolean.irrigation_cycle2_zone11_wed
+          - input_boolean.irrigation_cycle2_zone11_thu
+          - input_boolean.irrigation_cycle2_zone11_fri
+          - input_boolean.irrigation_cycle2_zone11_sat
+          - input_boolean.irrigation_cycle2_zone11_sun
+        value_template: >
+          {% set duration_secs = states('input_number.irrigation_cycle2_zone11_duration') | float * 60 %}
+          {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
+          {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
+          {% set today = now().strftime('%a') | lower %}
+
+          {# Adjust for rainfall #}
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') %}
+            {% set duration_secs = duration_secs * states('input_number.irrigation_rainfall_multiplier') | float %}
+          {% endif %}
+
+          {# Adjust for temperature #}
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_temperature', 'on') %}
+            {% set duration_secs = duration_secs * states('input_number.irrigation_temp_multiplier') | float %}
+          {% endif %}
+
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') or
+                is_state('input_boolean.irrigation_cycle2_adjust_for_temperature', 'on') %}
+            {% if duration_secs > max_duration_secs %}
+              {% set duration_secs = max_duration_secs %}
+            {% elif duration_secs < min_duration_secs %}
+              {% set duration_secs = min_duration_secs %}
+            {% endif %}
+          {% endif %}
+
+          {% if is_state('input_boolean.irrigation_cycle2_zone11_every_day', 'on') or
+                is_state('input_boolean.irrigation_cycle2_zone11_' ~ today, 'on') %}
+            {% if is_state('input_boolean.irrigation_testing_mode', 'on') %}
+              {{ (duration_secs / 60) | round() }}
+            {% else %}
+              {{ duration_secs | round() }}
+            {% endif %}
+          {% else %}
+            0
+          {% endif %}
+
+      irrigation_cycle2_zone12_actual_duration_in_seconds:
+        friendly_name: Cycle 2 Zone 12 Actual Duration In Seconds
+        entity_id:
+          - sensor.date
+          - input_boolean.irrigation_testing_mode
+          - input_boolean.irrigation_ui_show_cycle2
+          - input_boolean.irrigation_cycle2_schedule_enabled
+          - input_boolean.irrigation_cycle2_adjust_for_rainfall
+          - input_boolean.irrigation_cycle2_adjust_for_temperature
+          - input_number.irrigation_cycle2_zone12_duration
+          - input_boolean.irrigation_cycle2_zone12_every_day
+          - input_boolean.irrigation_cycle2_zone12_mon
+          - input_boolean.irrigation_cycle2_zone12_tue
+          - input_boolean.irrigation_cycle2_zone12_wed
+          - input_boolean.irrigation_cycle2_zone12_thu
+          - input_boolean.irrigation_cycle2_zone12_fri
+          - input_boolean.irrigation_cycle2_zone12_sat
+          - input_boolean.irrigation_cycle2_zone12_sun
+        value_template: >
+          {% set duration_secs = states('input_number.irrigation_cycle2_zone12_duration') | float * 60 %}
+          {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
+          {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
+          {% set today = now().strftime('%a') | lower %}
+
+          {# Adjust for rainfall #}
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') %}
+            {% set duration_secs = duration_secs * states('input_number.irrigation_rainfall_multiplier') | float %}
+          {% endif %}
+
+          {# Adjust for temperature #}
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_temperature', 'on') %}
+            {% set duration_secs = duration_secs * states('input_number.irrigation_temp_multiplier') | float %}
+          {% endif %}
+
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') or
+                is_state('input_boolean.irrigation_cycle2_adjust_for_temperature', 'on') %}
+            {% if duration_secs > max_duration_secs %}
+              {% set duration_secs = max_duration_secs %}
+            {% elif duration_secs < min_duration_secs %}
+              {% set duration_secs = min_duration_secs %}
+            {% endif %}
+          {% endif %}
+
+          {% if is_state('input_boolean.irrigation_cycle2_zone12_every_day', 'on') or
+                is_state('input_boolean.irrigation_cycle2_zone12_' ~ today, 'on') %}
+            {% if is_state('input_boolean.irrigation_testing_mode', 'on') %}
+              {{ (duration_secs / 60) | round() }}
+            {% else %}
+              {{ duration_secs | round() }}
+            {% endif %}
+          {% else %}
+            0
+          {% endif %}
+
+      irrigation_cycle2_zone13_actual_duration_in_seconds:
+        friendly_name: Cycle 2 Zone 13 Actual Duration In Seconds
+        entity_id:
+          - sensor.date
+          - input_boolean.irrigation_testing_mode
+          - input_boolean.irrigation_ui_show_cycle2
+          - input_boolean.irrigation_cycle2_schedule_enabled
+          - input_boolean.irrigation_cycle2_adjust_for_rainfall
+          - input_boolean.irrigation_cycle2_adjust_for_temperature
+          - input_number.irrigation_cycle2_zone13_duration
+          - input_boolean.irrigation_cycle2_zone13_every_day
+          - input_boolean.irrigation_cycle2_zone13_mon
+          - input_boolean.irrigation_cycle2_zone13_tue
+          - input_boolean.irrigation_cycle2_zone13_wed
+          - input_boolean.irrigation_cycle2_zone13_thu
+          - input_boolean.irrigation_cycle2_zone13_fri
+          - input_boolean.irrigation_cycle2_zone13_sat
+          - input_boolean.irrigation_cycle2_zone13_sun
+        value_template: >
+          {% set duration_secs = states('input_number.irrigation_cycle2_zone13_duration') | float * 60 %}
+          {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
+          {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
+          {% set today = now().strftime('%a') | lower %}
+
+          {# Adjust for rainfall #}
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') %}
+            {% set duration_secs = duration_secs * states('input_number.irrigation_rainfall_multiplier') | float %}
+          {% endif %}
+
+          {# Adjust for temperature #}
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_temperature', 'on') %}
+            {% set duration_secs = duration_secs * states('input_number.irrigation_temp_multiplier') | float %}
+          {% endif %}
+
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') or
+                is_state('input_boolean.irrigation_cycle2_adjust_for_temperature', 'on') %}
+            {% if duration_secs > max_duration_secs %}
+              {% set duration_secs = max_duration_secs %}
+            {% elif duration_secs < min_duration_secs %}
+              {% set duration_secs = min_duration_secs %}
+            {% endif %}
+          {% endif %}
+
+          {% if is_state('input_boolean.irrigation_cycle2_zone13_every_day', 'on') or
+                is_state('input_boolean.irrigation_cycle2_zone13_' ~ today, 'on') %}
+            {% if is_state('input_boolean.irrigation_testing_mode', 'on') %}
+              {{ (duration_secs / 60) | round() }}
+            {% else %}
+              {{ duration_secs | round() }}
+            {% endif %}
+          {% else %}
+            0
+          {% endif %}
+
+      irrigation_cycle2_zone14_actual_duration_in_seconds:
+        friendly_name: Cycle 2 Zone 14 Actual Duration In Seconds
+        entity_id:
+          - sensor.date
+          - input_boolean.irrigation_testing_mode
+          - input_boolean.irrigation_ui_show_cycle2
+          - input_boolean.irrigation_cycle2_schedule_enabled
+          - input_boolean.irrigation_cycle2_adjust_for_rainfall
+          - input_boolean.irrigation_cycle2_adjust_for_temperature
+          - input_number.irrigation_cycle2_zone14_duration
+          - input_boolean.irrigation_cycle2_zone14_every_day
+          - input_boolean.irrigation_cycle2_zone14_mon
+          - input_boolean.irrigation_cycle2_zone14_tue
+          - input_boolean.irrigation_cycle2_zone14_wed
+          - input_boolean.irrigation_cycle2_zone14_thu
+          - input_boolean.irrigation_cycle2_zone14_fri
+          - input_boolean.irrigation_cycle2_zone14_sat
+          - input_boolean.irrigation_cycle2_zone14_sun
+        value_template: >
+          {% set duration_secs = states('input_number.irrigation_cycle2_zone14_duration') | float * 60 %}
+          {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
+          {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
+          {% set today = now().strftime('%a') | lower %}
+
+          {# Adjust for rainfall #}
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') %}
+            {% set duration_secs = duration_secs * states('input_number.irrigation_rainfall_multiplier') | float %}
+          {% endif %}
+
+          {# Adjust for temperature #}
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_temperature', 'on') %}
+            {% set duration_secs = duration_secs * states('input_number.irrigation_temp_multiplier') | float %}
+          {% endif %}
+
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') or
+                is_state('input_boolean.irrigation_cycle2_adjust_for_temperature', 'on') %}
+            {% if duration_secs > max_duration_secs %}
+              {% set duration_secs = max_duration_secs %}
+            {% elif duration_secs < min_duration_secs %}
+              {% set duration_secs = min_duration_secs %}
+            {% endif %}
+          {% endif %}
+
+          {% if is_state('input_boolean.irrigation_cycle2_zone14_every_day', 'on') or
+                is_state('input_boolean.irrigation_cycle2_zone14_' ~ today, 'on') %}
+            {% if is_state('input_boolean.irrigation_testing_mode', 'on') %}
+              {{ (duration_secs / 60) | round() }}
+            {% else %}
+              {{ duration_secs | round() }}
+            {% endif %}
+          {% else %}
+            0
+          {% endif %}
+
+      irrigation_cycle2_zone15_actual_duration_in_seconds:
+        friendly_name: Cycle 2 Zone 15 Actual Duration In Seconds
+        entity_id:
+          - sensor.date
+          - input_boolean.irrigation_testing_mode
+          - input_boolean.irrigation_ui_show_cycle2
+          - input_boolean.irrigation_cycle2_schedule_enabled
+          - input_boolean.irrigation_cycle2_adjust_for_rainfall
+          - input_boolean.irrigation_cycle2_adjust_for_temperature
+          - input_number.irrigation_cycle2_zone15_duration
+          - input_boolean.irrigation_cycle2_zone15_every_day
+          - input_boolean.irrigation_cycle2_zone15_mon
+          - input_boolean.irrigation_cycle2_zone15_tue
+          - input_boolean.irrigation_cycle2_zone15_wed
+          - input_boolean.irrigation_cycle2_zone15_thu
+          - input_boolean.irrigation_cycle2_zone15_fri
+          - input_boolean.irrigation_cycle2_zone15_sat
+          - input_boolean.irrigation_cycle2_zone15_sun
+        value_template: >
+          {% set duration_secs = states('input_number.irrigation_cycle2_zone15_duration') | float * 60 %}
+          {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
+          {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
+          {% set today = now().strftime('%a') | lower %}
+
+          {# Adjust for rainfall #}
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') %}
+            {% set duration_secs = duration_secs * states('input_number.irrigation_rainfall_multiplier') | float %}
+          {% endif %}
+
+          {# Adjust for temperature #}
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_temperature', 'on') %}
+            {% set duration_secs = duration_secs * states('input_number.irrigation_temp_multiplier') | float %}
+          {% endif %}
+
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') or
+                is_state('input_boolean.irrigation_cycle2_adjust_for_temperature', 'on') %}
+            {% if duration_secs > max_duration_secs %}
+              {% set duration_secs = max_duration_secs %}
+            {% elif duration_secs < min_duration_secs %}
+              {% set duration_secs = min_duration_secs %}
+            {% endif %}
+          {% endif %}
+
+          {% if is_state('input_boolean.irrigation_cycle2_zone15_every_day', 'on') or
+                is_state('input_boolean.irrigation_cycle2_zone15_' ~ today, 'on') %}
+            {% if is_state('input_boolean.irrigation_testing_mode', 'on') %}
+              {{ (duration_secs / 60) | round() }}
+            {% else %}
+              {{ duration_secs | round() }}
+            {% endif %}
+          {% else %}
+            0
+          {% endif %}
+
+      irrigation_cycle2_zone16_actual_duration_in_seconds:
+        friendly_name: Cycle 2 Zone 16 Actual Duration In Seconds
+        entity_id:
+          - sensor.date
+          - input_boolean.irrigation_testing_mode
+          - input_boolean.irrigation_ui_show_cycle2
+          - input_boolean.irrigation_cycle2_schedule_enabled
+          - input_boolean.irrigation_cycle2_adjust_for_rainfall
+          - input_boolean.irrigation_cycle2_adjust_for_temperature
+          - input_number.irrigation_cycle2_zone16_duration
+          - input_boolean.irrigation_cycle2_zone16_every_day
+          - input_boolean.irrigation_cycle2_zone16_mon
+          - input_boolean.irrigation_cycle2_zone16_tue
+          - input_boolean.irrigation_cycle2_zone16_wed
+          - input_boolean.irrigation_cycle2_zone16_thu
+          - input_boolean.irrigation_cycle2_zone16_fri
+          - input_boolean.irrigation_cycle2_zone16_sat
+          - input_boolean.irrigation_cycle2_zone16_sun
+        value_template: >
+          {% set duration_secs = states('input_number.irrigation_cycle2_zone16_duration') | float * 60 %}
+          {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
+          {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
+          {% set today = now().strftime('%a') | lower %}
+
+          {# Adjust for rainfall #}
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') %}
+            {% set duration_secs = duration_secs * states('input_number.irrigation_rainfall_multiplier') | float %}
+          {% endif %}
+
+          {# Adjust for temperature #}
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_temperature', 'on') %}
+            {% set duration_secs = duration_secs * states('input_number.irrigation_temp_multiplier') | float %}
+          {% endif %}
+
+          {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') or
+                is_state('input_boolean.irrigation_cycle2_adjust_for_temperature', 'on') %}
+            {% if duration_secs > max_duration_secs %}
+              {% set duration_secs = max_duration_secs %}
+            {% elif duration_secs < min_duration_secs %}
+              {% set duration_secs = min_duration_secs %}
+            {% endif %}
+          {% endif %}
+
+          {% if is_state('input_boolean.irrigation_cycle2_zone16_every_day', 'on') or
+                is_state('input_boolean.irrigation_cycle2_zone16_' ~ today, 'on') %}
             {% if is_state('input_boolean.irrigation_testing_mode', 'on') %}
               {{ (duration_secs / 60) | round() }}
             {% else %}
