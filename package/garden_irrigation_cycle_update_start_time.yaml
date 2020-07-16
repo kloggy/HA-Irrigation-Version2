@@ -64,7 +64,7 @@ automation:
         data_template:
           time: >
             {% set offset_secs = states('input_number.irrigation_cycle1_start_time_sunset_offset') | int * 60 %}
-            {% set start_time = as_timestamp(state_attr('sun.sun', 'next_rising')) | int + offset_secs %}
+            {% set start_time = as_timestamp(state_attr('sun.sun', 'next_setting')) | int + offset_secs %}
             {{ start_time | timestamp_custom('%H:%M:%S') }}
 
 
@@ -124,7 +124,7 @@ automation:
         data_template:
           time: >
             {% set offset_secs = states('input_number.irrigation_cycle2_start_time_sunset_offset') | int * 60 %}
-            {% set start_time = as_timestamp(state_attr('sun.sun', 'next_rising')) | int + offset_secs %}
+            {% set start_time = as_timestamp(state_attr('sun.sun', 'next_setting')) | int + offset_secs %}
             {{ start_time | timestamp_custom('%H:%M:%S') }}
 
 
