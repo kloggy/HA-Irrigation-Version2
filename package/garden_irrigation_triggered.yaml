@@ -85,7 +85,7 @@ automation:
           {% elif states('input_boolean.irrigation_ignore_schedule_if_raining') == 'off' %}
             True
           {% elif states('input_boolean.irrigation_ignore_schedule_if_raining') == 'on' and
-                  states('input_text.irrigation_external_sensor_raining_now') == 'off' %}
+                  states(states('input_text.irrigation_external_sensor_raining_now')) == 'off' %}
             True
           {% else %}
             False

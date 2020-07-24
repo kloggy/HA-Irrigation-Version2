@@ -8,6 +8,13 @@ I have detailed them here and provided example yaml code in `prerequisites.yaml`
 
 ----
 
+__Folder Structure:__ There are two elements to this project, the functional code (automations, scripts etc.) and the Lovelace UI.
+
+The folder named 'lovelace' should be copied in its entirety into your config folder. If you already have a 'lovelace' folder in your config folder then just copy the contents there. This is not optional unless you edit the code as there are a lot of references to absolute file locations.
+
+The folder named 'package' is the functional code. The files within this folder can be copied anywhere you like (individually or within a folder with any name) so long as it is in HA recognises that location as its location for packages.
+
+
 __Scenes__ are used in this package. If you use `default_config:` there is no need to add anything as it is included automatically (see - https://www.home-assistant.io/integrations/default_config/) if not then somewhere (usually in your `configuration.yaml`) you must include the line `scene:`
 
 __sensor.time__ is needed somewhere in your config
