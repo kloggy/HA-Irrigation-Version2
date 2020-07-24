@@ -251,16 +251,16 @@ automation:
             {% set threshold = states('input_number.irrigation_rainfall_threshold') | int %}
 
             {% set rain_total = rain_0 %}
-            {% if days_used == 1 %}
+            {% if days_used >= 1 %}
               {% set rain_total = rain_total + rain_1 %}
             {% endif %}
-            {% if days_used == 2 %}
+            {% if days_used >= 2 %}
               {% set rain_total = rain_total + rain_2 %}
             {% endif %}
-            {% if days_used == 3 %}
+            {% if days_used >= 3 %}
               {% set rain_total = rain_total + rain_3 %}
             {% endif %}
-            {% if days_used == 4 %}
+            {% if days_used >= 4 %}
               {% set rain_total = rain_total + rain_4 %}
             {% endif %}
 
