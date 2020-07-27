@@ -1,3 +1,26 @@
+<h1> WARNING!!! </h1>
+
+__There are issues with this package with HA v0.113 and the latest `browser_mod`.__
+
+__All of these issues will be fixed in due course but in the meantime if you upgrade to HA v0.113 you should try adding__
+
+__`mode: parallel`__
+
+__just above each__
+
+__`sequence:`__
+
+__in__ 
+
+__`garden_irrigation_start.yaml`__
+
+----------
+
+__Popups should still work but will not be formatted correctly.__
+
+
+--------
+
 <h1 align="center">A Garden Irrigation System for Home Assistant (Version2)</h1>
 
 This is almost a '*pick-it-up-and-drop-it-in*' solution.
