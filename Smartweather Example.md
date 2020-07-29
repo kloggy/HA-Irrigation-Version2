@@ -479,43 +479,14 @@ sensor:
 #=== Automations
 #================
 automation:
-
-  #=====================================================
-  #=== Set up timing of sensor updates for Smartweather
-  #=== When HA starts or sun elevation goes above -6
-  #=====================================================
-  - alias: SmartWeather Set Up Sensors
-    trigger:
-      - platform: homeassistant
-        event: start
-
-      - platform: numeric_state
-        entity_id: sensor.elevation
-        above: -6
-        
-    action:
-      - service: script.turn_off
-        entity_id: 
-          - script.loop_smartweather_set_sensor_interval
-          - script.smartweather_set_sensor_interval
-      
-      - delay: '00:00:01'
-
-      - service: script.smartweather_set_sensor_interval
-
-
-#============
-#=== Scripts
-#============
-script:
   #================================================================= 
-  #=== Set interval for the SmartWeather sensors
+  #=== Update the SmartWeather sensors
   #===
   #=== If using SmartWeather
   #===     When sun elevation >= -6
-  #===       If SmartWeather brightness <= 5000, set 1 minute
-  #===       Else if SmartWeather brightness <= 7500, set 15 minutes
-  #===       Else if SmartWeather brightness > 7500, set 30 minutes
+  #===       If SmartWeather illuminance <= 5000, set 1 minute
+  #===       Else if SmartWeather illuminnace <= 7500, set 15 minutes
+  #===       Else if SmartWeather illuminance > 7500, set 30 minutes
   #===     Else set 18 hours
   #===
   #=== If using Brightness 
@@ -526,82 +497,59 @@ script:
   #===     Else set 18 hours
   #=== 
   #==================================================================
-  smartweather_set_sensor_interval:
-    sequence:
+  - alias: SmartWeather Update Sensors
+    mode: restart
+    trigger:
+      - platform: homeassistant
+        event: start
 
-      #=== Wait for script.loop_smartweather_set_sensor_interval to stop
-      - service: homeassistant.turn_off
-        entity_id: script.loop_smartweather_set_sensor_interval
+      - platform: numeric_state
+        entity_id: sensor.elevation
+        above: -6
+        
+    action:
+      - repeat:
+          while: []
+          sequence:
+            #=== Update sensors
+            - service: homeassistant.update_entity
+              entity_id: sensor.smartweather_1
 
-      - wait_template: >
-          {{ is_state('script.loop_smartweather_set_sensor_interval', 'off') }}
+            - service: homeassistant.update_entity
+              entity_id: sensor.smartweather_2
 
-      - service: script.loop_smartweather_set_sensor_interval
-        data_template:
-          interval: >
-            {% if states('sensor.elevation') | float >= -6 and 
-                  states('sensor.current_light_level_sensor') == 'SmartWeather' %}
-              {% if states('sensor.smartweather_average_illuminance') | int <= 5000 %}
-                00:01:00
-              {% elif states('sensor.smartweather_average_illuminance') | int <= 7500 %}
-                00:15:00
-              {% else %}
-                00:30:00
-              {% endif %}
-            {% elif states('sensor.elevation') | float >= -6 and 
-                    states('sensor.current_light_level_sensor') == 'Brightness' %}
-              {% if states('sensor.brightness') | int <= 25 %}
-                00:01:00
-              {% elif states('sensor.brightness') | int <= 30 %}
-                00:15:00
-              {% else %}
-                00:30:00
-              {% endif %}
-            {% else %}
-              18:00:00
-            {% endif %}
+            - service: homeassistant.update_entity
+              entity_id: sensor.smartweather_3
 
+            - service: homeassistant.update_entity
+              entity_id: sensor.smartweather_4
 
-  #========================================================================
-  #=== Update the sensor and loop the script that sets the sensor interval
-  #===
-  #=== Passed
-  #===  interval - time to wait between sensor updates
-  #========================================================================
-  loop_smartweather_set_sensor_interval:
-    description: Smartweather Loop The Sensor Interval Script
-    fields: 
-      interval:
-        description: Time to wait between sensor updates
-        example: 00:01:00
+            - service: homeassistant.update_entity
+              entity_id: sensor.smartweather_5
 
-    sequence:
-      #=== Update sensor
-      - service: homeassistant.update_entity
-        entity_id: sensor.smartweather_1
-
-      #=== Update sensor
-      - service: homeassistant.update_entity
-        entity_id: sensor.smartweather_2
-
-      #=== Update sensor
-      - service: homeassistant.update_entity
-        entity_id: sensor.smartweather_3
-
-      #=== Update sensor
-      - service: homeassistant.update_entity
-        entity_id: sensor.smartweather_4
-
-      #=== Update sensor
-      - service: homeassistant.update_entity
-        entity_id: sensor.smartweather_5
-
-      #=== Wait the desired time
-      - delay: "{{ interval }}"
-
-      #=== Start the process again
-      - service: script.smartweather_set_sensor_interval
-```
+            #=== Wait the desired time
+            - delay: >
+                {% if states('sensor.elevation') | float >= -6 and 
+                      states('sensor.current_light_level_sensor') == 'SmartWeather' %}
+                  {% if states('sensor.smartweather_average_illuminance') | int <= 5000 %}
+                    00:01:00
+                  {% elif states('sensor.smartweather_average_illuminance') | int <= 7500 %}
+                    00:15:00
+                  {% else %}
+                    00:30:00
+                  {% endif %}
+                {% elif states('sensor.elevation') | float >= -6 and 
+                        states('sensor.current_light_level_sensor') == 'Brightness' %}
+                  {% if states('sensor.brightness') | int <= 25 %}
+                    00:01:00
+                  {% elif states('sensor.brightness') | int <= 30 %}
+                    00:15:00
+                  {% else %}
+                    00:30:00
+                  {% endif %}
+                {% else %}
+                  18:00:00
+                {% endif %}
 
 
 __brightness.yaml__
