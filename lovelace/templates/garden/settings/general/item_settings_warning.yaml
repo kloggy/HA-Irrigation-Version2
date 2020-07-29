@@ -42,11 +42,14 @@ cards:
         - font-size: 12px
         - box-shadow: none
         - background-color: transparent
-        - padding: 0em 1em 0em
+        - padding-top: 0em 
         - margin-top: 0em
         - margin-bottom: 0em
       name:
-        - color: var(--secondary-text-color)
+        # - color: var(--secondary-text-color)
+        - color: rgb(255, 165, 0)
+        - justify-self: right
+        - padding-right: 0.75em
     tap_action:
       action: none
     state:

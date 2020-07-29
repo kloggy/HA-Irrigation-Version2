@@ -33,6 +33,7 @@ cards:
       service: browser_mod.popup
       service_data:
         title: User names
+        hide_header: true
         card:
           type: vertical-stack
           cards:
@@ -40,47 +41,47 @@ cards:
               content: >
                 Choose the name of up to two users to receive notifications about
                 irrigation events.
-              style: >
-                ha-card {
-                  box-shadow: none;
-                  padding: 0em 0em 0em 1em;
-                  background: var(--paper-dialog-background-color);
-                  margin: 0em;
-                  font-size: 16px;
-                }
+              # style: >
+              #   ha-card {
+              #     box-shadow: none;
+              #     padding: 0em 0em 0em 1em;
+              #     background: var(--paper-dialog-background-color);
+              #     margin: 0em;
+              #     font-size: 16px;
+              #   }
             - type: entities
               entities:
                 - entity: input_text.notifications_user1_name
                   name: User 1
                 - entity: input_text.notifications_user2_name
                   name: User 2
-              style: >
-                ha-card {
-                  box-shadow: none;
-                  border-radius: 0em 0em 1em 1em;
-                  background: var(--paper-dialog-background-color);
-                }
+              # style: >
+              #   ha-card {
+              #     box-shadow: none;
+              #     border-radius: 0em 0em 1em 1em;
+              #     background: var(--paper-dialog-background-color);
+              #   }
             - type: markdown
               content: >
                 These names are held in:
-              style: >
-                ha-card {
-                  box-shadow: none;
-                  padding: 0em 0em 0em 1em;
-                  background: var(--paper-dialog-background-color);
-                  font-size: 16px;
-                }
+              # style: >
+              #   ha-card {
+              #     box-shadow: none;
+              #     padding: 0em 0em 0em 1em;
+              #     background: var(--paper-dialog-background-color);
+              #     font-size: 16px;
+              #   }
             - type: markdown
               content: >
                 input_text.notifications_user[1, 2]_name
-              style: >
-                ha-card {
-                  box-shadow: none;
-                  background: var(--paper-dialog-background-color);
-                  text-align: center;
-                  font-family: Roboto;
-                  font-size: 16px;
-                }
+              # style: >
+              #   ha-card {
+              #     box-shadow: none;
+              #     background: var(--paper-dialog-background-color);
+              #     text-align: center;
+              #     font-family: Roboto;
+              #     font-size: 16px;
+              #   }
             - type: markdown
               content: >
                 and can be used in your notification processing as approriate.
@@ -91,21 +92,36 @@ cards:
 
                 This script is <b>not</b> inlcuded in this package,
                 you will need to write your own.
-              style: >
-                ha-card {
-                  box-shadow: none;
-                  padding: 0em 0em 0em 1em;
-                  background: var(--paper-dialog-background-color);
-                  font-size: 16px;
-                }
+              # style: >
+              #   ha-card {
+              #     box-shadow: none;
+              #     padding: 0em 0em 0em 1em;
+              #     background: var(--paper-dialog-background-color);
+              #     font-size: 16px;
+              #   }
         deviceID:
           - this
+        # style:
+        #   font-family: >
+        #     [[[
+        #       return states['input_text.irrigation_ui_font_family'].state
+        #     ]]]
+        #   box-shadow: 0em 0em 0.5em
+        #   border-radius: 1em
+        #   overflow: hidden
+        #   opacity: 0.9
+
         style:
-          font-family: >
-            [[[
-              return states['input_text.irrigation_ui_font_family'].state
-            ]]]
-          box-shadow: 0em 0em 0.5em
-          border-radius: 1em
-          overflow: hidden
-          opacity: 0.9
+          $: |
+            .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+              border-radius: 1em;
+              box-shadow: 0em 0em 0.5em;
+            }
+          .: |
+            :host {
+              --mdc-theme-surface: var(--paper-dialog-background-color);
+              --ha-card-background: var(--paper-dialog-background-color);
+              --secondary-background-color: var(--paper-dialog-background-color);
+              opacity: 0.9;
+            }
+    
