@@ -81,6 +81,7 @@ automation:
   # Show Selected Cycle
   #=====================
   - alias: Irrigation UI Show Selected Cycle
+    mode: queued
     trigger:
       - platform: state
         entity_id:
@@ -109,6 +110,7 @@ automation:
   # Prevent No Selected Cycle
   #===========================
   - alias: Irrigation UI Prevent No Selected Cycle
+    mode: queued
     trigger:
       - platform: state
         entity_id:
@@ -201,6 +203,7 @@ automation:
   #=== Show relevent Settings page when adjustment is turned on
   #=============================================================
   - alias: Irrigation UI Show Weather Adjust Settings
+    mode: queued
     trigger:
       - platform: state
         entity_id: 
@@ -231,6 +234,7 @@ automation:
   #=== Keep input_number slider and box synchronised
   #==================================================
   - alias: Irrigation UI Duration Synchronisation
+    mode: queued
     trigger: 
       - platform: state
         entity_id:
