@@ -214,6 +214,7 @@ automation:
   #=== different weather sensors reporting rainfall today for this area.
   #==============================================================================
   - alias: Irrigation Rainfall Calculate Multiplier
+    mode: queued
     trigger:
       - platform: state
         entity_id:

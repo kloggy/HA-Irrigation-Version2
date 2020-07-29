@@ -37,44 +37,29 @@ automation:
           value: var(--primary-font-family)
 
 
-  #================
-  #=== User Name 1
-  #================
-  - alias: Irrigation UI Set User Name 1
+  #===============
+  #=== User Names
+  #===============
+  - alias: Irrigation UI Set Default User Names
     trigger:
       - platform: homeassistant
         event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.notifications_user1_name
-        state: 'unknown'
-
     action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.notifications_user1_name
-          value: User 1
-
-
-  #================
-  #=== User Name 2
-  #================
-  - alias: Irrigation UI Set User Name 2
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.notifications_user2_name
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.notifications_user2_name
-          value: User 2
+      - repeat:
+          count: 2
+          sequence:
+            - condition: template
+              value_template: >
+                {% set user = 'user' ~ repeat.index | string %}
+                {{ is_state('input_text.notifications_' ~ useer ~ '_name', 'unknown') }}
+            
+            - service: input_text.set_value
+              data_template:
+                entity_id: >
+                  {% set user = 'user' ~ repeat.index | string %}
+                  {{ 'input_text.notifications_' ~ user ~ '_name' }}
+                value: >
+                  {{ user | title }}
 
 
   #===================
@@ -97,368 +82,82 @@ automation:
           value: NOTHING SCHEDULED
 
 
-  #=================
-  #=== Cycle 1 Name
-  #=================
-  - alias: Irrigation UI Set Default Cycle 1 Name
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_cycle1_name
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_cycle1_name
-          value: Morning Cycle
-
-  #=================
-  #=== Cycle 2 Name
-  #=================
-  - alias: Irrigation UI Set Default Cycle 2 Name
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_cycle2_name
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_cycle2_name
-          value: Afternoon Cycle
-
-  #=================
-  #=== Cycle 3 Name
-  #=================
-  - alias: Irrigation UI Set Default Cycle 3 Name
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_cycle3_name
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_cycle3_name
-          value: Manual Cycle
-
-
   #================
-  #=== Zone 1 Name
+  #=== Cycle Names
   #================
-  - alias: Irrigation UI Set Default Zone 1 Name
+  - alias: Irrigation UI Set Default Cycle Names
+    trigger:
+      - platform: homeassistant
+        event: start
+    action:
+      - repeat:
+          count: 3
+          sequence:
+            - condition: template
+              value_template: >
+                {% set cycle = 'cycle' ~ repeat.index | string %}
+                {{ is_state('input_text.irrigation_' ~ cycle ~ '_name', 'unknown') }}
+            
+            - service: input_text.set_value
+              data_template:
+                entity_id: >
+                  {% set zone = 'cycle' ~ repeat.index | string %}
+                  {{ 'input_text.irrigation_' ~ cycle ~ '_name' }}
+                value: >
+                  {% if cycle == 'cycle3' %}
+                    Manual Cycle
+                  {% else %}
+                    {{ cycle | title }}
+                  {% endif %}
+
+
+  #===============
+  #=== Zone Names
+  #===============
+  - alias: Irrigation UI Set Default Zone Names
     trigger:
       - platform: homeassistant
         event: start
 
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_zone1_name
-        state: 'unknown'
-
     action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_zone1_name
-          value: Zone 1
+      - repeat:
+          count: 8
+          sequence:
+            - condition: template
+              value_template: >
+                {% set zone = 'zone' ~ repeat.index | string %}
+                {{ is_state('input_text.irrigation_' ~ zone ~ '_name', 'unknown') }}
+            
+            - service: input_text.set_value
+              data_template:
+                entity_id: >
+                  {% set zone = 'zone' ~ repeat.index | string %}
+                  {{ 'input_text.irrigation_' ~ zone ~ '_name' }}
+                value: >
+                  {{ zone | title }}
 
-  #================
-  #=== Zone 2 Name
-  #================
-  - alias: Irrigation UI Set Default Zone 2 Name
+
+  #===========================
+  #=== Zone Switch Entity IDs
+  #===========================
+  - alias: Irrigation UI Set Default Switch Entity IDs
     trigger:
       - platform: homeassistant
         event: start
 
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_zone2_name
-        state: 'unknown'
-
     action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_zone2_name
-          value: Zone 2
-
-  #================
-  #=== Zone 3 Name
-  #================
-  - alias: Irrigation UI Set Default Zone 3 Name
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_zone3_name
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_zone3_name
-          value: Zone 3
-
-  #================
-  #=== Zone 4 Name
-  #================
-  - alias: Irrigation UI Set Default Zone 4 Name
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_zone4_name
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_zone4_name
-          value: Zone 4
-
-  #================
-  #=== Zone 5 Name
-  #================
-  - alias: Irrigation UI Set Default Zone 5 Name
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_zone5_name
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_zone5_name
-          value: Zone 5
-
-  #================
-  #=== Zone 6 Name
-  #================
-  - alias: Irrigation UI Set Default Zone 6 Name
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_zone6_name
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_zone6_name
-          value: Zone 6
-
-  #================
-  #=== Zone 7 Name
-  #================
-  - alias: Irrigation UI Set Default Zone 7 Name
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_zone7_name
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_zone7_name
-          value: Zone 7
-
-  #================
-  #=== Zone 8 Name
-  #================
-  - alias: Irrigation UI Set Default Zone 8 Name
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_zone8_name
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_zone8_name
-          value: Zone 8
-
-
-
-  #============================
-  #=== Zone 1 Switch Entity ID
-  #============================
-  - alias: Irrigation UI Set Default Zone 1 Entity ID
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_zone1_switch_entity_id
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_zone1_switch_entity_id
-          value: switch.zone1
-
-  #============================
-  #=== Zone 2 Switch Entity ID
-  #============================
-  - alias: Irrigation UI Set Default Zone 2 Entity ID
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_zone2_switch_entity_id
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_zone2_switch_entity_id
-          value: switch.zone2
-
-  #============================
-  #=== Zone 3 Switch Entity ID
-  #============================
-  - alias: Irrigation UI Set Default Zone 3 Entity ID
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_zone3_switch_entity_id
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_zone3_switch_entity_id
-          value: switch.zone3
-
-  #============================
-  #=== Zone 4 Switch Entity ID
-  #============================
-  - alias: Irrigation UI Set Default Zone 4 Entity ID
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_zone4_switch_entity_id
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_zone4_switch_entity_id
-          value: switch.zone4
-
-  #============================
-  #=== Zone 5 Switch Entity ID
-  #============================
-  - alias: Irrigation UI Set Default Zone 5 Entity ID
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_zone5_switch_entity_id
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_zone5_switch_entity_id
-          value: switch.zone5
-
-  #============================
-  #=== Zone 6 Switch Entity ID
-  #============================
-  - alias: Irrigation UI Set Default Zone 6 Entity ID
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_zone6_switch_entity_id
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_zone6_switch_entity_id
-          value: switch.zone6
-
-  #============================
-  #=== Zone 7 Switch Entity ID
-  #============================
-  - alias: Irrigation UI Set Default Zone 7 Entity ID
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_zone7_switch_entity_id
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_zone7_switch_entity_id
-          value: switch.zone7
-
-  #============================
-  #=== Zone 8 Switch Entity ID
-  #============================
-  - alias: Irrigation UI Set Default Zone 8 Entity ID
-    trigger:
-      - platform: homeassistant
-        event: start
-
-    condition:
-      - condition: state
-        entity_id: input_text.irrigation_zone8_switch_entity_id
-        state: 'unknown'
-
-    action:
-      - service: input_text.set_value
-        data:
-          entity_id: input_text.irrigation_zone8_switch_entity_id
-          value: switch.zone8
-
-
+      - repeat:
+          count: 8
+          sequence:
+            - condition: template
+              value_template: >
+                {% set zone = 'zone' ~ repeat.index | string %}
+                {{ is_state('input_text.irrigation_' ~ zone ~ '_switch_entity_id', 'unknown') }}
+            
+            - service: input_text.set_value
+              data_template:
+                entity_id: >
+                  {% set zone = 'zone' ~ repeat.index | string %}
+                  {{ 'input_text.irrigation_' ~ zone ~ '_switch_entity_id' }}
+                value: >
+                  {{ 'switch.' ~ zone }}
