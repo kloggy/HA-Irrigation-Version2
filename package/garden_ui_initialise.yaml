@@ -121,7 +121,10 @@ automation:
 
     action:
       - repeat:
-          count: 8
+          until:
+            - condition: template
+              value_template: >
+                {{ states('input_number.irrigation_number_of_zones') | int == repeat.index }}
           sequence:
             - condition: template
               value_template: >
@@ -147,7 +150,10 @@ automation:
 
     action:
       - repeat:
-          count: 8
+          until:
+            - condition: template
+              value_template: >
+                {{ states('input_number.irrigation_number_of_zones') | int == repeat.index }}
           sequence:
             - condition: template
               value_template: >
