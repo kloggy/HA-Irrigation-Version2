@@ -121,7 +121,7 @@ automation:
 
     action:
       - repeat:
-          count: "{{ states('input_number.irrigation_number_of_zones') }}"
+          count: 8
           sequence:
             - condition: template
               value_template: >
@@ -147,7 +147,7 @@ automation:
 
     action:
       - repeat:
-          count: "{{ states('input_number.irrigation_number_of_zones') }}"
+          count: 8
           sequence:
             - condition: template
               value_template: >
