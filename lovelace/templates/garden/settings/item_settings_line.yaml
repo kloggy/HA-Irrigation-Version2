@@ -25,37 +25,6 @@ icon: {{ icon }}
 show_label: true
 label: {{ label }}
 size: 30%
-tap_action:
-  action: {{ tap_action | default('call-service') }}
-  service: browser_mod.popup
-  service_data:
-    title: >
-      [[[
-        var units = entity.attributes.unit_of_measurement ? ' (' + entity.attributes.unit_of_measurement + ')' : '';
-        var name = '{{ name }}'
-        return name + units;
-      ]]]
-    card:
-      type: entities
-      entities:
-        - entity: {{ entity }}
-          name: ' '
-          icon: {{ icon }}
-      style: >
-        ha-card {
-          border-radius: 0em 0em 1em 1em
-        }
-    deviceID:
-      - this
-    style:
-      font-family: >
-        [[[
-          return states['input_text.irrigation_ui_font_family'].state
-        ]]]
-      box-shadow: 0em 0em 0.5em
-      border-radius: 1em
-      overflow: hidden
-      opacity: 0.9
 styles:
   grid:
     - grid-template-areas: >
@@ -70,10 +39,9 @@ styles:
   card:
     - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
     - font-size: 15px
-    - padding: {{ padding | default('0em 0em 0.5em 0em') }}
+    - padding: {{ padding | default('0em 0em 0em 0em') }}
     - background: none
     - box-shadow: none
-    - display: "{{ display_condition }}"
   name: 
     - justify-self: start
     - padding: {{ name_padding }}
@@ -89,3 +57,55 @@ state:
       state:
         - color: var(--accent-color)
         - animation: blink 2s ease infinite
+
+#=== Tap Action
+tap_action:
+  action: {{ tap_action | default('call-service') }}
+  service: browser_mod.popup
+  service_data:
+    title: >
+      [[[
+        var units = entity.attributes.unit_of_measurement ? ' (' + entity.attributes.unit_of_measurement + ')' : '';
+        var name = '{{ name }}'
+        return name + units;
+      ]]]
+    hide_header: true
+    card:
+      type: entities
+      entities:
+        - entity: {{ entity }}
+          name: {{ name }}
+          icon: {{ icon }}
+      # style: >
+      #   ha-card {
+      #     border-radius: 0em 0em 1em 1em;
+      #     box-shadow: 0em 0em 0.5em;
+      #     border-radius: 1em;
+      #     overflow: hidden;
+      #     opacity: 0.9;
+      #   }
+    deviceID:
+      - this
+    # style:
+    #   font-family: >
+    #     [[[
+    #       return states['input_text.irrigation_ui_font_family'].state
+    #     ]]]
+    #   box-shadow: 0em 0em 0.5em
+    #   border-radius: 1em
+    #   overflow: hidden
+    #   opacity: 0.9
+
+    style:
+      $: |
+        .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+          border-radius: 1em;
+          box-shadow: 0em 0em 0.5em;
+        }
+      .: |
+        :host {
+          --mdc-theme-surface: var(--paper-dialog-background-color);
+          --ha-card-background: var(--paper-dialog-background-color);
+          --secondary-background-color: var(--paper-dialog-background-color);
+          opacity: 0.9;
+        }

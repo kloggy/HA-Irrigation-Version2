@@ -53,6 +53,7 @@ automation:
   #=== are used in the history statistics sensors 
   #===================================================
   - alias: Irrigation Synchronise Sensor Zone Switches
+    mode: queued
     trigger:
       - platform: event
         event_type: state_changed
@@ -104,4 +105,3 @@ automation:
             {% else %}
               none
             {% endif %}
-            

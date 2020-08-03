@@ -39,7 +39,7 @@ entities:
               var mins_s = ' Minutes';
 
             if (states['input_boolean.irrigation_testing_mode'].state == 'on')
-              return 'Total runtime: ' + total_seconds + ' Seconds (testing mode)';
+              return 'Total Runtime: ' + total_seconds + ' Seconds (testing mode)';
             else {
               if (hrs == '00')
                 return 'Total Runtime: ' + (total_seconds / 60) + mins_s;

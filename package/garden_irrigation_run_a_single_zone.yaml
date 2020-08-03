@@ -58,87 +58,24 @@ script:
           - input_boolean.irrigation_cycle1_schedule_enabled
           - input_boolean.irrigation_cycle2_schedule_enabled
 
-      #=== Set zone durations not being run in Cycle 3 to zero
-      - service: input_number.set_value
-        data_template:
-          entity_id: >
-            {% if zone != 'zone1' %}
-              input_number.irrigation_cycle3_zone1_duration
-            {% else %}
-              none
-            {% endif %}
-          value: 0
+      - repeat:
+          until:
+            - condition: template
+              value_template: >
+                {{ states('input_number.irrigation_number_of_zones') | int == repeat.index }}
 
-      - service: input_number.set_value
-        data_template:
-          entity_id: >
-            {% if zone != 'zone2' %}
-              input_number.irrigation_cycle3_zone2_duration
-            {% else %}
-              none
-            {% endif %}
-          value: 0
-
-      - service: input_number.set_value
-        data_template:
-          entity_id: >
-            {% if zone != 'zone3' %}
-              input_number.irrigation_cycle3_zone3_duration
-            {% else %}
-              none
-            {% endif %}
-          value: 0
-
-      - service: input_number.set_value
-        data_template:
-          entity_id: >
-            {% if zone != 'zone4' %}
-              input_number.irrigation_cycle3_zone4_duration
-            {% else %}
-              none
-            {% endif %}
-          value: 0
-
-      - service: input_number.set_value
-        data_template:
-          entity_id: >
-            {% if zone != 'zone5' %}
-              input_number.irrigation_cycle3_zone5_duration
-            {% else %}
-              none
-            {% endif %}
-          value: 0
-
-      - service: input_number.set_value
-        data_template:
-          entity_id: >
-            {% if zone != 'zone6' %}
-              input_number.irrigation_cycle3_zone6_duration
-            {% else %}
-              none
-            {% endif %}
-          value: 0
-
-      - service: input_number.set_value
-        data_template:
-          entity_id: >
-            {% if zone != 'zone7' %}
-              input_number.irrigation_cycle3_zone7_duration
-            {% else %}
-              none
-            {% endif %}
-          value: 0
-
-      - service: input_number.set_value
-        data_template:
-          entity_id: >
-            {% if zone != 'zone8' %}
-              input_number.irrigation_cycle3_zone8_duration
-            {% else %}
-              none
-            {% endif %}
-          value: 0
-
+          sequence:
+            - service: input_number.set_value
+              data_template:
+                entity_id: >
+                  {% set zoneindex = 'zone' ~ repeat.index | string %}
+                  {% if zone != zoneindex %}
+                    {{ 'input_number.irrigation_cycle3_' ~ zoneindex ~ '_duration' }}
+                  {% else %}
+                    none
+                  {% endif %}
+                value: 0
+            
       #=== Start Cycle 3
       - service: input_boolean.turn_on
         entity_id: input_boolean.irrigation_cycle3_running

@@ -45,4 +45,7 @@ style: >
     background: none;
     border-radius: 0px;
   }
+  .flex {
+    padding: 0em
+  }
 

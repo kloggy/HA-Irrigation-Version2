@@ -1,13 +1,13 @@
 
-#==================
-#=== Input Selects
-#==================
-input_select:
-  irrigation_language_select:
-    name: Language
-    options: 
-      - English
-      - Italian
+# #==================
+# #=== Input Selects
+# #==================
+# input_select:
+#   irrigation_language_select:
+#     name: Language
+#     options: 
+#       - English
+#       - Italian
 
 
 #===================
@@ -72,7 +72,7 @@ input_number:
     step: 1
     mode: box
     unit_of_measurement: secs
-    icon: mdi:timer
+    icon: mdi:timer-outline
 
   irrigation_weather_adjusted_minimum_duration_in_seconds: 
     name: Minimum Duration After Weather Adjustment In Seconds
@@ -98,7 +98,7 @@ input_number:
     max: 7260 # 2 hours and 1 minute
     mode: box
     unit_of_measurement: sec
-    icon: mdi:timer
+    icon: mdi:timer-outline
 
 
 #===================

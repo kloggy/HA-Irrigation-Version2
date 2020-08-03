@@ -1,5 +1,9 @@
 <h2>Prerequisites</h2>
 
+__This package will not work on any version of Home assistant less than 0.113.2__
+
+----
+
 Some things need to be setup in your config outside of this package.
 
 I have detailed them here and provided example yaml code in `prerequisites.yaml`.

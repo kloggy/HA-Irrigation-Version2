@@ -50,92 +50,6 @@ entities:
       #=== Weather Sensors
       - !include item_settings_weather_sensors.yaml
 
-      # - type: custom:button-card
-      #   name: Weather Sensors...
-      #   icon: mdi:weather-partly-cloudy
-      #   show_state: true
-      #   state_display: <elt><ha-icon icon=mdi:square-edit-outline></ha-icon></elt>
-      #   styles:
-      #     grid:
-      #       - grid-template-areas: '"i n s"'
-      #       - grid-template-columns: 15% auto 5%
-      #       - grid-template-rows: 1fr
-      #     card:
-      #       - height: 2em
-      #       - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
-      #       - font-size: 15px
-      #       - padding: 0em 1.5em 0.5em 0.2em
-      #       - background: none
-      #       - box-shadow: none
-      #     name: 
-      #       - justify-self: start
-      #   tap_action:
-      #     action: call-service
-      #     service: browser_mod.popup
-      #     service_data:
-      #       title: Weather Sensors
-      #       card:
-      #         type: vertical-stack
-      #         cards:
-      #           - type: markdown
-      #             content: >
-      #               For the Weather Outlook you need to create the following sensor:
-
-
-      #               <span>sensor.irrigation_weather_outlook</span>
-
-
-      #               Leave any of the following sensors blank to reset to default.
-      #             style: >
-      #               ha-card {
-      #                 box-shadow: none;
-      #                 padding: 0em 0em 0em 1em;
-      #                 background: var(--paper-dialog-background-color);
-      #                 margin: 0em;
-      #               }
-      #               span {
-      #                 display: block;
-      #                 text-align: center;
-      #                 font-family: roboto;
-      #                 font-size: 14px;
-      #               }
-      #               p {
-      #                 font-size: 18px;
-      #               }
-      #           - type: entities
-      #             entities:
-      #               - type: section
-      #                 label: Rainfall Sensors
-      #               - entity: input_text.irrigation_external_sensor_rainfall_today
-      #                 name: Rain Today
-      #               - entity: input_text.irrigation_external_sensor_rainfall_yesterday
-      #                 name: Rain Yesterday
-      #               - entity: input_boolean.irrigation_show_smartweather_stations
-      #                 name: Using SmartWeather (show stations)
-      #               - type: section
-      #                 label: Temperature Sensors
-      #               - entity: input_text.irrigation_external_sensor_forecast_high_temp
-      #                 name: Forecast High Temperature
-      #               - entity: input_text.irrigation_external_sensor_current_temp
-      #                 name: Current Temperature
-      #               # - type: section
-      #             style: >
-      #               ha-card {
-      #                 box-shadow: none;
-      #                 border-radius: 0em 0em 1em 1em;
-      #                 background: var(--paper-dialog-background-color);
-      #               }
-      #       deviceID:
-      #         - this
-      #       style:
-      #         font-family: >
-      #           [[[
-      #             return states['input_text.irrigation_ui_font_family'].state
-      #           ]]]
-      #         box-shadow: 0em 0em 0.5em
-      #         border-radius: 1em
-      #         opacity: 0.9
-
       #=== Number of zones
       - !include
           - ../item_settings_line.yaml
@@ -183,7 +97,6 @@ entities:
             - entity: "${vars[0]}"
               name: Irrigation Controller WiFi Signal Strength
               tap_action: none
-              padding: 0.5em 0em 0.5em 0em
 
       #=== Testing mode warning
       - !include
@@ -194,4 +107,7 @@ entities:
 style: >
   ha-card {
     box-shadow: none;
+  }
+  #states {
+    padding-bottom: 0.3em;
   }

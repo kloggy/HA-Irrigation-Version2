@@ -47,6 +47,7 @@ entities:
           - entity: input_number.irrigation_temperature_baseline
             name: Baseline temperature
             label: Exceeding this temperature increases the watering time
+            padding: 0em 0em 0.3em 0em
 
       #-------------------------
       - type: custom:hui-element
@@ -83,6 +84,7 @@ entities:
             name: Highest actual temperature recorded today
             round: 1
             tap_action: none
+            padding: 0em 0em 0.3em 0em
 
 
       #-------------------------
@@ -152,7 +154,6 @@ entities:
             name: Yesterday
             round: 1
             tap_action: none
-            name_padding: 0.5em 0em 0em 0em
             display_condition: "[[[ return states['input_number.irrigation_days_of_temp_history_used'].state < 1 ? 'none' : 'unset' ]]]"
 
       #=== High Temperature 2 Days Ago
@@ -162,7 +163,6 @@ entities:
             name: Two days ago
             round: 1
             tap_action: none
-            name_padding: 0.5em 0em 0em 0em
             display_condition: "[[[ return states['input_number.irrigation_days_of_temp_history_used'].state < 2 ? 'none' : 'unset' ]]]"
 
       #=== High Temperature 3 Days Ago
@@ -172,7 +172,6 @@ entities:
             name: Three days ago
             round: 1
             tap_action: none
-            name_padding: 0.5em 0em 0em 0em
             display_condition: "[[[ return states['input_number.irrigation_days_of_temp_history_used'].state < 3 ? 'none' : 'unset' ]]]"
 
       #=== High Temperature 4 Days Ago
@@ -182,7 +181,6 @@ entities:
             name: Four days ago
             round: 1
             tap_action: none
-            name_padding: 0.5em 0em 0em 0em
             display_condition: "[[[ return states['input_number.irrigation_days_of_temp_history_used'].state < 4 ? 'none' : 'unset' ]]]"
 
 style: >
