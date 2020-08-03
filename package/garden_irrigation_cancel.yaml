@@ -27,14 +27,9 @@ script:
             input_boolean.irrigation_{{ cycle }}_running
 
 
-      #===================
-      #=== TURN STUFF OFF
-      #===================
-      #=== Turn off script (because it has a delay)
-      - service: script.turn_off
-        entity_id: script.irrigation_start_zone
-
-      #=== Turn off all zone valves explicitly 
+      #====================
+      #=== TURN VALVES OFF
+      #====================
       - service: switch.turn_off
         data_template:
           entity_id: > 

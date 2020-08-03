@@ -1,31 +1,7 @@
-<h1> WARNING!!! </h1>
-
-__There are issues with this package with HA v0.113 and the latest `browser_mod`.__
-
-__All of these issues will be fixed in due course but in the meantime if you upgrade to HA v0.113 you should try adding__
-
-__`mode: parallel`__
-
-__just above each__
-
-__`sequence:`__
-
-__in__ 
-
-__`garden_irrigation_start.yaml`__
-
-----------
-
-__Popups should still work but will not be formatted correctly.__
-
-
---------
 
 <h1 align="center">A Garden Irrigation System for Home Assistant (Version2)</h1>
 
-This is almost a '*pick-it-up-and-drop-it-in*' solution.
-
-__Please note the word 'almost'. I still recommend some understanding of Home Assistant in general and of Lovelace in particular if you choose to try this out.__
+__Please note that I recommend some understanding of Home Assistant in general and of Lovelace in particular if you choose to try this out.__
 
 Apart from my instructions here, there are some 'real world' guides on how to set up and configure this package which were written by people who have done it. I will link to them here:
 

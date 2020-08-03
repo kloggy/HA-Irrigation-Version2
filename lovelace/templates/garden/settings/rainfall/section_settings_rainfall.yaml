@@ -54,6 +54,7 @@ entities:
           - ../item_settings_line.yaml
           - entity: input_boolean.irrigation_ignore_schedule_if_raining
             name: Ignore schedules if it is raining
+            padding: 0em 0em 0.3em 0em
 
       #-------------------------
       - type: custom:hui-element
@@ -117,7 +118,7 @@ entities:
           - entity: input_number.irrigation_rainfall_percentage_1
             name: Yesterday
             tap_action: none
-            padding: 0.5em 0em 0.5em 0em
+            padding: 0.3em 0em 0em 0em
 
       #=== Two days ago
       - !include
@@ -125,7 +126,6 @@ entities:
           - entity: input_number.irrigation_rainfall_percentage_2
             name: Two days ago
             tap_action: none
-            padding: 0em 0em 0.5em 0em
 
       #=== Three days ago
       - !include
@@ -133,7 +133,6 @@ entities:
           - entity: input_number.irrigation_rainfall_percentage_3
             name: Three days ago
             tap_action: none
-            padding: 0em 0em 0.5em 0em
 
       #=== Four days ago
       - !include
@@ -141,6 +140,7 @@ entities:
           - entity: input_number.irrigation_rainfall_percentage_4
             tap_action: none
             name: Four days ago
+            padding: 0em 0em 0.3em 0em
 
 
       #-------------------------
@@ -162,7 +162,8 @@ entities:
           - ../item_settings_multiplier_line.yaml
           - entity: input_number.irrigation_rainfall_multiplier
             name: "Current Multiplier ( \U00002139 )"
-            secondary_info: Calculated based on rainfall and threshold
+            label: Calculated based on rainfall and threshold
+            padding: 0.3em 0em 0em 0em
 
       #=== Rainfall today
       - !include
@@ -189,7 +190,6 @@ entities:
           - entity: input_number.irrigation_rainfall_2
             name: Two days ago
             round: 1
-            name_padding: 0.5em 0em 0em 0em
             tap_action: none
             display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 2 ? 'none' : 'unset' ]]]"
 
@@ -199,7 +199,6 @@ entities:
           - entity: input_number.irrigation_rainfall_3
             name: Three days ago
             round: 1
-            name_padding: 0.5em 0em 0em 0em
             tap_action: none
             display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 3 ? 'none' : 'unset' ]]]"
 
@@ -209,9 +208,9 @@ entities:
           - entity: input_number.irrigation_rainfall_4
             name: Four days ago
             round: 1
-            name_padding: 0.5em 0em 0em 0em
             tap_action: none
             display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 4 ? 'none' : 'unset' ]]]"
+            padding: 0em 0em 0.3em 0em
 
       #=== SmartWeather Stations Used
       - !include item_settings_smartweather_stations_used.yaml

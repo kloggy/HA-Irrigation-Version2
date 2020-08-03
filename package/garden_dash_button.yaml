@@ -6,6 +6,8 @@ script:
 
   #==================================================
   #=== DASH Button - start or stop irrigation Cycle3
+  #=== To water the lawn for five minutes
+  #===
   #=== (called from the Dashio add-on)
   #==================================================
   irrigation_dash:
@@ -42,6 +44,14 @@ script:
           snapshot_entities:
             - input_boolean.irrigation_cycle1_schedule_enabled
             - input_boolean.irrigation_cycle2_schedule_enabled
+            - input_number.irrigation_cycle3_zone1_duration
+            - input_number.irrigation_cycle3_zone2_duration
+            - input_number.irrigation_cycle3_zone3_duration
+            - input_number.irrigation_cycle3_zone4_duration
+            - input_number.irrigation_cycle3_zone5_duration
+            - input_number.irrigation_cycle3_zone6_duration
+            - input_number.irrigation_cycle3_zone7_duration
+            - input_number.irrigation_cycle3_zone8_duration
 
       #=== Disable the schedules
       - service: input_boolean.turn_off
@@ -62,6 +72,26 @@ script:
           multiple: 'off'
           last_message: 'on'
           announcement_timeout: 10
+
+      #=== Set lawn zones to 5 minutes
+      - service: input_number.set_value
+        data:
+          entity_id:
+            - input_number.irrigation_cycle3_zone1_duration
+            - input_number.irrigation_cycle3_zone2_duration
+            - input_number.irrigation_cycle3_zone3_duration
+            - input_number.irrigation_cycle3_zone4_duration
+          value: 5
+
+      #=== Set other zones to 0 minutes
+      - service: input_number.set_value
+        data:
+          entity_id:
+            - input_number.irrigation_cycle3_zone5_duration
+            - input_number.irrigation_cycle3_zone6_duration
+            - input_number.irrigation_cycle3_zone7_duration
+            - input_number.irrigation_cycle3_zone8_duration
+          value: 0
 
       #=== Start Cycle 3
       - service: input_boolean.turn_on
@@ -90,7 +120,7 @@ script:
       - service: input_boolean.turn_off
         entity_id: input_boolean.irrigation_cycle3_running
     
-      #=== Restore achedule states
+      #=== Restore schedule states
       - service: scene.turn_on
         entity_id: scene.dash_irrigation_scene
 
