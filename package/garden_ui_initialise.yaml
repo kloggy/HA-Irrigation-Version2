@@ -51,7 +51,7 @@ automation:
             - condition: template
               value_template: >
                 {% set user = 'user' ~ repeat.index | string %}
-                {{ is_state('input_text.notifications_' ~ useer ~ '_name', 'unknown') }}
+                {{ is_state('input_text.notifications_' ~ user ~ '_name', 'unknown') }}
             
             - service: input_text.set_value
               data_template:
