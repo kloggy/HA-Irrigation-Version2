@@ -26,7 +26,6 @@ I am only using GitHub literally as a repository. What that means is I simply co
 
 One day maybe I'll delve further into how GitHub works but for now I'm afraid that is the situation.
 
------
 
 <h2> More than eight zones? </h2>
 
