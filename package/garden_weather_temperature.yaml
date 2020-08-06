@@ -174,55 +174,13 @@ automation:
             {{ states('sensor.irrigation_sensor_forecast_high_temp') | float }}
 
 
-  #===================================================================
-  #=== Cycle high temperature figures for the four days before today.
-  #=== Today's figure is collected dynamically
-  #=== AND
-  #=== Reset Actual High Temp Today for a new day
-  #=== (Done at 00:30 to give sensors time to update)
-  #===================================================================
-  - alias: Irrigation Temperature Nightly Update
-    trigger: 
-      - platform: time
-        at: "00:00:01"
-
-    action:
-      #=== Cycle high temperature figures for the four days before today.
-      - service: input_number.set_value
-        entity_id: input_number.irrigation_high_temp_4
-        data_template:
-          value: >
-            {{ states('input_number.irrigation_high_temp_3') }}
-
-      - service: input_number.set_value
-        entity_id: input_number.irrigation_high_temp_3
-        data_template:
-          value: >
-            {{ states('input_number.irrigation_high_temp_2') }}
-
-      - service: input_number.set_value
-        entity_id: input_number.irrigation_high_temp_2
-        data_template:
-          value: >
-            {{ states('input_number.irrigation_high_temp_1') }}
-
-      - service: input_number.set_value
-        entity_id: input_number.irrigation_high_temp_1
-        data_template:
-          value: >
-            {{ states('input_number.irrigation_temperature_highest_actual_temp_today') }}
-
-      #=== Reset Actual High Temp Today for a new day
-      - service: input_number.set_value
-        data_template:
-          entity_id: input_number.irrigation_temperature_highest_actual_temp_today
-          value:  >
-            {{ states('sensor.irrigation_sensor_current_temp') | float }}
-
-
   #=================================================================
   #=== Cycle temperature history figures for the four previous days
-  #=== and reset todays actual high temp
+  #=== and
+  #=== Reset todays highest actual temp
+  #=== Reset Todays highest forecast high Temperature
+  #=== 
+  #=== Update the temperature multiplier
   #=================================================================
   - alias: Irrigation Temperature Nightly Update
     trigger: 
@@ -235,6 +193,10 @@ automation:
         data_template:
           value: >
             {{ states('input_number.irrigation_high_temp_3') }}
+
+      #=== Short delay to allow multiplier to update
+      - delay:
+          seconds: 5
 
       - service: input_number.set_value
         entity_id: input_number.irrigation_high_temp_3
@@ -261,13 +223,37 @@ automation:
           value: >
             {{ states('sensor.irrigation_sensor_current_temp') }}
 
-      #=== Reset Todays Forecast High Temperature
+      #=== Reset Todays Highest Forecast High Temperature
       - service: input_number.set_value
         entity_id: input_number.irrigation_temperature_highest_forecast_high_temp_today
         data_template:
           value: >
             {{ states('sensor.irrigation_sensor_forecast_high_temp') }}
 
+      #=== Update the temperature multiplier
+      - service: script.irrigation_temperature_calculate_multiplier
+
+
+  #=============================================================================
+  #=== Update the temperature multiplier when temp based UI options are changed
+  #=============================================================================
+  - alias: Irrigation Temperature Options Update Multiplier
+    mode: queued
+    trigger:
+      - platform: state
+        entity_id:
+          - input_number.irrigation_days_of_temp_history_used
+          - input_number.irrigation_temperature_baseline
+          - input_select.irrigation_high_temp_options
+
+    action:
+      - service: script.irrigation_temperature_calculate_multiplier
+
+
+#============
+#=== scripts
+#============
+script:
 
   #============================================================================
   #=== Calculate Temperature Multiplier
@@ -283,21 +269,9 @@ automation:
   #=== Likewise if the average temperature has only been 20 degrees the
   #=== adjustment will be minus 20%.
   #============================================================================
-  - alias: Irrigation Temperature Calculate Multiplier
-    trigger:
-      - platform: state
-        entity_id:
-          - input_number.irrigation_days_of_temp_history_used
-          - input_number.irrigation_temperature_baseline
-          - input_number.irrigation_temperature_highest_actual_temp_today
-          - input_number.irrigation_temperature_highest_forecast_high_temp_today
-          - input_number.irrigation_high_temp_1
-          - input_number.irrigation_high_temp_2
-          - input_number.irrigation_high_temp_3
-          - input_number.irrigation_high_temp_4
-          - input_select.irrigation_high_temp_options
-
-    action:
+  irrigation_temperature_calculate_multiplier:
+    mode: queued
+    sequence:
       - service: input_number.set_value
         data_template:
           entity_id: input_number.irrigation_temp_multiplier
