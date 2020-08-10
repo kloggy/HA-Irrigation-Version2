@@ -11,6 +11,21 @@ input_text:
     max: 100
 
 
+#==================
+#=== Input Numbers
+#==================
+input_number:
+
+  irrigation_controller_offline_wait: 
+    name: Time to wait for controller when offline
+    min: 1
+    max: 60
+    step: 1
+    mode: box
+    unit_of_measurement: secs
+    icon: mdi:timer-sand
+
+
 #================
 #=== Automations
 #================
