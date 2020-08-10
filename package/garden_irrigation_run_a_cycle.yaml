@@ -49,8 +49,10 @@ script:
                     value_template: >
                       {{ states(states('input_text.irrigation_external_sensor_controller_wifi')) == 'unavailable' }}
                   sequence:
-                    - delay: "00:00:10"
-              
+                    - delay: 
+                        seconds: >
+                          {{ states('input_number.irrigation_controller_offline_wait') | int }}
+                  
             #=== Check if controller is now available
             - choose:
                 - conditions:
