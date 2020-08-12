@@ -17,9 +17,9 @@ input_boolean:
 #================
 automation:
 
-  #===================================================
-  #=== Notify About Irrigation Controller WiFi Signal
-  #===================================================
+  #========================================================================
+  #=== Persistant notification about the Irrigation Controller WiFi Signal
+  #========================================================================
   - alias: Irrigation Notify Controller WiFi Signal Unavailable
     trigger:
       - platform: state
@@ -45,10 +45,74 @@ automation:
             Signal Strength is {{ states('sensor.esphome_irrigation_controller_wifi_signal') | upper }}
 
 
-  #===================================================
-  #=== Notify About Irrigation Events When On Holiday
-  #===================================================
-  - alias: Irrigation Notify About Irrigation Events When On Holiday
+  #==================================================
+  #=== Notfy when on holiday about interrupted cycle
+  #=== due to Irrigation Controller WiFi Signal 
+  #==================================================
+  - alias: Irrigation Notify When On Holiday Cycle WiFi Interruption
+    trigger:
+      - platform: state
+        entity_id: sensor.esphome_irrigation_controller_wifi_signal
+        to: unavailable
+
+      - platform: state
+        entity_id: sensor.esphome_irrigation_controller_wifi_signal
+        from: unavailable
+
+    condition:
+      - condition: state
+        entity_id: binary_sensor.holiday_mode
+        state: 'on'
+    
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: input_boolean.irrigation_notify_user1
+            state: 'on'
+          - condition: state
+            entity_id: input_boolean.irrigation_notify_user2
+            state: 'on'
+
+      - condition: or
+        conditions:
+          - condition: state
+            entity_id: input_boolean.irrigation_cycle1_running
+            state: 'on'
+          - condition: state
+            entity_id: input_boolean.irrigation_cycle2_running
+            state: 'on'
+            
+    action:
+      - service: script.notify
+        data_template:
+          tell: >
+            {% set user1 = states('input_text.notifications_user1_name') | lower %}
+            {% set user2 = states('input_text.notifications_user2_name') | lower %}
+            {% if is_state('input_boolean.irrigation_notify_user1', 'on') and
+                  is_state('input_boolean.irrigation_notify_user2', 'on') %}
+              {{ user1 ~ '_and_' ~ user2 }}
+            {% elif is_state('input_boolean.irrigation_notify_user1', 'on') %}
+              {{ user1 }}
+            {% else %}
+              {{ user2 }}
+            {% endif %}
+          message: >
+            {% if trigger.to_state.state == 'unavailable' %}
+              Irrigation Warning:
+              
+              Controller is OFFLINE ({{now().strftime('%H:%M:%S')}}).
+              Waiting for reconnection...
+            {% else %}
+              Irrigation Information:
+              
+              Controller is back ONLINE ({{now().strftime('%H:%M:%S')}}).
+            {% endif %}
+
+
+  #========================================================
+  #=== Notify when on holiday when a cycle starts or stops
+  #========================================================
+  - alias: Irrigation Notify When On Holiday Cycle Starts Or Stops
     trigger:
       - platform: state
         entity_id:
@@ -70,42 +134,6 @@ automation:
             state: 'on'         
 
     action:
-      - service_template: >
-          {% if trigger.to_state.state == 'on' %}
-            script.irrigation_notify_irrigation_start
-          {% else %}
-            script.irriagtion_notify_irrigation_end
-          {% endif %}
-        data_template:
-          cycle: >
-            {% if trigger.entity_id == 'input_boolean.cycle1_running' %}
-              cycle1
-            {% else %}
-              cycle2
-            {% endif %}
-
-
-#============
-#=== Scripts
-#============
-script:
-
-  #===============================
-  #=== Notify when a cycle starts
-  #===   Called with
-  #===    [cycle1, cycle2] 
-  #===============================
-  irrigation_notify_irrigation_start:    
-    description: Notify when a cycle starts
-    fields: 
-      cycle:
-        description: Cycle that started
-        example: cycle1
-
-    sequence:
-      - wait_template: >
-          {{ is_state('script.notify', 'off') }}
-
       - service: script.notify
         data_template:
           tell: >
@@ -120,46 +148,24 @@ script:
               {{ user2 }}
             {% endif %}
           message: >
-            I thought you'd like to know that the {{ cycle_name }} has just started.
-
-
-            The total watering time should be about {{ (states('sensor.irrigation_' ~ cycle ~ '_duration_in_seconds') | int / 60) | int }} minutes but I'll let you know when it has finished.
-
-
-            I hope you're having a lovely holiday!
-
-
-  #=============================
-  #=== Notify when a cycle ends
-  #===   Called with
-  #===    [cycle1, cycle2] 
-  #=============================
-  irrigation_notify_irrigation_end:    
-    description: Notify when a cycle ends
-    fields: 
-      cycle:
-        description: Cycle that ended
-        example: cycle1
-
-    sequence:
-      - wait_template: >
-          {{ is_state('script.notify', 'off') }}
-
-      - service: script.notify
-        data_template:
-          tell: >
-            {% set user1 = states('input_text.notifications_user1_name') %}
-            {% set user2 = states('input_text.notifications_user2_name') %}
-
-            {% if is_state('input_boolean.irrigation_notify_user1', 'on') and
-                  is_state('input_boolean.irrigation_notify_user2', 'on') %}
-              {{ (user1 | lower) ~ '_and_' ~ (user2 | lower) }}
-            {% elif is_state('input_boolean.irrigation_notify_user2', 'on') %}
-              {{ (user2 | lower ) }}
+            {% if trigger.entity_id == 'input_boolean.cycle1_running' %}
+              {% set cycle = 'cycle1' %}
             {% else %}
-              {{ (user1 | lower) }}
+              {% set cycle = 'cycle2' %}
             {% endif %}
-          message: >
+
             {% set cycle_name = states('input_text.irrigation_' ~ cycle ~ '_name') %}
 
-            All the {{ cycle_name }} watering is done.
+            {% if trigger.to_state.state == 'on' %}
+              I thought you'd like to know that the {{ cycle_name }} has just started.
+
+
+              The total watering time should be about {{ (states('sensor.irrigation_' ~ cycle ~ '_duration_in_seconds') | int / 60) | int }} minutes but I'll let you know when it has finished.
+
+
+              I hope you're having a lovely holiday!
+            {% else %}
+              All the {{ cycle_name }} watering is done.
+            {% endif %}
+
+
