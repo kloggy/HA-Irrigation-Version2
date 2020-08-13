@@ -304,7 +304,7 @@ script:
               {% set temp_high = (temp_0 + temp_1 + temp_2 + temp_3) / 4  %}
             {% endif %}
             {% if days_used == 4 %}
-              {% set temp_high = (temp_0 + temp_1 + temp_2 + temp_3 + temp_4) / 4  %}
+              {% set temp_high = (temp_0 + temp_1 + temp_2 + temp_3 + temp_4) / 5  %}
             {% endif %}
 
             {% set multiplier = (temp_high / baseline) | round(2) %}
