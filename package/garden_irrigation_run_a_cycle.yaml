@@ -9,6 +9,11 @@ script:
   #===
   #=== Passed
   #===  cycle - [cycle1, cycle2, cycle3]
+  #===  pause - Seconds pause between zones
+  #===
+  #===  The pause is used for two reasons:
+  #===  1. to allow HA state machine to stabalise
+  #===  2. to allow the physical valves to reset
   #================================================
   irrigation_run_a_cycle:
     description: Run An Irrigation Cycle
@@ -16,6 +21,9 @@ script:
       cycle:
         description: Cycle to run
         example: cycle1
+      pause:
+        description: Pause between zones (seconds)
+        example: 3
 
     sequence:
       - repeat:
@@ -26,82 +34,101 @@ script:
 
           sequence:
             #=== Pause between zones
-            #===   to allow HA state machine to stabalise
-            #===   to allow the physical valves to reset
             - delay:
-                seconds: >
-                  {% if repeat.index == '1' %}
-                    0
-                  {% else %}
-                    {{ states('input_number.irrigation_pause_between_zones_in_seconds') | int }}
-                  {% endif %}
+                seconds: "{{ pause if repeat.index == 1 else 3 }}"
 
             #=== Only continue if the cycle hasn't been stopped
             - condition: template
               value_template: >
                 {{ is_state('input_boolean.irrigation_' ~ cycle ~ '_running', 'on') }}
 
-            #=== Call the script to start the timer
-            #=== Check this cycle/zone runs today.
-            #=== If not pass zero seconds
-            #=== NOTE: cycle 3 doesn't have scheduled days
-            - service: script.irrigation_start_timer
-              data_template:
-                cycle: >
-                  {{ cycle }}
-                zone: >
-                  {{ 'zone' ~ repeat.index }}
-                duration: >
-                  {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int }}
+            #=== If controller unavailable wait 10 seconds
+            - choose:
+                - conditions:
+                    condition: template
+                    value_template: >
+                      {{ states(states('input_text.irrigation_external_sensor_controller_wifi')) == 'unavailable' }}
+                  sequence:
+                    - delay: 
+                        seconds: >
+                          {{ states('input_number.irrigation_controller_offline_wait') | int }}
+                  
+            #=== Check if controller is now available
+            - choose:
+                - conditions:
+                    condition: template
+                    value_template: >
+                      {{ states(states('input_text.irrigation_external_sensor_controller_wifi')) != 'unavailable' }}
+                  sequence:
+                    #=== Call the script to start the timer
+                    #=== Check this cycle/zone runs today.
+                    #=== If not pass zero seconds
+                    #=== NOTE: cycle 3 doesn't have scheduled days
+                    - service: script.irrigation_start_timer
+                      data_template:
+                        cycle: >
+                          {{ cycle }}
+                        zone: >
+                          {{ 'zone' ~ repeat.index }}
+                        duration: >
+                          {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int }}
 
-            #=== Set delay for the same length as the timer
-            - delay:
-                seconds: >
-                  {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int }}
+                    #=== Set delay for the same length as the timer
+                    - delay:
+                        seconds: >
+                          {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int }}
 
-            #=== Stop Watering after delay
-            - service: switch.turn_off
-              data_template:
-                entity_id: >
-                  {{ states('input_text.irrigation_zone' ~ repeat.index ~ '_switch_entity_id') }}
+                    #=== Stop Watering after delay
+                    - service: switch.turn_off
+                      data_template:
+                        entity_id: >
+                          {{ states('input_text.irrigation_zone' ~ repeat.index ~ '_switch_entity_id') }}
 
+                    #===============================
+                    #=== UPDATE DETAILS OF LAST RUN
+                    #===============================
+                    #=== Update last run time for this zone
+                    - service: input_text.set_value
+                      data_template:
+                        entity_id: >
+                          input_text.irrigation_zone{{ repeat.index }}_previous_duration_in_seconds
+                        value: >
+                          {% set duration = states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') %}
+                          {% set today = now().strftime('%a') | lower %}
 
-            #===============================
-            #=== UPDATE DETAILS OF LAST RUN
-            #===============================
-            #=== Update last run time for this zone
-            - service: input_text.set_value
-              data_template:
-                entity_id: >
-                  input_text.irrigation_zone{{ repeat.index }}_previous_duration_in_seconds
-                value: >
-                  {% set duration = states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') %}
-                  {% set today = now().strftime('%a') | lower %}
+                          {% if cycle == 'cycle3' or
+                                is_state('input_boolean.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_every_day', 'on') or
+                                is_state('input_boolean.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_' ~ today, 'on' ) %}
+                            {{ duration }}
+                          {% else %}
+                            Not scheduled today ({{ today.title() }})
+                          {% endif %}
 
-                  {% if cycle == 'cycle3' or
-                        is_state('input_boolean.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_every_day', 'on') or
-                        is_state('input_boolean.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_' ~ today, 'on' ) %}
-                    {{ duration }}
-                  {% else %}
-                    Not scheduled today ({{ today.title() }})
-                  {% endif %}
+                    #=== Update last run total watering time
+                    - service: input_text.set_value
+                      data_template:
+                        entity_id: >
+                          input_text.irrigation_previous_total_watering_time
+                        value: >
+                          {% set duration = states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int %}
+                          {% set current_total = states('input_text.irrigation_previous_total_watering_time') | float %}
 
-            #=== Update last run total watering time
-            - service: input_text.set_value
-              data_template:
-                entity_id: >
-                  input_text.irrigation_previous_total_watering_time
-                value: >
-                  {% set duration = states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int %}
-                  {% set current_total = states('input_text.irrigation_previous_total_watering_time') | float %}
+                          {{ (current_total + duration) | string }}
 
-                  {{ (current_total + duration) | string }}
+                    #=== Update Status
+                    - service: input_text.set_value
+                      data:
+                        entity_id: input_text.irrigation_current_status
+                        value: Changing Zone...
 
-            #=== Update Status
-            - service: input_text.set_value
-              data:
-                entity_id: input_text.irrigation_current_status
-                value: Changing Zone...
+              default:
+                #=== Update last run time for this zone
+                - service: input_text.set_value
+                  data_template:
+                    entity_id: >
+                      input_text.irrigation_zone{{ repeat.index }}_previous_duration_in_seconds
+                    value: >
+                      Controller not available!
 
 
       #=========================
@@ -179,6 +206,22 @@ script:
       - condition: state
         entity_id: input_boolean.irrigation_disable_switches
         state:  'off'
+
+      #=== If controller unavailable wait 10 seconds
+      - choose:
+          - conditions:
+              condition: template
+              value_template: >
+                {{ states(states('input_text.irrigation_external_sensor_controller_wifi')) == 'unavailable' }}
+            sequence:
+              - delay: 
+                  seconds: >
+                    {{ states('input_number.irrigation_controller_offline_wait') | int }}
+        
+      #=== Continue if controller is now available
+      - condition: template
+        value_template: >
+          {{ states(states('input_text.irrigation_external_sensor_controller_wifi')) != 'unavailable' }}
 
       #=== Start watering
       - service: switch.turn_on

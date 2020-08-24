@@ -98,6 +98,13 @@ entities:
               name: Irrigation Controller WiFi Signal Strength
               tap_action: none
 
+      #=== Time to wait when controller off line
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_controller_offline_wait
+            name: Time To Wait When Offline
+
+
       #=== Testing mode warning
       - !include
           - item_settings_warning.yaml
