@@ -120,3 +120,9 @@ script:
             timer.irrigation_{{ zone }}_timer
 
 
+      #====================
+      #=== STOP THE SCRIPT
+      #====================
+      - service: script.turn_off
+        entity_id: script.irrigation_run_a_cycle
+        

@@ -226,6 +226,9 @@ automation:
           - input_number.irrigation_rainfall_percentage_4
           - sensor.irrigation_sensor_rainfall_today
           - sensor.irrigation_sensor_rainfall_yesterday
+          - input_number.irrigation_rainfall_2
+          - input_number.irrigation_rainfall_3
+          - input_number.irrigation_rainfall_4
 
     action:
       - service: input_number.set_value
