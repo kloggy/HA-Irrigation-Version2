@@ -9,10 +9,18 @@ automation:
   #=============================
   - alias: Irrigation Master Control Switch ON
     trigger:
+      - platform: homeassistant
+        event: start
+
       - platform: state
         entity_id: input_boolean.irrigation_master_control_switch
         to: 'on'
 
+    condition:
+      - condition: state
+        entity_id: input_boolean.irrigation_master_control_switch
+        state: 'on'
+    
     action:
       #=== Turn ON Automations
       - service: automation.turn_on
@@ -28,10 +36,18 @@ automation:
   #==============================
   - alias: Irrigation Master Control Switch OFF
     trigger:
+      - platform: homeassistant
+        event: start
+
       - platform: state
         entity_id: input_boolean.irrigation_master_control_switch
         to: 'off'
 
+    condition:
+      - condition: state
+        entity_id: input_boolean.irrigation_master_control_switch
+        state: 'off'
+    
     action:
       #=== Turn OFF Automations
       - service: automation.turn_off
