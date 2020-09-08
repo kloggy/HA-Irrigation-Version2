@@ -27,4 +27,3 @@ state:
       card:
         - color: var(--secondary-text-color)
         - opacity: 50%
-
