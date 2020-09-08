@@ -1,0 +1,81 @@
+type: custom:button-card
+name: Scene 1
+icon: mdi:palette
+show_state: true
+state_display: <elt><ha-icon icon=mdi:square-edit-outline></ha-icon></elt>
+styles:
+  grid:
+    - grid-template-areas: '"i n s"'
+    - grid-template-columns: 15% auto 5%
+    - grid-template-rows: 1fr
+  card:
+    - height: 2em
+    - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+    - font-size: 15px
+    - padding: 0em 1.5em 0.5em 0.2em
+    - background: none
+    - box-shadow: none
+  name: 
+    - justify-self: start
+  tap_action:
+    action: call-service
+    service: browser_mod.popup
+    service_data:
+      title: Scenes
+      hide_header: true
+      card:
+        #============
+        #=== CYCLE 3
+        #============
+        type: entities
+        entities:
+
+            #=== Zone 1
+            - !include
+              - item_cycle_zone_duration_line.yaml
+              - cycle: 3
+                zone: 1
+
+            #=== Zone 2
+            - !include
+              - item_cycle_zone_duration_line.yaml
+              - cycle: 3
+                zone: 2
+
+  #           #=== Zone 3
+  #           - !include
+  #             - item_cycle_zone_duration_line.yaml
+  #             - cycle: 3
+  #               zone: 3
+
+  #           #=== Zone 4
+  #           - !include
+  #             - item_cycle_zone_duration_line.yaml
+  #             - cycle: 3
+  #               zone: 4
+
+  #           #=== Zone 5
+  #           - !include
+  #             - item_cycle_zone_duration_line.yaml
+  #             - cycle: 3
+  #               zone: 5
+
+  #           #=== Zone 6
+  #           - !include
+  #             - item_cycle_zone_duration_line.yaml
+  #             - cycle: 3
+  #               zone: 6
+
+  #           #=== Zone 7
+  #           - !include
+  #             - item_cycle_zone_duration_line.yaml
+  #             - cycle: 3
+  #               zone: 7
+
+  #           #=== Zone 8
+  #           - !include
+  #             - item_cycle_zone_duration_line.yaml
+  #             - cycle: 3
+  #               zone: 8
+    deviceID:
+      - this

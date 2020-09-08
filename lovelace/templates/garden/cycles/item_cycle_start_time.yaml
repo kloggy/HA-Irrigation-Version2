@@ -79,7 +79,7 @@ tap_action:
         var entity_id = 'input_text.irrigation_cycle{{ cycle }}_name';
         return states[entity_id].state.toUpperCase() + ' SCHEDULE';
       ]]]
-    hide_header: true
+    hide_header: false
     card:
       type: entities
       entities:
@@ -97,6 +97,23 @@ tap_action:
             name: Start Time
             layout:
               name: inside
+            style:
+              .time-picker-row:
+                .time-picker-content:
+                  .: |
+                    .time-separator {
+                      display: none;
+                    }
+                  time-unit:
+                    $: |
+                      .time-unit {
+                        padding: 2px !important;
+                      }
+                      .time-input {
+                        border: 2px solid var(--primary-color) !important;
+                        background-color: rgba(0,0,0,0) !important;
+                        border-radius: 5px;
+                      }     
         - type: custom:hui-element
           card_type: conditional
           conditions:
@@ -117,28 +134,19 @@ tap_action:
             entities:
               - entity: input_number.irrigation_cycle{{ cycle }}_start_time_sunset_offset
                 name: Offset in minutes
+      style: >
+        ha-card {
+          font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+        }
     deviceID:
       - this
-    # style:
-    #   font-family: >
-    #     [[[
-    #       return states['input_text.irrigation_ui_font_family'].state
-    #     ]]]
-    #   box-shadow: 0em 0em 0.5em
-    #   border-radius: 1em
-    #   overflow: hidden
-    #   opacity: 0.9
-
     style:
       $: |
+        .mdc-dialog {
+            backdrop-filter: blur(5px);
+          }
         .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-          border-radius: 1em;
-          box-shadow: 0em 0em 0.5em;
-        }
-      .: |
-        :host {
-          --mdc-theme-surface: rgba(0,0,0,0);
-          --ha-card-background: var(--paper-dialog-background-color);
-          --secondary-background-color: var(--paper-dialog-background-color);
-      opacity: 0.9;
-        }
+            border-radius: 1em;
+            box-shadow: 0em 0em 0.5em;
+          }
+  
