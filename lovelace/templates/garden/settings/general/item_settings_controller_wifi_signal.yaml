@@ -5,25 +5,25 @@
 #===========================
 type: custom:button-card
 entity: {{ entity }}
-name: {{ name }}
-icon: "[[[ return (entity === undefined || entity.state == 'unavailable') ? 'mdi:wifi-off' : 'mdi:wifi'; ]]]"
-show_state: true
-state_display: >
+name: >
   [[[
     var statestr = (entity === undefined || entity.state === undefined) ? 'undefined' : entity.state;
     var unit_om = (statestr != 'undefined' && entity.attributes.unit_of_measurement) ? entity.attributes.unit_of_measurement : '';
-    return statestr + ' ' + unit_om;
+    return '{{ name }}' + ' (' + entity.state + ' ' + unit_om + ')'
   ]]]
+icon: "[[[ return (entity === undefined || entity.state == 'unavailable') ? 'mdi:wifi-off' : 'mdi:wifi'; ]]]"
+show_state: true
+state_display: <elt><ha-icon icon=mdi:square-edit-outline></ha-icon></elt>
 size: 30%
 styles:
   grid:
     - grid-template-areas: '"i n s"'
-    - grid-template-columns: 15% auto 20%
-    - grid-template-rows: min-content
+    - grid-template-columns: 15% auto 5%
+    - grid-template-rows: 1fr
   card:
     - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
     - font-size: 15px
-    - padding: 0em 0em 0em 0em
+    - padding: 0em 1.5em 0em 0em
     - background: none
     - box-shadow: none
   name: 
@@ -51,70 +51,47 @@ tap_action:
 
 
                   Leave blank to reset to default.
-          # style: >
-          #   ha-card {
-          #     box-shadow: none;
-          #     padding: 0em 0em 0em 1em;
-          #     background: var(--paper-dialog-background-color);
-          #     margin: 0em;
-          #   }
-          #   p {
-          #     font-size: 18px;
-          #   }
+          style: >
+            ha-card {
+              font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+              font-size: 16px;
+            }
         - type: entities
           entities:
             - entity: input_text.irrigation_external_sensor_controller_wifi
               name: Sensor Name
+            - entity: input_number.irrigation_controller_offline_wait
+              name: Seconds To Wait When Offline
             - type: section
-          # style: >
-          #   ha-card {
-          #     box-shadow: none;
-          #     border-radius: 0em 0em 1em 1em;
-          #     background: var(--paper-dialog-background-color);
-          #   }
+
+
+          style: >
+            ha-card {
+              font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+            }
         - type: markdown
           content: You can disable the switches to prevent irrigation while testing.
-          # style: >
-          #   ha-card {
-          #     box-shadow: none;
-          #     padding: 0em 0em 0em 1em;
-          #     background: var(--paper-dialog-background-color);
-          #     margin: 0em;
-          #   }
-          #   p {
-          #     font-size: 18px;
-          #   }
+          style: >
+            ha-card {
+              font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+              font-size: 16px;
+            }
         - type: entities
           entities:
             - entity: input_boolean.irrigation_disable_switches
-          # style: >
-          #   ha-card {
-          #     box-shadow: none;
-          #     border-radius: 0em 0em 1em 1em;
-          #     background: var(--paper-dialog-background-color);
-          #   }
+          style: >
+            ha-card {
+              font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+            }
     deviceID:
       - this
-    # style:
-    #   font-family: >
-    #     [[[
-    #       return states['input_text.irrigation_ui_font_family'].state
-    #     ]]]
-    #   box-shadow: 0em 0em 0.5em
-    #   border-radius: 1em
-    #   overflow: hidden
-    #   opacity: 0.9
-
     style:
       $: |
+        .mdc-dialog {
+            backdrop-filter: blur(5px);
+          }
         .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-          border-radius: 1em;
-          box-shadow: 0em 0em 0.5em;
-        }
-      .: |
-        :host {
-          --mdc-theme-surface: var(--paper-dialog-background-color);
-          --ha-card-background: var(--paper-dialog-background-color);
-          --secondary-background-color: var(--paper-dialog-background-color);
-          opacity: 0.9;
-        }
+            border-radius: 1em;
+            box-shadow: 0em 0em 0.5em;
+          }
+  

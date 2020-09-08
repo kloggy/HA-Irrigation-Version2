@@ -95,15 +95,8 @@ entities:
           !include
             - item_settings_controller_wifi_signal.yaml
             - entity: "${vars[0]}"
-              name: Irrigation Controller WiFi Signal Strength
+              name: Irrigation Controller
               tap_action: none
-
-      #=== Time to wait when controller off line
-      - !include
-          - ../item_settings_line.yaml
-          - entity: input_number.irrigation_controller_offline_wait
-            name: Time To Wait When Offline
-
 
       #=== Testing mode warning
       - !include
