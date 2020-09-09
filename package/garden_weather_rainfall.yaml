@@ -229,7 +229,7 @@ automation:
           - input_number.irrigation_rainfall_2
           - input_number.irrigation_rainfall_3
           - input_number.irrigation_rainfall_4
-
+          
     action:
       - service: input_number.set_value
         data_template:

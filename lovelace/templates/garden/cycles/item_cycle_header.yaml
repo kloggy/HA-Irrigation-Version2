@@ -60,33 +60,22 @@ cards:
             - entity: input_text.irrigation_cycle{{ cycle }}_name
               name: Name
               icon: mdi:alphabetical-variant
+          style: >
+            ha-card {
+              font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+            }
         deviceID:
           - this
-        # style:
-        #   font-family: >
-        #     [[[
-        #       return states['input_text.irrigation_ui_font_family'].state
-        #     ]]]
-        #   font-size: 14px
-        #   box-shadow: 0em 0em 0.5em
-        #   border-radius: 1em
-        #   overflow: hidden
-        #   opacity: 0.9
-
         style:
           $: |
+            .mdc-dialog {
+                backdrop-filter: blur(5px);
+              }
             .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-              border-radius: 1em;
-              box-shadow: 0em 0em 0.5em;
-            }
-          .: |
-            :host {
-              --mdc-theme-surface: rgba(0,0,0,0);
-              --ha-card-background: var(--paper-dialog-background-color);
-              --secondary-background-color: var(--paper-dialog-background-color);
-          opacity: 0.9;
-            }
-
+                border-radius: 1em;
+                box-shadow: 0em 0em 0.5em;
+              }
+      
   #=== Cycle Running Icon
   - type: custom:button-card
     icon: mdi:sprinkler-variant

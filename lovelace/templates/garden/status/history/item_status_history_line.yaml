@@ -49,7 +49,7 @@ custom_fields:
       var zone = '{{ zone }}';
       var time = states['sensor.irrigation_' + zone + '_total_time_yesterday'].attributes.value;
       if(time){
-        time = time.replace("h", "hrs ");
+        time = time.replace("h", "hr ");
         time = time.replace("m", " min");
         return time; }
     ]]]
@@ -58,7 +58,7 @@ custom_fields:
       var zone = '{{ zone }}';
       var time = states['sensor.irrigation_' + zone + '_total_time_today'].attributes.value;
       if(time){
-        time = time.replace("h", "hrs ");
+        time = time.replace("h", "hr ");
         time = time.replace("m", " min");
         return time; }
     ]]]

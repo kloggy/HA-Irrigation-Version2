@@ -119,55 +119,6 @@ entities:
           ]]]
         show_label: true
         show_icon: false
-        tap_action:
-          action: >
-            [[[
-              if (states['binary_sensor.irrigation_cycle_start_clash'].state == 'on')
-                return 'call-service';
-              else
-                return 'none';
-            ]]]
-          service: browser_mod.popup
-          service_data:
-            title: "\U00002757  CYCLE SCHEDULE CLASH"
-            card:
-              type: markdown
-              content: |
-                #### WARNING! You have overlapping cycle schedules...
-
-                {{ state_attr('binary_sensor.irrigation_cycle_start_clash', 'clash_text') }}
-
-                Please check and correct.
-              # style: >
-              #   ha-card {
-              #     border-radius: 0em 0em 1em 1em
-              #   }
-            deviceID:
-              - this
-            # style:
-            #   font-family: >
-            #     [[[
-            #       return states['input_text.irrigation_ui_font_family'].state
-            #     ]]]
-            #   font-size: 14px
-            #   box-shadow: 0em 0em 0.5em
-            #   border-radius: 1em
-            #   opacity: 0.9
-
-            style:
-              $: |
-                .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-                  border-radius: 1em;
-                  box-shadow: 0em 0em 0.5em;
-                }
-              .: |
-                :host {
-                  --mdc-theme-surface: rgba(0,0,0,0);
-                  --ha-card-background: var(--paper-dialog-background-color);
-                  --secondary-background-color: var(--paper-dialog-background-color);
-              opacity: 0.9;
-                }
-        
         styles:
           grid:
             - grid-template-areas: '"l n clash_icon warning"'
@@ -226,6 +177,37 @@ entities:
                     return '(Testing Mode is On)';
               }
             ]]]
+        tap_action:
+          action: >
+            [[[
+              if (states['binary_sensor.irrigation_cycle_start_clash'].state == 'on')
+                return 'call-service';
+              else
+                return 'none';
+            ]]]
+          service: browser_mod.popup
+          service_data:
+            title: "\U00002757  CYCLE SCHEDULE CLASH"
+            card:
+              type: markdown
+              content: |
+                #### WARNING! You have overlapping cycle schedules...
+
+                {{ state_attr('binary_sensor.irrigation_cycle_start_clash', 'clash_text') }}
+
+                Please check and correct.
+            deviceID:
+              - this
+            style:
+              $: |
+                .mdc-dialog {
+                    backdrop-filter: blur(5px);
+                  }
+                .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+                    border-radius: 1em;
+                    box-shadow: 0em 0em 0.5em;
+                  }
+                  
 
       #=== STOP BUTTON
       - type: custom:button-card

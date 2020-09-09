@@ -125,4 +125,3 @@ script:
       #====================
       - service: script.turn_off
         entity_id: script.irrigation_run_a_cycle
-        
