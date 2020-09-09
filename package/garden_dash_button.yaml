@@ -59,21 +59,17 @@ script:
           - input_boolean.irrigation_cycle1_schedule_enabled
           - input_boolean.irrigation_cycle2_schedule_enabled
 
-      #=== Announce irrigation
-      - service: script.announcement_irrigation_start
-        data_template:
-          announcementID: "Irrigation Start"
-          room: >
-            {{ ['kitchen'] | to_json }}
-          volume: 0.3
-          voice: google_translate
-          priority: 'off'
-          pause: 0
-          multiple: 'off'
-          last_message: 'on'
-          announcement_timeout: 10
+      # === Announce irrigation
+      - service: script.turn_on
+        entity_id: script.notify
+        data:
+          variables:
+            say: true
+            message: Starting irrigation
+            scene: info
+            kitchen: true
 
-      #=== Set lawn zones to 5 minutes
+      #=== Set lawn zone (1, 2, 3, 4) times
       - service: input_number.set_value
         data:
           entity_id:
@@ -81,9 +77,9 @@ script:
             - input_number.irrigation_cycle3_zone2_duration
             - input_number.irrigation_cycle3_zone3_duration
             - input_number.irrigation_cycle3_zone4_duration
-          value: 5
+          value: 10
 
-      #=== Set other zones to 0 minutes
+          #=== Set other zone (5, 6, 7, 8) to 0 minutes
       - service: input_number.set_value
         data:
           entity_id:
@@ -132,15 +128,11 @@ script:
     sequence:
 
       #=== Announce irrigation not started
-      - service: script.announcement_irrigation_not_started
-        data_template:
-          announcementID: "Irrigation Not Started"
-          room: >
-            {{ ['kitchen'] | to_json }}
-          volume: 0.3
-          voice: google_translate
-          priority: 'off'
-          pause: 0
-          multiple: 'off'
-          last_message: 'on'
-          announcement_timeout: 15
+      - service: script.turn_on
+        entity_id: script.notify
+        data:
+          variables:
+            scene: info
+            kitchen: true
+            message: There is something wrong,. I can't start the irrigation
+

@@ -90,5 +90,4 @@ automation:
             {% else %}
               cycle3
             {% endif %}
-          pause: 0
 

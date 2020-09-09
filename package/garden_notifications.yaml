@@ -17,34 +17,6 @@ input_boolean:
 #================
 automation:
 
-  #========================================================================
-  #=== Persistant notification about the Irrigation Controller WiFi Signal
-  #========================================================================
-  - alias: Irrigation Notify Controller WiFi Signal Unavailable
-    trigger:
-      - platform: state
-        entity_id: sensor.esphome_irrigation_controller_wifi_signal
-        to: unavailable
-
-      - platform: state
-        entity_id: sensor.esphome_irrigation_controller_wifi_signal
-        from: unavailable
-
-    action:
-      - service: script.notify
-        data_template:
-          show: true
-          notification_id: >
-            notifications_{{ now() | string }}
-          title: >
-            Irrigation Controller
-          message: >
-            sensor.esphome_irrigation_controller_wifi_signal
-
-
-            Signal Strength is {{ states('sensor.esphome_irrigation_controller_wifi_signal') | upper }}
-
-
   #==================================================
   #=== Notfy when on holiday about interrupted cycle
   #=== due to Irrigation Controller WiFi Signal 

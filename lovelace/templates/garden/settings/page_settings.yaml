@@ -26,7 +26,6 @@ entities:
             - background: none
             - margin: 0.1em 0em 0em 0em
             - box-shadow: none
-
         tap_action:
           action: none
 

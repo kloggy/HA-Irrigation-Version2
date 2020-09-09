@@ -9,11 +9,6 @@ script:
   #===
   #=== Passed
   #===  cycle - [cycle1, cycle2, cycle3]
-  #===  pause - Seconds pause between zones
-  #===
-  #===  The pause is used for two reasons:
-  #===  1. to allow HA state machine to stabalise
-  #===  2. to allow the physical valves to reset
   #================================================
   irrigation_run_a_cycle:
     description: Run An Irrigation Cycle
@@ -21,11 +16,13 @@ script:
       cycle:
         description: Cycle to run
         example: cycle1
-      pause:
-        description: Pause between zones (seconds)
-        example: 3
 
     sequence:
+      #=== Short pause before starting
+      - delay:
+          seconds: 1
+
+      #=== Run all the zones in turn
       - repeat:
           until:
             - condition: template
@@ -33,60 +30,97 @@ script:
                 {{ states('input_number.irrigation_number_of_zones') | int == repeat.index }}
 
           sequence:
-            #=== Pause between zones
-            - delay:
-                seconds: "{{ pause if repeat.index == 1 else 3 }}"
-
-            #=== Only continue if the cycle hasn't been stopped
-            - condition: template
-              value_template: >
-                {{ is_state('input_boolean.irrigation_' ~ cycle ~ '_running', 'on') }}
-
-            #=== If controller unavailable wait 10 seconds
             - choose:
+                #=== If duration for this zone is not zero
                 - conditions:
                     condition: template
                     value_template: >
-                      {{ states(states('input_text.irrigation_external_sensor_controller_wifi')) == 'unavailable' }}
+                      {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int != 0 }}
+
                   sequence:
-                    - delay: 
-                        seconds: >
-                          {{ states('input_number.irrigation_controller_offline_wait') | int }}
-                  
-            #=== Check if controller is now available
-            - choose:
-                - conditions:
-                    condition: template
-                    value_template: >
-                      {{ states(states('input_text.irrigation_external_sensor_controller_wifi')) != 'unavailable' }}
-                  sequence:
-                    #=== Call the script to start the timer
-                    #=== Check this cycle/zone runs today.
-                    #=== If not pass zero seconds
-                    #=== NOTE: cycle 3 doesn't have scheduled days
-                    - service: script.irrigation_start_timer
+                    #=== Update Status with Zone being watered
+                    - service: input_text.set_value
                       data_template:
-                        cycle: >
-                          {{ cycle }}
-                        zone: >
-                          {{ 'zone' ~ repeat.index }}
+                        entity_id: input_text.irrigation_current_status
+                        value: Watering...
+
+                    #=== Set FAILSAFE time to 10 seconds longer than the zone runtime
+                    - service: input_number.set_value
+                      data_template:        
+                        entity_id: input_number.irrigation_failsafe_time_in_seconds
+                        value: >
+                          {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int + 10 }}
+
+                    #=== Update last run details for this zone
+                    - service: input_text.set_value
+                      data_template:
+                        entity_id: >
+                          input_text.irrigation_zone{{ repeat.index }}_previous_duration_in_seconds
+                        value: >
+                            Watering
+
+                    #=== Is the controller unavailable and the switches are not disabled (used when testing)?
+                    - choose:
+                        #=== Controller is unavailable and switches are not disabled
+                        - conditions:
+                            - condition: template
+                              value_template: >
+                                {{ states(states('input_text.irrigation_external_sensor_controller_wifi')) == 'unavailable' }}
+
+                            - condition: state
+                              entity_id: input_boolean.irrigation_disable_switches
+                              state:  'off'
+      
+                          sequence:
+                            #=== Update Status
+                            - service: input_text.set_value
+                              data:
+                                entity_id: input_text.irrigation_current_status
+                                value: Waiting for offline controller...
+        
+                            #=== Give controller a chance to become available
+                            - delay: 
+                                seconds: >
+                                  {{ states('input_number.irrigation_controller_offline_wait') | int }}
+
+                    #=== Start the timer
+                    - service: timer.start
+                      data_template:
+                        entity_id: >
+                          timer.irrigation_zone{{ repeat.index }}_timer
                         duration: >
                           {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int }}
 
-                    #=== Set delay for the same length as the timer
-                    - delay:
-                        seconds: >
-                          {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int }}
+                    #=== Wait for the timer to start (Probably unnecessary but...)
+                    - wait_template: >
+                        {% set entity_id = 'timer.irrigation_zone' ~ repeat.index ~ '_timer' %}
+                        {{ is_state(entity_id, 'active') }}
 
-                    #=== Stop Watering after delay
+                    #=== If switches are not disabled (used when testing)
+                    - choose:
+                      - conditions:
+                          condition: state
+                          entity_id: input_boolean.irrigation_disable_switches
+                          state:  'off'
+
+                        sequence:
+                          #=== Start watering
+                          - service: switch.turn_on
+                            data_template:
+                              entity_id: >
+                                {{ states('input_text.irrigation_zone' ~ repeat.index ~ '_switch_entity_id') }}
+
+                    #=== Wait for the timer to end
+                    - wait_template: >
+                        {% set entity_id = 'timer.irrigation_zone' ~ repeat.index ~ '_timer' %}
+                        {{ is_state(entity_id, 'idle') }}
+
+                    #=== Stop Watering
                     - service: switch.turn_off
                       data_template:
                         entity_id: >
                           {{ states('input_text.irrigation_zone' ~ repeat.index ~ '_switch_entity_id') }}
 
-                    #===============================
-                    #=== UPDATE DETAILS OF LAST RUN
-                    #===============================
                     #=== Update last run time for this zone
                     - service: input_text.set_value
                       data_template:
@@ -121,19 +155,12 @@ script:
                         entity_id: input_text.irrigation_current_status
                         value: Changing Zone...
 
-              default:
-                #=== Update last run time for this zone
-                - service: input_text.set_value
-                  data_template:
-                    entity_id: >
-                      input_text.irrigation_zone{{ repeat.index }}_previous_duration_in_seconds
-                    value: >
-                      Controller not available!
+                    #=== Pause between zones (to allow HA state machine to stabalise and the physical valves to reset)
+                    - delay:
+                        seconds: >
+                            {{ states('input_number.irrigation_pause_between_zones_in_seconds') | int }}
 
-
-      #=========================
       #=== CYCLE END PROCESSING
-      #=========================
       - service: input_boolean.turn_off
         data_template:
           entity_id: >
@@ -145,87 +172,4 @@ script:
           entity_id: input_text.irrigation_current_status
           value: SYSTEM IDLE
 
-
-  #=======================================
-  #=== Start A Timer
-  #===
-  #=== Passed
-  #===  cycle - [cycle1, cycle2]
-  #===  zone  - [zone1, zone2, ... zone8]
-  #===  duration - in seconds
-  #=======================================
-  irrigation_start_timer:
-    description: Irrigation Start A Timer
-    fields: 
-      cycle:
-        description: Cycle to run
-        example: cycle1
-      zone:
-        description: Zone to irrigate
-        example: zone1
-      duration:
-        description: Time to irrigate (seconds)
-        example: 120
-
-    sequence:
-      #=== Continue if duration is not zero
-      - condition: template
-        value_template: >
-          {{ duration != '0' }}
-
-      #=== Update Status with Zone being watered
-      - service: input_text.set_value
-        data_template:
-          entity_id: input_text.irrigation_current_status
-          value: Watering...
-
-      #=== Set FAILSAFE time to 10 seconds longer than the zone runtime
-      - service: input_number.set_value
-        data_template:        
-          entity_id: input_number.irrigation_failsafe_time_in_seconds
-          value: >
-            {{ duration | int + 10 }}
-
-      #=== Start the timer
-      - service: timer.start
-        data_template:
-          entity_id: >
-            timer.irrigation_{{ zone }}_timer
-          duration: >
-            {{ duration }}
-
-      #=== Update last run details for this zone
-      - service: input_text.set_value
-        data_template:
-          entity_id: >
-            input_text.irrigation_{{ zone }}_previous_duration_in_seconds
-          value: >
-              Watering
-
-      #=== Continue if switches are not disabled (used when testing)
-      - condition: state
-        entity_id: input_boolean.irrigation_disable_switches
-        state:  'off'
-
-      #=== If controller unavailable wait 10 seconds
-      - choose:
-          - conditions:
-              condition: template
-              value_template: >
-                {{ states(states('input_text.irrigation_external_sensor_controller_wifi')) == 'unavailable' }}
-            sequence:
-              - delay: 
-                  seconds: >
-                    {{ states('input_number.irrigation_controller_offline_wait') | int }}
-        
-      #=== Continue if controller is now available
-      - condition: template
-        value_template: >
-          {{ states(states('input_text.irrigation_external_sensor_controller_wifi')) != 'unavailable' }}
-
-      #=== Start watering
-      - service: switch.turn_on
-        data_template:
-          entity_id: >
-            {{ states('input_text.irrigation_' ~ zone ~ '_switch_entity_id') }}
 
