@@ -1,4 +1,20 @@
 
+#===========
+#=== Groups
+#===========
+group:
+  irrigation_cycle3_zone_durations:
+    entities:
+      - sensor.irrigation_cycle3_zone1_actual_duration_in_seconds
+      - sensor.irrigation_cycle3_zone2_actual_duration_in_seconds
+      - sensor.irrigation_cycle3_zone3_actual_duration_in_seconds
+      - sensor.irrigation_cycle3_zone4_actual_duration_in_seconds
+      - sensor.irrigation_cycle3_zone5_actual_duration_in_seconds
+      - sensor.irrigation_cycle3_zone6_actual_duration_in_seconds
+      - sensor.irrigation_cycle3_zone7_actual_duration_in_seconds
+      - sensor.irrigation_cycle3_zone8_actual_duration_in_seconds
+
+
 #==================
 #=== Input Numbers
 #==================
@@ -168,20 +184,10 @@ sensor:
       #=== Cycle 3 Duration In Seconds
       irrigation_cycle3_duration_in_seconds:
         friendly_name: Cycle 3 Duration In Seconds
-        entity_id:
-          - input_number.irrigation_number_of_zones
-          - sensor.irrigation_cycle3_zone1_actual_duration_in_seconds
-          - sensor.irrigation_cycle3_zone2_actual_duration_in_seconds
-          - sensor.irrigation_cycle3_zone3_actual_duration_in_seconds
-          - sensor.irrigation_cycle3_zone4_actual_duration_in_seconds
-          - sensor.irrigation_cycle3_zone5_actual_duration_in_seconds
-          - sensor.irrigation_cycle3_zone6_actual_duration_in_seconds
-          - sensor.irrigation_cycle3_zone7_actual_duration_in_seconds
-          - sensor.irrigation_cycle3_zone8_actual_duration_in_seconds
         value_template: >
           {% set ns = namespace(duration = 0) %}
-          {% for zone in states.sensor if zone.object_id.startswith('irrigation_cycle3_zone') and 
-                                          zone.object_id.endswith('_actual_duration_in_seconds') %}
+          {% for zone in expand('group.irrigation_cycle3_zone_durations') if zone.object_id.startswith('irrigation_cycle3_zone') and 
+                                                                             zone.object_id.endswith('_actual_duration_in_seconds') %}
             {% if loop.index <= states('input_number.irrigation_number_of_zones') | int %}
               {% set ns.duration = ns.duration + (zone.state | int) %}
             {% endif %}
