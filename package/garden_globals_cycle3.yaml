@@ -1,20 +1,4 @@
 
-#===========
-#=== Groups
-#===========
-group:
-  irrigation_cycle3_zone_durations:
-    entities:
-      - sensor.irrigation_cycle3_zone1_actual_duration_in_seconds
-      - sensor.irrigation_cycle3_zone2_actual_duration_in_seconds
-      - sensor.irrigation_cycle3_zone3_actual_duration_in_seconds
-      - sensor.irrigation_cycle3_zone4_actual_duration_in_seconds
-      - sensor.irrigation_cycle3_zone5_actual_duration_in_seconds
-      - sensor.irrigation_cycle3_zone6_actual_duration_in_seconds
-      - sensor.irrigation_cycle3_zone7_actual_duration_in_seconds
-      - sensor.irrigation_cycle3_zone8_actual_duration_in_seconds
-
-
 #==================
 #=== Input Numbers
 #==================
@@ -185,7 +169,7 @@ sensor:
       irrigation_cycle3_duration_in_seconds:
         friendly_name: Cycle 3 Duration In Seconds
         value_template: >
-          {% set durations = expand('group.irrigation_cycle3_zone_durations') | map(attribute='state') | map('int') | list %}
+          {% set durations = expand('group.irrigation_group_cycle3_zone_durations') | map(attribute='state') | map('int') | list %}
           {% set max = states('input_number.irrigation_number_of_zones') | int %}
           {{ durations[0:max] | sum }}
 
