@@ -1,4 +1,28 @@
 
+#===========
+#=== Groups
+#===========
+group:
+  irrigation_cycle2_zone_durations:
+    entities:
+      - sensor.irrigation_cycle2_zone1_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone2_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone3_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone4_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone5_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone6_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone7_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone8_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone9_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone10_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone11_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone12_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone13_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone14_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone15_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone16_actual_duration_in_seconds
+
+
 #==================
 #=== Input Selects
 #==================
@@ -356,60 +380,19 @@ sensor:
       #=== Cycle 2 Duration In Seconds
       irrigation_cycle2_duration_in_seconds:
         friendly_name: Cycle 2 Duration In Seconds
-        entity_id:
-          - input_number.irrigation_number_of_zones
-          - sensor.irrigation_cycle2_zone1_actual_duration_in_seconds
-          - sensor.irrigation_cycle2_zone2_actual_duration_in_seconds
-          - sensor.irrigation_cycle2_zone3_actual_duration_in_seconds
-          - sensor.irrigation_cycle2_zone4_actual_duration_in_seconds
-          - sensor.irrigation_cycle2_zone5_actual_duration_in_seconds
-          - sensor.irrigation_cycle2_zone6_actual_duration_in_seconds
-          - sensor.irrigation_cycle2_zone7_actual_duration_in_seconds
-          - sensor.irrigation_cycle2_zone8_actual_duration_in_seconds
-          - sensor.irrigation_cycle2_zone9_actual_duration_in_seconds
-          - sensor.irrigation_cycle2_zone10_actual_duration_in_seconds
-          - sensor.irrigation_cycle2_zone11_actual_duration_in_seconds
-          - sensor.irrigation_cycle2_zone12_actual_duration_in_seconds
-          - sensor.irrigation_cycle2_zone13_actual_duration_in_seconds
-          - sensor.irrigation_cycle2_zone14_actual_duration_in_seconds
-          - sensor.irrigation_cycle2_zone15_actual_duration_in_seconds
-          - sensor.irrigation_cycle2_zone16_actual_duration_in_seconds
         value_template: >
-          {% set ns = namespace(duration = 0) %}
-          {% for zone in states.sensor if zone.object_id.startswith('irrigation_cycle2_zone') and 
-                                          zone.object_id.endswith('_actual_duration_in_seconds') %}
-            {% if loop.index <= states('input_number.irrigation_number_of_zones') | int %}
-              {% set ns.duration = ns.duration + (zone.state | int) %}
-            {% endif %}
-          {% endfor %}
-          {{ ns.duration }}
+          {% set durations = expand('group.irrigation_cycle2_zone_durations') | map(attribute='state') | map('int') | list %}
+          {% set max = states('input_number.irrigation_number_of_zones') | int %}
+          {{ durations[0:max] | sum }}
 
-      #=== Actual Zone durations in seconds
+        #=== Actual Zone durations in seconds
       irrigation_cycle2_zone1_actual_duration_in_seconds:
         friendly_name: Cycle 2 Zone 1 Actual Duration In Seconds
-        entity_id:
-          - sensor.date
-          - input_number.irrigation_rainfall_multiplier
-          - input_number.irrigation_temp_multiplier
-          - input_boolean.irrigation_testing_mode
-          - input_boolean.irrigation_ui_show_cycle2
-          - input_boolean.irrigation_cycle2_schedule_enabled
-          - input_boolean.irrigation_cycle2_adjust_for_rainfall
-          - input_boolean.irrigation_cycle2_adjust_for_temperature
-          - input_number.irrigation_cycle2_zone1_duration
-          - input_boolean.irrigation_cycle2_zone1_every_day
-          - input_boolean.irrigation_cycle2_zone1_mon
-          - input_boolean.irrigation_cycle2_zone1_tue
-          - input_boolean.irrigation_cycle2_zone1_wed
-          - input_boolean.irrigation_cycle2_zone1_thu
-          - input_boolean.irrigation_cycle2_zone1_fri
-          - input_boolean.irrigation_cycle2_zone1_sat
-          - input_boolean.irrigation_cycle2_zone1_sun
         value_template: >
           {% set duration_secs = states('input_number.irrigation_cycle2_zone1_duration') | float * 60 %}
           {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
           {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
-          {% set today = now().strftime('%a') | lower %}
+          {% set today = states.sensor.date.last_updated.strftime('%a') | lower %}
 
           {# Adjust for rainfall #}
           {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') %}
@@ -443,29 +426,11 @@ sensor:
 
       irrigation_cycle2_zone2_actual_duration_in_seconds:
         friendly_name: Cycle 2 Zone 2 Actual Duration In Seconds
-        entity_id:
-          - sensor.date
-          - input_number.irrigation_rainfall_multiplier
-          - input_number.irrigation_temp_multiplier
-          - input_boolean.irrigation_testing_mode
-          - input_boolean.irrigation_ui_show_cycle2
-          - input_boolean.irrigation_cycle2_schedule_enabled
-          - input_boolean.irrigation_cycle2_adjust_for_rainfall
-          - input_boolean.irrigation_cycle2_adjust_for_temperature
-          - input_number.irrigation_cycle2_zone2_duration
-          - input_boolean.irrigation_cycle2_zone2_every_day
-          - input_boolean.irrigation_cycle2_zone2_mon
-          - input_boolean.irrigation_cycle2_zone2_tue
-          - input_boolean.irrigation_cycle2_zone2_wed
-          - input_boolean.irrigation_cycle2_zone2_thu
-          - input_boolean.irrigation_cycle2_zone2_fri
-          - input_boolean.irrigation_cycle2_zone2_sat
-          - input_boolean.irrigation_cycle2_zone2_sun
         value_template: >
           {% set duration_secs = states('input_number.irrigation_cycle2_zone2_duration') | float * 60 %}
           {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
           {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
-          {% set today = now().strftime('%a') | lower %}
+          {% set today = states.sensor.date.last_updated.strftime('%a') | lower %}
 
           {# Adjust for rainfall #}
           {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') %}
@@ -499,29 +464,11 @@ sensor:
 
       irrigation_cycle2_zone3_actual_duration_in_seconds:
         friendly_name: Cycle 2 Zone 3 Actual Duration In Seconds
-        entity_id:
-          - sensor.date
-          - input_number.irrigation_rainfall_multiplier
-          - input_number.irrigation_temp_multiplier
-          - input_boolean.irrigation_testing_mode
-          - input_boolean.irrigation_ui_show_cycle2
-          - input_boolean.irrigation_cycle2_schedule_enabled
-          - input_boolean.irrigation_cycle2_adjust_for_rainfall
-          - input_boolean.irrigation_cycle2_adjust_for_temperature
-          - input_number.irrigation_cycle2_zone3_duration
-          - input_boolean.irrigation_cycle2_zone3_every_day
-          - input_boolean.irrigation_cycle2_zone3_mon
-          - input_boolean.irrigation_cycle2_zone3_tue
-          - input_boolean.irrigation_cycle2_zone3_wed
-          - input_boolean.irrigation_cycle2_zone3_thu
-          - input_boolean.irrigation_cycle2_zone3_fri
-          - input_boolean.irrigation_cycle2_zone3_sat
-          - input_boolean.irrigation_cycle2_zone3_sun
         value_template: >
           {% set duration_secs = states('input_number.irrigation_cycle2_zone3_duration') | float * 60 %}
           {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
           {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
-          {% set today = now().strftime('%a') | lower %}
+          {% set today = states.sensor.date.last_updated.strftime('%a') | lower %}
 
           {# Adjust for rainfall #}
           {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') %}
@@ -555,29 +502,11 @@ sensor:
 
       irrigation_cycle2_zone4_actual_duration_in_seconds:
         friendly_name: Cycle 2 Zone 4 Actual Duration In Seconds
-        entity_id:
-          - sensor.date
-          - input_number.irrigation_rainfall_multiplier
-          - input_number.irrigation_temp_multiplier
-          - input_boolean.irrigation_testing_mode
-          - input_boolean.irrigation_ui_show_cycle2
-          - input_boolean.irrigation_cycle2_schedule_enabled
-          - input_boolean.irrigation_cycle2_adjust_for_rainfall
-          - input_boolean.irrigation_cycle2_adjust_for_temperature
-          - input_number.irrigation_cycle2_zone4_duration
-          - input_boolean.irrigation_cycle2_zone4_every_day
-          - input_boolean.irrigation_cycle2_zone4_mon
-          - input_boolean.irrigation_cycle2_zone4_tue
-          - input_boolean.irrigation_cycle2_zone4_wed
-          - input_boolean.irrigation_cycle2_zone4_thu
-          - input_boolean.irrigation_cycle2_zone4_fri
-          - input_boolean.irrigation_cycle2_zone4_sat
-          - input_boolean.irrigation_cycle2_zone4_sun
         value_template: >
           {% set duration_secs = states('input_number.irrigation_cycle2_zone4_duration') | float * 60 %}
           {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
           {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
-          {% set today = now().strftime('%a') | lower %}
+          {% set today = states.sensor.date.last_updated.strftime('%a') | lower %}
 
           {# Adjust for rainfall #}
           {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') %}
@@ -611,29 +540,11 @@ sensor:
 
       irrigation_cycle2_zone5_actual_duration_in_seconds:
         friendly_name: Cycle 2 Zone 5 Actual Duration In Seconds
-        entity_id:
-          - sensor.date
-          - input_number.irrigation_rainfall_multiplier
-          - input_number.irrigation_temp_multiplier
-          - input_boolean.irrigation_testing_mode
-          - input_boolean.irrigation_ui_show_cycle2
-          - input_boolean.irrigation_cycle2_schedule_enabled
-          - input_boolean.irrigation_cycle2_adjust_for_rainfall
-          - input_boolean.irrigation_cycle2_adjust_for_temperature
-          - input_number.irrigation_cycle2_zone5_duration
-          - input_boolean.irrigation_cycle2_zone5_every_day
-          - input_boolean.irrigation_cycle2_zone5_mon
-          - input_boolean.irrigation_cycle2_zone5_tue
-          - input_boolean.irrigation_cycle2_zone5_wed
-          - input_boolean.irrigation_cycle2_zone5_thu
-          - input_boolean.irrigation_cycle2_zone5_fri
-          - input_boolean.irrigation_cycle2_zone5_sat
-          - input_boolean.irrigation_cycle2_zone5_sun
         value_template: >
           {% set duration_secs = states('input_number.irrigation_cycle2_zone5_duration') | float * 60 %}
           {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
           {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
-          {% set today = now().strftime('%a') | lower %}
+          {% set today = states.sensor.date.last_updated.strftime('%a') | lower %}
 
           {# Adjust for rainfall #}
           {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') %}
@@ -667,29 +578,11 @@ sensor:
 
       irrigation_cycle2_zone6_actual_duration_in_seconds:
         friendly_name: Cycle 2 Zone 6 Actual Duration In Seconds
-        entity_id:
-          - sensor.date
-          - input_number.irrigation_rainfall_multiplier
-          - input_number.irrigation_temp_multiplier
-          - input_boolean.irrigation_testing_mode
-          - input_boolean.irrigation_ui_show_cycle2
-          - input_boolean.irrigation_cycle2_schedule_enabled
-          - input_boolean.irrigation_cycle2_adjust_for_rainfall
-          - input_boolean.irrigation_cycle2_adjust_for_temperature
-          - input_number.irrigation_cycle2_zone6_duration
-          - input_boolean.irrigation_cycle2_zone6_every_day
-          - input_boolean.irrigation_cycle2_zone6_mon
-          - input_boolean.irrigation_cycle2_zone6_tue
-          - input_boolean.irrigation_cycle2_zone6_wed
-          - input_boolean.irrigation_cycle2_zone6_thu
-          - input_boolean.irrigation_cycle2_zone6_fri
-          - input_boolean.irrigation_cycle2_zone6_sat
-          - input_boolean.irrigation_cycle2_zone6_sun
         value_template: >
           {% set duration_secs = states('input_number.irrigation_cycle2_zone6_duration') | float * 60 %}
           {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
           {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
-          {% set today = now().strftime('%a') | lower %}
+          {% set today = states.sensor.date.last_updated.strftime('%a') | lower %}
 
           {# Adjust for rainfall #}
           {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') %}
@@ -723,29 +616,11 @@ sensor:
 
       irrigation_cycle2_zone7_actual_duration_in_seconds:
         friendly_name: Cycle 2 Zone 7 Actual Duration In Seconds
-        entity_id:
-          - sensor.date
-          - input_number.irrigation_rainfall_multiplier
-          - input_number.irrigation_temp_multiplier
-          - input_boolean.irrigation_testing_mode
-          - input_boolean.irrigation_ui_show_cycle2
-          - input_boolean.irrigation_cycle2_schedule_enabled
-          - input_boolean.irrigation_cycle2_adjust_for_rainfall
-          - input_boolean.irrigation_cycle2_adjust_for_temperature
-          - input_number.irrigation_cycle2_zone7_duration
-          - input_boolean.irrigation_cycle2_zone7_every_day
-          - input_boolean.irrigation_cycle2_zone7_mon
-          - input_boolean.irrigation_cycle2_zone7_tue
-          - input_boolean.irrigation_cycle2_zone7_wed
-          - input_boolean.irrigation_cycle2_zone7_thu
-          - input_boolean.irrigation_cycle2_zone7_fri
-          - input_boolean.irrigation_cycle2_zone7_sat
-          - input_boolean.irrigation_cycle2_zone7_sun
         value_template: >
           {% set duration_secs = states('input_number.irrigation_cycle2_zone7_duration') | float * 60 %}
           {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
           {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
-          {% set today = now().strftime('%a') | lower %}
+          {% set today = states.sensor.date.last_updated.strftime('%a') | lower %}
 
           {# Adjust for rainfall #}
           {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') %}
@@ -779,29 +654,11 @@ sensor:
 
       irrigation_cycle2_zone8_actual_duration_in_seconds:
         friendly_name: Cycle 2 Zone 8 Actual Duration In Seconds
-        entity_id:
-          - sensor.date
-          - input_number.irrigation_rainfall_multiplier
-          - input_number.irrigation_temp_multiplier
-          - input_boolean.irrigation_testing_mode
-          - input_boolean.irrigation_ui_show_cycle2
-          - input_boolean.irrigation_cycle2_schedule_enabled
-          - input_boolean.irrigation_cycle2_adjust_for_rainfall
-          - input_boolean.irrigation_cycle2_adjust_for_temperature
-          - input_number.irrigation_cycle2_zone8_duration
-          - input_boolean.irrigation_cycle2_zone8_every_day
-          - input_boolean.irrigation_cycle2_zone8_mon
-          - input_boolean.irrigation_cycle2_zone8_tue
-          - input_boolean.irrigation_cycle2_zone8_wed
-          - input_boolean.irrigation_cycle2_zone8_thu
-          - input_boolean.irrigation_cycle2_zone8_fri
-          - input_boolean.irrigation_cycle2_zone8_sat
-          - input_boolean.irrigation_cycle2_zone8_sun
         value_template: >
           {% set duration_secs = states('input_number.irrigation_cycle2_zone8_duration') | float * 60 %}
           {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
           {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
-          {% set today = now().strftime('%a') | lower %}
+          {% set today = states.sensor.date.last_updated.strftime('%a') | lower %}
 
           {# Adjust for rainfall #}
           {% if is_state('input_boolean.irrigation_cycle2_adjust_for_rainfall', 'on') %}
