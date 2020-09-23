@@ -13,6 +13,14 @@ group:
       - sensor.irrigation_cycle2_zone6_actual_duration_in_seconds
       - sensor.irrigation_cycle2_zone7_actual_duration_in_seconds
       - sensor.irrigation_cycle2_zone8_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone9_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone10_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone11_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone12_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone13_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone14_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone15_actual_duration_in_seconds
+      - sensor.irrigation_cycle2_zone16_actual_duration_in_seconds
 
 
 #==================
