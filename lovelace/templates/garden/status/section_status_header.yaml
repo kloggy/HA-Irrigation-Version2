@@ -256,6 +256,22 @@ entities:
                   return 'zone7';
                 else if (states['timer.irrigation_zone8_timer'].state == 'active')
                   return 'zone8';
+                else if (states['timer.irrigation_zone9_timer'].state == 'active')
+                  return 'zone9';
+                else if (states['timer.irrigation_zone10_timer'].state == 'active')
+                  return 'zone10';
+                else if (states['timer.irrigation_zone11_timer'].state == 'active')
+                  return 'zone11';
+                else if (states['timer.irrigation_zone12_timer'].state == 'active')
+                  return 'zone12';
+                else if (states['timer.irrigation_zone13_timer'].state == 'active')
+                  return 'zone13';
+                else if (states['timer.irrigation_zone14_timer'].state == 'active')
+                  return 'zone14';
+                else if (states['timer.irrigation_zone15_timer'].state == 'active')
+                  return 'zone15';
+                else if (states['timer.irrigation_zone16_timer'].state == 'active')
+                  return 'zone16';
                 else
                   return 'none';
               ]]]
