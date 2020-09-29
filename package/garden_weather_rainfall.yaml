@@ -106,73 +106,81 @@ automation:
             - binary_sensor.irrigation_sensor_raining_now
 
 
-  #=======================================================================
-  #=== Synchronise the sensor for Rainfall Today with the external sensor
-  #=======================================================================
-  - alias: Irrigation Synchronise Sensor Rainfall Today
-    trigger:
-      - platform: event
-        event_type: state_changed
+  #=================================================================
+  #=== CODE MADE REDUNDANT BY HA v0.115
+  #=================================================================
 
-    condition:
-      - condition: template
-        value_template: >
-          {{ 
-            trigger.event.data.entity_id in [
-              'input_text.irrigation_external_sensor_rainfall_today',
-              states('input_text.irrigation_external_sensor_rainfall_today')
-            ]
-          }}
+  # #=======================================================================
+  # #=== Synchronise the sensor for Rainfall Today with the external sensor
+  # #=======================================================================
+  # - alias: Irrigation Synchronise Sensor Rainfall Today
+  #   trigger:
+  #     - platform: event
+  #       event_type: state_changed
 
-    action:
-      - service: homeassistant.update_entity
-        entity_id: sensor.irrigation_sensor_rainfall_today
+  #   condition:
+  #     - condition: template
+  #       value_template: >
+  #         {{ 
+  #           trigger.event.data.entity_id in [
+  #             'input_text.irrigation_external_sensor_rainfall_today',
+  #             states('input_text.irrigation_external_sensor_rainfall_today')
+  #           ]
+  #         }}
 
-
-  #===========================================================================
-  #=== Synchronise the sensor for Rainfall Yesterday with the external sensor
-  #===========================================================================
-  - alias: Irrigation Synchronise Sensor Rainfall Yesterday
-    trigger:
-      - platform: event
-        event_type: state_changed
-
-    condition:
-      - condition: template
-        value_template: >
-          {{ 
-            trigger.event.data.entity_id in [
-              'input_text.irrigation_external_sensor_rainfall_yesterday',
-              states('input_text.irrigation_external_sensor_rainfall_yesterday')
-            ]
-          }}
-
-    action:
-      - service: homeassistant.update_entity
-        entity_id: sensor.irrigation_sensor_rainfall_yesterday
+  #   action:
+  #     - service: homeassistant.update_entity
+  #       entity_id: sensor.irrigation_sensor_rainfall_today
 
 
-  #====================================================================
-  #=== Synchronise the sensor for Raining now with the external sensor
-  #====================================================================
-  - alias: Irrigation Synchronise Sensor Raining Now
-    trigger:
-      - platform: event
-        event_type: state_changed
+  # #===========================================================================
+  # #=== Synchronise the sensor for Rainfall Yesterday with the external sensor
+  # #===========================================================================
+  # - alias: Irrigation Synchronise Sensor Rainfall Yesterday
+  #   trigger:
+  #     - platform: event
+  #       event_type: state_changed
 
-    condition:
-      - condition: template
-        value_template: >
-          {{ 
-            trigger.event.data.entity_id in [
-              'input_text.irrigation_external_sensor_raining_now',
-              states('input_text.irrigation_external_sensor_raining_now')
-            ]
-          }}
+  #   condition:
+  #     - condition: template
+  #       value_template: >
+  #         {{ 
+  #           trigger.event.data.entity_id in [
+  #             'input_text.irrigation_external_sensor_rainfall_yesterday',
+  #             states('input_text.irrigation_external_sensor_rainfall_yesterday')
+  #           ]
+  #         }}
 
-    action:
-      - service: homeassistant.update_entity
-        entity_id: sensor.irrigation_sensor_raining_now
+  #   action:
+  #     - service: homeassistant.update_entity
+  #       entity_id: sensor.irrigation_sensor_rainfall_yesterday
+
+
+  # #====================================================================
+  # #=== Synchronise the sensor for Raining now with the external sensor
+  # #====================================================================
+  # - alias: Irrigation Synchronise Sensor Raining Now
+  #   trigger:
+  #     - platform: event
+  #       event_type: state_changed
+
+  #   condition:
+  #     - condition: template
+  #       value_template: >
+  #         {{ 
+  #           trigger.event.data.entity_id in [
+  #             'input_text.irrigation_external_sensor_raining_now',
+  #             states('input_text.irrigation_external_sensor_raining_now')
+  #           ]
+  #         }}
+
+  #   action:
+  #     - service: homeassistant.update_entity
+  #       entity_id: sensor.irrigation_sensor_raining_now
+
+  #=================================================================
+  #=== END OF CODE MADE REDUNDANT BY HA v0.115
+  #=================================================================
 
 
   #===============================================================
