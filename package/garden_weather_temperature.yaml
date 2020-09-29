@@ -78,51 +78,58 @@ automation:
             - sensor.irrigation_sensor_current_temp
 
 
-  #===========================================================================
-  #=== Synchronise the sensor for Forecast High Temp with the external sensor
-  #===========================================================================
-  - alias: Irrigation Synchronise Sensor Forecast High Temp
-    trigger:
-      - platform: event
-        event_type: state_changed
-
-    condition:
-      - condition: template
-        value_template: >
-          {{ 
-            trigger.event.data.entity_id in [
-              'input_text.irrigation_external_sensor_forecast_high_temp',
-              states('input_text.irrigation_external_sensor_forecast_high_temp')
-            ]
-          }}
-
-    action:
-      - service: homeassistant.update_entity
-        entity_id: sensor.irrigation_sensor_forecast_high_temp
-
-
-  #================================================================
-  #=== Synchronise the sensor for Current Temp the external sensor
   #=================================================================
-  - alias: Irrigation Synchronise Sensor Current Temp
-    trigger:
-      - platform: event
-        event_type: state_changed
+  #=== CODE MADE REDUNDANT BY HA v0.115
+  #=================================================================
 
-    condition:
-      - condition: template
-        value_template: >
-          {{ 
-            trigger.event.data.entity_id in [
-              'input_text.irrigation_external_sensor_current_temp',
-              states('input_text.irrigation_external_sensor_current_temp')
-            ]
-          }}
+  # #===========================================================================
+  # #=== Synchronise the sensor for Forecast High Temp with the external sensor
+  # #===========================================================================
+  # - alias: Irrigation Synchronise Sensor Forecast High Temp
+  #   trigger:
+  #     - platform: event
+  #       event_type: state_changed
 
-    action:
-      - service: homeassistant.update_entity
-        entity_id: sensor.irrigation_sensor_current_temp
+  #   condition:
+  #     - condition: template
+  #       value_template: >
+  #         {{ 
+  #           trigger.event.data.entity_id in [
+  #             'input_text.irrigation_external_sensor_forecast_high_temp',
+  #             states('input_text.irrigation_external_sensor_forecast_high_temp')
+  #           ]
+  #         }}
 
+  #   action:
+  #     - service: homeassistant.update_entity
+  #       entity_id: sensor.irrigation_sensor_forecast_high_temp
+
+
+  # #================================================================
+  # #=== Synchronise the sensor for Current Temp the external sensor
+  # #=================================================================
+  # - alias: Irrigation Synchronise Sensor Current Temp
+  #   trigger:
+  #     - platform: event
+  #       event_type: state_changed
+
+  #   condition:
+  #     - condition: template
+  #       value_template: >
+  #         {{ 
+  #           trigger.event.data.entity_id in [
+  #             'input_text.irrigation_external_sensor_current_temp',
+  #             states('input_text.irrigation_external_sensor_current_temp')
+  #           ]
+  #         }}
+
+  #   action:
+  #     - service: homeassistant.update_entity
+  #       entity_id: sensor.irrigation_sensor_current_temp
+
+  #=================================================================
+  #=== END OF CODE MADE REDUNDANT BY HA v0.115
+  #=================================================================
 
   #================================================================
   #=== Update Highest Actual Temp Today if temperature has gone up
