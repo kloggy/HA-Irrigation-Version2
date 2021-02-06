@@ -11,7 +11,7 @@ automation:
   - alias: Irrigation Triggered
 
     variables:
-      trigger_time: "{{ trigger.now.strftime('%H:%M:00') }}"
+      trigger_time: "{{ trigger.now.strftime('%H:%M') }}"
 
     #================================================
     #=== TRIGGERS
@@ -56,10 +56,10 @@ automation:
       #=== Check this cycle is enabled. NOTE: don't check this for cycle 3 
       - condition: template
         value_template: >
-          {% if trigger_time == states('input_datetime.irrigation_cycle1_start_time') and
+          {% if trigger_time == states('input_datetime.irrigation_cycle1_start_time')[0:5] and
                 is_state('input_boolean.irrigation_cycle1_schedule_enabled', 'on') %}
             True
-          {% elif trigger_time == states('input_datetime.irrigation_cycle2_start_time') and
+          {% elif trigger_time == states('input_datetime.irrigation_cycle2_start_time')[0:5] and
                 is_state('input_boolean.irrigation_cycle2_schedule_enabled', 'on') %}
             True
           {% elif trigger.entity_id == 'input_boolean.irrigation_cycle3_running' %}
@@ -93,9 +93,9 @@ automation:
       - service: homeassistant.turn_on
         data_template:
           entity_id: >
-            {% if trigger_time == states('input_datetime.irrigation_cycle1_start_time') %}
+            {% if trigger_time == states('input_datetime.irrigation_cycle1_start_time')[0:5] %}
               input_boolean.irrigation_cycle1_running
-            {% elif trigger_time == states('input_datetime.irrigation_cycle2_start_time') %}
+            {% elif trigger_time == states('input_datetime.irrigation_cycle2_start_time')[0:5] %}
               input_boolean.irrigation_cycle2_running
             {% else%}
               input_boolean.irrigation_cycle3_running
