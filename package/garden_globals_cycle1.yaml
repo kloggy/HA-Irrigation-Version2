@@ -189,6 +189,7 @@ input_datetime:
     has_date: false
     has_time: true
 
+
 #===================
 #=== Input Booleans
 #===================
@@ -246,9 +247,9 @@ sensor:
         friendly_name: Cycle 1 Zone 1 Actual Duration In Seconds
         value_template: >
           {% set duration_secs = states('input_number.irrigation_cycle1_zone1_duration') | float * 60 %}
-          {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
-          {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
-          {% set today = states.sensor.date.last_updated.strftime('%a') | lower %}
+          {% set min_duration_secs = states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
+          {% set max_duration_secs = states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
+          {% set today = ['mon','tue','wed','thu','fri','sat','sun'][now().weekday()] %}
 
           {# Adjust for rainfall #}
           {% if is_state('input_boolean.irrigation_cycle1_adjust_for_rainfall', 'on') %}
@@ -286,7 +287,7 @@ sensor:
           {% set duration_secs = states('input_number.irrigation_cycle1_zone2_duration') | float * 60 %}
           {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
           {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
-          {% set today = states.sensor.date.last_updated.strftime('%a') | lower %}
+          {% set today = ['mon','tue','wed','thu','fri','sat','sun'][now().weekday()] %}
 
           {# Adjust for rainfall #}
           {% if is_state('input_boolean.irrigation_cycle1_adjust_for_rainfall', 'on') %}
@@ -324,7 +325,7 @@ sensor:
           {% set duration_secs = states('input_number.irrigation_cycle1_zone3_duration') | float * 60 %}
           {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
           {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
-          {% set today = states.sensor.date.last_updated.strftime('%a') | lower %}
+          {% set today = ['mon','tue','wed','thu','fri','sat','sun'][now().weekday()] %}
 
           {# Adjust for rainfall #}
           {% if is_state('input_boolean.irrigation_cycle1_adjust_for_rainfall', 'on') %}
@@ -362,7 +363,7 @@ sensor:
           {% set duration_secs = states('input_number.irrigation_cycle1_zone4_duration') | float * 60 %}
           {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
           {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
-          {% set today = states.sensor.date.last_updated.strftime('%a') | lower %}
+          {% set today = ['mon','tue','wed','thu','fri','sat','sun'][now().weekday()] %}
 
           {# Adjust for rainfall #}
           {% if is_state('input_boolean.irrigation_cycle1_adjust_for_rainfall', 'on') %}
@@ -400,7 +401,7 @@ sensor:
           {% set duration_secs = states('input_number.irrigation_cycle1_zone5_duration') | float * 60 %}
           {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
           {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
-          {% set today = states.sensor.date.last_updated.strftime('%a') | lower %}
+          {% set today = ['mon','tue','wed','thu','fri','sat','sun'][now().weekday()] %}
 
           {# Adjust for rainfall #}
           {% if is_state('input_boolean.irrigation_cycle1_adjust_for_rainfall', 'on') %}
@@ -438,7 +439,7 @@ sensor:
           {% set duration_secs = states('input_number.irrigation_cycle1_zone6_duration') | float * 60 %}
           {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
           {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
-          {% set today = states.sensor.date.last_updated.strftime('%a') | lower %}
+          {% set today = ['mon','tue','wed','thu','fri','sat','sun'][now().weekday()] %}
 
           {# Adjust for rainfall #}
           {% if is_state('input_boolean.irrigation_cycle1_adjust_for_rainfall', 'on') %}
@@ -476,7 +477,7 @@ sensor:
           {% set duration_secs = states('input_number.irrigation_cycle1_zone7_duration') | float * 60 %}
           {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
           {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
-          {% set today = states.sensor.date.last_updated.strftime('%a') | lower %}
+          {% set today = ['mon','tue','wed','thu','fri','sat','sun'][now().weekday()] %}
 
           {# Adjust for rainfall #}
           {% if is_state('input_boolean.irrigation_cycle1_adjust_for_rainfall', 'on') %}
@@ -514,7 +515,7 @@ sensor:
           {% set duration_secs = states('input_number.irrigation_cycle1_zone8_duration') | float * 60 %}
           {% set min_duration_secs= states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
           {% set max_duration_secs= states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
-          {% set today = states.sensor.date.last_updated.strftime('%a') | lower %}
+          {% set today = ['mon','tue','wed','thu','fri','sat','sun'][now().weekday()] %}
 
           {# Adjust for rainfall #}
           {% if is_state('input_boolean.irrigation_cycle1_adjust_for_rainfall', 'on') %}
