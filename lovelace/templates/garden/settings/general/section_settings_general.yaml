@@ -107,7 +107,5 @@ entities:
 style: >
   ha-card {
     box-shadow: none;
-  }
-  #states {
-    padding-bottom: 0.3em;
+    margin-top: -0.75em;
   }

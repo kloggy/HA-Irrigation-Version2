@@ -9,7 +9,7 @@ name: >
   [[[
     var entity = '{{ entity }}';
     var code = entity.slice(-1);
-    return states['sensor.smartweather_' + code].state;
+    return states['input_text.smartweather_location_code' + code].state;
   ]]]
 show_label: true
 # label: "Label"
@@ -17,7 +17,8 @@ label: >
   [[[
     var entity = '{{ entity }}';
     var code = entity.slice(-1);
-    return states['sensor.smartweather_' + code].attributes.station_name;
+    var stn_name = states['sensor.smartweather_' + code].attributes.station_name;
+    return stn_name != null ? stn_name : 'UNAVAILABLE';
   ]]]
 icon: mdi:check-box-outline
 size: 50%

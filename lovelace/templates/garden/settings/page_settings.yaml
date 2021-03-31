@@ -9,6 +9,8 @@ entities:
   #=== SETTINGS SELECTION BUTTONS
   #===============================
   - type: divider
+    style:
+      background-color: var(--accent-color)
 
   - type: custom:hui-element
     card_type: horizontal-stack
@@ -51,11 +53,13 @@ entities:
       - !include item_settings_help_button.yaml
 
   - type: divider
+    style:
+      background-color: var(--accent-color)
 
 style: >
   ha-card {
     background: none;
     box-shadow: none;
     margin-top: -0.5em;
-    margin-bottom: -0.9em;
+    margin-bottom: -0.2em;
   }
