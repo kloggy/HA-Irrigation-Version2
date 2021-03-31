@@ -71,9 +71,9 @@ styles:
           else return '';
         ]]]
 tap_action:
-  action: call-service
-  service: browser_mod.popup
-  service_data:
+  action: fire-dom-event
+  browser_mod:
+    command: popup
     title: >
       [[[
         var entity_id = 'input_text.irrigation_cycle{{ cycle }}_name';
@@ -138,15 +138,10 @@ tap_action:
         ha-card {
           font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
         }
-    deviceID:
-      - this
-    style:
-      $: |
-        .mdc-dialog {
-            backdrop-filter: blur(5px);
-          }
-        .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-            border-radius: 1em;
-            box-shadow: 0em 0em 0.5em;
-          }
+    # style:
+    #   $: |
+    #     .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+    #         border-radius: 1em;
+    #         box-shadow: 0em 0em 0.5em;
+    #       }
   
