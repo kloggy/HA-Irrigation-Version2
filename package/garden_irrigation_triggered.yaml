@@ -10,6 +10,10 @@ automation:
   #========================================================================
   - alias: Irrigation Triggered
 
+    #===============================
+    #=== VARIABLES
+    #===    Save the trigger time
+    #===============================
     variables:
       trigger_time: "{{ trigger.now.strftime('%H:%M') }}"
 
@@ -82,13 +86,11 @@ automation:
             False
           {% endif %}
 
-
     #===============================================
     #=== ACTIONS
     #===    Indicate to system that cycle is runing
     #===============================================
     action:
-      
       #== Set the cycle to be running
       - service: homeassistant.turn_on
         data_template:
