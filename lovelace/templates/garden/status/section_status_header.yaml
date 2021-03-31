@@ -6,6 +6,8 @@ type: entities
 entities:
 
   - type: divider
+    style:
+      background-color: var(--accent-color)
 
   - type: custom:hui-element
     card_type: horizontal-stack
@@ -87,15 +89,15 @@ entities:
               var cycle3_running = states['input_boolean.irrigation_cycle3_running'].state;
 
               if (cycle1_running == 'on')
-                return cycle1_name;
+                return cycle1_name + ' cycle';
               else if (cycle2_running == 'on')
-                return cycle2_name;
+                return cycle2_name + ' cycle';
               else if (cycle3_running == 'on')
-                return cycle3_name;
+                return cycle3_name + ' cycle';
               else if (cycle1_schedule_enabled == 'on' && cycle1_runs_today && cycle1_start_time > time_now)
-                  return cycle1_name + ' at ' + cycle1_start_time;
+                  return cycle1_name + ' cycle at ' + cycle1_start_time;
               else if (cycle2_schedule_enabled == 'on' && cycle2_runs_today && cycle2_start_time > time_now)
-                  return cycle2_name + ' at ' + cycle2_start_time;
+                  return cycle2_name + ' cycle at ' + cycle2_start_time;
               else if (cycle1_schedule_enabled == 'on' && cycle1_runs_tomorrow)
                   return 'Tomorrow at ' + cycle1_start_time;
               else if (cycle2_schedule_enabled == 'on' && cycle2_runs_tomorrow)
@@ -181,12 +183,12 @@ entities:
           action: >
             [[[
               if (states['binary_sensor.irrigation_cycle_start_clash'].state == 'on')
-                return 'call-service';
+                return 'fire-dom-event';
               else
                 return 'none';
             ]]]
-          service: browser_mod.popup
-          service_data:
+          browser_mod:
+            command: popup
             title: "\U00002757  CYCLE SCHEDULE CLASH"
             card:
               type: markdown
@@ -196,17 +198,12 @@ entities:
                 {{ state_attr('binary_sensor.irrigation_cycle_start_clash', 'clash_text') }}
 
                 Please check and correct.
-            deviceID:
-              - this
-            style:
-              $: |
-                .mdc-dialog {
-                    backdrop-filter: blur(5px);
-                  }
-                .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-                    border-radius: 1em;
-                    box-shadow: 0em 0em 0.5em;
-                  }
+            # style:
+            #   $: |
+            #     .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+            #         border-radius: 1em;
+            #         box-shadow: 0em 0em 0.5em;
+            #       }
                   
 
       #=== STOP BUTTON
@@ -311,6 +308,8 @@ entities:
       }
 
   - type: divider
+    style:
+      background-color: var(--accent-color)
 
 style: >
   ha-card {
