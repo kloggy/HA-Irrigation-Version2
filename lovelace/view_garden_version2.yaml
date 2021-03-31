@@ -8,8 +8,7 @@ panel: true
 cards:
 
   # Display columns correctly using layout-card
-  - type: custom:layout-card
-    layout: horizontal
+  - type: grid
     cards:
 
       #==================
