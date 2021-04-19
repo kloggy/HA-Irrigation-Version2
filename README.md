@@ -26,14 +26,7 @@ I am only using GitHub literally as a repository. What that means is I simply co
 
 One day maybe I'll delve further into how GitHub works but for now I'm afraid that is the situation.
 
-
-<h2> More than eight zones? </h2>
-
-I wrote this for use with up to eight zones but it can be quite easily adapted for use with more. I don't plan to change the code here to do this but @athan has done it and kindly allowed me to post a link to his branch.
-
-If you need more than eight zones look [here](https://github.com/athan71/HA-Irrigation-Version2/tree/16-zones).
-
------
+--------------
 
 <h2>Background</h2>
 
