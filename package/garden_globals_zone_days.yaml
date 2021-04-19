@@ -276,7 +276,271 @@ input_boolean:
     name: Cycle 1, Zone 8, Sunday
     icon: mdi:numeric-7-box-outline
 
-  
+    #=== Cycle 1, Zone 9
+  irrigation_cycle1_zone9_every_day:
+    name: Cycle 1, Zone 9, Every day
+    icon: mdi:numeric-7-box-multiple-outline
+
+  irrigation_cycle1_zone9_mon:
+    name: Cycle 1, Zone 9, Monday
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle1_zone9_tue:
+    name: Cycle 1, Zone 9, Tuesday
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle1_zone9_wed:
+    name: Cycle 1, Zone 9, Wednesday
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle1_zone9_thu:
+    name: Cycle 1, Zone 9, Thursday
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle1_zone9_fri:
+    name: Cycle 1, Zone 9, Friday
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle1_zone9_sat:
+    name: Cycle 1, Zone 9, Saturday
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle1_zone9_sun:
+    name: Cycle 1, Zone 9, Sunday
+    icon: mdi:numeric-7-box-outline
+
+  #=== Cycle 1, Zone 10
+  irrigation_cycle1_zone10_every_day:
+    name: Cycle 1, Zone 10, Every day
+    icon: mdi:numeric-7-box-multiple-outline
+
+  irrigation_cycle1_zone10_mon:
+    name: Cycle 1, Zone 10, Monday
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle1_zone10_tue:
+    name: Cycle 1, Zone 10, Tuesday
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle1_zone10_wed:
+    name: Cycle 1, Zone 10, Wednesday
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle1_zone10_thu:
+    name: Cycle 1, Zone 10, Thursday
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle1_zone10_fri:
+    name: Cycle 1, Zone 10, Friday
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle1_zone10_sat:
+    name: Cycle 1, Zone 10, Saturday
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle1_zone10_sun:
+    name: Cycle 1, Zone 10, Sunday
+    icon: mdi:numeric-7-box-outline
+
+  #=== Cycle 1, Zone 11
+  irrigation_cycle1_zone11_every_day:
+    name: Cycle 1, Zone 11, Every day
+    icon: mdi:numeric-7-box-multiple-outline
+
+  irrigation_cycle1_zone11_mon:
+    name: Cycle 1, Zone 11, Monday
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle1_zone11_tue:
+    name: Cycle 1, Zone 11, Tuesday
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle1_zone11_wed:
+    name: Cycle 1, Zone 11, Wednesday
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle1_zone11_thu:
+    name: Cycle 1, Zone 11, Thursday
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle1_zone11_fri:
+    name: Cycle 1, Zone 11, Friday
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle1_zone11_sat:
+    name: Cycle 1, Zone 11, Saturday
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle1_zone11_sun:
+    name: Cycle 1, Zone 11, Sunday
+    icon: mdi:numeric-7-box-outline
+
+  #=== Cycle 1, Zone 12
+  irrigation_cycle1_zone12_every_day:
+    name: Cycle 1, Zone 12, Every day
+    icon: mdi:numeric-7-box-multiple-outline
+
+  irrigation_cycle1_zone12_mon:
+    name: Cycle 1, Zone 12, Monday
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle1_zone12_tue:
+    name: Cycle 1, Zone 12, Tuesday
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle1_zone12_wed:
+    name: Cycle 1, Zone 12, Wednesday
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle1_zone12_thu:
+    name: Cycle 1, Zone 12, Thursday
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle1_zone12_fri:
+    name: Cycle 1, Zone 12, Friday
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle1_zone12_sat:
+    name: Cycle 1, Zone 12, Saturday
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle1_zone12_sun:
+    name: Cycle 1, Zone 12, Sunday
+    icon: mdi:numeric-7-box-outline
+
+  #=== Cycle 1, Zone 13
+  irrigation_cycle1_zone13_every_day:
+    name: Cycle 1, Zone 13, Every day
+    icon: mdi:numeric-7-box-multiple-outline
+
+  irrigation_cycle1_zone13_mon:
+    name: Cycle 1, Zone 13, Monday
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle1_zone13_tue:
+    name: Cycle 1, Zone 13, Tuesday
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle1_zone13_wed:
+    name: Cycle 1, Zone 13, Wednesday
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle1_zone13_thu:
+    name: Cycle 1, Zone 13, Thursday
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle1_zone13_fri:
+    name: Cycle 1, Zone 13, Friday
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle1_zone13_sat:
+    name: Cycle 1, Zone 13, Saturday
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle1_zone13_sun:
+    name: Cycle 1, Zone 13, Sunday
+    icon: mdi:numeric-7-box-outline
+
+  #=== Cycle 1, Zone 14
+  irrigation_cycle1_zone14_every_day:
+    name: Cycle 1, Zone 14, Every day
+    icon: mdi:numeric-7-box-multiple-outline
+
+  irrigation_cycle1_zone14_mon:
+    name: Cycle 1, Zone 14, Monday
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle1_zone14_tue:
+    name: Cycle 1, Zone 14, Tuesday
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle1_zone14_wed:
+    name: Cycle 1, Zone 14, Wednesday
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle1_zone14_thu:
+    name: Cycle 1, Zone 14, Thursday
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle1_zone14_fri:
+    name: Cycle 1, Zone 14, Friday
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle1_zone14_sat:
+    name: Cycle 1, Zone 14, Saturday
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle1_zone14_sun:
+    name: Cycle 1, Zone 14, Sunday
+    icon: mdi:numeric-7-box-outline
+
+  #=== Cycle 1, Zone 15
+  irrigation_cycle1_zone15_every_day:
+    name: Cycle 1, Zone 15, Every day
+    icon: mdi:numeric-7-box-multiple-outline
+
+  irrigation_cycle1_zone15_mon:
+    name: Cycle 1, Zone 15, Monday
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle1_zone15_tue:
+    name: Cycle 1, Zone 15, Tuesday
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle1_zone15_wed:
+    name: Cycle 1, Zone 15, Wednesday
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle1_zone15_thu:
+    name: Cycle 1, Zone 15, Thursday
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle1_zone15_fri:
+    name: Cycle 1, Zone 15, Friday
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle1_zone15_sat:
+    name: Cycle 1, Zone 15, Saturday
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle1_zone15_sun:
+    name: Cycle 1, Zone 15, Sunday
+    icon: mdi:numeric-7-box-outline
+
+  #=== Cycle 1, Zone 16
+  irrigation_cycle1_zone16_every_day:
+    name: Cycle 1, Zone 16, Every day
+    icon: mdi:numeric-7-box-multiple-outline
+
+  irrigation_cycle1_zone16_mon:
+    name: Cycle 1, Zone 16, Monday
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle1_zone16_tue:
+    name: Cycle 1, Zone 16, Tuesday
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle1_zone16_wed:
+    name: Cycle 1, Zone 16, Wednesday
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle1_zone16_thu:
+    name: Cycle 1, Zone 16, Thursday
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle1_zone16_fri:
+    name: Cycle 1, Zone 16, Friday
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle1_zone16_sat:
+    name: Cycle 1, Zone 16, Saturday
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle1_zone16_sun:
+    name: Cycle 1, Zone 16, Sunday
+    icon: mdi:numeric-7-box-outline
+
+
   #============
   #=== CYCLE 2
   #============
@@ -544,4 +808,267 @@ input_boolean:
     name: Cycle 2, Zone 8, Sunday
     icon: mdi:numeric-7-box-outline
 
+  #=== Cycle 2, Zone 9
+  irrigation_cycle2_zone9_every_day:
+    name: Cycle 2, Zone 9, Every day
+    icon: mdi:numeric-7-box-multiple-outline
+
+  irrigation_cycle2_zone9_mon:
+    name: Cycle 2, Zone 9, Monday
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle2_zone9_tue:
+    name: Cycle 2, Zone 9, Tuesday
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle2_zone9_wed:
+    name: Cycle 2, Zone 9, Wednesday
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle2_zone9_thu:
+    name: Cycle 2, Zone 9, Thursday
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle2_zone9_fri:
+    name: Cycle 2, Zone 9, Friday
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle2_zone9_sat:
+    name: Cycle 2, Zone 9, Saturday
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle2_zone9_sun:
+    name: Cycle 2, Zone 9, Sunday
+    icon: mdi:numeric-7-box-outline
+
+  #=== Cycle 2, Zone 10
+  irrigation_cycle2_zone10_every_day:
+    name: Cycle 2, Zone 10, Every day
+    icon: mdi:numeric-7-box-multiple-outline
+
+  irrigation_cycle2_zone10_mon:
+    name: Cycle 2, Zone 10, Monday
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle2_zone10_tue:
+    name: Cycle 2, Zone 10, Tuesday
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle2_zone10_wed:
+    name: Cycle 2, Zone 10, Wednesday
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle2_zone10_thu:
+    name: Cycle 2, Zone 10, Thursday
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle2_zone10_fri:
+    name: Cycle 2, Zone 10, Friday
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle2_zone10_sat:
+    name: Cycle 2, Zone 10, Saturday
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle2_zone10_sun:
+    name: Cycle 2, Zone 10, Sunday
+    icon: mdi:numeric-7-box-outline
+
+  #=== Cycle 2, Zone 11
+  irrigation_cycle2_zone11_every_day:
+    name: Cycle 2, Zone 11, Every day
+    icon: mdi:numeric-7-box-multiple-outline
+
+  irrigation_cycle2_zone11_mon:
+    name: Cycle 2, Zone 11, Monday
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle2_zone11_tue:
+    name: Cycle 2, Zone 11, Tuesday
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle2_zone11_wed:
+    name: Cycle 2, Zone 11, Wednesday
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle2_zone11_thu:
+    name: Cycle 2, Zone 11, Thursday
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle2_zone11_fri:
+    name: Cycle 2, Zone 11, Friday
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle2_zone11_sat:
+    name: Cycle 2, Zone 11, Saturday
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle2_zone11_sun:
+    name: Cycle 2, Zone 11, Sunday
+    icon: mdi:numeric-7-box-outline
+
+  #=== Cycle 2, Zone 12
+  irrigation_cycle2_zone12_every_day:
+    name: Cycle 2, Zone 12, Every day
+    icon: mdi:numeric-7-box-multiple-outline
+
+  irrigation_cycle2_zone12_mon:
+    name: Cycle 2, Zone 12, Monday
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle2_zone12_tue:
+    name: Cycle 2, Zone 12, Tuesday
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle2_zone12_wed:
+    name: Cycle 2, Zone 12, Wednesday
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle2_zone12_thu:
+    name: Cycle 2, Zone 12, Thursday
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle2_zone12_fri:
+    name: Cycle 2, Zone 12, Friday
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle2_zone12_sat:
+    name: Cycle 2, Zone 12, Saturday
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle2_zone12_sun:
+    name: Cycle 2, Zone 12, Sunday
+    icon: mdi:numeric-7-box-outline
+
+  #=== Cycle 2, Zone 13
+  irrigation_cycle2_zone13_every_day:
+    name: Cycle 2, Zone 13, Every day
+    icon: mdi:numeric-7-box-multiple-outline
+
+  irrigation_cycle2_zone13_mon:
+    name: Cycle 2, Zone 13, Monday
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle2_zone13_tue:
+    name: Cycle 2, Zone 13, Tuesday
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle2_zone13_wed:
+    name: Cycle 2, Zone 13, Wednesday
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle2_zone13_thu:
+    name: Cycle 2, Zone 13, Thursday
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle2_zone13_fri:
+    name: Cycle 2, Zone 13, Friday
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle2_zone13_sat:
+    name: Cycle 2, Zone 13, Saturday
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle2_zone13_sun:
+    name: Cycle 2, Zone 13, Sunday
+    icon: mdi:numeric-7-box-outline
+
+  #=== Cycle 2, Zone 14
+  irrigation_cycle2_zone14_every_day:
+    name: Cycle 2, Zone 14, Every day
+    icon: mdi:numeric-7-box-multiple-outline
+
+  irrigation_cycle2_zone14_mon:
+    name: Cycle 2, Zone 14, Monday
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle2_zone14_tue:
+    name: Cycle 2, Zone 14, Tuesday
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle2_zone14_wed:
+    name: Cycle 2, Zone 14, Wednesday
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle2_zone14_thu:
+    name: Cycle 2, Zone 14, Thursday
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle2_zone14_fri:
+    name: Cycle 2, Zone 14, Friday
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle2_zone14_sat:
+    name: Cycle 2, Zone 14, Saturday
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle2_zone14_sun:
+    name: Cycle 2, Zone 14, Sunday
+    icon: mdi:numeric-7-box-outline
+
+  #=== Cycle 2, Zone 15
+  irrigation_cycle2_zone15_every_day:
+    name: Cycle 2, Zone 15, Every day
+    icon: mdi:numeric-7-box-multiple-outline
+
+  irrigation_cycle2_zone15_mon:
+    name: Cycle 2, Zone 15, Monday
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle2_zone15_tue:
+    name: Cycle 2, Zone 15, Tuesday
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle2_zone15_wed:
+    name: Cycle 2, Zone 15, Wednesday
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle2_zone15_thu:
+    name: Cycle 2, Zone 15, Thursday
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle2_zone15_fri:
+    name: Cycle 2, Zone 15, Friday
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle2_zone15_sat:
+    name: Cycle 2, Zone 15, Saturday
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle2_zone15_sun:
+    name: Cycle 2, Zone 15, Sunday
+    icon: mdi:numeric-7-box-outline
+
+  #=== Cycle 2, Zone 16
+  irrigation_cycle2_zone16_every_day:
+    name: Cycle 2, Zone 16, Every day
+    icon: mdi:numeric-7-box-multiple-outline
+
+  irrigation_cycle2_zone16_mon:
+    name: Cycle 2, Zone 16, Monday
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle2_zone16_tue:
+    name: Cycle 2, Zone 16, Tuesday
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle2_zone16_wed:
+    name: Cycle 2, Zone 16, Wednesday
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle2_zone16_thu:
+    name: Cycle 2, Zone 16, Thursday
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle2_zone16_fri:
+    name: Cycle 2, Zone 16, Friday
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle2_zone16_sat:
+    name: Cycle 2, Zone 16, Saturday
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle2_zone16_sun:
+    name: Cycle 2, Zone 16, Sunday
+    icon: mdi:numeric-7-box-outline
 

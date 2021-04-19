@@ -118,6 +118,54 @@ entities:
         - cycle: 3
           zone: 8
 
+      #=== Zone 9
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 9
+
+      #=== Zone 10
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 10
+
+      #=== Zone 11
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 11
+
+      #=== Zone 12
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 12
+
+      #=== Zone 13
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 13
+
+      #=== Zone 14
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 14
+
+      #=== Zone 15
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 15
+
+      #=== Zone 16
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 16
+
 style: >
   ha-card {
     margin-top: -0.75em;

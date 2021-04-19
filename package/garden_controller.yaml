@@ -90,6 +90,14 @@ automation:
   #             'input_text.irrigation_zone6_switch_entity_id',
   #             'input_text.irrigation_zone7_switch_entity_id',
   #             'input_text.irrigation_zone8_switch_entity_id',
+  #             'input_text.irrigation_zone9_switch_entity_id',
+  #             'input_text.irrigation_zone10_switch_entity_id',
+  #             'input_text.irrigation_zone11_switch_entity_id',
+  #             'input_text.irrigation_zone12_switch_entity_id',
+  #             'input_text.irrigation_zone13_switch_entity_id',
+  #             'input_text.irrigation_zone14_switch_entity_id',
+  #             'input_text.irrigation_zone15_switch_entity_id',
+  #             'input_text.irrigation_zone16_switch_entity_id',
   #             states('input_text.irrigation_zone1_switch_entity_id'),
   #             states('input_text.irrigation_zone2_switch_entity_id'),
   #             states('input_text.irrigation_zone3_switch_entity_id'),
@@ -97,7 +105,15 @@ automation:
   #             states('input_text.irrigation_zone5_switch_entity_id'),
   #             states('input_text.irrigation_zone6_switch_entity_id'),
   #             states('input_text.irrigation_zone7_switch_entity_id'),
-  #             states('input_text.irrigation_zone8_switch_entity_id')
+  #             states('input_text.irrigation_zone8_switch_entity_id'),
+  #             states('input_text.irrigation_zone9_switch_entity_id'),
+  #             states('input_text.irrigation_zone10_switch_entity_id'),
+  #             states('input_text.irrigation_zone11_switch_entity_id'),
+  #             states('input_text.irrigation_zone12_switch_entity_id'),
+  #             states('input_text.irrigation_zone13_switch_entity_id'),
+  #             states('input_text.irrigation_zone14_switch_entity_id'),
+  #             states('input_text.irrigation_zone15_switch_entity_id'),
+  #             states('input_text.irrigation_zone16_switch_entity_id')
   #           ]
   #         }}
 
@@ -121,6 +137,22 @@ automation:
   #             sensor.irrigation_sensor_zone7_switch
   #           {% elif states('input_text.irrigation_zone8_switch_entity_id') in trigger.event.data.entity_id %}
   #             sensor.irrigation_sensor_zone8_switch
+  #           {% elif states('input_text.irrigation_zone9_switch_entity_id') in trigger.event.data.entity_id %}
+  #             sensor.irrigation_sensor_zone9_switch
+  #           {% elif states('input_text.irrigation_zone10_switch_entity_id') in trigger.event.data.entity_id %}
+  #             sensor.irrigation_sensor_zone10_switch
+  #           {% elif states('input_text.irrigation_zone11_switch_entity_id') in trigger.event.data.entity_id %}
+  #             sensor.irrigation_sensor_zone11_switch
+  #           {% elif states('input_text.irrigation_zone12_switch_entity_id') in trigger.event.data.entity_id %}
+  #             sensor.irrigation_sensor_zone12_switch
+  #           {% elif states('input_text.irrigation_zone13_switch_entity_id') in trigger.event.data.entity_id %}
+  #             sensor.irrigation_sensor_zone13_switch
+  #           {% elif states('input_text.irrigation_zone14_switch_entity_id') in trigger.event.data.entity_id %}
+  #             sensor.irrigation_sensor_zone14_switch
+  #           {% elif states('input_text.irrigation_zone15_switch_entity_id') in trigger.event.data.entity_id %}
+  #             sensor.irrigation_sensor_zone15_switch
+  #           {% elif states('input_text.irrigation_zone16_switch_entity_id') in trigger.event.data.entity_id %}
+  #             sensor.irrigation_sensor_zone16_switch 
   #           {% else %}
   #             none
   #           {% endif %}

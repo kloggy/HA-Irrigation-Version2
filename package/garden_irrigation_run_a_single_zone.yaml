@@ -51,6 +51,14 @@ script:
             - input_number.irrigation_cycle3_zone6_duration
             - input_number.irrigation_cycle3_zone7_duration
             - input_number.irrigation_cycle3_zone8_duration
+            - input_number.irrigation_cycle3_zone9_duration
+            - input_number.irrigation_cycle3_zone10_duration
+            - input_number.irrigation_cycle3_zone11_duration
+            - input_number.irrigation_cycle3_zone12_duration
+            - input_number.irrigation_cycle3_zone13_duration
+            - input_number.irrigation_cycle3_zone14_duration
+            - input_number.irrigation_cycle3_zone15_duration
+            - input_number.irrigation_cycle3_zone16_duration
 
       #=== Disable schedules for Cycles 1 and 2
       - service: input_boolean.turn_off

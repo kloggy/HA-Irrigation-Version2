@@ -130,6 +130,102 @@ entities:
       - entity: timer.irrigation_zone8_timer
         zone: zone8
 
+  #=== Zone 9
+  - type: custom:hui-element
+    card_type: conditional
+    conditions:
+      - entity: timer.irrigation_zone9_timer
+        state: "active"
+    card:
+      !include
+      - item_status_current_activity_line.yaml
+      - entity: timer.irrigation_zone9_timer
+        zone: zone9
+
+  #=== Zone 10
+  - type: custom:hui-element
+    card_type: conditional
+    conditions:
+      - entity: timer.irrigation_zone10_timer
+        state: "active"
+    card:
+      !include
+      - item_status_current_activity_line.yaml
+      - entity: timer.irrigation_zone10_timer
+        zone: zone10
+
+  #=== Zone 11
+  - type: custom:hui-element
+    card_type: conditional
+    conditions:
+      - entity: timer.irrigation_zone11_timer
+        state: "active"
+    card:
+      !include
+      - item_status_current_activity_line.yaml
+      - entity: timer.irrigation_zone11_timer
+        zone: zone11
+
+  #=== Zone 12
+  - type: custom:hui-element
+    card_type: conditional
+    conditions:
+      - entity: timer.irrigation_zone12_timer
+        state: "active"
+    card:
+      !include
+      - item_status_current_activity_line.yaml
+      - entity: timer.irrigation_zone12_timer
+        zone: zone12
+
+  #=== Zone 13
+  - type: custom:hui-element
+    card_type: conditional
+    conditions:
+      - entity: timer.irrigation_zone13_timer
+        state: "active"
+    card:
+      !include
+      - item_status_current_activity_line.yaml
+      - entity: timer.irrigation_zone13_timer
+        zone: zone13
+
+  #=== Zone 14
+  - type: custom:hui-element
+    card_type: conditional
+    conditions:
+      - entity: timer.irrigation_zone14_timer
+        state: "active"
+    card:
+      !include
+      - item_status_current_activity_line.yaml
+      - entity: timer.irrigation_zone14_timer
+        zone: zone14
+
+  #=== Zone 15
+  - type: custom:hui-element
+    card_type: conditional
+    conditions:
+      - entity: timer.irrigation_zone15_timer
+        state: "active"
+    card:
+      !include
+      - item_status_current_activity_line.yaml
+      - entity: timer.irrigation_zone15_timer
+        zone: zone15
+
+  #=== Zone 16
+  - type: custom:hui-element
+    card_type: conditional
+    conditions:
+      - entity: timer.irrigation_zone16_timer
+        state: "active"
+    card:
+      !include
+      - item_status_current_activity_line.yaml
+      - entity: timer.irrigation_zone16_timer
+        zone: zone16
+
 style: >
   ha-card {
     box-shadow: none;
