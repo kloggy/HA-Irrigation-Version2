@@ -4,12 +4,12 @@
 #============
 script:
 
-  #=======================================
+  #========================================
   #=== Run a Single Zone On Demand
   #===
   #=== Passed
-  #===  zone  - [zone1, zone2, ... zone8]
-  #=======================================
+  #===  zone  - [zone1, zone2, ... zone16]
+  #========================================
   irrigation_run_a_single_zone_on_demand:
     description: Irrigate A Single Zone On Demand
     fields: 
