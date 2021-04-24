@@ -47,43 +47,53 @@ sensor:
       - minutely_summary 
 
 
-  #=================================================================
-  #=== Create the icons for Weather Outlook on the Cycle Start time
-  #=================================================================
+  #=====================================
+  #=== A sensor for the weather outlook
+  #=====================================
   - platform: template
     sensors:
-      weather_just_icon:
-        friendly_name: "mdi Real Weather Icon"
-        icon_template: >-
-            {% if is_state("sensor.dark_sky_current_icon","clear-day") %} mdi:weather-sunny 
-            {% elif is_state("sensor.dark_sky_current_icon","clear-night") %} mdi:weather-night 
-            {% elif is_state("sensor.dark_sky_current_icon","rain") %} mdi:weather-rainy
-            {% elif is_state("sensor.dark_sky_current_icon","snow") %} mdi:weather-snowy
-            {% elif is_state("sensor.dark_sky_current_icon","fog") %} mdi:weather-fog
-            {% elif is_state("sensor.dark_sky_current_icon","sleet") %} mdi:weather-partly-snowy-rainy
-            {% elif is_state("sensor.dark_sky_current_icon","wind") %} mdi:weather-windy
-            {% elif is_state("sensor.dark_sky_current_icon","cloudy") %} mdi:weather-cloudy
-            {% elif is_state("sensor.dark_sky_current_icon","partly-cloudy-day") %} mdi:weather-partly-cloudy
-            {% elif is_state("sensor.dark_sky_current_icon","partly-cloudy-night") %} mdi:weather-night-partly-cloudy
-            {% elif is_state("sensor.dark_sky_current_icon","hail") %} mdi:weather-hail
-            {% elif is_state("sensor.dark_sky_current_icon","lightning") %} mdi:weather-lightning
-            {% elif is_state("sensor.dark_sky_current_icon","thunderstorm") %} mdi:weather-lightning-rainy
-            {% endif %}
-        value_template: >-
-            {% if is_state("sensor.dark_sky_current_icon","clear-day") %} weather-sunny 
-            {% elif is_state("sensor.dark_sky_current_icon","clear-night") %} weather-night 
-            {% elif is_state("sensor.dark_sky_current_icon","rain") %} weather-rainy
-            {% elif is_state("sensor.dark_sky_current_icon","snow") %} weather-snowy
-            {% elif is_state("sensor.dark_sky_current_icon","fog") %} weather-fog
-            {% elif is_state("sensor.dark_sky_current_icon","sleet") %} weather-partly-snowy-rainy
-            {% elif is_state("sensor.dark_sky_current_icon","wind") %} weather-windy
-            {% elif is_state("sensor.dark_sky_current_icon","cloudy") %} weather-cloudy
-            {% elif is_state("sensor.dark_sky_current_icon","partly-cloudy-day") %} weather-partly-cloudy
-            {% elif is_state("sensor.dark_sky_current_icon","partly-cloudy-night") %} weather-night-partly-cloudy
-            {% elif is_state("sensor.dark_sky_current_icon","hail") %} weather-hail
-            {% elif is_state("sensor.dark_sky_current_icon","lightning") %} weather-lightning
-            {% elif is_state("sensor.dark_sky_current_icon","thunderstorm") %} weather-lightning-rainy
-            {% endif %}
+      irrigation_weather_outlook:
+        value_template: >
+          {% set current = state_attr('sensor.weather_api_current', 'current') %}
+          {% set current_conditons = current.condition.text %}
+          {% set max_high_temp = states('sensor.weather_api_forecast_max_temp_today') %}
+          {% set will_rain_today = states('sensor.weather_api_forecast_will_it_rain_today') %}
+          {% set will_rain_tomorrow = states('sensor.weather_api_forecast_will_it_rain_tomorrow') %}
+          {% set total_rain_today = states('sensor.weather_api_forecast_total_rain_today') %}
+          {% set total_rain_tomorrow = states('sensor.weather_api_forecast_total_rain_tomorrow') %}
+          {% set chance_of_rain_today = states('sensor.weather_api_forecast_chance_of_rain_today') %}
+          {% set chance_of_rain_tomorrow = states('sensor.weather_api_forecast_chance_of_rain_tomorow') %}
+
+          {% set rain_today = total_rain_today ~ 'mm / ' ~ chance_of_rain_today ~ '%' %}
+          {% set rain_tomorrow = total_rain_tomorrow ~ 'mm / ' ~ chance_of_rain_tomorrow ~ '%' %}
+
+          {% set outlook = 'Outlook: ' ~ current_conditons ~ ', High Temp ' ~ max_high_temp ~ '°C<br>' %}
+
+          {% if will_rain_today == '1' and will_rain_tomorrow == '1' %}
+            {% set outlook = outlook ~ 'Rain Today (' ~ rain_today ~ ') & Tomorrow (' ~ rain_tomorrow ~ ')' %}
+          {% elif will_rain_today == '1' %}
+            {% set outlook = outlook ~ 'Rain Today (' ~ rain_today ~ '), none tomorrow' %}
+          {% elif will_rain_tomorrow == '1' %}
+            {% set outlook = outlook ~ 'Rain Tomorrow (' ~ rain_tomorrow ~ ')' %}
+          {% else %}
+            {% set outlook = outlook ~ 'No rain forecast today or tomorrow.' %}
+          {% endif %}
+
+          {{ outlook }}
+        entity_picture_template: >
+          {% set current = state_attr('sensor.weather_api_current', 'current') %}
+          {% set is_day = current.is_day %}
+          {% set icon = current.condition.icon %}
+          {% set icon = icon.split('/')[-1] %}
+          {% set icon = icon.split('.')[0] %}
+          {% set is_day = current.is_day %}
+          
+          {% if is_day %}
+            {{ '/local/icons/weather_icons/weather_api_day/' ~ icon ~ '.png' }}
+          {% else %}
+            {{ '/local/icons/weather_icons/weather_api_night/' ~ icon ~ '.png' }}
+          {% endif %}
+
 
 
   #=======================================================
