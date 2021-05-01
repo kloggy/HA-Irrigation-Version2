@@ -171,7 +171,7 @@ input_text:
   irrigation_zone3_name:
     name: Zone 3 Name
     min: 1
-    max: 10
+    max: 20
     icon: mdi:alphabetical-variant
 
   irrigation_zone4_name:
