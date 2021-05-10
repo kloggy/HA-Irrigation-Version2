@@ -100,7 +100,7 @@ card:
                                         if (states['input_boolean.irrigation_ui_show_cycle3'].state != 'on')
                                           return 'none';
                                         else if (states['input_boolean.irrigation_cycle1_running'].state == 'on' ||
-                                            states['input_boolean.irrigation_cycle2_running'].state == 'on')
+                                                 states['input_boolean.irrigation_cycle2_running'].state == 'on')
                                           return 'none';
                                         else if (
                                                 entity.state == 'on' &&
@@ -111,17 +111,44 @@ card:
                                       ]]]
                                   - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
                                   - font-size: 14px
-                                  - background-color: var(--primary-background-color)
-                                  - border: 1px solid var(--accent-color)
-                                  - padding: 0.5em
+                                  - background-color: >
+                                      [[[
+                                        var zone = '{{ zone }}';
+                                        if (entity.state == 'on' &&
+                                            states['input_boolean.irrigation_cycle1_running'].state == 'on' ||
+                                            states['input_boolean.irrigation_cycle2_running'].state == 'on' ||
+                                            states['input_boolean.irrigation_cycle3_running'].state == 'on')
+                                          return ''; 
+                                        else 'var(--primary-background-color)';
+                                      ]]]
+                                  - border: >
+                                      [[[
+                                        var zone = '{{ zone }}';
+                                        if (entity.state == 'on' &&
+                                            states['input_boolean.irrigation_cycle1_running'].state == 'on' ||
+                                            states['input_boolean.irrigation_cycle2_running'].state == 'on' ||
+                                            states['input_boolean.irrigation_cycle3_running'].state == 'on')
+                                          return ''; 
+                                        else return '1px solid var(--accent-color)';
+                                      ]]]
+                                  - padding: >
+                                      [[[
+                                        var zone = '{{ zone }}';
+                                        if (entity.state == 'on' ||
+                                            states['input_boolean.irrigation_cycle1_running'].state == 'on' ||
+                                            states['input_boolean.irrigation_cycle2_running'].state == 'on' ||
+                                            states['input_boolean.irrigation_cycle3_running'].state == 'on')
+                                          return '0em';
+                                        else return '0.5em';
+                                      ]]]
                                   - border-radius: 5px
                                 icon:
                                   - color: >
                                       [[[
                                         var zone = '{{ zone }}';
                                         if (entity.state == 'off' &&
-                                            states['input_boolean.irrigation_cycle1_running'].state == 'off' &&
-                                            states['input_boolean.irrigation_cycle2_running'].state == 'off' &&
+                                            states['input_boolean.irrigation_cycle1_running'].state == 'off' ||
+                                            states['input_boolean.irrigation_cycle2_running'].state == 'off' ||
                                             states['input_boolean.irrigation_cycle3_running'].state == 'off')
                                           return 'green';
                                         else if (
@@ -163,13 +190,12 @@ card:
                         ha-card {
                           font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
                         }
-                    # style:
-                    #   $: |
-                    #     .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-                    #         border-radius: 1em;
-                    #         box-shadow: 0em 0em 0.5em;
-                    #       }
-                                  
+                    style:
+                      $: |
+                        .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+                            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                          }
+
             style: |
               ha-card {
                 box-shadow: none;
@@ -250,4 +276,4 @@ card:
               - item_cycle_day_select_button.yaml
               - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_sun
                 name: Sun
-
+                
