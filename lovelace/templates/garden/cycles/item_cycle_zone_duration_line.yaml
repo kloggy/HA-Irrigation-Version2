@@ -208,8 +208,17 @@ card:
               }
               :host {
                 {% raw %}
+                {% if is_state('input_boolean.irrigation_ui_show_cycle1', 'on') %}
+                  {% set cycle_ui = 1 %}
+                {% elif is_state('input_boolean.irrigation_ui_show_cycle2', 'on') %}
+                  {% set cycle_ui = 2 %}
+                {% else %}
+                  {% set cycle_ui = 3 %}
+                {% endif %}
                 {% set zone = {% endraw %} {{ zone }} {% raw %} %}
-                {% if is_state('timer.irrigation_zone' ~ zone ~ '_timer', 'active') %}
+                {% set cycle = {% endraw %} {{ cycle }} {% raw %} %}
+                {% if is_state('timer.irrigation_zone' ~ zone ~ '_timer', 'active') and 
+                      cycle_ui == 3 %}
                   --paper-item-icon-color: var(--paper-item-icon-active-color);
                 {% endif %}
                 {% endraw %}
@@ -276,4 +285,3 @@ card:
               - item_cycle_day_select_button.yaml
               - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_sun
                 name: Sun
-                
