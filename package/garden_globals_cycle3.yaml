@@ -288,7 +288,7 @@ sensor:
       irrigation_cycle3_duration_in_seconds:
         friendly_name: Cycle 3 Duration In Seconds
         value_template: >
-          {% set durations = expand('group.irrigation_group_cycle3_zone_durations') | map(attribute='state') | map('int') | list %}
+          {% set durations = expand('group.irrigation_group_cycle3_zone_durations') | map(attribute='state') | map('int') | list | sort(reverse=true) %}
           {% set max = states('input_number.irrigation_number_of_zones') | int %}
           {{ durations[0:max] | sum }}
 
