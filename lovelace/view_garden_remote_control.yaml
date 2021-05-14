@@ -1,0 +1,65 @@
+
+title: Garden Remote Control
+path: garden_remote_control
+icon: mdi:remote
+
+cards:
+  - type: vertical-stack
+    cards:
+      - !include
+          - templates/button_title.yaml
+          - title: IRRIGATION REMOTE CONTROL
+            font_family: Oswald
+
+      - type: entities
+        show_header_toggle: false
+        entities:
+          - entity: input_boolean.irrigation_remote_control
+
+      - type: custom:config-template-card
+        variables:
+          - states['input_text.irrigation_zone1_name'].state
+          - states['input_text.irrigation_zone2_name'].state
+          - states['input_text.irrigation_zone3_name'].state
+          - states['input_text.irrigation_zone4_name'].state
+          - states['input_text.irrigation_zone5_name'].state
+          - states['input_text.irrigation_zone6_name'].state
+          - states['input_text.irrigation_zone7_name'].state
+          - states['input_text.irrigation_zone8_name'].state
+        entities:
+          - input_text.irrigation_zone1_name
+          - input_text.irrigation_zone2_name
+          - input_text.irrigation_zone3_name
+          - input_text.irrigation_zone4_name
+          - input_text.irrigation_zone5_name
+          - input_text.irrigation_zone6_name
+          - input_text.irrigation_zone7_name
+          - input_text.irrigation_zone8_name
+          - input_number.irrigation_remote_control_zone1_duration
+          - input_number.irrigation_remote_control_zone2_duration
+          - input_number.irrigation_remote_control_zone3_duration
+          - input_number.irrigation_remote_control_zone4_duration
+          - input_number.irrigation_remote_control_zone5_duration
+          - input_number.irrigation_remote_control_zone6_duration
+          - input_number.irrigation_remote_control_zone7_duration
+          - input_number.irrigation_remote_control_zone8_duration
+        card:
+          type: entities
+          entities:
+            - entity: input_number.irrigation_remote_control_zone1_duration
+              name: "${ vars[0] }"
+            - entity: input_number.irrigation_remote_control_zone2_duration
+              name: "${ vars[1] }"
+            - entity: input_number.irrigation_remote_control_zone3_duration
+              name: "${ vars[2] }"
+            - entity: input_number.irrigation_remote_control_zone4_duration
+              name: "${ vars[3] }"
+            - entity: input_number.irrigation_remote_control_zone5_duration
+              name: "${ vars[4] }"
+            - entity: input_number.irrigation_remote_control_zone6_duration
+              name: "${ vars[5] }"
+            - entity: input_number.irrigation_remote_control_zone7_duration
+              name: "${ vars[6] }"
+            - entity: input_number.irrigation_remote_control_zone8_duration
+              name: "${ vars[7] }"
+
