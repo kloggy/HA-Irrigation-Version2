@@ -27,6 +27,9 @@ input_boolean:
     name: Disable Switches 
     icon: mdi:electric-switch
 
+  irrigation_remote_control:
+    name: Remote Control On/Off
+    icon: mdi:remote
 
 #================
 #=== Input Texts
