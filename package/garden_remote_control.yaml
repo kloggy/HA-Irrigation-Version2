@@ -23,6 +23,7 @@ input_number:
     name: Remote Control Zone1 Duration
     min: 0
     max: 60
+    mode: box
     unit_of_measurement: min
     icon: mdi:numeric-1-box-outline
 
@@ -30,6 +31,7 @@ input_number:
     name: Remote Control Zone2 Duration
     min: 0
     max: 60
+    mode: box
     unit_of_measurement: min
     icon: mdi:numeric-2-box-outline
 
@@ -37,6 +39,7 @@ input_number:
     name: Remote Control Zone3 Duration
     min: 0
     max: 60
+    mode: box
     unit_of_measurement: min
     icon: mdi:numeric-3-box-outline
 
@@ -44,6 +47,7 @@ input_number:
     name: Remote Control Zone4 Duration
     min: 0
     max: 60
+    mode: box
     unit_of_measurement: min
     icon: mdi:numeric-4-box-outline
 
@@ -51,6 +55,7 @@ input_number:
     name: Remote Control Zone5 Duration
     min: 0
     max: 60
+    mode: box
     unit_of_measurement: min
     icon: mdi:numeric-5-box-outline
 
@@ -58,6 +63,7 @@ input_number:
     name: Remote Control Zone6 Duration
     min: 0
     max: 60
+    mode: box
     unit_of_measurement: min
     icon: mdi:numeric-6-box-outline
 
@@ -65,6 +71,7 @@ input_number:
     name: Remote Control Zone7 Duration
     min: 0
     max: 60
+    mode: box
     unit_of_measurement: min
     icon: mdi:numeric-7-box-outline
 
@@ -72,6 +79,7 @@ input_number:
     name: Remote Control Zone8 Duration
     min: 0
     max: 60
+    mode: box
     unit_of_measurement: min
     icon: mdi:numeric-8-box-outline
 
