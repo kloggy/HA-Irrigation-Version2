@@ -182,6 +182,14 @@ card:
 
                         - entity: input_number.irrigation_cycle{{ cycle }}_zone{{ zone }}_duration_box
                           name: Duration
+                        - type: conditional
+                          conditions:
+                            - entity: input_boolean.irrigation_remote_control
+                              state: "on"
+                          row:
+                            entity: input_number.irrigation_remote_control_zone{{ zone }}_duration
+                            name: Remote Control Duration
+                            icon: mdi:alpha-r-box-outline
                         - entity: input_text.irrigation_zone{{ zone }}_name
                           name: Zone Name
                         - entity: input_text.irrigation_zone{{ zone }}_switch_entity_id
