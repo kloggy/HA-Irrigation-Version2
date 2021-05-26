@@ -13,8 +13,10 @@ automation:
     #================================
     #=== VARIABLES
     #===    Save the triggered cycle
+    #===    Save the trigger time
     #================================
     variables:
+      trigger_time: "{{ trigger.now.strftime('%H:%M') }}"
       cycle_triggered: >
         {% if states('input_boolean.irrigation_cycle3_running') == 'on' %}
           cycle3
