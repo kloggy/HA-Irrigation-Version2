@@ -16,7 +16,10 @@ automation:
     #===    Save the trigger time
     #================================
     variables:
-      trigger_time: "{{ trigger.now.strftime('%H:%M') }}"
+      trigger_time: >
+        {% if trigger.entity_id != 'input_boolean.irrigation_cycle3_running' %}
+          {{ trigger.now.strftime('%H:%M') }}
+        {% endif %}
       cycle_triggered: >
         {% if states('input_boolean.irrigation_cycle3_running') == 'on' %}
           cycle3
