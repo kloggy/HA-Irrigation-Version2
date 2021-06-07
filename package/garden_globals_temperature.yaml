@@ -76,7 +76,7 @@ input_number:
   irrigation_temperature_baseline:
     name: Temperature baseline
     min: 20
-    max: 40
+    max: 50
     step: 1
     icon: mdi:thermometer-low
     mode: box
@@ -87,7 +87,7 @@ input_number:
   irrigation_temperature_highest_actual_temp_today:
     name: Highest Actual Temperature Today
     min: 0
-    max: 40
+    max: 50
     step: 0.1
     icon: mdi:thermometer
     unit_of_measurement: '°C'
@@ -97,7 +97,7 @@ input_number:
   irrigation_temperature_highest_forecast_high_temp_today:
     name: Highest Forecast High Temperature Today
     min: 0
-    max: 40
+    max: 50
     step: 0.1
     icon: mdi:thermometer
     unit_of_measurement: '°C'
@@ -107,7 +107,7 @@ input_number:
   irrigation_high_temp_1:
     name: Yesterday
     min: 0
-    max: 40
+    max: 50
     step: 0.1
     icon: mdi:thermometer-high
     unit_of_measurement: '°C'
@@ -115,7 +115,7 @@ input_number:
   irrigation_high_temp_2:
     name: Two days ago
     min: 0
-    max: 40
+    max: 50
     step: 0.1
     icon: mdi:thermometer-high
     unit_of_measurement: '°C'
@@ -123,7 +123,7 @@ input_number:
   irrigation_high_temp_3:
     name: Three days ago
     min: 0
-    max: 40
+    max: 50
     step: 0.1
     icon: mdi:thermometer-high
     unit_of_measurement: '°C'
@@ -131,7 +131,7 @@ input_number:
   irrigation_high_temp_4:
     name: Four days ago
     min: 0
-    max: 40
+    max: 50
     step: 0.1
     icon: mdi:thermometer-high
     unit_of_measurement: '°C'
