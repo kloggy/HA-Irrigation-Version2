@@ -58,11 +58,11 @@ state:
         - color: var(--accent-color)
         - animation: blink 2s ease infinite
 
-#=== Tap Action
+#=== Tap Action (allow for 'none' to be passed in)
 tap_action:
-  action: {{ tap_action | default('call-service') }}
-  service: browser_mod.popup
-  service_data:
+  action: {{ tap_action | default('fire-dom-event') }}
+  browser_mod:
+    command: popup
     title: >
       [[[
         var units = entity.attributes.unit_of_measurement ? ' (' + entity.attributes.unit_of_measurement + ')' : '';
@@ -80,13 +80,8 @@ tap_action:
         ha-card {
           font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
         }
-    deviceID:
-      - this
     style:
       $: |
-        .mdc-dialog {
-            backdrop-filter: blur(5px);
-          }
         .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
             border-radius: 1em;
             box-shadow: 0em 0em 0.5em;

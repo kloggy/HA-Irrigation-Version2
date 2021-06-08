@@ -97,7 +97,7 @@ script:
       - wait_template: >
           {{ is_state('input_boolean.irrigation_cycle3_running', 'off') }}
 
-      #=== Restore achedule states
+      #=== Restore schedule states
       - service: scene.turn_on
         entity_id: scene.dash_irrigation_scene
 
@@ -134,5 +134,5 @@ script:
           variables:
             scene: info
             kitchen: true
-            message: There is something wrong,. I can't start the irrigation
+            message: There is something wrong. I can't start the irrigation
 

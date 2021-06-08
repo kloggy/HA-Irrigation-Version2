@@ -82,9 +82,9 @@ entities:
                 - width: 4em
                 - padding-right: 0.5em
             tap_action:
-              action: call-service
-              service: browser_mod.popup
-              service_data:
+              action: fire-dom-event
+              browser_mod:
+                command: popup
                 title: Rainfall Included in Calculations
                 card:
                   type: entities
@@ -99,8 +99,6 @@ entities:
                       border-radius: 0em 0em 1em 1em;
                       background: var(--paper-dialog-background-color);
                     }
-                deviceID:
-                  - this
                 style:
                   font-family: >
                     [[[
@@ -236,4 +234,5 @@ entities:
 style: >
   ha-card {
     box-shadow: none;
+    margin-top: -0.75em;
   }

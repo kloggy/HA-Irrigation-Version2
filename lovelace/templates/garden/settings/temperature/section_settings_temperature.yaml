@@ -186,4 +186,5 @@ entities:
 style: >
   ha-card {
     box-shadow: none;
+    margin-top: -0.75em;
   }

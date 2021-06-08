@@ -14,8 +14,14 @@ entities:
 
   #=== LAST RUN CYCLE DATE AND TIME AND NAME
   - type: custom:button-card
-    name: "[[[ return states['input_text.irrigation_previous_run_date_and_time'].state + '&nbsp-&nbsp' ]]]"
-    label: "[[[ return states['input_text.irrigation_previous_run_cycle_name'].state ]]]"
+    name: >
+      [[[
+        return states['input_text.irrigation_previous_run_date_and_time'].state + '&nbsp-&nbsp'
+      ]]]
+    label: >
+      [[[
+        return states['input_text.irrigation_previous_run_cycle_name'].state  + ' Cycle'
+      ]]]
     show_label: true
     show_icon: false
     tap_action:
@@ -119,6 +125,45 @@ entities:
           - entity: input_text.irrigation_zone8_previous_duration_in_seconds
             zone: zone8
 
+      - !include
+          - item_status_last_run_line.yaml
+          - entity: input_text.irrigation_zone9_previous_duration_in_seconds
+            zone: zone9
+
+      - !include
+          - item_status_last_run_line.yaml
+          - entity: input_text.irrigation_zone10_previous_duration_in_seconds
+            zone: zone10
+
+      - !include
+          - item_status_last_run_line.yaml
+          - entity: input_text.irrigation_zone11_previous_duration_in_seconds
+            zone: zone11
+
+      - !include
+          - item_status_last_run_line.yaml
+          - entity: input_text.irrigation_zone12_previous_duration_in_seconds
+            zone: zone12
+
+      - !include
+          - item_status_last_run_line.yaml
+          - entity: input_text.irrigation_zone13_previous_duration_in_seconds
+            zone: zone13
+
+      - !include
+          - item_status_last_run_line.yaml
+          - entity: input_text.irrigation_zone14_previous_duration_in_seconds
+            zone: zone14
+
+      - !include
+          - item_status_last_run_line.yaml
+          - entity: input_text.irrigation_zone15_previous_duration_in_seconds
+            zone: zone15
+
+      - !include
+          - item_status_last_run_line.yaml
+          - entity: input_text.irrigation_zone16_previous_duration_in_seconds
+            zone: zone16
     style: |
       ha-card {
         # margin-bottom: -1em;

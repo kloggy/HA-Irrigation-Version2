@@ -20,16 +20,28 @@ entities:
               on_name: "System is ON"
               off_name: "System is OFF"
 
+          #=== Irrigation Remote Control
+          - !include
+            - ../item_settings_check_box_with_entity_icon.yaml
+            - entity: input_boolean.irrigation_remote_control
+              on_name: "Remote Control is ON"
+              off_name: "Remote Control is OFF"
+
+      - type: horizontal-stack
+        cards:
+
           #=== Irrigation Testing Mode
           - !include
             - ../item_settings_check_box_with_entity_icon.yaml
             - entity: input_boolean.irrigation_testing_mode
+              on_name: "Test Mode is ON"
+              off_name: "Test Mode is OFF"
 
-      #=== Testing mode warning
-      - !include
-          - item_settings_warning.yaml
-          - entity: input_boolean.irrigation_testing_mode
-            name: 'Warning! Testing mode converts run<br>times from minutes to seconds'
+          #=== Testing mode warning
+          - !include
+              - item_settings_warning.yaml
+              - entity: input_boolean.irrigation_testing_mode
+                name: 'Warning! Testing mode converts run<br>times from minutes to seconds'
 
       #=== Notify users
       - !include item_settings_notify_users.yaml
@@ -107,7 +119,5 @@ entities:
 style: >
   ha-card {
     box-shadow: none;
-  }
-  #states {
-    padding-bottom: 0.3em;
+    margin-top: -0.75em;
   }

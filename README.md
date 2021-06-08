@@ -7,12 +7,12 @@ Apart from my instructions here, there are some 'real world' guides on how to se
 
 By @itajackass - [A guide for Italian people]( https://www.domoticadiy.it/2020/06/irrigazione-smart-my-garden-irrigation-home-assistant/) - perfectly readable using Google Translate and has been confirmed to work by another user.
 
-By @bbogdanmircea - [Setup guide](https://github.com/bbogdanmircea/HA-Irrigation-Version2) - A fork of this project which uses more than the default maximum eight zones and also includes a general setup guide. It contains some good information but I understand that at the time of writing this it is not complete.
+By @bbogdanmircea - [Setup guide](https://github.com/bbogdanmircea/HA-Irrigation-Version2) - A fork of this project which uses more than the (original) default maximum eight zones and also includes a general setup guide. It contains some good information but I understand that at the time of writing this it is not complete.
 
 
 <h2>Prerequisites</h2>
 
-There are some [prerequisites](https://github.com/kloggy/HA-Irrigation-Version2/blob/master/Pre-Requisites.md) to setting this up. PLEASE READ THEM. Any questions posted that look like they haven't been read may be ignored.
+There are some [prerequisites](https://github.com/kloggy/HA-Irrigation-Version2/blob/master/Pre-Requisites_Read_Me.md) to setting this up. PLEASE READ THEM. Any questions posted that look like they haven't been read may be ignored.
 
 
 Please note that as it stands this assumes that you are using `yaml` mode for Lovelace because that is what I use.
@@ -26,14 +26,7 @@ I am only using GitHub literally as a repository. What that means is I simply co
 
 One day maybe I'll delve further into how GitHub works but for now I'm afraid that is the situation.
 
-
-<h2> More than eight zones? </h2>
-
-I wrote this for use with up to eight zones but it can be quite easily adapted for use with more. I don't plan to change the code here to do this but @athan has done it and kindly allowed me to post a link to his branch.
-
-If you need more than eight zones look [here](https://github.com/athan71/HA-Irrigation-Version2/tree/16-zones).
-
------
+--------------
 
 <h2>Background</h2>
 
@@ -52,7 +45,7 @@ But... I am by no means a Javascript or CSS programmer so there may well be thin
 Version 1 was designed around a Sonoff 4ch but for Version 2 I will use an 8 relay board controlled with an ESP32.
 This in itself should make little difference as ultimately all the package does is turn switches on and off.
 
-This package has been designed with two scheduled cycles per day with each cycle having up to eight zones and all zones can be scheduled to run on any day(s) of the week.
+This package has been designed with two scheduled cycles per day with each cycle having up to 16 zones and all zones can be scheduled to run on any day(s) of the week.
 
 A manual cycle is also provided.
 
