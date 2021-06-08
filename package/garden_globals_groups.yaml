@@ -11,7 +11,13 @@ automation:
     trigger:
       - platform: homeassistant
         event: start
-
+        
+      - platform: event
+        event_type: call_service
+        event_data:
+          domain: group
+          service: reload
+      
     action:
       #=== Cycle 1 Zone Durations
       - service: group.set
