@@ -208,6 +208,7 @@ card:
               ha-card {
                 box-shadow: none;
                 background: none;
+                overflow: visible !important;
               }
               #states {
                 font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
