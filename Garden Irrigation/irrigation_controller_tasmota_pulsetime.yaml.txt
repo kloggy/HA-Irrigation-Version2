@@ -1,0 +1,43 @@
+
+#============
+#=== Scripts
+#============
+script:
+
+  #=======================================
+  #=== Set Tasmota Pulsetime if necessary
+  #===
+  #=== Passed
+  #===  zone  - [zone1, zone2, ... zone8]
+  #===  duration - in seconds
+  #=======================================
+  irrigation_tasmota_set_pulsetime:
+    sequence:
+      - condition: not
+        conditions:
+          - condition: state
+            entity_id: input_text.irrigation_tasmota_pulsetime_topic
+            state: unknown
+          - condition: state
+            entity_id: input_text.irrigation_tasmota_pulsetime_topic
+            state: none
+          - condition: state
+            entity_id: input_text.irrigation_tasmota_pulsetime_topic
+            state: ''
+
+      - service: mqtt.publish
+        data_template:
+          topic: >
+            {% set switch = states('input_text.irrigation_' ~ zone ~ '_switch_entity_id').split('.')[1] %}
+            {% set channel = states('input_number.irrigation_' ~ zone ~ '_switch_channel') | int %}
+            {% set topic = 'cmnd/[SWITCH_NAME]/pulsetime[CHANNEL_NO]' %}
+
+            {{ topic | replace('[SWITCH_NAME]', switch) | replace('[CHANNEL_NO]', channel) }}
+          payload: >
+            {% set seconds = duration | int %}
+            {% if seconds <= 11 %}
+              {% set payload = 10 * seconds + 15 %}
+            {% else %}
+              {% set payload = 100 + seconds + 15 %}
+            {% endif %}
+            {{ payload | int }}

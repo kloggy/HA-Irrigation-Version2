@@ -1,0 +1,175 @@
+
+#================
+#=== Automations
+#================
+automation:
+
+  #======================================
+  #=== SET UI DEFAULTS WHERE APPROPRIATE
+  #======================================
+  #=========
+  #=== Font
+  #=========
+  - alias: Irrigation UI Set Default Font
+    id: irrigation_ui_set_default_font
+    trigger:
+      - platform: homeassistant
+        event: start
+
+      - platform: state
+        entity_id: input_text.irrigation_ui_font_family
+        to: ''
+
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_text.irrigation_ui_font_family
+          state: 'unknown'
+
+        - condition: state
+          entity_id: input_text.irrigation_ui_font_family
+          state: ''
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_ui_font_family
+          value: var(--primary-font-family)
+
+
+  #===============
+  #=== User Names
+  #===============
+  - alias: Irrigation UI Set Default User Names
+    id: irrigation_ui_set_default_user_names
+    trigger:
+      - platform: homeassistant
+        event: start
+    action:
+      - repeat:
+          count: 2
+          sequence:
+            - condition: template
+              value_template: >
+                {% set user = 'user' ~ repeat.index | string %}
+                {{ is_state('input_text.notifications_' ~ user ~ '_name', 'unknown') }}
+            
+            - service: input_text.set_value
+              data_template:
+                entity_id: >
+                  {% set user = 'user' ~ repeat.index | string %}
+                  {{ 'input_text.notifications_' ~ user ~ '_name' }}
+                value: >
+                  {{ user | title }}
+
+
+  #===================
+  #=== Current status
+  #===================
+  - alias: Irrigation UI Set Default Current Status
+    id: irrigation_ui_set_default_current_status
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    condition:
+      - condition: state
+        entity_id: input_text.irrigation_current_status
+        state: 'unknown'
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_current_status
+          value: NOTHING SCHEDULED
+
+
+  #================
+  #=== Cycle Names
+  #================
+  - alias: Irrigation UI Set Default Cycle Names
+    id: irrigation_ui_set_default_cycle_names
+    trigger:
+      - platform: homeassistant
+        event: start
+    action:
+      - repeat:
+          count: 3
+          sequence:
+            - condition: template
+              value_template: >
+                {% set cycle = 'cycle' ~ repeat.index | string %}
+                {{ is_state('input_text.irrigation_' ~ cycle ~ '_name', 'unknown') }}
+            
+            - service: input_text.set_value
+              data_template:
+                entity_id: >
+                  {% set zone = 'cycle' ~ repeat.index | string %}
+                  {{ 'input_text.irrigation_' ~ cycle ~ '_name' }}
+                value: >
+                  {% if cycle == 'cycle3' %}
+                    Manual Cycle
+                  {% else %}
+                    {{ cycle | title }}
+                  {% endif %}
+
+
+  #===============
+  #=== Zone Names
+  #===============
+  - alias: Irrigation UI Set Default Zone Names
+    id: irrigation_ui_set_default_zone_names
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    action:
+      - repeat:
+          until:
+            - condition: template
+              value_template: >
+                {{ states('input_number.irrigation_number_of_zones') | int == repeat.index }}
+          sequence:
+            - condition: template
+              value_template: >
+                {% set zone = 'zone' ~ repeat.index | string %}
+                {{ is_state('input_text.irrigation_' ~ zone ~ '_name', 'unknown') }}
+            
+            - service: input_text.set_value
+              data_template:
+                entity_id: >
+                  {% set zone = 'zone' ~ repeat.index | string %}
+                  {{ 'input_text.irrigation_' ~ zone ~ '_name' }}
+                value: >
+                  {{ zone | title }}
+
+
+  #===========================
+  #=== Zone Switch Entity IDs
+  #===========================
+  - alias: Irrigation UI Set Default Switch Entity IDs
+    id: irrigation_ui_set_default_switch_entity_ids
+    trigger:
+      - platform: homeassistant
+        event: start
+
+    action:
+      - repeat:
+          until:
+            - condition: template
+              value_template: >
+                {{ states('input_number.irrigation_number_of_zones') | int == repeat.index }}
+          sequence:
+            - condition: template
+              value_template: >
+                {% set zone = 'zone' ~ repeat.index | string %}
+                {{ is_state('input_text.irrigation_' ~ zone ~ '_switch_entity_id', 'unknown') }}
+            
+            - service: input_text.set_value
+              data_template:
+                entity_id: >
+                  {% set zone = 'zone' ~ repeat.index | string %}
+                  {{ 'input_text.irrigation_' ~ zone ~ '_switch_entity_id' }}
+                value: >
+                  {{ 'switch.' ~ zone }}

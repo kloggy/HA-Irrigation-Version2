@@ -1,0 +1,522 @@
+
+#==================
+#=== Input Selects
+#==================
+input_select:
+
+  irrigation_cycle1_start_time_type:
+    options: 
+      - Actual Time
+      - Sunrise Offset
+      - Sunset Offset
+
+
+#==================
+#=== Input Numbers
+#==================
+input_number:
+
+  #=====================================
+  #=== Start time Sunrise/Sunset offset
+  #=====================================
+  irrigation_cycle1_start_time_sunrise_offset: 
+    name: Sunrise Offset
+    min: -120
+    max: 120
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:weather-sunset-up
+
+  irrigation_cycle1_start_time_sunset_offset: 
+    name: Sunset Offset
+    min: -120
+    max: 120
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:weather-sunset-down
+
+
+  #=====================================
+  #=== Cycle 1 zone durations (Sliders)
+  #=====================================
+  irrigation_cycle1_zone1_duration: 
+    name: Cycle 1 Zone1 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle1_zone2_duration: 
+    name: Cycle 1 Zone2 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle1_zone3_duration: 
+    name: Cycle 1 Zone3 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle1_zone4_duration: 
+    name: Cycle 1 Zone4 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle1_zone5_duration: 
+    name: Cycle 1 Zone5 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle1_zone6_duration: 
+    name: Cycle 1 Zone6 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle1_zone7_duration: 
+    name: Cycle 1 Zone7 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-7-box-outline
+
+  irrigation_cycle1_zone8_duration: 
+    name: Cycle 1 Zone8 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-8-box-outline
+
+  irrigation_cycle1_zone9_duration: 
+    name: Cycle 1 Zone9 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-9-box-outline
+
+  irrigation_cycle1_zone10_duration: 
+    name: Cycle 1 Zone10 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-10-box-outline
+
+  irrigation_cycle1_zone11_duration: 
+    name: Cycle 1 Zone11 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle1_zone12_duration: 
+    name: Cycle 1 Zone12 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle1_zone13_duration: 
+    name: Cycle 1 Zone13 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle1_zone14_duration: 
+    name: Cycle 1 Zone14 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle1_zone15_duration: 
+    name: Cycle 1 Zone15 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle1_zone16_duration: 
+    name: Cycle 1 Zone16 Duration
+    min: 0
+    max: 60
+    unit_of_measurement: min
+    icon: mdi:numeric-6-box-outline
+
+  #=========================================
+  #=== Cycle 1 zone durations (Input Boxes)
+  #=========================================
+  irrigation_cycle1_zone1_duration_box: 
+    name: Cycle 1 Zone 1 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle1_zone2_duration_box: 
+    name: Cycle 1 Zone 2 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle1_zone3_duration_box: 
+    name: Cycle 1 Zone 3 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle1_zone4_duration_box: 
+    name: Cycle 1 Zone 4 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle1_zone5_duration_box: 
+    name: Cycle 1 Zone 5 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle1_zone6_duration_box: 
+    name: Cycle 1 Zone 6 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-6-box-outline
+
+  irrigation_cycle1_zone7_duration_box: 
+    name: Cycle 1 Zone 7 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-7-box-outline
+
+  irrigation_cycle1_zone8_duration_box: 
+    name: Cycle 1 Zone 8 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-8-box-outline
+
+  irrigation_cycle1_zone9_duration_box: 
+    name: Cycle 1 Zone 9 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-9-box-outline
+
+  irrigation_cycle1_zone10_duration_box: 
+    name: Cycle 1 Zone 10 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-10-box-outline
+
+  irrigation_cycle1_zone11_duration_box: 
+    name: Cycle 1 Zone 11 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-1-box-outline
+
+  irrigation_cycle1_zone12_duration_box: 
+    name: Cycle 1 Zone 12 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-2-box-outline
+
+  irrigation_cycle1_zone13_duration_box: 
+    name: Cycle 1 Zone 13 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-3-box-outline
+
+  irrigation_cycle1_zone14_duration_box: 
+    name: Cycle 1 Zone 14 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-4-box-outline
+
+  irrigation_cycle1_zone15_duration_box: 
+    name: Cycle 1 Zone 15 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-5-box-outline
+
+  irrigation_cycle1_zone16_duration_box: 
+    name: Cycle 1 Zone 16 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-6-box-outline
+
+
+#================
+#=== Input Texts
+#================
+input_text:
+
+  #====================
+  #=== Name of Cycle 1
+  #====================
+  irrigation_cycle1_name:
+    name: Cycle 1 Name
+    min: 1
+    max: 15
+
+
+#====================
+#=== Input Datetimes
+#====================
+input_datetime:
+
+  #=======================
+  #=== Cycle 1 start time
+  #=======================
+  irrigation_cycle1_start_time:
+    name: Cycle 1 Start Time
+    has_date: false
+    has_time: true
+
+
+#===================
+#=== Input Booleans
+#===================
+input_boolean:
+
+  #=============================
+  #=== Cycle 1 Schedule Enabled
+  #=============================
+  irrigation_cycle1_schedule_enabled:
+    name: Cycle 1 Schedule Enabled
+    icon: mdi:toggle-switch
+
+  #================================
+  #=== Cycle 1 Schedule Today Only
+  #================================
+  irrigation_cycle1_schedule_today_only:
+    name: Cycle 1 Schedule Today Only
+    icon: mdi:calendar-today
+
+  #=======================
+  #=== Cycle 1 is Running
+  #=======================
+  irrigation_cycle1_running:
+    name: Cycle 1 Running
+    icon: mdi:play-circle-outline
+    initial: 'off'
+    
+  #===============================================
+  #=== Cycle 1 durations are adjusted for weather
+  #===============================================
+  irrigation_cycle1_adjust_for_temperature:
+    name: Cycle 1 Adjust For Temperature
+    icon: mdi:home-thermometer
+
+  irrigation_cycle1_adjust_for_rainfall:
+    name: Cycle 1 Adjust For Rainfall
+    icon: mdi:weather-rainy
+
+
+#============
+#=== Sensors
+#============
+sensor:
+  - platform: template
+    sensors:
+      #=== Cycle 1 Start Time In Seconds
+      irrigation_cycle1_start_time_in_seconds:
+        friendly_name: Cycle 1 Start Time In Seconds
+        value_template: >
+          {{ state_attr('input_datetime.irrigation_cycle1_start_time', 'timestamp') }}
+        
+      #=== Cycle 1 Duration In Seconds
+      irrigation_cycle1_duration_in_seconds:
+        friendly_name: Cycle 1 Duration In Seconds
+        value_template: >
+          {% set durations = expand('group.irrigation_group_cycle1_zone_durations') | map(attribute='state') | map('int') | list | sort(reverse=true) %}
+          {% set max = states('input_number.irrigation_number_of_zones') | int %}
+          {{ durations[0:max] | sum }}
+        attribute_templates:
+          zone_duration: >
+            {% set ns = namespace(attributes = '{') %}
+            {% for zone in states.input_number if zone.object_id.startswith('irrigation_cycle1_zone') and
+                                                  zone.object_id.endswith('_duration') %}
+              {% if not loop.first %}
+                {% set ns.attributes = ns.attributes ~ ',' %}
+              {% endif %}
+
+              {% if states('input_number.irrigation_cycle1_zone' ~ loop.index ~ '_duration') | int == 0 %}
+                {% set ns.attributes = ns.attributes ~ ' "zone' ~ loop.index ~ '":"0"' %}
+              {% else %}
+                {% set duration_secs = states('input_number.irrigation_cycle1_zone' ~ loop.index ~ '_duration') | float * 60 %}
+                {% set min_duration_secs = states('input_number.irrigation_weather_adjusted_minimum_duration_in_seconds') | float %}
+                {% set max_duration_secs = states('input_number.irrigation_weather_adjusted_maximum_duration_in_minutes') | float * 60 %}
+                {% set today = ['mon','tue','wed','thu','fri','sat','sun'][now().weekday()] %}
+
+                {# Adjust for rainfall #}
+                {% if is_state('input_boolean.irrigation_cycle1_adjust_for_rainfall', 'on') %}
+                  {% set duration_secs = duration_secs * states('input_number.irrigation_rainfall_multiplier') | float %}
+                {% endif %}
+
+                {# Adjust for temperature #}
+                {% if is_state('input_boolean.irrigation_cycle1_adjust_for_temperature', 'on') %}
+                  {% set duration_secs = duration_secs * states('input_number.irrigation_temp_multiplier') | float %}
+                {% endif %}
+
+                {# Adjust for max/min duration #}
+                {% if duration_secs != 0 %}
+                  {% if is_state('input_boolean.irrigation_cycle1_adjust_for_rainfall', 'on') or
+                        is_state('input_boolean.irrigation_cycle1_adjust_for_temperature', 'on') %}
+                    {% if duration_secs > max_duration_secs %}
+                      {% set duration_secs = max_duration_secs %}
+                    {% elif duration_secs < min_duration_secs %}
+                      {% set duration_secs = min_duration_secs %}
+                    {% endif %}
+                  {% endif %}
+                {% endif %}
+
+                {% if is_state('input_boolean.irrigation_cycle1_zone' ~ loop.index ~ '_every_day', 'on') or
+                      is_state('input_boolean.irrigation_cycle1_zone' ~ loop.index ~ '_' ~ today, 'on') %}
+                  {% if is_state('input_boolean.irrigation_testing_mode', 'on') %}
+                    {% set ns.attributes = ns.attributes ~ '"zone' ~ loop.index ~ '": "' ~ (duration_secs / 60) | round() ~ '" ' %}
+                  {% else %}
+                    {% set ns.attributes = ns.attributes ~ '"zone' ~ loop.index ~ '": "' ~ duration_secs | round()  ~ '" ' %}
+                  {% endif %}
+                {% else %}
+                  {% set ns.attributes = ns.attributes ~ '"zone' ~ loop.index ~ '": "0" ' %}
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+
+            {{ ns.attributes ~ '}'}}
+
+
+      #=== Actual Zone durations in seconds
+      irrigation_cycle1_zone1_actual_duration_in_seconds:
+        friendly_name: Cycle 1 Zone 1 Actual Duration In Seconds
+        value_template: >
+          {% set zone_duration = state_attr('sensor.irrigation_cycle1_duration_in_seconds', 'zone_duration') %}
+          {{ zone_duration.zone1 }}
+
+      irrigation_cycle1_zone2_actual_duration_in_seconds:
+        friendly_name: Cycle 1 Zone 2 Actual Duration In Seconds
+        value_template: >
+          {% set zone_duration = state_attr('sensor.irrigation_cycle1_duration_in_seconds', 'zone_duration') %}
+          {{ zone_duration.zone2 }}
+
+      irrigation_cycle1_zone3_actual_duration_in_seconds:
+        friendly_name: Cycle 1 Zone 3 Actual Duration In Seconds
+        value_template: >
+          {% set zone_duration = state_attr('sensor.irrigation_cycle1_duration_in_seconds', 'zone_duration') %}
+          {{ zone_duration.zone3 }}
+
+      irrigation_cycle1_zone4_actual_duration_in_seconds:
+        friendly_name: Cycle 1 Zone 4 Actual Duration In Seconds
+        value_template: >
+          {% set zone_duration = state_attr('sensor.irrigation_cycle1_duration_in_seconds', 'zone_duration') %}
+          {{ zone_duration.zone4 }}
+
+      irrigation_cycle1_zone5_actual_duration_in_seconds:
+        friendly_name: Cycle 1 Zone 5 Actual Duration In Seconds
+        value_template: >
+          {% set zone_duration = state_attr('sensor.irrigation_cycle1_duration_in_seconds', 'zone_duration') %}
+          {{ zone_duration.zone5 }}
+
+      irrigation_cycle1_zone6_actual_duration_in_seconds:
+        friendly_name: Cycle 1 Zone 6 Actual Duration In Seconds
+        value_template: >
+          {% set zone_duration = state_attr('sensor.irrigation_cycle1_duration_in_seconds', 'zone_duration') %}
+          {{ zone_duration.zone6 }}
+
+      irrigation_cycle1_zone7_actual_duration_in_seconds:
+        friendly_name: Cycle 1 Zone 7 Actual Duration In Seconds
+        value_template: >
+          {% set zone_duration = state_attr('sensor.irrigation_cycle1_duration_in_seconds', 'zone_duration') %}
+          {{ zone_duration.zone7 }}
+
+      irrigation_cycle1_zone8_actual_duration_in_seconds:
+        friendly_name: Cycle 1 Zone 8 Actual Duration In Seconds
+        value_template: >
+          {% set zone_duration = state_attr('sensor.irrigation_cycle1_duration_in_seconds', 'zone_duration') %}
+          {{ zone_duration.zone8 }}
+
+      irrigation_cycle1_zone9_actual_duration_in_seconds:
+        friendly_name: Cycle 2 Zone 9 Actual Duration In Seconds
+        value_template: >
+          {% set zone_duration = state_attr('sensor.irrigation_cycle1_duration_in_seconds', 'zone_duration') %}
+          {{ zone_duration.zone9 }}
+          
+      irrigation_cycle1_zone10_actual_duration_in_seconds:
+        friendly_name: Cycle 2 Zone 10 Actual Duration In Seconds
+        value_template: >
+          {% set zone_duration = state_attr('sensor.irrigation_cycle1_duration_in_seconds', 'zone_duration') %}
+          {{ zone_duration.zone10 }}
+          
+      irrigation_cycle1_zone11_actual_duration_in_seconds:
+        friendly_name: Cycle 2 Zone 11 Actual Duration In Seconds
+        value_template: >
+          {% set zone_duration = state_attr('sensor.irrigation_cycle1_duration_in_seconds', 'zone_duration') %}
+          {{ zone_duration.zone11 }}
+          
+      irrigation_cycle1_zone12_actual_duration_in_seconds:
+        friendly_name: Cycle 2 Zone 12 Actual Duration In Seconds
+        value_template: >
+          {% set zone_duration = state_attr('sensor.irrigation_cycle1_duration_in_seconds', 'zone_duration') %}
+          {{ zone_duration.zone12 }}
+          
+      irrigation_cycle1_zone13_actual_duration_in_seconds:
+        friendly_name: Cycle 2 Zone 13 Actual Duration In Seconds
+        value_template: >
+          {% set zone_duration = state_attr('sensor.irrigation_cycle1_duration_in_seconds', 'zone_duration') %}
+          {{ zone_duration.zone13 }}
+          
+      irrigation_cycle1_zone14_actual_duration_in_seconds:
+        friendly_name: Cycle 2 Zone 14 Actual Duration In Seconds
+        value_template: >
+          {% set zone_duration = state_attr('sensor.irrigation_cycle1_duration_in_seconds', 'zone_duration') %}
+          {{ zone_duration.zone14 }}
+          
+      irrigation_cycle1_zone15_actual_duration_in_seconds:
+        friendly_name: Cycle 2 Zone 15 Actual Duration In Seconds
+        value_template: >
+          {% set zone_duration = state_attr('sensor.irrigation_cycle1_duration_in_seconds', 'zone_duration') %}
+          {{ zone_duration.zone15 }}
+          
+      irrigation_cycle1_zone16_actual_duration_in_seconds:
+        friendly_name: Cycle 2 Zone 16 Actual Duration In Seconds
+        value_template: >
+          {% set zone_duration = state_attr('sensor.irrigation_cycle1_duration_in_seconds', 'zone_duration') %}
+          {{ zone_duration.zone16 }}

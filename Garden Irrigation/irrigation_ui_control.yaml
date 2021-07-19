@@ -1,0 +1,196 @@
+#==================
+#=== Input Selects
+#==================
+input_select:
+
+  irrigation_cycle:
+    name: Irrigation Cycle
+    options:
+      - cycle1
+      - cycle2
+      - cycle3
+
+  irrigation_settings:
+    name: Irrigation Settings
+    options:
+      - General
+      - Rainfall
+      - Temperature
+
+
+#===================
+#=== Input Booleans
+#===================
+input_boolean:
+
+  #====================================
+  #=== Show History and Last Run in UI
+  #====================================
+  irrigation_ui_show_last_run_details:
+    name: Last Run
+
+  irrigation_ui_show_status_history:
+    name: Status History
+
+
+#================
+#=== Automations
+#================
+automation:
+  #=============================================================
+  #=== Show relevent Settings page when adjustment is turned on
+  #=============================================================
+  - alias: Irrigation UI Show Weather Adjust Settings
+    id: irrigation_ui_show_weather_adjust_settings
+    mode: queued
+    trigger:
+      - platform: state
+        entity_id: 
+          - input_boolean.irrigation_cycle1_adjust_for_rainfall
+          - input_boolean.irrigation_cycle2_adjust_for_rainfall
+          - input_boolean.irrigation_cycle1_adjust_for_temperature
+          - input_boolean.irrigation_cycle2_adjust_for_temperature
+        to: 'on'
+
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.irrigation_settings
+          option: >
+            {% if 'rainfall' in trigger.entity_id %}
+              Rainfall
+            {% else %}
+              Temperature
+            {% endif %}
+
+
+  #==================================================
+  #=== Zone Duration Changes
+  #=== Keep input_number slider and box synchronised
+  #==================================================
+  - alias: Irrigation UI Duration Synchronisation
+    id: irrigation_ui_duration_synchronisation
+    mode: queued
+    trigger: 
+      - platform: state
+        entity_id:
+          - input_number.irrigation_cycle1_zone1_duration
+          - input_number.irrigation_cycle1_zone1_duration_box
+          - input_number.irrigation_cycle1_zone2_duration
+          - input_number.irrigation_cycle1_zone2_duration_box
+          - input_number.irrigation_cycle1_zone3_duration
+          - input_number.irrigation_cycle1_zone3_duration_box
+          - input_number.irrigation_cycle1_zone4_duration
+          - input_number.irrigation_cycle1_zone4_duration_box
+          - input_number.irrigation_cycle1_zone5_duration
+          - input_number.irrigation_cycle1_zone5_duration_box
+          - input_number.irrigation_cycle1_zone6_duration
+          - input_number.irrigation_cycle1_zone6_duration_box
+          - input_number.irrigation_cycle1_zone7_duration
+          - input_number.irrigation_cycle1_zone7_duration_box
+          - input_number.irrigation_cycle1_zone8_duration
+          - input_number.irrigation_cycle1_zone8_duration_box
+          - input_number.irrigation_cycle1_zone9_duration
+          - input_number.irrigation_cycle1_zone9_duration_box
+          - input_number.irrigation_cycle1_zone10_duration
+          - input_number.irrigation_cycle1_zone10_duration_box
+          - input_number.irrigation_cycle1_zone11_duration
+          - input_number.irrigation_cycle1_zone11_duration_box
+          - input_number.irrigation_cycle1_zone12_duration
+          - input_number.irrigation_cycle1_zone12_duration_box
+          - input_number.irrigation_cycle1_zone13_duration
+          - input_number.irrigation_cycle1_zone13_duration_box
+          - input_number.irrigation_cycle1_zone14_duration
+          - input_number.irrigation_cycle1_zone14_duration_box
+          - input_number.irrigation_cycle1_zone15_duration
+          - input_number.irrigation_cycle1_zone15_duration_box
+          - input_number.irrigation_cycle1_zone16_duration
+          - input_number.irrigation_cycle1_zone16_duration_box
+
+          - input_number.irrigation_cycle2_zone1_duration
+          - input_number.irrigation_cycle2_zone1_duration_box
+          - input_number.irrigation_cycle2_zone2_duration
+          - input_number.irrigation_cycle2_zone2_duration_box
+          - input_number.irrigation_cycle2_zone3_duration
+          - input_number.irrigation_cycle2_zone3_duration_box
+          - input_number.irrigation_cycle2_zone4_duration
+          - input_number.irrigation_cycle2_zone4_duration_box
+          - input_number.irrigation_cycle2_zone5_duration
+          - input_number.irrigation_cycle2_zone5_duration_box
+          - input_number.irrigation_cycle2_zone6_duration
+          - input_number.irrigation_cycle2_zone6_duration_box
+          - input_number.irrigation_cycle2_zone7_duration
+          - input_number.irrigation_cycle2_zone7_duration_box
+          - input_number.irrigation_cycle2_zone8_duration
+          - input_number.irrigation_cycle2_zone8_duration_box
+          - input_number.irrigation_cycle2_zone9_duration
+          - input_number.irrigation_cycle2_zone9_duration_box
+          - input_number.irrigation_cycle2_zone10_duration
+          - input_number.irrigation_cycle2_zone10_duration_box
+          - input_number.irrigation_cycle2_zone11_duration
+          - input_number.irrigation_cycle2_zone11_duration_box
+          - input_number.irrigation_cycle2_zone12_duration
+          - input_number.irrigation_cycle2_zone12_duration_box
+          - input_number.irrigation_cycle2_zone13_duration
+          - input_number.irrigation_cycle2_zone13_duration_box
+          - input_number.irrigation_cycle2_zone14_duration
+          - input_number.irrigation_cycle2_zone14_duration_box
+          - input_number.irrigation_cycle2_zone15_duration
+          - input_number.irrigation_cycle2_zone15_duration_box
+          - input_number.irrigation_cycle2_zone16_duration
+          - input_number.irrigation_cycle2_zone16_duration_box          
+          
+          - input_number.irrigation_cycle3_zone1_duration
+          - input_number.irrigation_cycle3_zone1_duration_box
+          - input_number.irrigation_cycle3_zone2_duration
+          - input_number.irrigation_cycle3_zone2_duration_box
+          - input_number.irrigation_cycle3_zone3_duration
+          - input_number.irrigation_cycle3_zone3_duration_box
+          - input_number.irrigation_cycle3_zone4_duration
+          - input_number.irrigation_cycle3_zone4_duration_box
+          - input_number.irrigation_cycle3_zone5_duration
+          - input_number.irrigation_cycle3_zone5_duration_box
+          - input_number.irrigation_cycle3_zone6_duration
+          - input_number.irrigation_cycle3_zone6_duration_box
+          - input_number.irrigation_cycle3_zone7_duration
+          - input_number.irrigation_cycle3_zone7_duration_box
+          - input_number.irrigation_cycle3_zone8_duration
+          - input_number.irrigation_cycle3_zone8_duration_box
+          - input_number.irrigation_cycle3_zone9_duration
+          - input_number.irrigation_cycle3_zone9_duration_box
+          - input_number.irrigation_cycle3_zone10_duration
+          - input_number.irrigation_cycle3_zone10_duration_box
+          - input_number.irrigation_cycle3_zone11_duration
+          - input_number.irrigation_cycle3_zone11_duration_box
+          - input_number.irrigation_cycle3_zone12_duration
+          - input_number.irrigation_cycle3_zone12_duration_box
+          - input_number.irrigation_cycle3_zone13_duration
+          - input_number.irrigation_cycle3_zone13_duration_box
+          - input_number.irrigation_cycle3_zone14_duration
+          - input_number.irrigation_cycle3_zone14_duration_box
+          - input_number.irrigation_cycle3_zone15_duration
+          - input_number.irrigation_cycle3_zone15_duration_box
+          - input_number.irrigation_cycle3_zone16_duration
+          - input_number.irrigation_cycle3_zone16_duration_box          
+
+    action:
+      #=== Keep input_number slider and box synchronised
+      - service: input_number.set_value
+        data_template:
+          entity_id: >
+            {% set cycle = 'cycle' ~ trigger.entity_id.split('cycle')[1][0] %}
+            {% set zone = 'zone' ~ trigger.entity_id.split('zone')[1][0] %}
+            {% if trigger.entity_id.endswith('box') %}
+              input_number.irrigation_{{ cycle }}_{{ zone }}_duration
+            {% else %}
+              input_number.irrigation_{{ cycle }}_{{ zone }}_duration_box
+            {% endif %}            
+          value: >
+            {% set cycle = 'cycle' ~ trigger.entity_id.split('cycle')[1][0] %}
+            {% set zone = 'zone' ~ trigger.entity_id.split('zone')[1][0] %}
+            {% if trigger.entity_id.endswith('box') %}
+              {% set value = states('input_number.irrigation_' ~ cycle ~ '_' ~ zone ~ '_duration_box') | float %}
+            {% else %}
+              {% set value = states('input_number.irrigation_' ~ cycle ~ '_' ~ zone ~ '_duration') | float %}
+            {% endif %}            
+            {{ value }}

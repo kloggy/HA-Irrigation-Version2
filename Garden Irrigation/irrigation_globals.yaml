@@ -1,0 +1,149 @@
+
+#===================
+#=== Input Booleans
+#===================
+input_boolean:
+
+  irrigation_testing_mode:
+    name: Irrigation Testing Mode
+    icon: mdi:alert-outline
+
+  irrigation_disable_switches:
+    name: Disable Switches 
+    icon: mdi:electric-switch
+
+
+#================
+#=== Input Texts
+#================
+input_text:
+
+  irrigation_current_status:
+    name: Irrigation Status
+    min: 0
+    max: 100 
+
+  irrigation_previous_run_cycle_name:
+    name: Irrigation Previous Run Cycle
+    min: 0
+    max: 30
+    
+  irrigation_previous_run_date:
+    name: Irrigation Previous Run Date
+    min: 0
+    max: 30
+
+  irrigation_previous_run_time:
+    name: Irrigation Previous Run Time
+    min: 0
+    max: 30
+
+  irrigation_previous_total_watering_time:
+    name: Irrigation Previous Total Watering Time
+    min: 0
+    max: 10
+
+  irrigation_ui_font_family:
+    name: Irrigation UI font family
+    min: 0
+    max: 30
+    icon: mdi:format-font
+
+
+#==================
+#=== Input Numbers
+#==================
+input_number:
+
+  irrigation_pause_between_zones_in_seconds: 
+    name: Pause Between Zones In Seconds
+    min: 3
+    max: 15
+    step: 1
+    mode: box
+    unit_of_measurement: secs
+    icon: mdi:timer-outline
+
+  irrigation_weather_adjusted_minimum_duration_in_seconds: 
+    name: Minimum Duration After Weather Adjustment In Seconds
+    min: 3
+    max: 60
+    step: 1
+    mode: box
+    unit_of_measurement: secs
+    icon: mdi:timer-sand-empty
+
+  irrigation_weather_adjusted_maximum_duration_in_minutes: 
+    name: Maximum Duration After Weather Adjustment In Minutes
+    min: 1
+    max: 120
+    step: 1
+    mode: box
+    unit_of_measurement: mins
+    icon: mdi:timer-sand-full
+
+  irrigation_failsafe_time_in_seconds:
+    name: Failsafe Time in Seconds
+    min: 1
+    max: 7260 # 2 hours and 1 minute
+    mode: box
+    unit_of_measurement: sec
+    icon: mdi:timer-outline
+
+
+#===================
+#=== Binary Sensors
+#===================
+binary_sensor:
+  - platform: template
+    sensors:
+      #=== Indicate if a cycle is scheduled to start before another will finish
+      irrigation_cycle_start_clash:
+        friendly_name: Cycle Start Clash
+        value_template: >
+          {% set c1_start = states('sensor.irrigation_cycle1_start_time_in_seconds') | int %}
+          {% set c1_duration = states('sensor.irrigation_cycle1_duration_in_seconds') | int %}
+          {% set c1_end = c1_start + c1_duration %}
+          {% set c2_start = states('sensor.irrigation_cycle2_start_time_in_seconds') | int %}
+          {% set c2_duration = states('sensor.irrigation_cycle2_duration_in_seconds') | int %}
+          {% set c2_end = c2_start + c2_duration %}
+
+          {% if is_state('input_boolean.irrigation_cycle1_schedule_enabled', 'on') and
+                is_state('input_boolean.irrigation_cycle2_schedule_enabled', 'on') %}
+            {% if (c1_start - c2_start) | abs <= 60 %}
+              true
+            {% elif c1_start < c2_start and
+                    c1_end > (c2_start - 60) %}
+              true
+            {% elif c2_start < c1_start and
+                    c2_end > (c1_start - 60) %}
+              true
+            {% else %}
+              false
+            {% endif %}
+          {% else %}
+            false
+          {% endif %}
+        attribute_templates:
+          clash_text: >
+            {% set c1_start = states('sensor.irrigation_cycle1_start_time_in_seconds') | int %}
+            {% set c1_duration = states('sensor.irrigation_cycle1_duration_in_seconds') | int %}
+            {% set c1_end = c1_start + c1_duration %}
+            {% set c2_start = states('sensor.irrigation_cycle2_start_time_in_seconds') | int %}
+            {% set c2_duration = states('sensor.irrigation_cycle2_duration_in_seconds') | int %}
+            {% set c2_end = c2_start + c2_duration %}
+            {% set c1_name = states('input_text.irrigation_cycle1_name') %}
+            {% set c2_name = states('input_text.irrigation_cycle2_name') %}
+
+            {# NOTE that a 1 minute gap between cycles is required #}
+            {% if (c1_start - c2_start) | abs <= 60 %}
+              You have set {{ c1_name }} to start at the same time as {{ c2_name }}.
+            {% elif c1_start < c2_start and
+                    c1_end > (c2_start - 60) %}
+              You have set {{ c2_name }} to start before {{ c1_name }} has ended.<br><br>{{ c2_name }} will not run.
+            {% elif c2_start < c1_start and
+                    c2_end > (c1_start - 60) %}
+              You have set {{ c1_name }} to start before {{ c2_name }} has ended.<br><br>{{ c1_name }} will not run.
+            {% else %}
+              No timing errors found! Please check code...
+            {% endif %}
