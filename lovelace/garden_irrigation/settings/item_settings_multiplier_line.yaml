@@ -1,0 +1,101 @@
+# lovelace_gen
+
+#================================================
+#=== SETTINGS WEATHER ADJUSTMENT MULTIPLIER LINE
+#=== 
+#=== Used for Weather Adjustment Multiplier
+#=== lines in the Settings section
+#===
+#=== entity: The entity_id being displayed
+#=== Optional:
+#===  name:  Name to be used
+#===  icon:  Icon to be displayed
+#===  label: Secondary info text
+#================================================
+type: custom:button-card
+entity: {{ entity }}
+show_state: true
+name: {{ name }}
+icon: {{ icon }}
+show_label: true
+label: {{ label }}
+size: 30%
+styles:
+  grid:
+    - grid-template-areas: >
+        [[[
+          if ('{{ label }}' == '')
+            return '"i n s"  "i n s"';
+          else
+            return '"i n s"  "i l s"';
+        ]]]
+    - grid-template-columns: 15% auto 15%
+    - grid-template-rows: min-content min-content
+  card:
+    - font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
+    - font-size: 15px
+    - padding: 0em 0em 0.5em 0em
+    - background: none
+    - box-shadow: none
+  icon:
+    - color: var(--paper-item-icon-color)
+  name: 
+    - justify-self: start
+  label:
+    - justify-self: start
+    - color: var(--secondary-text-color)
+
+#=== SHOW INFORMATION/EXPLANATION
+tap_action:
+  action: fire-dom-event
+  browser_mod:
+    command: popup
+    title: "WEATHER ADJUSTMENTS"
+    # title: "\U00002139 WEATHER ADJUSTMENTS"
+    card:
+      type: markdown
+      content: >
+        ### Rain multiplier
+        
+        This multiplier will decrease watering time proportionally
+        based on the difference between the rainfall threshold and the amount of
+        rain over the last few days.
+
+        
+        If the threshold is reached then it will stop it altogether.
+
+
+        ---
+
+
+        ### Temperature multiplier
+
+        This multiplier will increase or decrease watering time proportionally
+        based on the difference between the temperature threshold and the 
+        average high temperature over the last few days.
+
+
+        It is calculated as High Temperature divided by Baseline Temperature.
+
+
+        For example, if the baseline temperature is set to 25 degrees and the
+        average temperature has been 30 degrees the adjustment will be plus 20%.
+
+
+        Likewise if the average temperature has only been 20 degrees the
+        adjustment will be minus 20%.
+      card_mod:
+        style: >
+          ha-card {
+            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+          }
+    #=== Style needed for pop-up title
+    style:
+      $: |
+        .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+          }
+  

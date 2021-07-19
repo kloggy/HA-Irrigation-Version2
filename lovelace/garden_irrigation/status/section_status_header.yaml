@@ -1,0 +1,338 @@
+
+#==================
+#=== STATUS HEADER
+#==================
+type: entities
+entities:
+
+  - type: divider
+    style:
+      background-color: var(--accent-color)
+
+  - type: custom:hui-element
+    card_type: horizontal-stack
+    cards:
+      #=== NEXT RUN DETAILS
+      - type: custom:button-card
+        entity: input_text.irrigation_current_status
+        triggers_update:
+          - group.irrigation_group_cycle1_every_day
+          - group.irrigation_group_cycle1_mon
+          - group.irrigation_group_cycle1_tue
+          - group.irrigation_group_cycle1_wed
+          - group.irrigation_group_cycle1_thu
+          - group.irrigation_group_cycle1_fri
+          - group.irrigation_group_cycle1_sat
+          - group.irrigation_group_cycle1_sun
+
+          - group.irrigation_group_cycle2_every_day
+          - group.irrigation_group_cycle2_mon
+          - group.irrigation_group_cycle2_tue
+          - group.irrigation_group_cycle2_wed
+          - group.irrigation_group_cycle2_thu
+          - group.irrigation_group_cycle2_fri
+          - group.irrigation_group_cycle2_sat
+          - group.irrigation_group_cycle2_sun
+        name: >
+          [[[
+            if (states['input_boolean.irrigation_master_control_switch'].state == 'off')
+              return 'SYSTEM IS OFF';
+            else
+              var today = new Date();
+              var weekday = new Array(7);
+              weekday[0] = "sun";
+              weekday[1] = "mon";
+              weekday[2] = "tue";
+              weekday[3] = "wed";
+              weekday[4] = "thu";
+              weekday[5] = "fri";
+              weekday[6] = "sat";
+
+              var day_today = weekday[today.getDay()];
+              var day_tomorrow = weekday[(today.getDay() + 1) % 7];
+
+              if (states['group.irrigation_group_cycle1_every_day'].state == 'on' ||
+                  states['group.irrigation_group_cycle1_' + day_today].state == 'on')
+                var cycle1_runs_today = true;
+              else
+                var cycle1_runs_today = false;
+
+              if (states['group.irrigation_group_cycle2_every_day'].state == 'on' ||
+                  states['group.irrigation_group_cycle2_' + day_today].state == 'on')
+                var cycle2_runs_today = true;
+              else
+                var cycle2_runs_today = false;
+
+              if (states['group.irrigation_group_cycle1_every_day'].state == 'on' ||
+                  states['group.irrigation_group_cycle1_' + day_tomorrow].state == 'on')
+                var cycle1_runs_tomorrow = true;
+              else
+                var cycle1_runs_tomorrow = false;
+
+              if (states['group.irrigation_group_cycle2_every_day'].state == 'on' ||
+                  states['group.irrigation_group_cycle2_' + day_tomorrow].state == 'on')
+                var cycle2_runs_tomorrow = true;
+              else
+                var cycle2_runs_tomorrow = false;
+
+              var time_now = states['sensor.time'].state;
+              var cycle1_schedule_enabled = states['input_boolean.irrigation_cycle1_schedule_enabled'].state;
+              var cycle2_schedule_enabled = states['input_boolean.irrigation_cycle2_schedule_enabled'].state;
+              var cycle1_start_time = states['input_datetime.irrigation_cycle1_start_time'].state.substr(0, 5);
+              var cycle2_start_time = states['input_datetime.irrigation_cycle2_start_time'].state.substr(0, 5);
+              var cycle1_name = states['input_text.irrigation_cycle1_name'].state;
+              var cycle2_name = states['input_text.irrigation_cycle2_name'].state;
+              var cycle3_name = states['input_text.irrigation_cycle3_name'].state;
+
+              var cycle1_running = states['input_boolean.irrigation_cycle1_running'].state;
+              var cycle2_running = states['input_boolean.irrigation_cycle2_running'].state;
+              var cycle3_running = states['input_boolean.irrigation_cycle3_running'].state;
+
+              if (cycle1_running == 'on')
+                return cycle1_name + ' cycle';
+              else if (cycle2_running == 'on')
+                return cycle2_name + ' cycle';
+              else if (cycle3_running == 'on')
+                return cycle3_name + ' cycle';
+              else if (cycle1_schedule_enabled == 'on' && cycle1_runs_today && cycle1_start_time > time_now)
+                  return cycle1_name + ' cycle at ' + cycle1_start_time;
+              else if (cycle2_schedule_enabled == 'on' && cycle2_runs_today && cycle2_start_time > time_now)
+                  return cycle2_name + ' cycle at ' + cycle2_start_time;
+              else if (cycle1_schedule_enabled == 'on' && cycle1_runs_tomorrow)
+                  return 'Tomorrow at ' + cycle1_start_time;
+              else if (cycle2_schedule_enabled == 'on' && cycle2_runs_tomorrow)
+                  return 'Tomorrow at ' + cycle2_start_time;
+              else return 'NOTHING SCHEDULED';
+          ]]]
+        label: >
+          [[[
+            var cycle1_running = states['input_boolean.irrigation_cycle1_running'].state;
+            var cycle2_running = states['input_boolean.irrigation_cycle2_running'].state;
+            var cycle3_running = states['input_boolean.irrigation_cycle3_running'].state;
+
+            if (cycle1_running == 'on')
+              return 'RUNNING: ';
+            else if (cycle2_running == 'on')
+              return 'RUNNING: ';
+            else if (cycle3_running == 'on')
+              return 'RUNNING: ';
+            else
+              return 'NEXT RUN: ';
+          ]]]
+        show_label: true
+        show_icon: false
+        styles:
+          grid:
+            - grid-template-areas: '"l n clash_icon warning"'
+            - grid-template-columns: min-content min-content 10% 1fr  
+            - grid-template-rows: 1fr
+          card:
+            - font-family: >
+                [[[
+                  return states['input_text.irrigation_ui_font_family'].state
+                ]]]
+            - background: none
+            - box-shadow: none
+            - padding: 0.3em 0em 0em 0.5em
+          name:
+            - justify-self: start
+            - align-self: start
+            - padding: 0em 0.5em
+            - color: >
+                [[[
+                  if (states['input_boolean.irrigation_master_control_switch'].state == 'off')
+                    return 'rgb(255, 165, 0)';
+                  else
+                    return 'var(--secondary-text-color)';
+                ]]]
+          label:
+            - color: var(--primary-text-color)
+            - justify-self: start
+            - align-self: start
+          custom_fields:
+            clash_icon:
+              - padding: 0em 0.5em
+              - color: >
+                  [[[
+                    switch(states['binary_sensor.irrigation_cycle_start_clash'].state) {
+                      case 'on':
+                        return 'rgb(255, 165, 0)';
+                      case 'off':
+                        return 'transparent';
+                    }
+                  ]]]
+            warning:
+              - color: var(--accent-color)
+              - justify-self: end
+        custom_fields:
+          clash_icon: >
+            [[[
+              return '<ha-icon icon="mdi:alert-rhombus-outline"></ha-icon>';
+            ]]]
+          warning: >
+            [[[
+              switch(states['input_boolean.irrigation_master_control_switch'].state) {
+                case 'off':
+                  return '';
+                case 'on':
+                  if (states['input_boolean.irrigation_testing_mode'].state == 'on')
+                    return '(Testing Mode is On)';
+              }
+            ]]]
+        tap_action:
+          action: >
+            [[[
+              if (states['binary_sensor.irrigation_cycle_start_clash'].state == 'on')
+                return 'fire-dom-event';
+              else
+                return 'none';
+            ]]]
+          browser_mod:
+            command: popup
+            title: "\U00002757  CYCLE SCHEDULE CLASH"
+            card:
+              type: markdown
+              content: |
+                #### WARNING! You have overlapping cycle schedules...
+
+                {{ state_attr('binary_sensor.irrigation_cycle_start_clash', 'clash_text') }}
+
+                Please check and correct.
+            #=== Style needed for pop-up title
+            style:
+              $: |
+                .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+                    font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                  }
+
+
+      #=== STOP BUTTON
+      - type: custom:button-card
+        icon: mdi:stop-circle-outline
+        show_name: false
+        tap_action:
+          action: >
+            [[[ 
+              if (states['input_boolean.irrigation_cycle1_running'].state == 'on')
+                return 'call-service';
+              else if (states['input_boolean.irrigation_cycle2_running'].state == 'on')
+                return 'call-service';
+              else if (states['input_boolean.irrigation_cycle3_running'].state == 'on')
+                return 'call-service';
+              else 
+                return 'none';
+            ]]]
+          service: script.irrigation_cancel_irrigation
+          service_data:
+            cycle: >
+              [[[
+                if (states['input_boolean.irrigation_cycle1_running'].state == 'on')
+                  return 'cycle1';
+                else if (states['input_boolean.irrigation_cycle2_running'].state == 'on')
+                  return 'cycle2';
+                else if (states['input_boolean.irrigation_cycle3_running'].state == 'on')
+                  return 'cycle3';
+                else
+                  return 'none';
+              ]]]
+            zone: >
+              [[[
+                if (states['timer.irrigation_zone1_timer'].state == 'active')
+                  return 'zone1';
+                else if (states['timer.irrigation_zone2_timer'].state == 'active')
+                  return 'zone2';
+                else if (states['timer.irrigation_zone3_timer'].state == 'active')
+                  return 'zone3';
+                else if (states['timer.irrigation_zone4_timer'].state == 'active')
+                  return 'zone4';
+                else if (states['timer.irrigation_zone5_timer'].state == 'active')
+                  return 'zone5';
+                else if (states['timer.irrigation_zone6_timer'].state == 'active')
+                  return 'zone6';
+                else if (states['timer.irrigation_zone7_timer'].state == 'active')
+                  return 'zone7';
+                else if (states['timer.irrigation_zone8_timer'].state == 'active')
+                  return 'zone8';
+                else if (states['timer.irrigation_zone9_timer'].state == 'active')
+                  return 'zone9';
+                else if (states['timer.irrigation_zone10_timer'].state == 'active')
+                  return 'zone10';
+                else if (states['timer.irrigation_zone11_timer'].state == 'active')
+                  return 'zone11';
+                else if (states['timer.irrigation_zone12_timer'].state == 'active')
+                  return 'zone12';
+                else if (states['timer.irrigation_zone13_timer'].state == 'active')
+                  return 'zone13';
+                else if (states['timer.irrigation_zone14_timer'].state == 'active')
+                  return 'zone14';
+                else if (states['timer.irrigation_zone15_timer'].state == 'active')
+                  return 'zone15';
+                else if (states['timer.irrigation_zone16_timer'].state == 'active')
+                  return 'zone16';
+                else
+                  return 'none';
+              ]]]
+        styles:
+          card:
+            - background: none
+            - box-shadow: none
+            - width: 1.8em
+            - display: >
+                [[[
+                  if (states['input_boolean.irrigation_cycle1_running'].state == 'off' &&
+                      states['input_boolean.irrigation_cycle2_running'].state == 'off' &&
+                      states['input_boolean.irrigation_cycle3_running'].state == 'of')
+                    return 'none';
+                ]]]
+          icon:
+            - color: >
+                [[[
+                  if (states['input_boolean.irrigation_cycle1_running'].state == 'on')
+                    return 'red';
+                  else if (states['input_boolean.irrigation_cycle2_running'].state == 'on')
+                    return 'red';
+                  else if (states['input_boolean.irrigation_cycle3_running'].state == 'on')
+                    return 'red';
+                  else return 'var(--primary-background-color)';
+                ]]]
+            - width: 1.8em
+
+      #=== MASTER CONTROL SWITCH (When off)
+      - type: custom:button-card
+        entity: input_boolean.irrigation_master_control_switch
+        icon: mdi:toggle-switch-off-outline
+        show_name: false
+        styles:
+          card:
+            - box-shadow: none
+            - background: none
+            - width: >
+                [[[
+                  if (states['input_boolean.irrigation_master_control_switch'].state == 'off')
+                    return '1.8em';
+                  else return '0em';
+                ]]]
+          icon:
+            - color: var(--text-color)
+            - width: 1.8em
+
+    card_mod:
+      style: >
+        ha-card {
+          background: none;
+          margin-top: -0.75em;
+          box-shadow: none;
+        }
+
+  - type: divider
+    style:
+      background-color: var(--accent-color)
+
+card_mod:
+  style: >
+    ha-card {
+      background: none;
+      margin-top: -0.5em;
+      margin-bottom: -0.3em;
+      box-shadow: none;
+    }

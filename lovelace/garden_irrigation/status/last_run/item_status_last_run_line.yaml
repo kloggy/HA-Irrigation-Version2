@@ -1,0 +1,57 @@
+# lovelace_gen
+
+#==================
+#=== LAST RUN LINE
+#==================
+type: custom:button-card
+entity: {{ entity }}
+name: >
+  [[[
+    var zone = '{{ zone }}';
+    return states['input_text.irrigation_' + zone + '_name'].state + '&nbsp-&nbsp';
+  ]]]
+label: >
+  [[[
+    if (entity.state === '')
+      return '';
+    else if (isNaN(entity.state))
+      return entity.state;
+    else 
+      var total_seconds = parseFloat(entity.state);
+      var minutes = Math.floor(total_seconds / 60);
+      var seconds = (total_seconds % 60).toFixed();
+      while (seconds.length < 2) {seconds = "0" + seconds};
+      return minutes + "' " + seconds + '"';
+  ]]]
+show_label: true
+show_icon: false
+tap_action: 
+  action: none
+styles:
+  grid:
+    - grid-template-areas: '"n l"'
+    - grid-template-columns: 25% min-content
+    - grid-template-rows: 1fr
+  card: 
+    - display: >
+        [[[
+          var zone = '{{ zone }}';
+          zone = Number(zone.replace('zone', ''));
+          var number_of_zones = Number(states['input_number.irrigation_number_of_zones'].state);
+          var show_details = states['input_boolean.irrigation_ui_show_last_run_details'].state;
+          if (zone > number_of_zones ||
+              show_details == 'off')
+            return 'none';
+          else return null;
+        ]]]
+    - font-size: 14px
+    - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+    - color: var(--secondary-text-color)
+    - padding: 0px
+    - background: none
+    - box-shadow: none
+  name:
+    - justify-self: end
+  label:
+    - justify-self: start
+    - color: var(--primary-text-color)

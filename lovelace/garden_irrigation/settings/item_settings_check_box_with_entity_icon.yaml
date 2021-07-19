@@ -1,0 +1,109 @@
+# Lovelace_gen
+
+#=======================================
+#=== BOOLEAN CHECK BOX WITH ENTITY ICON
+#===
+#=== entity: The entity_id to be used
+#=== Optional:
+#===  name:     Text on the button
+#===  on_name:  Text when 'on'
+#===  off_name: Text when 'on'
+#===  icon:     Icon on the button
+#=======================================
+type: custom:button-card
+color_type: icon
+entity: {{ entity }}
+show_state: false
+show_name: true
+name: {{ name }}
+icon: {{ icon }}
+show_icon: true
+size: {{ size | default('40%') }}
+lock:
+  enabled: {{ lock_enabled  | default('false') }}
+tap_action:
+  action: {{ tap_action | default('toggle') }}
+double_tap_action:
+  action: {{ double_tap_action | default(none) }}
+hold_action:
+  action: {{ hold_action | default(none) }}
+styles:
+  grid:
+    - grid-template-areas: '"i n check_box"'
+    - grid-template-columns: >
+        [[[
+          var columns = '{{ columns | default('2') }}';
+          if (columns == '1')
+            {
+              var icon_size = '9.5%';
+              var check_box_size = '8%';
+            }
+          else
+            {  
+              var icon_size = '20%';
+              var check_box_size = '15%';
+            }
+          return icon_size + ' auto ' + check_box_size;
+        ]]]
+    - grid-template-rows: 1fr
+  img_cell:
+    - padding: 0em
+  lock:
+    - color: {{ lock_color | default('red') }}
+  card:
+    - font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
+    - padding: >
+        [[[
+          var columns = '{{ columns | default('2') }}';
+          if (columns == '1')
+            return '0em 1em';
+          else
+            return '0em';
+        ]]]
+    - height: {{ card_height | default('2.5em') }}
+    - font-size: {{ card_font_size | default('14px') }}
+    - border-radius: {{ card_border_radius | default('5px') }}
+  name:
+    - justify-self: {{ name_justify_self | default('start') }}
+    - padding: >
+        [[[
+          var columns = '{{ columns | default('2') }}';
+          if (columns == '1')
+            return '0em 1em';
+          else
+            return '0em';
+        ]]]
+  custom_fields:
+    check_box:
+      - padding: 0.4em
+      - justify-self: {{ check_box_justify_self | default('') }}
+custom_fields:
+  check_box: >
+    [[[
+      if (entity.state == 'on')
+          return '<ha-icon icon="mdi:checkbox-marked"></ha-icon>';
+      else
+          return '<ha-icon icon="mdi:checkbox-blank-outline"></ha-icon>';
+    ]]] 
+state:
+  - value: 'on'
+    name: {{ on_name }}
+    icon: {{ on_icon }}
+    styles:
+      card:
+        - background-color: {{ card_background_on_color | default('var(--primary-background-color)') }}
+        - border: 1px solid var(--accent-color)
+      icon:
+        - color: var(--accent-color)
+  - value: 'off'
+    name: {{ off_name }} 
+    icon: {{ off_icon }}
+    styles:
+      card:
+        - color: {{ card_off_color | default('var(--secondary-text-color)') }}
+      icon:
+        - color: {{ icon_off_color | default('var(--secondary-text-color)') }}
+

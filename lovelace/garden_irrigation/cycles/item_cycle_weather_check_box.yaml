@@ -1,0 +1,48 @@
+# lovelace_gen
+
+#=====================================================
+#=== SCHEDULE WEATHER CHECK BOX
+#===
+#=== Turn weather adjustments on and off
+#===
+#=== entity: The boolean for Rainfal or Temperture
+#=== name: The name to use e.g. 'Adjust for Rainfall'
+#=====================================================
+type: custom:button-card
+entity: {{ entity }}
+name: {{ name }}
+icon: mdi:check-box-outline
+size: 60%
+styles:
+  grid:
+    - grid-template-areas: '"n i"'
+    - grid-template-columns: '1fr 15%'
+    - grid-template-rows: 1fr
+  card:
+    - height: 1.75em
+    - padding: 0em
+    - margin-top: 0.2em
+    - margin-bottom: -0.75em
+    - font-size: 13px
+    - box-shadow: none
+    - background: none
+    - font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
+  name:
+    - justify-self: right
+    - align-self: centre
+state:
+  - value: 'on'
+    styles:
+      icon:
+        - color: var(--accent-color)
+  - value: 'off'
+    icon: mdi:checkbox-blank-outline
+    styles:
+      card:
+        - color: var(--secondary-text-color)
+        - opacity: 50%
+      icon:
+        - color: var(--secondary-text-color)

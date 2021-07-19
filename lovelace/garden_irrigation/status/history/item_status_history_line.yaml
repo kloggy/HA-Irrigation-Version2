@@ -1,0 +1,68 @@
+# lovelace_gen
+
+#=================
+#=== HISTORY LINE
+#=================
+type: custom:button-card
+triggers_update:
+  - sensor.irrigation_{{ zone }}_total_time_today
+  - sensor.irrigation_{{ zone }}_total_time_yesterday
+name: >
+  [[[
+    var zone = '{{ zone }}';
+    return states['input_text.irrigation_' + zone + '_name'].state + '&nbsp-&nbsp';
+  ]]]
+show_icon: false
+tap_action: 
+  action: none
+styles:
+  grid:
+    - grid-template-areas: '"n total_today total_yesterday"'
+    - grid-template-columns: 25% 25% min-content
+    - grid-template-rows: 1fr
+  card:
+    - display: >
+        [[[
+          var zone = '{{ zone }}';
+          zone = Number(zone.replace('zone', ''));
+          var number_of_zones = Number(states['input_number.irrigation_number_of_zones'].state);
+          var show_history = states['input_boolean.irrigation_ui_show_status_history'].state;
+          if (zone > number_of_zones ||
+              show_history == 'off' )
+            return 'none';
+          else return null;
+        ]]]
+    - font-size: 14px
+    - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+    - padding: 0px
+    - background: none
+    - box-shadow: none
+  name:
+    - justify-self: end
+    - color: var(--secondary-text-color)
+  total_today:
+    - justify-self: start
+    - color: var(--primary-text-color)
+  total_yesterday:
+    - justify-self: start
+    - color: var(--primary-text-color)
+custom_fields:
+  total_yesterday: >
+    [[[
+      var zone = '{{ zone }}';
+      var time = states['sensor.irrigation_' + zone + '_total_time_yesterday'].attributes.value;
+      if(time){
+        time = time.replace("h", "hr ");
+        time = time.replace("m", " min");
+        return time; }
+    ]]]
+  total_today: >
+    [[[
+      var zone = '{{ zone }}';
+      var time = states['sensor.irrigation_' + zone + '_total_time_today'].attributes.value;
+      if(time){
+        time = time.replace("h", "hr ");
+        time = time.replace("m", " min");
+        return time; }
+    ]]]
+

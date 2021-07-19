@@ -1,0 +1,187 @@
+# lovelace_gen
+
+#==================================
+#=== CYCLE SCHEDULE START TIME
+#===
+#=== cycle: Cycle number 1, 2 or 3
+#==================================
+type: custom:button-card
+entity: {{ entity }}
+triggers_update: 
+  - sensor.irrigation_cycle{{ cycle }}_duration_in_seconds
+  - input_boolean.irrigation_cycle{{ cycle }}_adjust_for_temperature
+  - input_boolean.irrigation_cycle{{ cycle }}_adjust_for_rainfall
+  - input_select.irrigation_cycle{{ cycle }}_start_time_type
+  - input_boolean.irrigation_cycle{{ cycle }}_schedule_today_only
+name: >
+  [[[
+    var start_time = new Date(null);
+    var start_time_seconds = parseInt(entity.state);
+
+    start_time.setSeconds(start_time_seconds);
+    
+    return "Start Time: " + start_time.toISOString().substr(11, 5);    
+  ]]]
+show_label: true
+show_icon: false
+label: >
+  [[[
+    var cycle = '{{ cycle }}';
+    var end_time = new Date(null);
+    var start_time = parseInt(states['sensor.irrigation_cycle' + cycle + '_start_time_in_seconds'].state);
+    var duration = parseInt(states['sensor.irrigation_cycle' + cycle + '_duration_in_seconds'].state);
+    var total_seconds = start_time + duration;
+
+    end_time.setSeconds(total_seconds);
+    
+    return "<br>(Will end about " + end_time.toISOString().substr(11, 5) + ")";    
+  ]]]
+color: var(--paper-item-icon-active-color)
+size: 60%
+styles:
+  grid:
+    - grid-template-areas: '"n icons" "l l"'
+    - grid-template-columns: min-content 15%
+    - grid-template-rows: 1fr min-content
+  card:
+    - margin-top: -0.25em
+    - margin-bottom: -1em
+    - margin-left: 0.75em
+    - box-shadow: none
+    - background: none
+    - font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
+  name:
+    - align-self: start
+    - padding-top: 0.25em
+    - padding-right: 0.3em
+  label:
+    - position: relative
+    - top: -0.75em
+    - justify-self: start
+    - font-size: 11px
+    - padding: 0em 0em 0em 0em
+  custom_fields:
+    icons:
+      - color: var(--paper-item-icon-active-color)
+      - justify-self: start
+custom_fields:
+  icons: >
+    [[[
+      var cycle = '{{ cycle }}';
+      var type = states['input_select.irrigation_cycle' + cycle + '_start_time_type'].state;
+      var today_only = states['input_boolean.irrigation_cycle' + cycle + '_schedule_today_only'].state;
+      if (type != 'Actual Time' && today_only == 'on')
+        return `<ha-icon
+          icon="mdi:theme-light-dark"
+          style="width: 1em; height: 1em; color: var(--accent-color);">
+          </ha-icon>
+          <ha-icon
+          icon="mdi:calendar-today"
+          style="width: 1em; height: 1em; color: var(--accent-color);">`;
+      else if (type != 'Actual Time')
+        return `<ha-icon
+          icon="mdi:theme-light-dark"
+          style="width: 1em; height: 1em; color: var(--accent-color);">`;
+      else if (states['input_boolean.irrigation_cycle' + cycle + '_schedule_today_only'].state == 'on')
+        return `<ha-icon
+          icon="mdi:calendar-today"
+          style="width: 1em; height: 1em; color: var(--accent-color);">`;
+    ]]]
+#=== SHOW START TIME OPTIONS
+tap_action:
+  action: fire-dom-event
+  browser_mod:
+    command: popup
+    title: >
+      [[[
+        var entity_id = 'input_text.irrigation_cycle{{ cycle }}_name';
+        return states[entity_id].state.toUpperCase() + ' SCHEDULE';
+      ]]]
+    hide_header: false
+    card:
+      type: vertical-stack
+      cards:
+        - type: entities
+          entities:
+            #=== Run Cycle Today Only
+            - entity: input_boolean.irrigation_cycle{{ cycle }}_schedule_today_only
+              name: Run Cycle Today Only
+              tap_action: none
+
+            - type: divider
+
+            #=== Start Time Mode
+            - entity: input_select.irrigation_cycle{{ cycle }}_start_time_type
+              name: Start Time Mode
+              icon: mdi:dummy
+
+            #=== Actual Time
+            - type: custom:hui-element
+              card_type: conditional
+              conditions:
+                - entity: input_select.irrigation_cycle{{ cycle }}_start_time_type
+                  state: Actual Time
+              card:
+                type: custom:time-picker-card
+                entity: input_datetime.irrigation_cycle{{ cycle }}_start_time
+                name: Start Time
+                icon: mdi:dummy
+                layout:
+                  name: inside
+                style:
+                  .time-picker-row:
+                    .time-picker-content:
+                      .: |
+                        .time-separator {
+                          display: none;
+                        }
+                      time-unit:
+                        $: |
+                          .time-unit {
+                            padding: 2px !important;
+                          }
+                          .time-input {
+                            border: 2px solid var(--primary-color) !important;
+                            background-color: rgba(0,0,0,0) !important;
+                            border-radius: 5px;
+                          }     
+
+            #=== Sunrise Offset
+            - type: custom:hui-element
+              card_type: conditional
+              conditions:
+                - entity: input_select.irrigation_cycle{{ cycle }}_start_time_type
+                  state: Sunrise Offset
+              card:
+                type: entities
+                entities:
+                  - entity: input_number.irrigation_cycle{{ cycle }}_start_time_sunrise_offset
+                    name: Offset in minutes
+
+            #=== Sunrise Offset
+            - type: custom:hui-element
+              card_type: conditional
+              conditions:
+                - entity: input_select.irrigation_cycle{{ cycle }}_start_time_type
+                  state: Sunset Offset
+              card:
+                type: entities
+                entities:
+                  - entity: input_number.irrigation_cycle{{ cycle }}_start_time_sunset_offset
+                    name: Offset in minutes
+
+          card_mod:
+            style: >
+              ha-card {
+                font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+              }
+
+    #=== Style needed for pop-up title
+    style:
+      $: |
+        .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+          }

@@ -1,0 +1,123 @@
+# lovelace_gen
+
+#=====================
+#=== GENERAL SETTINGS
+#=====================
+type: entities
+entities:
+
+  - type: custom:hui-element
+    card_type: vertical-stack
+    cards:
+
+      #=== IRRIGATION MASTER CONTROL AND TESTING MODE
+      - type: horizontal-stack
+        cards:
+
+          #=== IRRIGATION MASTER CONTROL SWITCH
+          - !include
+            - ../item_settings_check_box_with_entity_icon.yaml
+            - entity: input_boolean.irrigation_master_control_switch
+              on_name: "System is ON"
+              off_name: "System is OFF"
+
+          #=== IRRIGATION REMOTE CONTROL
+          - !include
+            - ../item_settings_check_box_with_entity_icon.yaml
+            - entity: input_boolean.irrigation_remote_control
+              on_name: "Remote Control is ON"
+              off_name: "Remote Control is OFF"
+              off_icon: mdi:remote-off
+
+      #=== IRRIGATION TESTING MODE AND WARNING
+      - type: horizontal-stack
+        cards:
+
+          #=== IRRIGATION TESTING MODE
+          - !include
+            - ../item_settings_check_box_with_entity_icon.yaml
+            - entity: input_boolean.irrigation_testing_mode
+              on_name: "Test Mode is ON"
+              off_name: "Test Mode is OFF"
+
+          #=== TESTING MODE WARNING
+          - !include
+              - item_settings_warning.yaml
+              - entity: input_boolean.irrigation_testing_mode
+                name: 'Warning! Testing mode converts run<br>times from minutes to seconds'
+
+      #=== NOTIFY USERS
+      - !include item_settings_notify_users.yaml
+
+      #=== EDIT USER NAMES
+      - !include item_settings_edit_user_names.yaml
+
+      #-------------------------
+      - type: custom:hui-element
+        row_type: divider
+      #-------------------------
+
+      #=== UI FONT
+      - !include item_settings_ui_font.yaml
+
+      #=== WEATHER SENSORS
+      - !include item_settings_weather_sensors.yaml
+
+      #=== NUMBER OF ZONES
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_number_of_zones
+            name: Number Of Zones
+
+      #=== PAUSE BETWEEN ZONES
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_pause_between_zones_in_seconds
+            name: Pause Between Zones
+
+      #=== MINIMUM DURATION WHEN USING WEATHER ADJUSTMENTS
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_weather_adjusted_minimum_duration_in_seconds
+            name: Minimum Time To Run A Zone
+            label: When using weather adjustments
+
+      #=== MAXIMUM DURATION WHEN USING WEATHER ADJUSTMENTS
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_weather_adjusted_maximum_duration_in_minutes
+            name: Maximum Time To Run A Zone
+            label: When using weather adjustments
+
+      #-------------------------
+      - type: custom:hui-element
+        row_type: divider
+      #-------------------------
+
+      #=== CONTROLLER WIFI SIGNAL
+      - type: custom:config-template-card
+        variables:
+          - states['input_text.irrigation_external_sensor_controller_wifi'].state
+        entities:
+          - input_text.irrigation_external_sensor_controller_wifi
+          - ${states['input_text.irrigation_external_sensor_controller_wifi'].state}
+          - input_text.irrigation_ui_font_family
+        card:
+          !include
+            - item_settings_controller_wifi_signal.yaml
+            - entity: "${vars[0]}"
+              name: Irrigation Controller
+              tap_action: none
+
+      #=== TESTING MODE WARNING
+      - !include
+          - item_settings_warning.yaml
+          - entity: input_boolean.irrigation_disable_switches
+            name: 'Warning! Switches disabled'
+
+card_mod:
+  style: >
+    ha-card {
+      box-shadow: none;
+      margin-top: -0.75em;
+    }
