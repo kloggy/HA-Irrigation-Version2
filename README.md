@@ -106,4 +106,6 @@ __Disclaimer__ - I have been using this package now for a few weeks and whilst I
 
 Likewise if you come up with any improvements also please tell me!
 
+![image](https://user-images.githubusercontent.com/38220016/126191072-7cecfe10-261d-418c-8d9a-ee688a4b70f6.png)
+
 
