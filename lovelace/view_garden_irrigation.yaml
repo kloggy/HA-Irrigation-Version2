@@ -1,0 +1,77 @@
+
+title: Garden Irrigation
+path: garden_irrigation
+icon: mdi:sprinkler-variant
+type: custom:horizontal-layout
+
+cards:
+  #==================
+  #=== SYSTEM STATUS
+  #==================
+  - !include garden_irrigation/status/page_status.yaml
+
+
+  #===========
+  #=== CYCLES 
+  #===========
+  - type: vertical-stack
+    cards:
+      - type: conditional
+        conditions:
+          - entity: input_boolean.irrigation_master_control_switch
+            state: "on"
+        card: 
+          !include garden_irrigation/cycles/page_cycles.yaml
+
+      - type: conditional
+        conditions:
+          - entity: input_boolean.irrigation_master_control_switch
+            state: "on"
+        card: 
+          type: custom:hui-element
+          card_type: custom:state-switch
+          # entity: sensor.irrigation_ui_selected_cycle
+          entity: input_select.irrigation_cycle
+          default: cycle1
+          states:
+            cycle1:
+              !include
+                - garden_irrigation/cycles/section_cycle1_2_schedule.yaml
+                - cycle: 1
+            cycle2:
+              !include
+                - garden_irrigation/cycles/section_cycle1_2_schedule.yaml
+                - cycle: 2
+            cycle3:
+              !include garden_irrigation/cycles/section_cycle3_schedule.yaml
+
+
+  #=============
+  #=== SETTINGS
+  #=============
+  - type: vertical-stack
+    cards:
+      - type: conditional
+        conditions:
+          - entity: input_boolean.irrigation_master_control_switch
+            state: "on"
+        card:
+          !include garden_irrigation/settings/page_settings.yaml
+
+      - type: conditional
+        conditions:
+          - entity: input_boolean.irrigation_master_control_switch
+            state: "on"
+        card:
+          type: custom:hui-element
+          card_type: custom:state-switch
+          # entity: sensor.irrigation_ui_selected_settings
+          entity: input_select.irrigation_settings
+          default: General
+          states:
+            General:
+              !include garden_irrigation/settings/general/section_settings_general.yaml
+            Rainfall:
+              !include garden_irrigation/settings/rainfall/section_settings_rainfall.yaml
+            Temperature:
+              !include garden_irrigation/settings/temperature/section_settings_temperature.yaml
