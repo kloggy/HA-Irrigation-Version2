@@ -61,7 +61,7 @@ The folder named `Garden Irrigation` is the functional code. This folder should 
 
 ### Prerequisites
 
-There are some [prerequisites](https://github.com/kloggy/HA-Irrigation-Version2/blob/master/Pre-Requisites_Read_Me.md) to setting this up. PLEASE READ THEM. Any questions posted that look like they haven't been read may be ignored.
+There are some [prerequisites](https://github.com/kloggy/HA-Irrigation-Version2/blob/master/Pre-Requisites.md) to setting this up. PLEASE READ THEM. Any questions posted that look like they haven't been read may be ignored.
 
 
 Please note that as it stands this assumes that you are using `yaml` mode for Lovelace because that is what I use.
