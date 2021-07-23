@@ -1,4 +1,12 @@
 
+#===========================================================================
+#=== This is a historic file for reference only.
+#=== I used a Sonoff 4ch in my old setup (version 1).
+#=== This script was used to set a pulsetime as a failsafe so that the
+#=== valves would switch off even if HA became unavailable for some reason.
+#===========================================================================
+
+
 #============
 #=== Scripts
 #============
