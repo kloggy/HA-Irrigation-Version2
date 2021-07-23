@@ -488,7 +488,7 @@ automation:
                     #=== Set Zone 6 duration
                     - service: input_number.set_value
                       data:
-                        entity_id: input_number.irrigation_cycle3_zone5_duration
+                        entity_id: input_number.irrigation_cycle3_zone6_duration
                         value: >
                           {{ states('input_number.irrigation_remote_control_zone6_duration') }}
 
