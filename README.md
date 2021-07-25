@@ -4,7 +4,7 @@
 __Please note that I recommend some understanding of Home Assistant in general and of Lovelace in particular if you choose to try this out.__
 
 
-# UPDATED - July 2021
+# UPDATED - July 2021 (requires HA version 2021.7)
 
 __WARNING__ - As you will read below, I don't use GitHub properly. For this update I have literally deleted everything and re-uploaded it. Apologies in advance but I'm not sure how that might affect anyone who does use gitHub properly.
 
