@@ -68,7 +68,7 @@ The actual notifications are also handled outside the package so some changes wi
 
 __Custom integrations/cards__ (all installable using HACS https://github.com/hacs):
 
-*Integrations*
+*Integrations (don't forget to follow the installation instructions for these!)*
 
 - browser_mod (https://github.com/thomasloven/hass-browser_mod)
 - lovelace_gen (https://github.com/thomasloven/hass-lovelace_gen)
