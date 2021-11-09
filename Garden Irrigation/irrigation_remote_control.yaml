@@ -143,11 +143,6 @@ automation:
         above: 0
 
     action:
-      #=== Turn off automation.irrigation_remote_control_button_pressed
-      - service: automation.turn_off
-        data:
-          entity_id: automation.irrigation_remote_control_button_pressed
-
       #=== Stop Cycle 3
       - service: script.irrigation_cancel_irrigation
         data:
@@ -168,8 +163,9 @@ automation:
       - service: script.notify
         data:
           say: true
-          scene: info
-          kitchen: true
+          rooms:
+            - kitchen
+          volume: 0.3
           message: Irrigation cancelled
 
 
@@ -203,8 +199,9 @@ automation:
       - service: script.notify
         data_template:
           say: true
-          scene: info
-          kitchen: true
+          rooms:
+            - kitchen
+          volume: 0.3
           message: >
             {% if trigger.to_state.state == 'Button_A' %}
               Lawn irrigation queued
@@ -307,8 +304,9 @@ automation:
                 - service: script.notify
                   data:
                     say: True
-                    scene: info
-                    kitchen: True
+                    rooms:
+                      - kitchen
+                    volume: 0.3
                     message: "The irrigation appears to be already running"
                       
 
@@ -454,9 +452,9 @@ automation:
                     #=== Set Zone 6 duration
                     - service: input_number.set_value
                       data:
-                        entity_id: input_number.irrigation_cycle3_zone5_duration
+                        entity_id: input_number.irrigation_cycle3_zone6_duration
                         value: >
-                          {{ states('input_number.irrigation_remote_control_zone5_duration') }}
+                          {{ states('input_number.irrigation_remote_control_zone6_duration') }}
 
                     #=== Run Cycle 3
                     - service: script.irrigation_remote_control_run_cycle
@@ -498,7 +496,7 @@ automation:
                         message: >
                           {% set duration = states('input_number.irrigation_remote_control_zone5_duration') | int +
                                             states('input_number.irrigation_remote_control_zone6_duration') | int %}
-                          {{ 'Left and right beds irrigation starting for ' ~ duration ~ ' minutes' }}
+                          {{ 'Left and right beds irrigation starting for a total off ' ~ duration ~ ' minutes' }}
 
 
                 #=== BUTTON AD - Run Lawn, Left and Right Bed and Fern Spray (Zones 1 to 7)
@@ -569,15 +567,17 @@ script:
               - service: script.notify
                 data:
                   say: True
-                  scene: info
-                  kitchen: True
-                  message: "Warning! The irrigation switches are disabled"
+                  rooms:
+                    - kitchen
+                  volume: 0.3
+                  message: "Warning! The irrigation switches are disabled."
 
       - service: script.notify
         data_template:
           say: true
-          scene: info
-          kitchen: true
+          rooms:
+            - kitchen
+          volume: 0.3
           message: "{{ message }}"
 
       #=== Start Cycle 3

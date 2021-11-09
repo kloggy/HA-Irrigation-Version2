@@ -1,3 +1,16 @@
+#===================
+#=== Input Booleans
+#===================
+input_boolean:
+
+  irrigation_ha_notify_of_controller_wifi_events:
+    name: HA Notify of Controller WiFi Events
+    icon: mdi:wifi-alert
+
+  irrigation_user_notify_of_controller_wifi_events:
+    name: User Notify of Controller WiFi Events
+    icon: mdi:wifi-alert
+
 
 #================
 #=== Input Texts

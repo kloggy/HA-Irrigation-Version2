@@ -37,8 +37,8 @@ automation:
   #===========================================
   #=== Set Default Current Temperature Sensor
   #===========================================
-  - alias: Irrigation Set Default Current Temperature Sensor Sensor
-    id: irrigation_set_default_current_temperature_sensor_sensor
+  - alias: Irrigation Set Default Current Temperature Sensor
+    id: irrigation_set_default_current_temperature_sensor
     trigger:
       - platform: homeassistant
         event: start
@@ -95,11 +95,14 @@ automation:
     condition:
       - condition: template
         value_template: >
-          {{
-            states('sensor.irrigation_sensor_current_temp') | float >
-            states('input_number.irrigation_temperature_highest_actual_temp_today') | float
-          }}
-
+          {% if is_number(states('sensor.irrigation_sensor_current_temp')) %}
+            {{
+              states('sensor.irrigation_sensor_current_temp') | float >
+              states('input_number.irrigation_temperature_highest_actual_temp_today') | float
+            }}
+          {% else %}
+            False
+          {% endif %}
     action:
       - service: input_number.set_value
         data_template:
@@ -121,10 +124,14 @@ automation:
     condition:
       - condition: template
         value_template: >
-          {{
-            states('sensor.irrigation_sensor_forecast_high_temp') | float >
-            states('input_number.irrigation_temperature_highest_forecast_high_temp_today') | float
-          }}
+          {% if is_number(states('sensor.irrigation_sensor_forecast_high_temp')) %}
+            {{
+              states('sensor.irrigation_sensor_forecast_high_temp') | float >
+              states('input_number.irrigation_temperature_highest_forecast_high_temp_today') | float
+            }}
+          {% else %}
+            False
+          {% endif %}
 
     action:
       - service: input_number.set_value

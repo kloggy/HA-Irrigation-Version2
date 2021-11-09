@@ -16,7 +16,8 @@ automation:
   #========================================================
   #=== Create groups at start up or if Groups are reloaded
   #========================================================
-  - alias: irrigation_create_groups
+  - alias: Irrigation Create Groups
+    id: irrigation_create_groups
     trigger:
       - platform: homeassistant
         event: start

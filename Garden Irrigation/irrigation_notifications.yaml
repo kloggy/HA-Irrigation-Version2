@@ -33,6 +33,11 @@ automation:
         entity_id: sensor.esphome_irrigation_controller_wifi_signal
         from: unavailable
 
+    condition:
+      - condition: state
+        entity_id: input_boolean.irrigation_ha_notify_of_controller_wifi_events
+        state: 'on'
+
     action:
       - service: script.notify
         data_template:
@@ -40,7 +45,7 @@ automation:
           notification_id: >
             notifications_{{ now() | string }}
           title: >
-            Irrigation Controller
+            📶 Irrigation Controller 📶
           message: >
             sensor.esphome_irrigation_controller_wifi_signal
 
@@ -52,8 +57,8 @@ automation:
   #=== Notfy about interrupted cycle due to 
   #=== Irrigation Controller WiFi Signal 
   #=========================================
-  - alias: Irrigation About Cycle WiFi Interruption
-    id: irrigation_notify_when_on_holiday_cycle_wifi_interruption
+  - alias: Irrigation Notify About Cycle WiFi Interruption
+    id: irrigation_notify_about_cycle_wifi_interruption
     trigger:
       - platform: state
         entity_id: sensor.esphome_irrigation_controller_wifi_signal
@@ -64,6 +69,10 @@ automation:
         from: unavailable
 
     condition:
+      - condition: state
+        entity_id: input_boolean.irrigation_user_notify_of_controller_wifi_events
+        state: 'on'
+
       - condition: state
         entity_id: binary_sensor.holiday_mode
         state: 'on'
@@ -101,6 +110,7 @@ automation:
               {{ user2 }}
             {% endif %}
           type: app_notification
+          title: 🌼 Irrigation 🌼
           message: >
             {% if trigger.to_state.state == 'unavailable' %}
               Irrigation Warning:
@@ -118,7 +128,7 @@ automation:
   #=== Notify when a cycle starts or stops
   #========================================
   - alias: Irrigation Notify When Cycle Starts Or Stops
-    id: irrigation_notify_when_on_holiday_cycle_starts_or_stops
+    id: irrigation_notify_when_cycle_starts_or_stops
     trigger:
       - platform: state
         entity_id:
@@ -154,6 +164,7 @@ automation:
               {{ user2 }}
             {% endif %}
           type: app_notification
+          title: 🌼 Irrigation 🌼
           message: >
             {% if trigger.entity_id == 'input_boolean.cycle1_running' %}
               {% set cycle = 'cycle1' %}

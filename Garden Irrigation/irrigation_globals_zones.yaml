@@ -256,6 +256,7 @@ input_text:
     max: 20
     icon: mdi:alphabetical-variant
 
+
   #======================
   #=== Switch entity_ids
   #======================
@@ -371,67 +372,141 @@ sensor:
     sensors:
       irrigation_sensor_zone1_switch:
         value_template: >
-          {{ states(states('input_text.irrigation_zone1_switch_entity_id')) }}
+          {% if states(states('input_text.irrigation_zone1_switch_entity_id')) != 'unknown' %}
+            {{ states(states('input_text.irrigation_zone1_switch_entity_id')) }}
+          {% else %}
+            No switch for this zone
+          {% endif %}
 
       irrigation_sensor_zone2_switch:
         value_template: >
-          {{ states(states('input_text.irrigation_zone2_switch_entity_id')) }}
+          {% if states(states('input_text.irrigation_zone2_switch_entity_id')) != 'unknown' %}
+            {{ states(states('input_text.irrigation_zone2_switch_entity_id')) }}
+          {% else %}
+            No switch for this zone
+          {% endif %}
 
       irrigation_sensor_zone3_switch:
         value_template: >
-          {{ states(states('input_text.irrigation_zone3_switch_entity_id')) }}
+          {% if states(states('input_text.irrigation_zone3_switch_entity_id')) != 'unknown' %}
+            {{ states(states('input_text.irrigation_zone3_switch_entity_id')) }}
+          {% else %}
+            No switch for this zone
+          {% endif %}
+
 
       irrigation_sensor_zone4_switch:
         value_template: >
-          {{ states(states('input_text.irrigation_zone4_switch_entity_id')) }}
+          {% if states(states('input_text.irrigation_zone4_switch_entity_id')) != 'unknown' %}
+            {{ states(states('input_text.irrigation_zone4_switch_entity_id')) }}
+          {% else %}
+            No switch for this zone
+          {% endif %}
+
 
       irrigation_sensor_zone5_switch:
         value_template: >
-          {{ states(states('input_text.irrigation_zone5_switch_entity_id')) }}
+          {% if states(states('input_text.irrigation_zone5_switch_entity_id')) != 'unknown' %}
+            {{ states(states('input_text.irrigation_zone5_switch_entity_id')) }}
+          {% else %}
+            No switch for this zone
+          {% endif %}
+
 
       irrigation_sensor_zone6_switch:
         value_template: >
-          {{ states(states('input_text.irrigation_zone6_switch_entity_id')) }}
+          {% if states(states('input_text.irrigation_zone6_switch_entity_id')) != 'unknown' %}
+            {{ states(states('input_text.irrigation_zone6_switch_entity_id')) }}
+          {% else %}
+            No switch for this zone
+          {% endif %}
+
 
       irrigation_sensor_zone7_switch:
         value_template: >
-          {{ states(states('input_text.irrigation_zone7_switch_entity_id')) }}
+          {% if states(states('input_text.irrigation_zone7_switch_entity_id')) != 'unknown' %}
+            {{ states(states('input_text.irrigation_zone7_switch_entity_id')) }}
+          {% else %}
+            No switch for this zone
+          {% endif %}
 
       irrigation_sensor_zone8_switch:
         value_template: >
-          {{ states(states('input_text.irrigation_zone8_switch_entity_id')) }}
+          {% if states(states('input_text.irrigation_zone8_switch_entity_id')) != 'unknown' %}
+            {{ states(states('input_text.irrigation_zone8_switch_entity_id')) }}
+          {% else %}
+            No switch for this zone
+          {% endif %}
 
       irrigation_sensor_zone9_switch:
         value_template: >
-          {{ states(states('input_text.irrigation_zone9_switch_entity_id')) }}
+          {% if states(states('input_text.irrigation_zone9_switch_entity_id')) != 'unknown' %}
+            {{ states(states('input_text.irrigation_zone9_switch_entity_id')) }}
+          {% else %}
+            No switch for this zone
+          {% endif %}
 
       irrigation_sensor_zone10_switch:
         value_template: >
-          {{ states(states('input_text.irrigation_zone10_switch_entity_id')) }}
+          {% if states(states('input_text.irrigation_zone10_switch_entity_id')) != 'unknown' %}
+            {{ states(states('input_text.irrigation_zone10_switch_entity_id')) }}
+          {% else %}
+            No switch for this zone
+          {% endif %}
 
       irrigation_sensor_zone11_switch:
         value_template: >
-          {{ states(states('input_text.irrigation_zone11_switch_entity_id')) }}
+          {% if states(states('input_text.irrigation_zone11_switch_entity_id')) != 'unknown' %}
+            {{ states(states('input_text.irrigation_zone11_switch_entity_id')) }}
+          {% else %}
+            No switch for this zone
+          {% endif %}
+
 
       irrigation_sensor_zone12_switch:
         value_template: >
-          {{ states(states('input_text.irrigation_zone12_switch_entity_id')) }}
+          {% if states(states('input_text.irrigation_zone12_switch_entity_id')) != 'unknown' %}
+            {{ states(states('input_text.irrigation_zone12_switch_entity_id')) }}
+          {% else %}
+            No switch for this zone
+          {% endif %}
+
 
       irrigation_sensor_zone13_switch:
         value_template: >
-          {{ states(states('input_text.irrigation_zone13_switch_entity_id')) }}
+          {% if states(states('input_text.irrigation_zone13_switch_entity_id')) != 'unknown' %}
+            {{ states(states('input_text.irrigation_zone13_switch_entity_id')) }}
+          {% else %}
+            No switch for this zone
+          {% endif %}
+
 
       irrigation_sensor_zone14_switch:
         value_template: >
-          {{ states(states('input_text.irrigation_zone14_switch_entity_id')) }}
+          {% if states(states('input_text.irrigation_zone14_switch_entity_id')) != 'unknown' %}
+            {{ states(states('input_text.irrigation_zone14_switch_entity_id')) }}
+          {% else %}
+            No switch for this zone
+          {% endif %}
+
 
       irrigation_sensor_zone15_switch:
         value_template: >
-          {{ states(states('input_text.irrigation_zone15_switch_entity_id')) }}
+          {% if states(states('input_text.irrigation_zone15_switch_entity_id')) != 'unknown' %}
+            {{ states(states('input_text.irrigation_zone15_switch_entity_id')) }}
+          {% else %}
+            No switch for this zone
+          {% endif %}
+
 
       irrigation_sensor_zone16_switch:
         value_template: >
-          {{ states(states('input_text.irrigation_zone16_switch_entity_id')) }}
+          {% if states(states('input_text.irrigation_zone16_switch_entity_id')) != 'unknown' %}
+            {{ states(states('input_text.irrigation_zone16_switch_entity_id')) }}
+          {% else %}
+            No switch for this zone
+          {% endif %}
+
 
 
   #=================================

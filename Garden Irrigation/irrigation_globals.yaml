@@ -101,11 +101,11 @@ binary_sensor:
       irrigation_cycle_start_clash:
         friendly_name: Cycle Start Clash
         value_template: >
-          {% set c1_start = states('sensor.irrigation_cycle1_start_time_in_seconds') | int %}
-          {% set c1_duration = states('sensor.irrigation_cycle1_duration_in_seconds') | int %}
+          {% set c1_start = states('sensor.irrigation_cycle1_start_time_in_seconds') | int(0) %}
+          {% set c1_duration = states('sensor.irrigation_cycle1_duration_in_seconds') | int(0) %}
           {% set c1_end = c1_start + c1_duration %}
-          {% set c2_start = states('sensor.irrigation_cycle2_start_time_in_seconds') | int %}
-          {% set c2_duration = states('sensor.irrigation_cycle2_duration_in_seconds') | int %}
+          {% set c2_start = states('sensor.irrigation_cycle2_start_time_in_seconds') | int(0) %}
+          {% set c2_duration = states('sensor.irrigation_cycle2_duration_in_seconds') | int(0) %}
           {% set c2_end = c2_start + c2_duration %}
 
           {% if is_state('input_boolean.irrigation_cycle1_schedule_enabled', 'on') and
@@ -126,11 +126,11 @@ binary_sensor:
           {% endif %}
         attribute_templates:
           clash_text: >
-            {% set c1_start = states('sensor.irrigation_cycle1_start_time_in_seconds') | int %}
-            {% set c1_duration = states('sensor.irrigation_cycle1_duration_in_seconds') | int %}
+            {% set c1_start = states('sensor.irrigation_cycle1_start_time_in_seconds') | int(0) %}
+            {% set c1_duration = states('sensor.irrigation_cycle1_duration_in_seconds') | int(0) %}
             {% set c1_end = c1_start + c1_duration %}
-            {% set c2_start = states('sensor.irrigation_cycle2_start_time_in_seconds') | int %}
-            {% set c2_duration = states('sensor.irrigation_cycle2_duration_in_seconds') | int %}
+            {% set c2_start = states('sensor.irrigation_cycle2_start_time_in_seconds') | int(0) %}
+            {% set c2_duration = states('sensor.irrigation_cycle2_duration_in_seconds') | int(0) %}
             {% set c2_end = c2_start + c2_duration %}
             {% set c1_name = states('input_text.irrigation_cycle1_name') %}
             {% set c2_name = states('input_text.irrigation_cycle2_name') %}
@@ -147,3 +147,13 @@ binary_sensor:
             {% else %}
               No timing errors found! Please check code...
             {% endif %}
+        availability_template: >
+          {% set temp_sensors = expand(
+            "sensor.irrigation_cycle1_start_time_in_seconds",
+            "sensor.irrigation_cycle1_duration_in_seconds",
+            "sensor.irrigation_cycle2_start_time_in_seconds",
+            "sensor.irrigation_cycle2_duration_in_seconds",
+          ) %}
+          {{ temp_sensors | selectattr('state','in', ['unknown','unavailable'])
+                          | list
+                          | length != (temp_sensors | count) }}

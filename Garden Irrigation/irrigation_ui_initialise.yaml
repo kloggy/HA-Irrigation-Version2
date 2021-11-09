@@ -126,10 +126,7 @@ automation:
 
     action:
       - repeat:
-          until:
-            - condition: template
-              value_template: >
-                {{ states('input_number.irrigation_number_of_zones') | int == repeat.index }}
+          count: 16
           sequence:
             - condition: template
               value_template: >
@@ -142,6 +139,7 @@ automation:
                   {% set zone = 'zone' ~ repeat.index | string %}
                   {{ 'input_text.irrigation_' ~ zone ~ '_name' }}
                 value: >
+                  {% set zone = 'zone' ~ repeat.index | string %}
                   {{ zone | title }}
 
 
@@ -156,10 +154,7 @@ automation:
 
     action:
       - repeat:
-          until:
-            - condition: template
-              value_template: >
-                {{ states('input_number.irrigation_number_of_zones') | int == repeat.index }}
+          count: 16
           sequence:
             - condition: template
               value_template: >
@@ -172,4 +167,5 @@ automation:
                   {% set zone = 'zone' ~ repeat.index | string %}
                   {{ 'input_text.irrigation_' ~ zone ~ '_switch_entity_id' }}
                 value: >
+                  {% set zone = 'zone' ~ repeat.index | string %}
                   {{ 'switch.' ~ zone }}
