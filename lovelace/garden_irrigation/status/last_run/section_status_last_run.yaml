@@ -41,10 +41,6 @@ entities:
                 previous_run_time +
                 '&nbsp-&nbsp';
       ]]]
-    # name: >
-    #   [[[
-    #     return states['input_text.irrigation_previous_run_date_and_time'].state + '&nbsp-&nbsp'
-    #   ]]]
     label: >
       [[[
         return states['input_text.irrigation_previous_run_cycle_name'].state  + ' Cycle'
@@ -194,7 +190,6 @@ entities:
     card_mod:
       style: |
         ha-card {
-          # margin-bottom: -1em;
           background: none;
           box-shadow: none;
         }

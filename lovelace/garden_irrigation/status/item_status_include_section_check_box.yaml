@@ -19,7 +19,7 @@ name: >
     else
       return name;
   ]]]
-icon: mdi:check-box-outline
+icon: mdi:checkbox-blank-outline
 size: 50%
 styles:
   grid:
@@ -30,6 +30,7 @@ styles:
     - color: var(--secondary-text-color)
     - border-radius: 0em
     - background: none
+    - box-shadow: none
     - padding-top: 0em
     - padding-bottom: 0em
     - font-family: >
@@ -44,9 +45,10 @@ styles:
     - padding-left: 0.5em
 state:
   - value: 'on'
+    icon: mdi:checkbox-marked-outline
     styles:
       icon:
-        - color: var(--accent-color)
+        - color: var(--secondary-text-color)
   - value: 'off'
     icon: mdi:checkbox-blank-outline
     styles:

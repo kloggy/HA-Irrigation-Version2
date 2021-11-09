@@ -11,7 +11,6 @@
 type: custom:button-card
 entity: {{ entity }}
 name: {{ name }}
-icon: mdi:check-box-outline
 size: 60%
 styles:
   grid:
@@ -35,9 +34,10 @@ styles:
     - align-self: centre
 state:
   - value: 'on'
+    icon: mdi:checkbox-marked
     styles:
       icon:
-        - color: var(--accent-color)
+        - color: var(--paper-item-icon-color)
   - value: 'off'
     icon: mdi:checkbox-blank-outline
     styles:

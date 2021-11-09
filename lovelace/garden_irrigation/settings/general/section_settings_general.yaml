@@ -16,14 +16,14 @@ entities:
 
           #=== IRRIGATION MASTER CONTROL SWITCH
           - !include
-            - ../item_settings_check_box_with_entity_icon.yaml
+            - ../item_settings_select_button_with_icon.yaml
             - entity: input_boolean.irrigation_master_control_switch
               on_name: "System is ON"
               off_name: "System is OFF"
 
           #=== IRRIGATION REMOTE CONTROL
           - !include
-            - ../item_settings_check_box_with_entity_icon.yaml
+            - ../item_settings_select_button_with_icon.yaml
             - entity: input_boolean.irrigation_remote_control
               on_name: "Remote Control is ON"
               off_name: "Remote Control is OFF"
@@ -35,7 +35,7 @@ entities:
 
           #=== IRRIGATION TESTING MODE
           - !include
-            - ../item_settings_check_box_with_entity_icon.yaml
+            - ../item_settings_select_button_with_icon.yaml
             - entity: input_boolean.irrigation_testing_mode
               on_name: "Test Mode is ON"
               off_name: "Test Mode is OFF"
@@ -97,7 +97,7 @@ entities:
       #=== CONTROLLER WIFI SIGNAL
       - type: custom:config-template-card
         variables:
-          - states['input_text.irrigation_external_sensor_controller_wifi'].state
+          CONTROLLER: states['input_text.irrigation_external_sensor_controller_wifi'].state
         entities:
           - input_text.irrigation_external_sensor_controller_wifi
           - ${states['input_text.irrigation_external_sensor_controller_wifi'].state}
@@ -105,7 +105,7 @@ entities:
         card:
           !include
             - item_settings_controller_wifi_signal.yaml
-            - entity: "${vars[0]}"
+            - entity: "${CONTROLLER}"
               name: Irrigation Controller
               tap_action: none
 
@@ -119,5 +119,4 @@ card_mod:
   style: >
     ha-card {
       box-shadow: none;
-      margin-top: -0.75em;
     }

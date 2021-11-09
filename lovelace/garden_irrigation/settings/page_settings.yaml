@@ -65,5 +65,5 @@ card_mod:
       background: none;
       box-shadow: none;
       margin-top: -0.5em;
-      margin-bottom: -0.2em;
+      margin-bottom: -1em;
     }

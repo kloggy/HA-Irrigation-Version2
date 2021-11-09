@@ -11,7 +11,7 @@
 #===============================================================
 
 #=== mod-card to allow conditional displaying of zones (based
-#=== on the number of zones configured and to put a border)
+#=== on the number of zones configured) and to put a border
 type: custom:mod-card
 card_mod:
   style: |
@@ -38,9 +38,9 @@ card:
         #=== ZONE DURATION
         - type: custom:config-template-card
           variables:
-            - states['input_text.irrigation_zone{{ zone }}_name'].state
-            - states['input_text.irrigation_cycle{{ cycle }}_name'].state
-            - states['timer.irrigation_zone{{ zone }}_timer'].state
+            ZONE_NAME: states['input_text.irrigation_zone{{ zone }}_name'].state
+            CYCLE_NAME: states['input_text.irrigation_cycle{{ cycle }}_name'].state
+            TIMER_STATE: states['timer.irrigation_zone{{ zone }}_timer'].state
           entities:
             - input_text.irrigation_zone{{ zone }}_name
             - input_number.irrigation_cycle{{ cycle }}_zone{{ zone }}_duration
@@ -49,15 +49,15 @@ card:
             type: entities
             entities:
               - entity: input_number.irrigation_cycle{{ cycle }}_zone{{ zone }}_duration
-                name: "${ vars[0] }"
-                icon: "${ vars[2] === 'active' ? 'mdi:sprinkler-variant' : '' }"
+                name: "${ ZONE_NAME }"
+                icon: "${ TIMER_STATE === 'active' ? 'mdi:sprinkler-variant' : '' }"
 
                 #=== ALLOW EDITING OF ZONE INFORMATION
                 tap_action:
                   action: fire-dom-event
                   browser_mod:
                     command: popup
-                    title: "${ vars[1] + ' - ' + vars[0] }"
+                    title: "${ CYCLE_NAME + ' - ' + ZONE_NAME }"
                     hide_header: false
                     card:
                       type: entities
@@ -227,6 +227,18 @@ card:
                         .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
                             font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
                           }
+                card_mod:
+                  style: |
+                    :host {
+                      {% raw %}
+                      {% set zone = {% endraw %} {{ zone }} {% raw %} %}
+                      {% set cycle = {% endraw %} {{ cycle }} {% raw %} %}
+                      {% if is_state('input_number.irrigation_cycle' ~ cycle ~'_zone' ~ zone ~ '_duration', '0.0') %} 
+                        color: var(--secondary-text-color);
+                        opacity: 50%;
+                      {% endif %}
+                      {% endraw %}
+                    }
 
             card_mod:
               style: |
@@ -256,7 +268,6 @@ card:
                     --paper-item-icon-color: var(--paper-item-icon-active-color);
                   {% endif %}
                   {% endraw %}
-                  ;
                 }
 
         #=== EVERY DAY CHECK BOX

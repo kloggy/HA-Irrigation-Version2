@@ -18,7 +18,7 @@ tap_action:
   action: fire-dom-event
   browser_mod:
     command: popup
-    title: "\U00002139 INFORMATION"
+    title: "ℹ️ INFORMATION"
     card:
       type: markdown
       content: >

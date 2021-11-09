@@ -68,7 +68,7 @@ entities:
       - !include
           - ../item_settings_multiplier_line.yaml
           - entity: input_number.irrigation_temp_multiplier
-            name: "Current Multiplier ( \U00002139 )"
+            name: "Current Multiplier ( ℹ️ )"
             label: Calculated based on temperature and baseline
 
       #=== HIGHEST FORECAST HIGH TEMPERATURE TODAY
@@ -156,5 +156,4 @@ card_mod:
   style: >
     ha-card {
       box-shadow: none;
-      margin-top: -0.75em;
     }

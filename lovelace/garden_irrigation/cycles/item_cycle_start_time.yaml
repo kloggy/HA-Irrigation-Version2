@@ -19,7 +19,7 @@ name: >
     var start_time_seconds = parseInt(entity.state);
 
     start_time.setSeconds(start_time_seconds);
-    
+
     return "Start Time: " + start_time.toISOString().substr(11, 5);    
   ]]]
 show_label: true
@@ -33,7 +33,7 @@ label: >
     var total_seconds = start_time + duration;
 
     end_time.setSeconds(total_seconds);
-    
+
     return "<br>(Will end about " + end_time.toISOString().substr(11, 5) + ")";    
   ]]]
 color: var(--paper-item-icon-active-color)
@@ -84,11 +84,27 @@ custom_fields:
       else if (type != 'Actual Time')
         return `<ha-icon
           icon="mdi:theme-light-dark"
-          style="width: 1em; height: 1em; color: var(--accent-color);">`;
+          style="width: 1em; height: 1em; color: var(--accent-color);">
+          </ha-icon>
+          <ha-icon
+          icon="mdi:calendar-today"
+          style="width: 1em; height: 1em; color: var(--primary-background-color);">`;
       else if (states['input_boolean.irrigation_cycle' + cycle + '_schedule_today_only'].state == 'on')
         return `<ha-icon
           icon="mdi:calendar-today"
-          style="width: 1em; height: 1em; color: var(--accent-color);">`;
+          style="width: 1em; height: 1em; color: var(--accent-color);">
+          </ha-icon>
+          <ha-icon
+          icon="mdi:theme-light-dark"
+          style="width: 1em; height: 1em; color: var(--primary-background-color);">`;
+      else
+        return `<ha-icon
+          icon="mdi:calendar-today"
+          style="width: 1em; height: 1em; color: var(--primary-background-color);">
+          </ha-icon>
+          <ha-icon
+          icon="mdi:theme-light-dark"
+          style="width: 1em; height: 1em; color: var(--primary-background-color);">`;
     ]]]
 #=== SHOW START TIME OPTIONS
 tap_action:
@@ -116,7 +132,7 @@ tap_action:
             #=== Start Time Mode
             - entity: input_select.irrigation_cycle{{ cycle }}_start_time_type
               name: Start Time Mode
-              icon: mdi:dummy
+              icon: mdi:theme-light-dark
 
             #=== Actual Time
             - type: custom:hui-element
@@ -128,7 +144,6 @@ tap_action:
                 type: custom:time-picker-card
                 entity: input_datetime.irrigation_cycle{{ cycle }}_start_time
                 name: Start Time
-                icon: mdi:dummy
                 layout:
                   name: inside
                 style:

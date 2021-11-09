@@ -189,7 +189,7 @@ entities:
             ]]]
           browser_mod:
             command: popup
-            title: "\U00002757  CYCLE SCHEDULE CLASH"
+            title: "⚠️ CYCLE SCHEDULE CLASH"
             card:
               type: markdown
               content: |

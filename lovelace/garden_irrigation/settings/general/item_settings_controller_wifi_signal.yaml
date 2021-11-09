@@ -73,8 +73,18 @@ tap_action:
           entities:
             - entity: input_text.irrigation_external_sensor_controller_wifi
               name: Sensor Name
+              card_mod:
+                style: &text_wrap_style
+                  hui-generic-entity-row:
+                    $: |
+                      .info {
+                        text-overflow: unset !important;
+                        white-space: unset !important;
+                      }
             - entity: input_number.irrigation_controller_offline_wait
-              name: Seconds To Wait When Offline
+              name: Seconds To Wait If Offline
+              card_mod:
+                style: *text_wrap_style
             - type: section
           card_mod:
             style: >
@@ -92,12 +102,37 @@ tap_action:
         - type: entities
           entities:
             - entity: input_boolean.irrigation_disable_switches
+              card_mod:
+                style: *text_wrap_style
           card_mod:
             style: >
               ha-card {
                 font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
               }
-    #=== Style needed for pop-up title
+        - type: markdown
+          content: Choose notifications for Controller WiFi events.
+          card_mod:
+            style: >
+              ha-card {
+                font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                font-size: 16px;
+              }
+        - type: entities
+          entities:
+            - entity: input_boolean.irrigation_ha_notify_of_controller_wifi_events
+              name: HA Persistent Notifications
+              card_mod:
+                style: *text_wrap_style
+            - entity: input_boolean.irrigation_user_notify_of_controller_wifi_events
+              name: User Notifications
+              card_mod:
+                style: *text_wrap_style
+          card_mod:
+            style: >
+              ha-card {
+                font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+              }
+   #=== Style needed for pop-up title
     style:
       $: |
         .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {

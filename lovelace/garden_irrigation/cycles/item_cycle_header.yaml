@@ -20,7 +20,7 @@ cards:
         return states[entity_id].state.toUpperCase() + ' SCHEDULE';
       ]]]
     show_state: true
-    show_entity_picture: true # Disable if the sensor uses mdi icons rather than a picture
+    show_entity_picture: true # use false if the sensor uses mdi icons rather than a picture
     show_icon: true
     size: 100%
     styles:
@@ -34,7 +34,6 @@ cards:
         - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
         - border-radius: 0px
         - margin-left: 0em
-        - padding: 0em
         - box-shadow: none
         - background: none
       name:

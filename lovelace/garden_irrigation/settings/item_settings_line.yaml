@@ -85,6 +85,14 @@ tap_action:
         - entity: {{ entity }}
           name: {{ name }}
           icon: {{ icon }}
+          card_mod:
+            style: # Wrap text
+              hui-generic-entity-row:
+                $: |
+                  .info {
+                    text-overflow: unset !important;
+                    white-space: unset !important;
+                  }
       card_mod:
         style: >
           ha-card {

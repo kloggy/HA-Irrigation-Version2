@@ -54,11 +54,11 @@ tap_action:
   browser_mod:
     command: popup
     title: "WEATHER ADJUSTMENTS"
-    # title: "\U00002139 WEATHER ADJUSTMENTS"
+    # title: "ℹ️ WEATHER ADJUSTMENTS"
     card:
       type: markdown
       content: >
-        ### Rain multiplier
+        ### 🌧️ Rain multiplier
         
         This multiplier will decrease watering time proportionally
         based on the difference between the rainfall threshold and the amount of
@@ -71,7 +71,7 @@ tap_action:
         ---
 
 
-        ### Temperature multiplier
+        ### 🌡️ Temperature multiplier
 
         This multiplier will increase or decrease watering time proportionally
         based on the difference between the temperature threshold and the 
