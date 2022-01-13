@@ -48,8 +48,8 @@ styles:
     - grid-template-rows: 1fr
   img_cell:
     - padding: 0em
-  lock:
-    - color: {{ lock_color | default('red') }}
+  # lock:
+  #   - color: {{ lock_color | default('red') }}
   card:
     - font-family: >
         [[[

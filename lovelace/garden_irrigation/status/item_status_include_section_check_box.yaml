@@ -48,7 +48,7 @@ state:
     icon: mdi:checkbox-marked-outline
     styles:
       icon:
-        - color: var(--secondary-text-color)
+        - color: var(--paper-item-icon-color)
   - value: 'off'
     icon: mdi:checkbox-blank-outline
     styles:

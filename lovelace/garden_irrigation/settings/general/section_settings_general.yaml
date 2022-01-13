@@ -107,7 +107,6 @@ entities:
             - item_settings_controller_wifi_signal.yaml
             - entity: "${CONTROLLER}"
               name: Irrigation Controller
-              tap_action: none
 
       #=== TESTING MODE WARNING
       - !include
