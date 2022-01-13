@@ -11,6 +11,7 @@ script:
   #===        [zone1, zone2 ... zone8]
   #==================================== 
   irrigation_cancel_irrigation:
+    alias: Irrigation Cancel Irrigation
     sequence:
       - service: input_boolean.turn_off
         data_template:

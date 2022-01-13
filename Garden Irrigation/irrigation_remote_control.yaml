@@ -163,7 +163,7 @@ automation:
       - service: script.notify
         data:
           say: true
-          rooms:
+          sonos:
             - kitchen
           volume: 0.3
           message: Irrigation cancelled
@@ -199,7 +199,7 @@ automation:
       - service: script.notify
         data_template:
           say: true
-          rooms:
+          sonos:
             - kitchen
           volume: 0.3
           message: >
@@ -304,7 +304,7 @@ automation:
                 - service: script.notify
                   data:
                     say: True
-                    rooms:
+                    sonos:
                       - kitchen
                     volume: 0.3
                     message: "The irrigation appears to be already running"
@@ -556,6 +556,7 @@ script:
   #===   message: Announcement message
   #====================================
   irrigation_remote_control_run_cycle:
+    alias: Irrigation Remote Control Run Cycle
     sequence:
       - choose:
           #=== Warn if switches are disabled
@@ -567,7 +568,7 @@ script:
               - service: script.notify
                 data:
                   say: True
-                  rooms:
+                  sonos:
                     - kitchen
                   volume: 0.3
                   message: "Warning! The irrigation switches are disabled."
@@ -575,7 +576,7 @@ script:
       - service: script.notify
         data_template:
           say: true
-          rooms:
+          sonos:
             - kitchen
           volume: 0.3
           message: "{{ message }}"
@@ -606,6 +607,7 @@ script:
   #=== Set all Lawn zones
   #=======================
   irrigation_remote_set_all_lawn_zones:
+    alias: Irrigation Remote Set All Lawn Zones
     sequence:
       #=== Set Zone 1 duration
       - service: input_number.set_value

@@ -238,6 +238,7 @@ script:
   #=== adjustment will be minus 20%.
   #=============================================================================
   irrigation_temperature_calculate_multiplier:
+    alias: Irrigation Temperature Calculate Multiplier
     mode: queued
     sequence:
       - service: input_number.set_value

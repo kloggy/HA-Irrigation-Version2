@@ -4,7 +4,7 @@
 #===
 #=== This is needed to force the group integration to load at startup
 #=== even if no groups are defined in the config without it there is
-#=== group.set service which is used in this automation.
+#=== no group.set service which is used in this automation.
 #=====================================================================
 group:
 

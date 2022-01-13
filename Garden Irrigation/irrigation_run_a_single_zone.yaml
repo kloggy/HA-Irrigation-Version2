@@ -11,6 +11,7 @@ script:
   #===  zone  - [zone1, zone2, ... zone16]
   #========================================
   irrigation_run_a_single_zone_on_demand:
+    alias: Irrigation Run A Single Zone On Demand
     description: Irrigate A Single Zone On Demand
     fields: 
       zone:

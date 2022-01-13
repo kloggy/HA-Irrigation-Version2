@@ -11,6 +11,7 @@ script:
   #===  cycle - [cycle1, cycle2, cycle3]
   #================================================
   irrigation_run_a_cycle:
+    alias: Irrigation Run A Cycle
     description: Run An Irrigation Cycle
     fields: 
       cycle:
