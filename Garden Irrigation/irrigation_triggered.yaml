@@ -74,7 +74,7 @@ automation:
                 trigger.entity_id == 'input_boolean.irrigation_cycle3_running' %}
             True
           {% elif states('input_boolean.irrigation_ignore_schedule_if_raining') == 'on' and
-                  states(states('input_text.irrigation_external_sensor_raining_now')) == 'off' %}
+                  states(states('input_text.irrigation_external_sensor_raining_now')) in ['off', 'unknown'] %}
             True
           {% else %}
             False
