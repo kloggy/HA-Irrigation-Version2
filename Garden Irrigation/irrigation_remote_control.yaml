@@ -2,13 +2,12 @@
 #============
 #=== Sensors
 #============
-sensor:
-
+mqtt:
+  sensor:
   # Irrigation Remote Control
-  - platform: mqtt
-    name: Irrigation Remote Control
-    state_topic: "433/Irrigation_Remote_Control"
-    expire_after: 2
+    - name: Irrigation Remote Control
+      state_topic: "433/Irrigation_Remote_Control"
+      expire_after: 2
 
 
 #===================
