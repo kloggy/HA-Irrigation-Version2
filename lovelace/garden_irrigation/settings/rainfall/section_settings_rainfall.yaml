@@ -90,26 +90,27 @@ entities:
             tap_action:
               action: fire-dom-event
               browser_mod:
-                command: popup
-                title: Rainfall Included in Calculations
-                card:
-                  type: entities
-                  entities:
-                    - entity: input_number.irrigation_rainfall_percentage_1
-                    - entity: input_number.irrigation_rainfall_percentage_2
-                    - entity: input_number.irrigation_rainfall_percentage_3
-                    - entity: input_number.irrigation_rainfall_percentage_4
-                  card_mod:
-                    style: >
-                      ha-card {
-                        font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                service: browser_mod.popup
+                data:
+                  title: Rainfall Included in Calculations
+                  content:
+                    type: entities
+                    entities:
+                      - entity: input_number.irrigation_rainfall_percentage_1
+                      - entity: input_number.irrigation_rainfall_percentage_2
+                      - entity: input_number.irrigation_rainfall_percentage_3
+                      - entity: input_number.irrigation_rainfall_percentage_4
+                    card_mod:
+                      style: >
+                        ha-card {
+                          font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                          }
+                  #=== Style needed for pop-up title
+                  style:
+                    $: |
+                      .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+                          font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
                         }
-                #=== Style needed for pop-up title
-                style:
-                  $: |
-                    .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-                        font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-                      }
 
       #=== YESTERDAY
       - !include

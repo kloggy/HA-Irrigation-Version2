@@ -37,71 +37,72 @@ cards:
     tap_action:
       action: fire-dom-event
       browser_mod:
-        command: popup
-        title: User names
-        card:
-          type: vertical-stack
-          cards:
-            - type: markdown
-              content: >
-                Choose the name of up to two users to receive notifications about
-                irrigation events.
-              card_mod:
-                style: >
-                  ha-card {
-                    font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-                    font-size: 16px;
-                  }
-            - type: entities
-              entities:
-                - entity: input_text.notifications_user1_name
-                  name: User 1
-                - entity: input_text.notifications_user2_name
-                  name: User 2
-              card_mod:
-                style: >
-                  ha-card {
-                    font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-                  }
-            - type: markdown
-              content: >
-                These names are held in:
-              card_mod:
-                style: >
-                  ha-card {
-                    font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-                    font-size: 16px;
-                  }
-            - type: markdown
-              content: >
-                input_text.notifications_user[1, 2]_name
-              card_mod:
-                style: >
-                  ha-card {
-                    font-family: Monospace;
-                    font-size: 14px;
-                    text-align: center;
-                  }
-            - type: markdown
-              content: >
-                and can be used in your own notification processing as approriate.
+        service: browser_mod.popup
+        data:
+          title: User names
+          content:
+            type: vertical-stack
+            cards:
+              - type: markdown
+                content: >
+                  Choose the name of up to two users to receive notifications about
+                  irrigation events.
+                card_mod:
+                  style: >
+                    ha-card {
+                      font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                      font-size: 16px;
+                    }
+              - type: entities
+                entities:
+                  - entity: input_text.notifications_user1_name
+                    name: User 1
+                  - entity: input_text.notifications_user2_name
+                    name: User 2
+                card_mod:
+                  style: >
+                    ha-card {
+                      font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                    }
+              - type: markdown
+                content: >
+                  These names are held in:
+                card_mod:
+                  style: >
+                    ha-card {
+                      font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                      font-size: 16px;
+                    }
+              - type: markdown
+                content: >
+                  input_text.notifications_user[1, 2]_name
+                card_mod:
+                  style: >
+                    ha-card {
+                      font-family: Monospace;
+                      font-size: 14px;
+                      text-align: center;
+                    }
+              - type: markdown
+                content: >
+                  and can be used in your own notification processing as approriate.
 
 
-                When a notification is issued, 'script.notify' is called.
+                  When a notification is issued, 'script.notify' is called.
 
 
-                This script is <b>NOT</b> inlcuded in this package,
-                you will need to write your own.
-              card_mod:
-                style: >
-                  ha-card {
-                    font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-                        font-size: 16px;
-                  }
-        #=== Style needed for pop-up title
-        style:
-          $: |
-            .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-                font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-              }
-      
+                  This script is <b>NOT</b> inlcuded in this package,
+                  you will need to write your own.
+                card_mod:
+                  style: >
+                    ha-card {
+                      font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                          font-size: 16px;
+                    }
+          #=== Style needed for pop-up title
+          style:
+            $: |
+              .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+                  font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                }
+        

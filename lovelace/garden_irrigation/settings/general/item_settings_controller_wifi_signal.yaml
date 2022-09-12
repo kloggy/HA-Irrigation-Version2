@@ -53,89 +53,90 @@ state:
 tap_action:
   action: fire-dom-event
   browser_mod:
-    command: popup
-    title: Irrigation Controller
-    card:
-      type: vertical-stack
-      cards:
-        - type: markdown
-          content: Enter the name of the sensor for your irrigation controller WiFi signal strength.
+    service: browser_mod.popup
+    data:
+      title: Irrigation Controller
+      content:
+        type: vertical-stack
+        cards:
+          - type: markdown
+            content: Enter the name of the sensor for your irrigation controller WiFi signal strength.
 
 
-                  Leave blank to reset to default.
-          card_mod:
-            style: >
-              ha-card {
-                font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-                font-size: 16px;
-              }
-        - type: entities
-          entities:
-            - entity: input_text.irrigation_external_sensor_controller_wifi
-              name: Sensor Name
-              card_mod:
-                style: &text_wrap_style
-                  hui-generic-entity-row:
-                    $: |
-                      .info {
-                        text-overflow: unset !important;
-                        white-space: unset !important;
-                      }
-            - entity: input_number.irrigation_controller_offline_wait
-              name: Seconds To Wait If Offline
-              card_mod:
-                style: *text_wrap_style
-            - type: section
-          card_mod:
-            style: >
-              ha-card {
-                font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-              }
-        - type: markdown
-          content: You can disable the switches to prevent irrigation while testing.
-          card_mod:
-            style: >
-              ha-card {
-                font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-                font-size: 16px;
-              }
-        - type: entities
-          entities:
-            - entity: input_boolean.irrigation_disable_switches
-              card_mod:
-                style: *text_wrap_style
-          card_mod:
-            style: >
-              ha-card {
-                font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-              }
-        - type: markdown
-          content: Choose notifications for Controller WiFi events.
-          card_mod:
-            style: >
-              ha-card {
-                font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-                font-size: 16px;
-              }
-        - type: entities
-          entities:
-            - entity: input_boolean.irrigation_ha_notify_of_controller_wifi_events
-              name: HA Persistent Notifications
-              card_mod:
-                style: *text_wrap_style
-            - entity: input_boolean.irrigation_user_notify_of_controller_wifi_events
-              name: User Notifications
-              card_mod:
-                style: *text_wrap_style
-          card_mod:
-            style: >
-              ha-card {
-                font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-              }
-   #=== Style needed for pop-up title
-    style:
-      $: |
-        .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-          }
-  
+                    Leave blank to reset to default.
+            card_mod:
+              style: >
+                ha-card {
+                  font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                  font-size: 16px;
+                }
+          - type: entities
+            entities:
+              - entity: input_text.irrigation_external_sensor_controller_wifi
+                name: Sensor Name
+                card_mod:
+                  style: &text_wrap_style
+                    hui-generic-entity-row:
+                      $: |
+                        .info {
+                          text-overflow: unset !important;
+                          white-space: unset !important;
+                        }
+              - entity: input_number.irrigation_controller_offline_wait
+                name: Seconds To Wait If Offline
+                card_mod:
+                  style: *text_wrap_style
+              - type: section
+            card_mod:
+              style: >
+                ha-card {
+                  font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                }
+          - type: markdown
+            content: You can disable the switches to prevent irrigation while testing.
+            card_mod:
+              style: >
+                ha-card {
+                  font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                  font-size: 16px;
+                }
+          - type: entities
+            entities:
+              - entity: input_boolean.irrigation_disable_switches
+                card_mod:
+                  style: *text_wrap_style
+            card_mod:
+              style: >
+                ha-card {
+                  font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                }
+          - type: markdown
+            content: Choose notifications for Controller WiFi events.
+            card_mod:
+              style: >
+                ha-card {
+                  font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                  font-size: 16px;
+                }
+          - type: entities
+            entities:
+              - entity: input_boolean.irrigation_ha_notify_of_controller_wifi_events
+                name: HA Persistent Notifications
+                card_mod:
+                  style: *text_wrap_style
+              - entity: input_boolean.irrigation_user_notify_of_controller_wifi_events
+                name: User Notifications
+                card_mod:
+                  style: *text_wrap_style
+            card_mod:
+              style: >
+                ha-card {
+                  font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                }
+    #=== Style needed for pop-up title
+      style:
+        $: |
+          .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+              font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+            }
+    

@@ -46,32 +46,33 @@ cards:
         tap_action:
           action: fire-dom-event
           browser_mod:
-            command: popup
-            title: "High Temperature Options"
-            card:
-              type: vertical-stack
-              cards:
-                - type: markdown
-                  content: Choose which high temperature measurement is used.
-                  card_mod:
-                    style: >
-                      ha-card {
-                        font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-                        font-size: 16px;
-                        text-align: center;
-                      }
-                - type: entities
-                  entities:
-                    - entity: input_select.irrigation_high_temp_options
-                  card_mod:
-                    style: >
-                      ha-card {
-                        font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-                      }
-            #=== Style needed for pop-up title
-            style:
-              $: |
-                .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-                    font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-                  }
-            
+            service: browser_mod.popup
+            data:
+              title: "High Temperature Options"
+              content:
+                type: vertical-stack
+                cards:
+                  - type: markdown
+                    content: Choose which high temperature measurement is used.
+                    card_mod:
+                      style: >
+                        ha-card {
+                          font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                          font-size: 16px;
+                          text-align: center;
+                        }
+                  - type: entities
+                    entities:
+                      - entity: input_select.irrigation_high_temp_options
+                    card_mod:
+                      style: >
+                        ha-card {
+                          font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                        }
+              #=== Style needed for pop-up title
+              style:
+                $: |
+                  .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+                      font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                    }
+              

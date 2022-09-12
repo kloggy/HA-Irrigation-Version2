@@ -34,121 +34,122 @@ entities:
         tap_action:
           action: fire-dom-event
           browser_mod:
-            command: popup
-            title: Watering Time Overview
-            card:
-              type: markdown
-              content: >
-                {% raw %}
-                
-                {% set cycle1_name = states('input_text.irrigation_cycle1_name') %}
-                {% set cycle2_name = states('input_text.irrigation_cycle2_name') %}
+            service: browser_mod.popup
+            data:
+              title: Watering Time Overview
+              content:
+                type: markdown
+                content: >
+                  {% raw %}
+                  
+                  {% set cycle1_name = states('input_text.irrigation_cycle1_name') %}
+                  {% set cycle2_name = states('input_text.irrigation_cycle2_name') %}
 
-                {% set ns = namespace(duration_c1_mon = 0, duration_c2_mon = 0, duration_mon = 0,
-                                      duration_c1_tue = 0, duration_c2_tue = 0, duration_tue = 0,
-                                      duration_c1_wed = 0, duration_c2_wed = 0, duration_wed = 0,
-                                      duration_c1_thu = 0, duration_c2_thu = 0, duration_thu = 0,
-                                      duration_c1_fri = 0, duration_c2_fri = 0, duration_fri = 0,
-                                      duration_c1_sat = 0, duration_c2_sat = 0, duration_sat = 0,
-                                      duration_c1_sun = 0, duration_c2_sun = 0, duration_sun = 0,) %}
+                  {% set ns = namespace(duration_c1_mon = 0, duration_c2_mon = 0, duration_mon = 0,
+                                        duration_c1_tue = 0, duration_c2_tue = 0, duration_tue = 0,
+                                        duration_c1_wed = 0, duration_c2_wed = 0, duration_wed = 0,
+                                        duration_c1_thu = 0, duration_c2_thu = 0, duration_thu = 0,
+                                        duration_c1_fri = 0, duration_c2_fri = 0, duration_fri = 0,
+                                        duration_c1_sat = 0, duration_c2_sat = 0, duration_sat = 0,
+                                        duration_c1_sun = 0, duration_c2_sun = 0, duration_sun = 0,) %}
 
-                {% for cycles in states.input_text
-                    if cycles.object_id == 'irrigation_cycle1_name' or
-                       cycles.object_id == 'irrigation_cycle2_name' %}
-                  {% set cycle = 'cycle' ~ loop.index %}
+                  {% for cycles in states.input_text
+                      if cycles.object_id == 'irrigation_cycle1_name' or
+                        cycles.object_id == 'irrigation_cycle2_name' %}
+                    {% set cycle = 'cycle' ~ loop.index %}
 
-                  {% for zones in states.input_number
-                    if zones.object_id.startswith('irrigation_' ~ cycle ~ '_zone') and 
-                       zones.object_id.endswith('_duration') %}
-                    {% set zone = 'zone' ~ loop.index %}
+                    {% for zones in states.input_number
+                      if zones.object_id.startswith('irrigation_' ~ cycle ~ '_zone') and 
+                        zones.object_id.endswith('_duration') %}
+                      {% set zone = 'zone' ~ loop.index %}
 
-                    {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_every_day', 'on') %}
-                      {% set ns.duration_mon = ns.duration_mon + (zones.state | int) %}
-                      {% set ns.duration_tue = ns.duration_tue + (zones.state | int) %}
-                      {% set ns.duration_wed = ns.duration_wed + (zones.state | int) %}
-                      {% set ns.duration_thu = ns.duration_thu + (zones.state | int) %}
-                      {% set ns.duration_fri = ns.duration_fri + (zones.state | int) %}
-                      {% set ns.duration_sat = ns.duration_sat + (zones.state | int) %}
-                      {% set ns.duration_sun = ns.duration_sun + (zones.state | int) %}
-                    {% else %}
-                      {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_mon', 'on' ) %}
+                      {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_every_day', 'on') %}
                         {% set ns.duration_mon = ns.duration_mon + (zones.state | int) %}
-                      {% endif %}
-                      {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_tue', 'on' ) %}
                         {% set ns.duration_tue = ns.duration_tue + (zones.state | int) %}
-                      {% endif %}
-                      {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_wed', 'on' ) %}
                         {% set ns.duration_wed = ns.duration_wed + (zones.state | int) %}
-                      {% endif %}
-                      {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_thu', 'on' ) %}
                         {% set ns.duration_thu = ns.duration_thu + (zones.state | int) %}
-                      {% endif %}
-                      {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_fri', 'on' ) %}
                         {% set ns.duration_fri = ns.duration_fri + (zones.state | int) %}
-                      {% endif %}
-                      {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_sat', 'on' ) %}
                         {% set ns.duration_sat = ns.duration_sat + (zones.state | int) %}
-                      {% endif %}
-                      {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_sun', 'on' ) %}
                         {% set ns.duration_sun = ns.duration_sun + (zones.state | int) %}
+                      {% else %}
+                        {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_mon', 'on' ) %}
+                          {% set ns.duration_mon = ns.duration_mon + (zones.state | int) %}
+                        {% endif %}
+                        {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_tue', 'on' ) %}
+                          {% set ns.duration_tue = ns.duration_tue + (zones.state | int) %}
+                        {% endif %}
+                        {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_wed', 'on' ) %}
+                          {% set ns.duration_wed = ns.duration_wed + (zones.state | int) %}
+                        {% endif %}
+                        {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_thu', 'on' ) %}
+                          {% set ns.duration_thu = ns.duration_thu + (zones.state | int) %}
+                        {% endif %}
+                        {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_fri', 'on' ) %}
+                          {% set ns.duration_fri = ns.duration_fri + (zones.state | int) %}
+                        {% endif %}
+                        {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_sat', 'on' ) %}
+                          {% set ns.duration_sat = ns.duration_sat + (zones.state | int) %}
+                        {% endif %}
+                        {% if is_state('input_boolean.irrigation_' ~ cycle ~ '_' ~ zone ~ '_sun', 'on' ) %}
+                          {% set ns.duration_sun = ns.duration_sun + (zones.state | int) %}
+                        {% endif %}
                       {% endif %}
+                    {% endfor %}
+
+                    {% if loop.first %}
+                      {% set ns.duration_c1_mon = ns.duration_mon %}
+                      {% set ns.duration_c1_tue = ns.duration_tue %}
+                      {% set ns.duration_c1_wed = ns.duration_wed %}
+                      {% set ns.duration_c1_thu = ns.duration_thu %}
+                      {% set ns.duration_c1_fri = ns.duration_fri %}
+                      {% set ns.duration_c1_sat = ns.duration_sat %}
+                      {% set ns.duration_c1_sun = ns.duration_sun %}
+                    {% else %}
+                      {% set ns.duration_c2_mon = ns.duration_mon %}
+                      {% set ns.duration_c2_tue = ns.duration_tue %}
+                      {% set ns.duration_c2_wed = ns.duration_wed %}
+                      {% set ns.duration_c2_thu = ns.duration_thu %}
+                      {% set ns.duration_c2_fri = ns.duration_fri %}
+                      {% set ns.duration_c2_sat = ns.duration_sat %}
+                      {% set ns.duration_c2_sun = ns.duration_sun %}
                     {% endif %}
+                    {% set ns.duration_mon = 0 %}
+                    {% set ns.duration_tue = 0 %}
+                    {% set ns.duration_wed = 0 %}
+                    {% set ns.duration_thu = 0 %}
+                    {% set ns.duration_fri = 0 %}
+                    {% set ns.duration_sat = 0 %}
+                    {% set ns.duration_sun = 0 %}
                   {% endfor %}
 
-                  {% if loop.first %}
-                    {% set ns.duration_c1_mon = ns.duration_mon %}
-                    {% set ns.duration_c1_tue = ns.duration_tue %}
-                    {% set ns.duration_c1_wed = ns.duration_wed %}
-                    {% set ns.duration_c1_thu = ns.duration_thu %}
-                    {% set ns.duration_c1_fri = ns.duration_fri %}
-                    {% set ns.duration_c1_sat = ns.duration_sat %}
-                    {% set ns.duration_c1_sun = ns.duration_sun %}
-                  {% else %}
-                    {% set ns.duration_c2_mon = ns.duration_mon %}
-                    {% set ns.duration_c2_tue = ns.duration_tue %}
-                    {% set ns.duration_c2_wed = ns.duration_wed %}
-                    {% set ns.duration_c2_thu = ns.duration_thu %}
-                    {% set ns.duration_c2_fri = ns.duration_fri %}
-                    {% set ns.duration_c2_sat = ns.duration_sat %}
-                    {% set ns.duration_c2_sun = ns.duration_sun %}
-                  {% endif %}
-                  {% set ns.duration_mon = 0 %}
-                  {% set ns.duration_tue = 0 %}
-                  {% set ns.duration_wed = 0 %}
-                  {% set ns.duration_thu = 0 %}
-                  {% set ns.duration_fri = 0 %}
-                  {% set ns.duration_sat = 0 %}
-                  {% set ns.duration_sun = 0 %}
-                {% endfor %}
+                  &nbsp; |  {{ cycle1_name }} Cycle  | &nbsp; {{ cycle2_name }} Cycle 
+                    ---|:---:|:---:
+                  __Monday__ | {{ ns.duration_c1_mon }} min | &nbsp; {{ ns.duration_c2_mon }} min
 
-                &nbsp; |  {{ cycle1_name }} Cycle  | &nbsp; {{ cycle2_name }} Cycle 
-                  ---|:---:|:---:
-                __Monday__ | {{ ns.duration_c1_mon }} min | &nbsp; {{ ns.duration_c2_mon }} min
+                  __Tuesday__ | {{ ns.duration_c1_tue }} min | &nbsp; {{ ns.duration_c2_tue }} min
 
-                __Tuesday__ | {{ ns.duration_c1_tue }} min | &nbsp; {{ ns.duration_c2_tue }} min
+                  __Wednesday__ | {{ ns.duration_c1_wed }} min | &nbsp; {{ ns.duration_c2_wed }} min
 
-                __Wednesday__ | {{ ns.duration_c1_wed }} min | &nbsp; {{ ns.duration_c2_wed }} min
+                  __Thursday__ | {{ ns.duration_c1_thu }} min | &nbsp; {{ ns.duration_c2_thu }} min
 
-                __Thursday__ | {{ ns.duration_c1_thu }} min | &nbsp; {{ ns.duration_c2_thu }} min
+                  __Friday__ | {{ ns.duration_c1_fri }} min | &nbsp; {{ ns.duration_c2_fri }} min
 
-                __Friday__ | {{ ns.duration_c1_fri }} min | &nbsp; {{ ns.duration_c2_fri }} min
+                  __Saturday__ | {{ ns.duration_c1_sat }} min | &nbsp; {{ ns.duration_c2_sat }} min
 
-                __Saturday__ | {{ ns.duration_c1_sat }} min | &nbsp; {{ ns.duration_c2_sat }} min
+                  __Sunday__ | {{ ns.duration_c1_sun }} min | &nbsp; {{ ns.duration_c2_sun }} min
 
-                __Sunday__ | {{ ns.duration_c1_sun }} min | &nbsp; {{ ns.duration_c2_sun }} min
-
-                {% endraw %}
-              card_mod:
-                style: >
-                  ha-card {
-                    font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-                  }
-            #=== Style needed for pop-up title
-            style:
-              $: |
-                .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-                    font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-                  }
+                  {% endraw %}
+                card_mod:
+                  style: >
+                    ha-card {
+                      font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                    }
+              #=== Style needed for pop-up title
+              style:
+                $: |
+                  .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+                      font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                    }
 
       #=== CYCLE 1 SELECT BUTTON
       - !include
