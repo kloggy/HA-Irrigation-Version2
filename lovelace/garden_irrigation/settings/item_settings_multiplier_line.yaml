@@ -52,50 +52,51 @@ styles:
 tap_action:
   action: fire-dom-event
   browser_mod:
-    command: popup
-    title: "WEATHER ADJUSTMENTS"
-    # title: "ℹ️ WEATHER ADJUSTMENTS"
-    card:
-      type: markdown
-      content: >
-        ### 🌧️ Rain multiplier
-        
-        This multiplier will decrease watering time proportionally
-        based on the difference between the rainfall threshold and the amount of
-        rain over the last few days.
+    service: browser_mod.popup
+    data:
+      title: "WEATHER ADJUSTMENTS"
+      # title: "ℹ️ WEATHER ADJUSTMENTS"
+      content:
+        type: markdown
+        content: >
+          ### 🌧️ Rain multiplier
+          
+          This multiplier will decrease watering time proportionally
+          based on the difference between the rainfall threshold and the amount of
+          rain over the last few days.
 
-        
-        If the threshold is reached then it will stop it altogether.
-
-
-        ---
+          
+          If the threshold is reached then it will stop it altogether.
 
 
-        ### 🌡️ Temperature multiplier
-
-        This multiplier will increase or decrease watering time proportionally
-        based on the difference between the temperature threshold and the 
-        average high temperature over the last few days.
+          ---
 
 
-        It is calculated as High Temperature divided by Baseline Temperature.
+          ### 🌡️ Temperature multiplier
+
+          This multiplier will increase or decrease watering time proportionally
+          based on the difference between the temperature threshold and the 
+          average high temperature over the last few days.
 
 
-        For example, if the baseline temperature is set to 25 degrees and the
-        average temperature has been 30 degrees the adjustment will be plus 20%.
+          It is calculated as High Temperature divided by Baseline Temperature.
 
 
-        Likewise if the average temperature has only been 20 degrees the
-        adjustment will be minus 20%.
-      card_mod:
-        style: >
-          ha-card {
-            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-          }
-    #=== Style needed for pop-up title
-    style:
-      $: |
-        .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-          }
-  
+          For example, if the baseline temperature is set to 25 degrees and the
+          average temperature has been 30 degrees the adjustment will be plus 20%.
+
+
+          Likewise if the average temperature has only been 20 degrees the
+          adjustment will be minus 20%.
+        card_mod:
+          style: >
+            ha-card {
+              font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+            }
+      #=== Style needed for pop-up title
+      style:
+        $: |
+          .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+              font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+            }
+    
