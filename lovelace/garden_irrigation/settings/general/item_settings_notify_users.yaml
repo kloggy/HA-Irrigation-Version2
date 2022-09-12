@@ -1,0 +1,33 @@
+
+#======================================================
+#=== BUTTONS TO TURN ON OR OFF NOTIFICATIONS FOR USERS 
+#======================================================
+type: horizontal-stack
+cards:
+  #=== User 1
+  - type: custom:config-template-card
+    variables:
+      USER1_NAME: states['input_text.notifications_user1_name'].state
+    entities:
+      - input_text.notifications_user1_name
+      - input_boolean.irrigation_notify_user1
+      - input_text.irrigation_ui_font_family
+    card:
+      !include
+      - ../item_settings_check_box_with_entity_icon.yaml
+      - entity: input_boolean.irrigation_notify_user1
+        name: "${'Notify ' +  USER1_NAME + ' of events'}"
+
+  #=== User 2
+  - type: custom:config-template-card
+    variables:
+      USER2_NAME: states['input_text.notifications_user2_name'].state
+    entities:
+      - input_text.notifications_user2_name
+      - input_boolean.irrigation_notify_user2
+      - input_text.irrigation_ui_font_family
+    card:
+      !include
+      - ../item_settings_check_box_with_entity_icon.yaml
+      - entity: input_boolean.irrigation_notify_user2
+        name: "${'Notify ' +  USER2_NAME + ' of events'}"

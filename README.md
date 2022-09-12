@@ -1,7 +1,39 @@
 
-<h1 align="center">A Garden Irrigation System for Home Assistant (Version2)</h1>
+<h1 align="center">A Garden Irrigation System for Home Assistant</h1>
 
 __Please note that I recommend some understanding of Home Assistant in general and of Lovelace in particular if you choose to try this out.__
+
+
+# UPDATED - July 2021 (requires HA version 2021.7)
+
+__WARNING__ - As you will read below, I don't use GitHub properly. For this update I have literally deleted everything and re-uploaded it. Apologies in advance but I'm not sure how that might affect anyone who does use gitHub properly.
+
+
+
+This update is mostly just to tidy up a few things. It it includes some very minor bug fixes and some cosmetic improvements. It adds a little more cosistency to the code and the Lovelace files especially have had a few more comments added to (hopefully) make them more readable for those who like to tinker.
+
+### There is one new feature:
+
+You can now set a Cycle Schedule to only run *today*.
+To explain, I only use the morning schedule. Afternoon watering is done on an ad-hoc basis but if I will be out all day I would turn on the Afternoon schedue and then need to remember to turn it off when I got home. Now I can have it on just for one day.
+
+This setting is found in the Start Time pop-up.
+
+### Breaking Change
+
+Please note that a lot of files have been renamed and the entire folder structure has been changed for the fronet end (Lovelace). This is to provide greater constency, remove redundancies and to generally tidy things up.
+
+### Warning
+
+I understand that Smartweather will soon be [removing public access to thier api](https://community.home-assistant.io/t/smartweather-get-local-weather-data-combined-with-ai-powered-forecast/105151/171 "removing public access to thier api"). The date this was supposed to be happening has passed but my api key still works. However, I no longer use Smartweather and it is possible that at some point I will remove it from this package. I will definitely not be making any more updates or changes to this part of the package.
+
+### Optional things included for reference
+
+*Notifications.* Because I have a centralised 'sub-system' that handles all my notifications it is beyond the scope of this project to provide a common solution that works for everyone but my example (`irrigation_notifications.yaml`) should put you on the right path.
+
+*Using a remote control button.* I use this almost every day (instead of the afternoon schedule). Be aware that as written (`irrigation_remote_control.yaml`) it handles a four button remote control which also allows a different command if two buttons are pressed at the same time. Again, you will need to modify the files for own use case but that should be fairly self explanatory. My example also deals with consecutive button presses; queuing up the commands.
+
+### Sources of reference (not checked by me for currency or accuracy!)
 
 Apart from my instructions here, there are some 'real world' guides on how to set up and configure this package which were written by people who have done it. I will link to them here:
 
@@ -9,22 +41,30 @@ By @itajackass - [A guide for Italian people]( https://www.domoticadiy.it/2020/0
 
 By @bbogdanmircea - [Setup guide](https://github.com/bbogdanmircea/HA-Irrigation-Version2) - A fork of this project which uses more than the (original) default maximum eight zones and also includes a general setup guide. It contains some good information but I understand that at the time of writing this it is not complete.
 
-
-<h2>Prerequisites</h2>
-
-There are some [prerequisites](https://github.com/kloggy/HA-Irrigation-Version2/blob/master/Pre-Requisites_Read_Me.md) to setting this up. PLEASE READ THEM. Any questions posted that look like they haven't been read may be ignored.
-
-
-Please note that as it stands this assumes that you are using `yaml` mode for Lovelace because that is what I use.
-
-
-<h2> Important Notes </h2>
+### Important Notes 
 
 Please understand that I am posting this project *purely as a way to share it* because people showed an interest in Version 1. It is *my personal solution* which I am more than happy for anyone to use in any way they see fit. I am prepared to help people get this working but only if you have shown that you have tried more than just copying the files. The prerequisites are documented and must be followed.
 
 I am only using GitHub literally as a repository. What that means is I simply copy my code from my PC to here so that it can be shared. There is no formal version control here other than that inherent in the Github editing history.
 
 One day maybe I'll delve further into how GitHub works but for now I'm afraid that is the situation.
+
+# Installation
+
+Installation shuld be fairly simple it is just a matter of creating a folder for the package and a folder for the front end (Lovelace).
+
+__Folder Structure:__ There are two elements to this project, the functional code (automations, scripts etc.) and the Lovelace UI.
+
+The folder named `lovelace` should be copied in its entirety into your config folder. If you already have a `lovelace` folder in your config folder then simply copy the folder `lovelace\garden_irrigation` and the file `lovelace\view_garden_version2.yaml` into it. This structure is not optional. There are a lot of references to absolute file locations so unless you edit the code to reflect changes you make, it will not work.
+
+The folder named `Garden Irrigation` is the functional code. This folder should be put somehwere such that HA recognises that location as its location for packages.
+
+### Prerequisites
+
+There are some [prerequisites](https://github.com/kloggy/HA-Irrigation-Version2/blob/master/Pre-Requisites.md) to setting this up. PLEASE READ THEM. Any questions posted that look like they haven't been read may be ignored.
+
+
+Please note that as it stands this assumes that you are using `yaml` mode for Lovelace because that is what I use.
 
 --------------
 
@@ -66,5 +106,6 @@ __Disclaimer__ - I have been using this package now for a few weeks and whilst I
 
 Likewise if you come up with any improvements also please tell me!
 
+![image](https://user-images.githubusercontent.com/38220016/126191072-7cecfe10-261d-418c-8d9a-ee688a4b70f6.png)
 
-<img src="https://github.com/kloggy/HA-Irrigation-Version2/blob/master/screenshots/screenshot-v2.png">
+

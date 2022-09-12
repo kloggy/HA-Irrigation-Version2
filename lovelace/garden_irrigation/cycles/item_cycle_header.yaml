@@ -1,0 +1,209 @@
+# lovelace_gen
+
+#=================================================
+#=== CYCLE SCHEDULE HEADER
+#===
+#=== The header for each cycle on the Cycles page
+#===
+#=== cycle: cycle number 1, 2 or 3
+#=================================================
+type: horizontal-stack
+cards:
+
+  #=== TITLE AND WEATHER OUTLOOK
+  #=== (Weather Outlook is based on an external sensor which is not part of the package)
+  - type: custom:button-card
+    entity: sensor.irrigation_weather_outlook
+    name: >
+      [[[
+        var entity_id = 'input_text.irrigation_cycle{{ cycle }}_name';
+        return states[entity_id].state.toUpperCase() + ' SCHEDULE';
+      ]]]
+    show_state: true
+    show_entity_picture: true # use false if the sensor uses mdi icons rather than a picture
+    show_icon: true
+    size: 100%
+    styles:
+      grid:
+        - grid-template-areas: '"n n" "i s"'
+        - grid-template-columns: min-content 1fr  
+        - grid-template-rows: 1fr min-content
+      img_cell:
+        - width: 2em
+      card:
+        - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+        - border-radius: 0px
+        - margin-left: 0em
+        - box-shadow: none
+        - background: none
+      name:
+        - font-size: 18px
+        - color: var(--secondary-text-color)
+        - justify-self: start
+        - border-left: 3px solid var(--accent-color)
+        - padding-left: 0.5em
+      icon:
+        - padding-left: 0.5em
+        - align-self: start
+      state:
+        - font-size: 13px
+        - text-align: left
+        - justify-self: start
+        - margin-top: 0.2em
+        - padding-left: 0.4em
+    
+    #=== ALLOW CYCLE NAME TO BE EDITED
+    tap_action:
+      action: fire-dom-event
+      browser_mod:
+        command: popup
+        title: Cycle {{ cycle }} Settings
+        card:
+          type: entities
+          entities:
+            - entity: input_text.irrigation_cycle{{ cycle }}_name
+              name: Name
+              icon: mdi:alphabetical-variant
+          card_mod:
+            style: >
+              ha-card {
+                font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+              }
+
+  #=== CYCLE RUNNING ICON
+  - type: custom:button-card
+    icon: mdi:sprinkler-variant
+    show_name: false
+    entity: input_boolean.irrigation_cycle{{ cycle }}_running
+    tap_action:
+      action: none
+    styles:
+      card:
+        - background: none
+        - height: 45px
+        - width: 45px
+        - box-shadow: none
+        - margin-top: -0.3em
+      icon:
+        - width: 25px
+    state:
+      - value: 'off'
+        color: var(--primary-background-color)
+      - value: 'on'
+        color: var(--paper-item-icon-active-color)
+        styles:
+          icon:
+            - animation: blink 2s ease infinite
+
+  #=== CYCLE 1 AND 2 ENABLE SCHEDULE BUTTON
+  - type: custom:button-card
+    icon: mdi:toggle-switch
+    show_name: false
+    entity: input_boolean.irrigation_cycle{{ cycle }}_schedule_enabled
+    tap_action:
+      action: toggle
+    styles:
+      card:
+        - background: none
+        - height: 45px
+        - width: 45px
+        - box-shadow: none
+        - margin-top: -0.1em
+        - display: >
+            [[[
+              var cycle = '{{ cycle }}';
+              if (cycle == '3') return 'none';
+            ]]]
+      icon: 
+        - color: var(--accent-color)
+        - width: 45px
+    state:
+      - value: 'off'
+        icon: mdi:toggle-switch-off-outline
+        styles:
+          card:
+            - color: var(--secondary-text-color)
+            - opacity: 50%
+            - box-shadow: none
+          icon:
+            - color: var(--secondary-text-color)
+      - value: 'on'
+        color: var(--paper-item-icon-active-color)
+        icon: mdi:toggle-switch
+
+  #=== CYCLE 3 START/STOP BUTTON
+  - type: custom:button-card
+    entity: input_boolean.irrigation_cycle3_running
+    icon: mdi:play-circle-outline
+    show_name: false
+    tap_action:
+      action: >
+        [[[
+          if (states['input_boolean.irrigation_cycle1_running'].state == 'on' ||
+              states['input_boolean.irrigation_cycle2_running'].state == 'on')
+            return 'none';
+          else if (states['input_boolean.irrigation_cycle3_running'].state == 'on')
+            return 'call-service';
+          else return 'toggle';
+        ]]]
+      service: script.irrigation_cancel_irrigation
+      service_data:
+        cycle: cycle3
+        zone: >
+          [[[
+            if (states['timer.irrigation_zone1_timer'].state == 'active')
+              return 'zone1';
+            else if (states['timer.irrigation_zone2_timer'].state == 'active')
+              return 'zone2';
+            else if (states['timer.irrigation_zone3_timer'].state == 'active')
+              return 'zone3';
+            else if (states['timer.irrigation_zone4_timer'].state == 'active')
+              return 'zone4';
+            else if (states['timer.irrigation_zone5_timer'].state == 'active')
+              return 'zone5';
+            else if (states['timer.irrigation_zone6_timer'].state == 'active')
+              return 'zone6';
+            else if (states['timer.irrigation_zone7_timer'].state == 'active')
+              return 'zone7';
+            else if (states['timer.irrigation_zone8_timer'].state == 'active')
+              return 'zone8';
+            else if (states['timer.irrigation_zone9_timer'].state == 'active')
+              return 'zone9';
+            else if (states['timer.irrigation_zone10_timer'].state == 'active')
+              return 'zone10';
+            else if (states['timer.irrigation_zone11_timer'].state == 'active')
+              return 'zone11';
+            else if (states['timer.irrigation_zone12_timer'].state == 'active')
+              return 'zone12';
+            else if (states['timer.irrigation_zone13_timer'].state == 'active')
+              return 'zone13';
+            else if (states['timer.irrigation_zone14_timer'].state == 'active')
+              return 'zone14';
+            else if (states['timer.irrigation_zone15_timer'].state == 'active')
+              return 'zone15';
+            else if (states['timer.irrigation_zone16_timer'].state == 'active')
+              return 'zone16';
+            else
+              return 'none';
+          ]]]
+    styles:
+      card:
+        - background: none
+        - height: 45px
+        - width: 45px
+        - box-shadow: none
+        - margin-top: -0.1em
+        - display: >
+            [[[
+              var cycle = '{{ cycle }}';
+              if (cycle != '3') return 'none';
+            ]]]
+      icon:
+        - width: 35px
+    state:
+      - value: 'off'
+        icon: mdi:play-circle-outline
+        color: green
+      - value: 'on'
+        icon: mdi:stop-circle-outline
+        color: red

@@ -1,0 +1,223 @@
+
+#=====================================================================
+#=== Groups
+#===
+#=== This is needed to force the group integration to load at startup
+#=== even if no groups are defined in the config without it there is
+#=== no group.set service which is used in this automation.
+#=====================================================================
+group:
+
+#================
+#=== Automations
+#================
+automation:
+
+  #========================================================
+  #=== Create groups at start up or if Groups are reloaded
+  #========================================================
+  - alias: Irrigation Create Groups
+    id: irrigation_create_groups
+    trigger:
+      - platform: homeassistant
+        event: start
+        
+      - platform: event
+        event_type: call_service
+        event_data:
+          domain: group
+          service: reload
+
+    action:
+      #=== Cycle 1 all Zone Durations
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle1_zone_durations
+          entities: >
+            {%- for sensor in states.sensor if sensor.object_id.startswith('irrigation_cycle1_zone') and
+                                               sensor.object_id.endswith('_actual_duration_in_seconds') %}
+              {{ sensor.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Cycle 2 all Zone Durations
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle2_zone_durations
+          entities: >
+            {%- for sensor in states.sensor if sensor.object_id.startswith('irrigation_cycle2_zone') and
+                                               sensor.object_id.endswith('_actual_duration_in_seconds') %}
+              {{ sensor.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Cycle 3 all Zone Durations
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle3_zone_durations
+          entities: >
+            {%- for sensor in states.sensor if sensor.object_id.startswith('irrigation_cycle3_zone') and
+                                               sensor.object_id.endswith('_actual_duration_in_seconds') %}
+              {{ sensor.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+
+      #=== Cycle 1 Zone Every Day
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle1_every_day
+          entities: >
+            {%- for boolean in states.input_boolean if boolean.object_id.startswith('irrigation_cycle1_zone') and
+                                                       boolean.object_id.endswith('_every_day') %}
+              {{ boolean.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Cycle 1 Zone Monday
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle1_mon
+          entities: >
+            {%- for boolean in states.input_boolean if boolean.object_id.startswith('irrigation_cycle1_zone') and
+                                                       boolean.object_id.endswith('_mon') %}
+              {{ boolean.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Cycle 1 Zone Tuesday
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle1_tue
+          entities: >
+            {%- for boolean in states.input_boolean if boolean.object_id.startswith('irrigation_cycle1_zone') and
+                                                       boolean.object_id.endswith('_tue') %}
+              {{ boolean.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Cycle 1 Zone Wednesday
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle1_wed
+          entities: >
+            {%- for boolean in states.input_boolean if boolean.object_id.startswith('irrigation_cycle1_zone') and
+                                                       boolean.object_id.endswith('_wed') %}
+              {{ boolean.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Cycle 1 Zone Thursday
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle1_thu
+          entities: >
+            {%- for boolean in states.input_boolean if boolean.object_id.startswith('irrigation_cycle1_zone') and
+                                                       boolean.object_id.endswith('_thu') %}
+              {{ boolean.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Cycle 1 Zone Friday
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle1_fri
+          entities: >
+            {%- for boolean in states.input_boolean if boolean.object_id.startswith('irrigation_cycle1_zone') and
+                                                       boolean.object_id.endswith('_fri') %}
+              {{ boolean.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Cycle 1 Zone Saturday
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle1_sat
+          entities: >
+            {%- for boolean in states.input_boolean if boolean.object_id.startswith('irrigation_cycle1_zone') and
+                                                       boolean.object_id.endswith('_sat') %}
+              {{ boolean.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Cycle 1 Zone Sunday
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle1_sun
+          entities: >
+            {%- for boolean in states.input_boolean if boolean.object_id.startswith('irrigation_cycle1_zone') and
+                                                       boolean.object_id.endswith('_sun') %}
+              {{ boolean.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+
+      #=== Cycle 2 Zone Every Day
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle2_every_day
+          entities: >
+            {%- for boolean in states.input_boolean if boolean.object_id.startswith('irrigation_cycle2_zone') and
+                                                       boolean.object_id.endswith('_every_day') %}
+              {{ boolean.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Cycle 2 Zone Monday
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle2_mon
+          entities: >
+            {%- for boolean in states.input_boolean if boolean.object_id.startswith('irrigation_cycle2_zone') and
+                                                       boolean.object_id.endswith('_mon') %}
+              {{ boolean.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Cycle 2 Zone Tuesday
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle2_tue
+          entities: >
+            {%- for boolean in states.input_boolean if boolean.object_id.startswith('irrigation_cycle2_zone') and
+                                                       boolean.object_id.endswith('_tue') %}
+              {{ boolean.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Cycle 2 Zone Wednesday
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle2_wed
+          entities: >
+            {%- for boolean in states.input_boolean if boolean.object_id.startswith('irrigation_cycle2_zone') and
+                                                       boolean.object_id.endswith('_wed') %}
+              {{ boolean.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Cycle 2 Zone Thursday
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle2_thu
+          entities: >
+            {%- for boolean in states.input_boolean if boolean.object_id.startswith('irrigation_cycle2_zone') and
+                                                       boolean.object_id.endswith('_thu') %}
+              {{ boolean.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Cycle 2 Zone Friday
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle2_fri
+          entities: >
+            {%- for boolean in states.input_boolean if boolean.object_id.startswith('irrigation_cycle2_zone') and
+                                                       boolean.object_id.endswith('_fri') %}
+              {{ boolean.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Cycle 2 Zone Saturday
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle2_sat
+          entities: >
+            {%- for boolean in states.input_boolean if boolean.object_id.startswith('irrigation_cycle2_zone') and
+                                                       boolean.object_id.endswith('_sat') %}
+              {{ boolean.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Cycle 2 Zone Sunday
+      - service: group.set
+        data:
+          object_id: irrigation_group_cycle2_sun
+          entities: >
+            {%- for boolean in states.input_boolean if boolean.object_id.startswith('irrigation_cycle2_zone') and
+                                                       boolean.object_id.endswith('_sun') %}
+              {{ boolean.entity_id}}{% if not loop.last %}, {% endif %}
+            {%- endfor %}
+

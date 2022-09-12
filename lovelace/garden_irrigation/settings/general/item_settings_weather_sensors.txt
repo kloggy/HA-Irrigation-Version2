@@ -1,0 +1,114 @@
+# lovelace_gen
+
+#====================
+#=== WEATHER SENSORS
+#====================
+type: custom:button-card
+name: Weather Sensors...
+icon: mdi:weather-partly-cloudy
+show_state: true
+state_display: <elt><ha-icon icon=mdi:square-edit-outline></ha-icon></elt>
+styles:
+  grid:
+    - grid-template-areas: '"i n s"'
+    - grid-template-columns: 15% auto 5%
+    - grid-template-rows: 1fr
+  card:
+    - height: 2em
+    - font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
+    - font-size: 15px
+    - padding: 0em 1.5em 0.5em 0.2em
+    - background: none
+    - box-shadow: none
+  icon:
+    - color: var(--paper-item-icon-color)
+  name: 
+    - justify-self: start
+
+#=== EDIT WEATHER SENSOR SETTINGS
+tap_action:
+  action: fire-dom-event
+  browser_mod:
+    command: popup
+    title: Weather Sensors
+    card:
+      type: vertical-stack
+      cards:
+        - type: markdown
+          content: >
+            For the 'Weather Outlook' on the Cycles page you need to create the following sensor:
+          card_mod:
+            style: >
+              ha-card {
+                font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                font-size: 16px;
+                box-shadow: none;
+                }
+        - type: markdown
+          content: >
+            sensor.irrigation_weather_outlook
+          card_mod:
+            style: >
+                ha-card {
+                  font-family: Monospace; 
+                  font-size: 14px;
+                  text-align: center;
+                  box-shadow: none;
+                }
+        - type: entities
+          entities:
+            - type: section
+              label: Rainfall Sensors (leave blank to reset default)
+              card_mod:
+                style: &text_wrap_style
+                  hui-generic-entity-row:
+                    $: |
+                      .info {
+                        text-overflow: unset !important;
+                        white-space: unset !important;
+                      }
+            - entity: input_text.irrigation_external_sensor_raining_now
+              name: Raining Now
+              card_mod:
+                style: *text_wrap_style
+            - entity: input_text.irrigation_external_sensor_rainfall_today
+              name: Rain Today
+              card_mod:
+                style: *text_wrap_style
+            - entity: input_text.irrigation_external_sensor_rainfall_yesterday
+              name: Rain Yesterday
+              card_mod:
+                style: *text_wrap_style
+            - entity: input_text.irrigation_external_sensor_forecast_rain
+              name: Forecast Rain
+              card_mod:
+                style: *text_wrap_style
+            - entity: input_boolean.irrigation_show_smartweather_stations
+              name: Using SmartWeather (show stations)
+              card_mod:
+                style: *text_wrap_style
+            - type: section
+              label: Temperature Sensors (leave blank to reset default)
+            - entity: input_text.irrigation_external_sensor_forecast_high_temp
+              name: Forecast High Temperature
+              card_mod:
+                style: *text_wrap_style
+            - entity: input_text.irrigation_external_sensor_current_temp
+              name: Current Temperature
+              card_mod:
+                style: *text_wrap_style
+          card_mod:
+            style: >
+              ha-card {
+                font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                }
+    #=== Style needed for pop-up title
+    style:
+      $: |
+        .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+          }
+

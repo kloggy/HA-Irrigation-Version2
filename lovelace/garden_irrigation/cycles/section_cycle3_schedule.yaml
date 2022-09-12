@@ -1,0 +1,174 @@
+
+#===========================
+#=== CYCLE PAGE FOR CYCLE 3
+#===========================
+type: entities
+entities:
+
+  - type: custom:hui-element
+    card_type: vertical-stack
+    cards:
+
+      #===================
+      #=== CYCLE 3 HEADER
+      #===================
+      - !include
+        - item_cycle_header.yaml
+        - cycle: 3
+
+      - type: custom:hui-element
+        row_type: divider
+
+      - type: custom:button-card
+        name: >
+          [[[
+            var total_seconds = parseInt(states['sensor.irrigation_cycle3_duration_in_seconds'].state);
+            var date = new Date(null);
+            date.setSeconds(total_seconds);
+            var hrs = date.toISOString().substr(11, 2);
+            var mins = date.toISOString().substr(14, 2);
+
+            if (hrs == 1)
+              var hrs_s = ' Hour and ';
+            else
+              var hrs_s = ' Hours and ';
+
+            if (mins == 1)
+              var mins_s = ' Minute';
+            else
+              var mins_s = ' Minutes';
+
+            if (states['input_boolean.irrigation_testing_mode'].state == 'on')
+              return 'Total Runtime: ' + total_seconds + ' Seconds (testing mode)';
+            else {
+              if (hrs == '00')
+                return 'Total Runtime: ' + (total_seconds / 60) + mins_s;
+              else if (hrs == '01')
+                return 'Total Runtime: ' + hrs.substr(1, 1) + hrs_s + mins + mins_s;
+              else if (hrs > '01')
+                return 'Total Runtime: ' + hrs.substr(1, 1) + hrs_s + mins + mins_s;
+              else
+                return 'Total Runtime: ' + mins + mins_s;
+            }
+          ]]]
+        styles:
+          card:
+            - padding: 0em 0.1em 0em 0em
+            - margin: 0em
+            - color: var(--primary-text-color)
+            - background: none
+            - box-shadow: none
+          name:
+            - font-size: 14px
+            - justify-self: right
+            - font-family: >
+                [[[
+                  return states['input_text.irrigation_ui_font_family'].state;
+                ]]]
+
+
+      #===========================
+      #=== CYCLE 3 ZONE DURATIONS
+      #===========================
+      #=== Zone 1
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 1
+
+      #=== Zone 2
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 2
+
+      #=== Zone 3
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 3
+
+      #=== Zone 4
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 4
+
+      #=== Zone 5
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 5
+
+      #=== Zone 6
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 6
+
+      #=== Zone 7
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 7
+
+      #=== Zone 8
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 8
+
+      #=== Zone 9
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 9
+
+      #=== Zone 10
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 10
+
+      #=== Zone 11
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 11
+
+      #=== Zone 12
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 12
+
+      #=== Zone 13
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 13
+
+      #=== Zone 14
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 14
+
+      #=== Zone 15
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 15
+
+      #=== Zone 16
+      - !include
+        - item_cycle_zone_duration_line.yaml
+        - cycle: 3
+          zone: 16
+
+card_mod:
+  style: >
+    ha-card {
+      margin-top: -0.75em;
+      box-shadow: none;
+    }

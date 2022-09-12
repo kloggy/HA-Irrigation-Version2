@@ -1,0 +1,107 @@
+# lovelace_gen
+
+#====================================================
+#=== SETTINGS LINE
+#===
+#=== Used for standard lines in the Settings section
+#===
+#=== entity: The entity_id being displayed
+#=== Optional:
+#===  name:  Name to be used
+#===  icon:  Icon to be displayed
+#===  label: Secondary info text
+#===  unit:  Unit of Measurement
+#===  round: Number of decimals to display
+#====================================================
+type: custom:button-card
+entity: {{ entity }}
+show_state: true
+state_display: >
+  [[[
+    var unit = '{{ unit }}';
+    var round = '{{ round }}';
+    var unit_om = entity.attributes.unit_of_measurement ? entity.attributes.unit_of_measurement : '';
+    var statestr = entity.state;
+
+    if (isNaN(statestr))
+      return statestr;
+    else if(unit.length > 0)
+      return parseFloat(statestr).toFixed(round) + ' ' + unit;
+    else
+      return parseFloat(statestr).toFixed(round) + ' ' + unit_om;
+  ]]]
+name: {{ name }}
+icon: {{ icon }}
+show_label: true
+label: {{ label }}
+size: 30%
+styles:
+  grid:
+    - grid-template-areas: >
+        [[[
+          if ('{{ label }}' == '')
+            return '"i n s"  "i n s"';
+          else
+            return '"i n s"  "i l s"';
+        ]]]
+    - grid-template-columns: 15% auto 15%
+    - grid-template-rows: min-content min-content
+  card:
+    - font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
+    - font-size: 15px
+    - padding: {{ padding | default('0em 0em 0em 0em') }}
+    - background: none
+    - box-shadow: none
+  icon:
+    - color: var(--paper-item-icon-color)
+  name: 
+    - justify-self: start
+  label:
+    - justify-self: start
+    - color: var(--secondary-text-color)
+state:
+  - value: unavailable
+    styles:
+      icon:
+        - color: var(--accent-color)
+        - animation: blink 2s ease infinite
+      state:
+        - color: var(--accent-color)
+        - animation: blink 2s ease infinite
+
+#=== ALLOW ENTITY TO BE EDITED
+#=== (Allows 'none' to be passed in)
+tap_action:
+  action: {{ tap_action | default('fire-dom-event') }}
+  browser_mod:
+    command: popup
+    title: {{ name }}
+    card:
+      type: entities
+      entities:
+        - entity: {{ entity }}
+          name: {{ name }}
+          icon: {{ icon }}
+          card_mod:
+            style: # Wrap text
+              hui-generic-entity-row:
+                $: |
+                  .info {
+                    text-overflow: unset !important;
+                    white-space: unset !important;
+                  }
+      card_mod:
+        style: >
+          ha-card {
+            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+          }
+    #=== Style needed for pop-up title
+    style:
+      $: |
+        .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+          }
+  

@@ -2,40 +2,68 @@ __Weather Sensors__
 
 All weather sensors can be defined by the user.
 
-There are five sensors used in this system
+There are six user defined sensors used in this system
 
 1. Current Temperature
 2. Forecast High Temperature Today
-3. Total Rainfall so far today: This is notoriously hard to get good data for unless you have a weather station of your own.
-I use Smartweather to reasonably good effect but I know it is not available in all regions.
+3. Total Rainfall so far today
 4. Actual Rainfall yesterday
 
-The fifth sensor needs to return any text string describing the weather outlook (or anything else you want!).
+All the above sensors have a default based on [OpenWeatherMap](https://www.home-assistant.io/integrations/openweathermap/) but can be changed in the settings page.
 
-I have written some default sensors (see below) into the system but they are easily changed from the settings page.
+5. Raining Now (optional)
+If you want to prevent irrigation when it is rainig 'now' you need to proviude a `binary_senor`.
 
-I have set the default sensors to SmartWeather and DarkSky this is because I use SmartWeather and whilst I am currently investigating a more generic and widely available alternative for rainfall data, so far I don't have one. Darksky I chose, simply because it is easy and until recently was fairly ubiquitous.
-I think it is self explanatory but if this causes any questions in future I will update this page with advice
+6. Weather Outlook (optional)
+In order to have the weather outlook displayed you need to provide a sensor called `sensor.irrigation_weather_outlook`. Its state is some text and it can have either an icon or a picture defined.
 
------
-__A Note On Weather Sensors__
+Here is an example of the Weather Outlook sensor (this is mine and it will **NOT** work for you, it is *just an example*),
+```
+  - platform: template
+    sensors:
 
-__Dark Sky__ recently became unavailable to new users and will do so for everyone in 2021 as Apple have recently bought it.
+      #=== Irrigaton Weather Outlook
+      #=== Creates a two line wether outlook with approprite icon 
+      irrigation_weather_outlook:
+        value_template: >
+          {% set current_conditions = states(states('input_text.weather_sensor_forecast_conditions')) | title%}
+          {% set current_conditions = current_conditions.replace('Partlycloudy', 'Partly Cloudy') %}
 
-(For those coming from an earlier version, you no longer have to make any code changes that were caused by my non-standard DarkSky sensor names)
+          {% set max_high_temp = states(states('input_text.weather_sensor_forecast_high_temperature')) | round(1) %}
+          {% set will_rain_today = states(states('input_text.weather_sensor_will_it_rain_today')) %}
+          {% set will_rain_tomorrow = states(states('input_text.weather_sensor_will_it_rain_tomorrow')) %}
+          {% set total_rain_today = states(states('input_text.weather_sensor_forecast_total_rain_today')) %}
+          {% set total_rain_tomorrow = states(states('input_text.weather_sensor_forecast_total_rain_tomorrow')) %}
+          {% set chance_of_rain_today = states(states('input_text.weather_sensor_forecast_chance_of_rain_today')) %}
+          {% set chance_of_rain_tomorrow = states(states('input_text.weather_sensor_forecast_chance_of_rain_tomorrow')) %}
 
+          {% set rain_today = total_rain_today ~ 'mm / ' ~ chance_of_rain_today ~ '%' %}
+          {% set rain_tomorrow = total_rain_tomorrow ~ 'mm / ' ~ chance_of_rain_tomorrow ~ '%' %}
 
-__Smart Weather__ is available as a custom component (https://github.com/briis/smartweather) but I simply use REST sensors to receive the data.
+          {% set outlook = 'Outlook: ' ~ current_conditions ~ ', High Temp ' ~ max_high_temp ~ '°C<br>' %}
 
+          {% if will_rain_today == '1' and will_rain_tomorrow == '1' %}
+            {% set outlook = outlook ~ 'Rain Today (' ~ rain_today ~ ') & Tomorrow (' ~ rain_tomorrow ~ ')' %}
+          {% elif will_rain_today == '1' %}
+            {% set outlook = outlook ~ 'Rain Today (' ~ rain_today ~ '), none tomorrow' %}
+          {% elif will_rain_tomorrow == '1' %}
+            {% set outlook = outlook ~ 'Rain Tomorrow (' ~ rain_tomorrow ~ ')' %}
+          {% else %}
+            {% set outlook = outlook ~ 'No rain forecast today or tomorrow.' %}
+          {% endif %}
 
-For SmartWeather, look [here](https://smartweather.weatherflow.com/map) and see if there are any stations near you. I use five stations local to me and then using a series of sensors take the average. Rainfall data is notoriously hard to collect unless you have your own weather station so I have to leave it up to you to decide how to measure it for you locality. This is probably the part of the stystem  that will need the most attention to customise for you. Or of course you can simply just choose not to use it.
+          {{ outlook }}
+        entity_picture_template: >
+          {% set current = state_attr('sensor.weather_api_current', 'current') %}
+          {% set icon = current.condition.icon %}
+          {% set icon = icon.split('/')[-1] %}
+          {% set icon = icon.split('.')[0] %}
+          {% set is_day = true if states('sensor.elevation') | int > 0 else false %}
+          
+          {% if is_day %}
+            {{ '/local/icons/weather_icons/weather_api_day/' ~ icon ~ '.png' }}
+          {% else %}
+            {{ '/local/icons/weather_icons/weather_api_night/' ~ icon ~ '.png' }}
+          {% endif %}
+```
 
-If there are local stations for you then note the station number(s) and then create a REST sensor for each station.
-
-You'll also need to register for an `api_key`.
-
-Of course there is *no requirement* to use Smartweather for rainfall data but if you use something else you will need to change the Lovelace to fit and also the code that collects rainfall measurements.
-
-There are some pointers for setting SmartWeather up [here](https://github.com/kloggy/HA-Irrigation-Version2/blob/master/Smartweather%20Example.md).
-
-Of course there is *no requirement* to use Smartweather for rainfall data but if you use something else you will need to change the Lovelace to fit and also the code that collects rainfall measurements.

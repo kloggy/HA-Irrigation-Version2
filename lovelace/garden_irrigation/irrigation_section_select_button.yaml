@@ -1,0 +1,43 @@
+# lovelace_gen
+
+#=========================================================
+#=== SELECT BUTTON
+#===
+#=== Styles the buttons used at the top of the Cycles and
+#=== Settings sections to decide which page to display.
+#===
+#=== entity: The input_select the button is based upon
+#=== name:   The name on the button
+#===         Must be quoted as javascript is passed in
+#=== option: The option to select from the input_select
+#=========================================================
+type: custom:button-card
+entity: {{ entity }}
+show_icon: false
+name: "{{ name }}"
+tap_action:
+  action: call-service
+  service: input_select.select_option
+  service_data:
+    entity_id: {{ entity }}
+    option: {{ option }}
+styles:
+  card:
+    - border-radius: 0.5em
+    - padding: 0.3em 0.3em
+    - background-color: transparent
+    - font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
+    - font-size: 16px
+state:
+  - value: {{ option }}
+    styles:
+      card:
+        - border: 1px solid var(--accent-color)
+  - operator: default
+    styles:
+      card:
+        - color: var(--secondary-text-color)
+        - opacity: 50%

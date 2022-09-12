@@ -1,0 +1,333 @@
+# lovelace_gen
+
+#===============================================================
+#=== ZONE DURATION LINE
+#===
+#=== A line for each zone showing duration, every day check box
+#=== and buttons for each day.
+#===
+#=== cycle: Cycle number 1, 2 or 3
+#=== zone:  Zone number 1 to 16
+#===============================================================
+
+#=== mod-card to allow conditional displaying of zones (based
+#=== on the number of zones configured) and to put a border
+type: custom:mod-card
+card_mod:
+  style: |
+    ha-card {
+      {% raw %}
+      {% set zone = {% endraw %} {{ zone }} {% raw %} %}
+      {% set zone_count = states('input_number.irrigation_number_of_zones') %}
+      {% if (zone_count | int) < (zone | int) %}
+        display: none;
+      {% else %}
+        border: 1px solid var(--primary-background-color);
+      {% endif %}
+      {% endraw %}
+    }
+card:
+
+  #==============================
+  #=== DURATION AND DAY BUTTONS
+  #==============================
+  type: vertical-stack
+  cards:
+    - type: horizontal-stack
+      cards:
+        #=== ZONE DURATION
+        - type: custom:config-template-card
+          variables:
+            ZONE_NAME: states['input_text.irrigation_zone{{ zone }}_name'].state
+            CYCLE_NAME: states['input_text.irrigation_cycle{{ cycle }}_name'].state
+            TIMER_STATE: states['timer.irrigation_zone{{ zone }}_timer'].state
+          entities:
+            - input_text.irrigation_zone{{ zone }}_name
+            - input_number.irrigation_cycle{{ cycle }}_zone{{ zone }}_duration
+            - timer.irrigation_zone{{ zone }}_timer
+          card:
+            type: entities
+            entities:
+              - entity: input_number.irrigation_cycle{{ cycle }}_zone{{ zone }}_duration
+                name: "${ ZONE_NAME }"
+                icon: "${ TIMER_STATE === 'active' ? 'mdi:sprinkler-variant' : '' }"
+
+                #=== ALLOW EDITING OF ZONE INFORMATION
+                tap_action:
+                  action: fire-dom-event
+                  browser_mod:
+                    command: popup
+                    title: "${ CYCLE_NAME + ' - ' + ZONE_NAME }"
+                    hide_header: false
+                    card:
+                      type: entities
+                      entities:
+                        - type: custom:hui-element
+                          card_type: horizontal-stack
+                          cards:
+
+                            #=== RUN THIS ZONE BUTTON (Cycle 3 only)
+                            - type: custom:button-card
+                              entity: script.irrigation_run_a_single_zone_on_demand
+                              triggers_update:
+                                - timer.irrigation_zone{{ zone }}_timer
+                              name: >
+                                [[[
+                                  var zone = '{{ zone }}';
+                                  if (entity.state == 'off' &&
+                                      states['input_boolean.irrigation_cycle1_running'].state == 'off' &&
+                                      states['input_boolean.irrigation_cycle2_running'].state == 'off' &&
+                                      states['input_boolean.irrigation_cycle3_running'].state == 'off')
+                                    return 'Run This Zone Now';
+                                  else if (
+                                          entity.state == 'on' &&
+                                          states['timer.irrigation_zone' + zone + '_timer'].state == 'active'
+                                          )
+                                    return 'Stop This Zone';
+                                  else return '';
+                                ]]]
+                              icon: >
+                                [[[
+                                  var zone = '{{ zone }}';
+                                  if (entity.state == 'off' &&
+                                      states['input_boolean.irrigation_cycle1_running'].state == 'off' &&
+                                      states['input_boolean.irrigation_cycle2_running'].state == 'off' &&
+                                      states['input_boolean.irrigation_cycle3_running'].state == 'off')
+                                    return 'mdi:play-circle-outline';
+                                  else if (
+                                          entity.state == 'on' &&
+                                          states['timer.irrigation_zone' + zone + '_timer'].state == 'active'
+                                          )
+                                    return 'mdi:stop-circle-outline';
+                                  else return '';
+                                ]]]
+                              size: 90%
+                              styles:
+                                grid:
+                                  - grid-template-areas: '"i n"'
+                                  - grid-template-columns: 20% 1fr
+                                  - grid-template-rows: 1fr
+                                card:
+                                  - display: >
+                                      [[[
+                                        var zone = '{{ zone }}';
+                                        if (states['input_select.irrigation_cycle'].state != 'cycle3')
+                                          return 'none';
+                                        else if (states['input_boolean.irrigation_cycle1_running'].state == 'on' ||
+                                                 states['input_boolean.irrigation_cycle2_running'].state == 'on')
+                                          return 'none';
+                                        else if (
+                                                entity.state == 'on' &&
+                                                states['timer.irrigation_zone' + zone + '_timer'].state != 'active'
+                                                )
+                                          return 'none';
+                                        else return '';
+                                      ]]]
+                                  - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
+                                  - font-size: 14px
+                                  - background-color: >
+                                      [[[
+                                        var zone = '{{ zone }}';
+                                        if (entity.state == 'on' &&
+                                            states['input_boolean.irrigation_cycle1_running'].state == 'on' ||
+                                            states['input_boolean.irrigation_cycle2_running'].state == 'on' ||
+                                            states['input_boolean.irrigation_cycle3_running'].state == 'on')
+                                          return ''; 
+                                        else 'var(--primary-background-color)';
+                                      ]]]
+                                  - border: >
+                                      [[[
+                                        var zone = '{{ zone }}';
+                                        if (entity.state == 'on' &&
+                                            states['input_boolean.irrigation_cycle1_running'].state == 'on' ||
+                                            states['input_boolean.irrigation_cycle2_running'].state == 'on' ||
+                                            states['input_boolean.irrigation_cycle3_running'].state == 'on')
+                                          return ''; 
+                                        else return '1px solid var(--accent-color)';
+                                      ]]]
+                                  - padding: >
+                                      [[[
+                                        var zone = '{{ zone }}';
+                                        if (entity.state == 'on' ||
+                                            states['input_boolean.irrigation_cycle1_running'].state == 'on' ||
+                                            states['input_boolean.irrigation_cycle2_running'].state == 'on' ||
+                                            states['input_boolean.irrigation_cycle3_running'].state == 'on')
+                                          return '0em';
+                                        else return '0.5em';
+                                      ]]]
+                                  - border-radius: 5px
+                                icon:
+                                  - color: >
+                                      [[[
+                                        var zone = '{{ zone }}';
+                                        if (entity.state == 'off' &&
+                                            states['input_boolean.irrigation_cycle1_running'].state == 'off' ||
+                                            states['input_boolean.irrigation_cycle2_running'].state == 'off' ||
+                                            states['input_boolean.irrigation_cycle3_running'].state == 'off')
+                                          return 'green';
+                                        else if (
+                                                entity.state == 'on' &&
+                                                states['timer.irrigation_zone' + zone + '_timer'].state == 'active'
+                                                )
+                                          return 'red';
+                                        else return '';
+                                      ]]]
+                              tap_action:
+                                action: call-service
+                                service: >
+                                  [[[
+                                    var zone = '{{ zone }}';
+                                    if (entity.state == 'off' &&
+                                        states['input_boolean.irrigation_cycle1_running'].state == 'off' &&
+                                        states['input_boolean.irrigation_cycle2_running'].state == 'off' &&
+                                        states['input_boolean.irrigation_cycle3_running'].state == 'off')
+                                      return 'script.irrigation_run_a_single_zone_on_demand';
+                                    else if (entity.state == 'on' &&
+                                              states['timer.irrigation_zone' + zone + '_timer'].state == 'active')
+                                      return 'script.irrigation_cancel_irrigation';
+                                    else return '';
+                                  ]]]
+                                service_data:
+                                  cycle: cycle3
+                                  zone: zone{{ zone }}
+
+                            - type: custom:button-card
+                              color_type: blank-card
+
+                        #=== CHANGE DURATION
+                        - entity: input_number.irrigation_cycle{{ cycle }}_zone{{ zone }}_duration_box
+                          name: Duration
+
+                        #=== CHANGE DURATION WHEN USING REMOTE CONTROL (If Remote Control is active)
+                        - type: conditional
+                          conditions:
+                            - entity: input_boolean.irrigation_remote_control
+                              state: "on"
+                          row:
+                            entity: input_number.irrigation_remote_control_zone{{ zone }}_duration
+                            name: Remote Control Duration
+                            icon: mdi:alpha-r-box-outline
+
+                        #=== CHANGE ZONE NAME
+                        - entity: input_text.irrigation_zone{{ zone }}_name
+                          name: Zone Name
+
+                        #=== CHANGE THE SWITCH ENTITY_ID
+                        - entity: input_text.irrigation_zone{{ zone }}_switch_entity_id
+                          name: Switch Name
+
+                      card_mod:
+                        style: >
+                          ha-card {
+                            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                          }
+                    #=== Style needed for pop-up title
+                    style:
+                      $: |
+                        .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+                            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                          }
+                card_mod:
+                  style: |
+                    :host {
+                      {% raw %}
+                      {% set zone = {% endraw %} {{ zone }} {% raw %} %}
+                      {% set cycle = {% endraw %} {{ cycle }} {% raw %} %}
+                      {% if is_state('input_number.irrigation_cycle' ~ cycle ~'_zone' ~ zone ~ '_duration', '0.0') %} 
+                        color: var(--secondary-text-color);
+                        opacity: 50%;
+                      {% endif %}
+                      {% endraw %}
+                    }
+
+            card_mod:
+              style: |
+                ha-card {
+                  box-shadow: none;
+                  background: none;
+                  overflow: visible !important;
+                }
+                #states {
+                  font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                  font-size: 16px;
+                  padding: 0.25em 0.75em 0.25em 0.25em;
+                }
+                :host {
+                  {% raw %}
+                  {% if is_state('input_select.irrigation_cycle', 'cycle1') %}
+                    {% set cycle_ui = 1 %}
+                  {% elif is_state('input_boolean.irrigation_cycle', 'cycle2') %}
+                    {% set cycle_ui = 2 %}
+                  {% else %}
+                    {% set cycle_ui = 3 %}
+                  {% endif %}
+                  {% set zone = {% endraw %} {{ zone }} {% raw %} %}
+                  {% set cycle = {% endraw %} {{ cycle }} {% raw %} %}
+                  {% if is_state('timer.irrigation_zone' ~ zone ~ '_timer', 'active') and 
+                        cycle_ui == 3 %}
+                    --paper-item-icon-color: var(--paper-item-icon-active-color);
+                  {% endif %}
+                  {% endraw %}
+                }
+
+        #=== EVERY DAY CHECK BOX
+        - !include
+          - item_cycle_zone_every_day_check_box.yaml
+          - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_every_day
+
+
+    #======================
+    #=== ZONE DAY BUTTONS
+    #======================
+    - type: conditional
+      conditions:
+        - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_every_day
+          state: "off"
+      card:
+        type: custom:mod-card
+        card_mod:
+          style: |
+            ha-card {
+              margin: 0em 0.5em 0.5em 0em
+            }
+        card:
+          type: horizontal-stack
+          cards:
+
+            - type: custom:button-card
+              color_type: blank-card
+
+            - !include
+              - item_cycle_day_select_button.yaml
+              - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_mon
+                name: Mon
+
+            - !include
+              - item_cycle_day_select_button.yaml
+              - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_tue
+                name: Tue
+
+            - !include
+              - item_cycle_day_select_button.yaml
+              - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_wed
+                name: Wed
+
+            - !include
+              - item_cycle_day_select_button.yaml
+              - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_thu
+                name: Thu
+
+            - !include
+              - item_cycle_day_select_button.yaml
+              - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_fri
+                name: Fri
+
+            - !include
+              - item_cycle_day_select_button.yaml
+              - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_sat
+                name: Sat
+
+            - !include
+              - item_cycle_day_select_button.yaml
+              - entity: input_boolean.irrigation_cycle{{ cycle }}_zone{{ zone }}_sun
+                name: Sun

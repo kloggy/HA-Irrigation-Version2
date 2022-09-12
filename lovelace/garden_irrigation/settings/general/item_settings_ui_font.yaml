@@ -1,0 +1,66 @@
+# lovelace_gen
+
+#==============================
+#=== BUTTON TO SET THE UI FONT
+#==============================
+type: custom:button-card
+entity: input_text.irrigation_ui_font_family
+show_state: true
+name: User Interface Font
+size: 30%
+styles:
+  grid:
+    - grid-template-areas: '"i n s"  "i n s"'
+    - grid-template-columns: 15% auto 15%
+    - grid-template-rows: min-content min-content
+  card:
+    - font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
+    - font-size: 15px
+    - padding: 0em 0em 0.5em 0em
+    - background: none
+    - box-shadow: none
+  icon:
+    - color: var(--paper-item-icon-color)
+  name: 
+    - justify-self: start
+  label:
+    - justify-self: start
+    - color: var(--secondary-text-color)
+
+#=== ALLOW FONT TO BE EDITED
+tap_action:
+  action: fire-dom-event
+  browser_mod:
+    command: popup
+    title: User Interface Font
+    card:
+      type: vertical-stack
+      cards:
+        - type: markdown
+          content: Leave blank to use the font from the current theme.
+          card_mod:
+            style: >
+              ha-card {
+                font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                font-size: 16px;
+                text-align: center;
+              }
+        - type: entities
+          entities:
+            - entity: input_text.irrigation_ui_font_family
+              name: Font Name
+          card_mod:
+            style: >
+              ha-card {
+                font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+              }
+    #=== Style needed for pop-up title
+    style:
+      $: |
+        .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+          }
+  

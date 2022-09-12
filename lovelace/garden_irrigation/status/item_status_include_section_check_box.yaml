@@ -1,0 +1,56 @@
+# lovelace_gen
+
+#=============================
+#=== Status Heading Check Box
+#=============================
+type: custom:button-card
+entity: {{ entity }}
+name: >
+  [[[
+    var name = '{{ name }}';
+    if (name == 'DETAILS OF LAST RUN' &&
+        (
+        states['input_boolean.irrigation_cycle1_running'].state == 'on' ||
+        states['input_boolean.irrigation_cycle2_running'].state == 'on' ||
+        states['input_boolean.irrigation_cycle3_running'].state == 'on'
+        )
+      )
+      return 'DETAILS OF THIS RUN';
+    else
+      return name;
+  ]]]
+icon: mdi:checkbox-blank-outline
+size: 50%
+styles:
+  grid:
+    - grid-template-areas: '"n i"'
+    - grid-template-columns: min-content 10%
+    - grid-template-rows: 1fr
+  card:
+    - color: var(--secondary-text-color)
+    - border-radius: 0em
+    - background: none
+    - box-shadow: none
+    - padding-top: 0em
+    - padding-bottom: 0em
+    - font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
+    - font-size: 18px
+  img_cell:
+    - padding-bottom: 0.1em
+  name:
+    - border-left: 3px solid var(--accent-color)
+    - padding-left: 0.5em
+state:
+  - value: 'on'
+    icon: mdi:checkbox-marked-outline
+    styles:
+      icon:
+        - color: var(--paper-item-icon-color)
+  - value: 'off'
+    icon: mdi:checkbox-blank-outline
+    styles:
+      icon:
+        - color: var(--secondary-text-color)

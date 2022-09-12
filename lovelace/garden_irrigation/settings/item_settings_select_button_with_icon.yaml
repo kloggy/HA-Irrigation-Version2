@@ -1,0 +1,71 @@
+# lovelace_gen
+
+#==========================
+#=== Boolean Select Button
+#==========================
+type: custom:button-card
+entity: {{ entity }}
+show_state: false
+show_name: true
+name: {{ name }}
+icon: {{ icon }}
+show_icon: true
+size: {{ size | default('50%') }}
+lock:
+  enabled: {{ lock_enabled  | default('false') }}
+tap_action:
+  action: {{ tap_action | default('toggle') }}
+double_tap_action:
+  action: {{ double_tap_action | default(none) }}
+hold_action:
+  action: {{ hold_action | default(none) }}
+styles:
+  grid:
+    - grid-template-areas: '"i n"'
+    - grid-template-columns: >
+        [[[
+          var columns = '{{ columns | default('2') }}';
+          if (columns == '1')
+            {
+              var icon_size = '10%';
+            }
+          else
+            {  
+              var icon_size = '20%';
+            }
+          return icon_size + ' auto ';
+        ]]]
+    - grid-template-rows: 1fr
+  img_cell:
+    - padding: 0em
+  # lock:
+  #   - color: {{ lock_color | default('red') }}
+  card:
+    - font-family: >
+        [[[
+          return states['input_text.irrigation_ui_font_family'].state
+        ]]]
+    - padding: 0em
+    - height: {{ card_height | default('2.5em') }}
+    - font-size: {{ card_font_size | default('14px') }}
+    - border-radius: {{ card_border_radius | default('5px') }}
+  name:
+    - justify-self: {{ name_justify_self | default('start') }}
+state:
+  - value: 'on'
+    name: {{ on_name }}
+    icon: {{ on_icon }}
+    styles:
+      card:
+        - background-color: {{ card_background_on_color | default('var(--primary-background-color)') }}
+        - border: 1px solid var(--accent-color)
+  - value: 'off'
+    name: {{ off_name }}
+    icon: {{ off_icon }}
+    styles:
+      card:
+        - color: {{ card_off_color | default('var(--secondary-text-color)') }}
+        - box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19)
+      icon:
+        - color: {{ icon_off_color | default('var(--secondary-text-color)') }}
+

@@ -1,0 +1,58 @@
+# lovelace_gen
+
+#================
+#=== INFO BUTTON
+#================
+type: custom:button-card
+icon: mdi:information-outline
+show_name: false
+size: 100%
+styles:
+  card:
+    - background: none
+    - width: 1.9em
+    - box-shadow: none
+  icon:
+    - color: var(--accent-color)
+tap_action:
+  action: fire-dom-event
+  browser_mod:
+    command: popup
+    title: "ℹ️ INFORMATION"
+    card:
+      type: markdown
+      content: >
+        Tap a Cycle Start Time to edit the schedule time
+
+        Tap a Cycle header to edit the name
+
+
+        Tap a Zone to edit its information
+
+
+        Selecting 'Testing Mode' will change run times to seconds.
+
+        e.g a run time of 5 minutes will run for 5 seconds.
+
+
+        ---
+
+
+        #### Adjusting Duration For Weather (Experimental)
+
+        Turning on weather adjustments will adjust watering time based on temperature
+        and/or rainfall.
+
+
+        See RAINFALL & TEMPERATURE settings.
+      card_mod:
+        style: >
+          ha-card {
+            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+          }
+    #=== Style needed for pop-up title
+    style:
+      $: |
+        .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+          }

@@ -1,0 +1,96 @@
+
+#===================
+#=== Input Booleans
+#===================
+input_boolean:
+
+  irrigation_master_control_switch:
+    name: Master Control Switch
+    icon: mdi:bomb
+    
+
+#================
+#=== Automations
+#================
+automation:
+
+  #=============================
+  #=== Master Control switch ON
+  #=============================
+  - alias: Irrigation Master Control Switch ON
+    id: irrigation_master_control_switch_on
+    trigger:
+      - platform: homeassistant
+        event: start
+
+      - platform: state
+        entity_id: input_boolean.irrigation_master_control_switch
+        to: 'on'
+
+    condition:
+      - condition: state
+        entity_id: input_boolean.irrigation_master_control_switch
+        state: 'on'
+    
+    action:
+      #=== Turn ON Automations
+      - service: automation.turn_on
+        data_template:
+          entity_id: >
+            {% for automation in states.automation if automation.object_id.startswith('irrigation') and
+                                                      'irrigation_remote_control' not in automation.object_id %}
+              {{- automation.entity_id }}{% if not loop.last %}, {% endif -%}
+            {% endfor %}
+
+
+  #==============================
+  #=== Master Control switch OFF
+  #==============================
+  - alias: Irrigation Master Control Switch OFF
+    id: irrigation_master_control_switch_off
+    trigger:
+      - platform: homeassistant
+        event: start
+
+      - platform: state
+        entity_id: input_boolean.irrigation_master_control_switch
+        to: 'off'
+
+    condition:
+      - condition: state
+        entity_id: input_boolean.irrigation_master_control_switch
+        state: 'off'
+    
+    action:
+      #=== Turn OFF Automations
+      - service: automation.turn_off
+        data_template:
+          entity_id: >
+            {% for automation in states.automation if automation.object_id.startswith('irrigation') and
+                                                      'irrigation_remote_control_switch' not in automation.object_id and
+                                                      'irrigation_master_control_switch' not in automation.object_id %}
+              {{- automation.entity_id }}{% if not loop.last %}, {% endif -%}
+            {% endfor %}
+
+      #=== Turn OFF all schedules
+      - service: input_boolean.turn_off
+        entity_id:
+          - input_boolean.irrigation_cycle1_schedule_enabled
+          - input_boolean.irrigation_cycle2_schedule_enabled
+
+      #=== Turn off all zone valves explicitly 
+      - service: switch.turn_off
+        data_template:
+          entity_id: > 
+            {% for switch_name in states.input_text if switch_name.object_id.startswith('irrigation_zone') and
+                                                       switch_name.object_id.endswith('switch_entity_id') and
+                                                       states(states(switch_name.entity_id)) != 'unknown' and
+                                                       states(states(switch_name.entity_id)) != 'none' -%}
+              {{ states(switch_name.entity_id) }}
+              {%- if not loop.last %}, {% endif %}
+            {%- endfor %}
+
+      #=== Turn OFF remote control
+      - service: input_boolean.turn_off
+        entity_id:
+          - input_boolean.irrigation_remote_control

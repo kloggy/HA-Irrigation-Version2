@@ -1,0 +1,234 @@
+# lovelace_gen
+
+#======================
+#=== RAINFALL SETTINGS
+#======================
+type: entities
+entities:
+
+  - type: custom:hui-element
+    card_type: vertical-stack
+    cards:
+
+      #=== GENERAL RAINFALL SETTINGS
+      - type: custom:button-card  
+        show_icon: false
+        name: GENERAL RAINFALL SETTINGS
+        tap_action:
+          action: none
+
+        #=== ANCHOR STYLES FOR ALL HEADINGS ON THE PAGE
+        styles: &title_style
+          card:
+            - color: var(--secondary-text-color)
+            - box-shadow: none
+            - border-radius: 0em
+            - background: none
+            - padding-top: 0em
+            - padding-bottom: 0em
+            - padding-left: 0.5em
+            - font-family: >
+                [[[
+                  return states['input_text.irrigation_ui_font_family'].state
+                ]]]
+            - font-size: 18px
+          name:
+            - justify-self: start
+            - border-left: 3px solid var(--accent-color)
+            - padding-left: 0.5em
+
+      #=== NUMBER OF DAYS HISTORY
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_days_of_rainfall_history_used
+            name: Number of days history to use
+            label: (0 to 4) If zero only rainfall today is used
+            round: 0
+
+      #=== RAINFALL THRESHOLD
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_rainfall_threshold
+            name: Rainfall threshold
+            label: If this threshold is reached no watering takes place
+
+      #=== IGNORE SCHEDULES IF RAINING
+      - !include
+        - ../item_settings_check_box_with_entity_icon.yaml
+        - entity: input_boolean.irrigation_ignore_schedule_if_raining
+          columns: 1
+          on_icon: mdi:calendar-check-outline
+          off_icon: mdi:calendar-remove-outline
+
+      #-------------------------
+      - type: custom:hui-element
+        row_type: divider
+      #-------------------------
+
+      - type: custom:hui-element
+        card_type: horizontal-stack
+        cards:
+
+          #=== RAINFALL INCLUDED IN CALCULATIONS
+          - type: custom:button-card  
+            show_icon: false
+            name: RAINFALL INCLUDED IN CALCULATIONS
+            tap_action:
+              action: none
+            styles: *title_style
+
+          #=== EDIT BUTTON FOR RAINFALL INCLUDED IN CALCULATIONS
+          - type: custom:button-card
+            icon: mdi:square-edit-outline
+            styles:
+              card:
+                - box-shadow: none
+                - width: 4em
+                - padding-right: 0.5em
+
+            #=== ALLOW EDITING OF PERCENTAGES
+            tap_action:
+              action: fire-dom-event
+              browser_mod:
+                command: popup
+                title: Rainfall Included in Calculations
+                card:
+                  type: entities
+                  entities:
+                    - entity: input_number.irrigation_rainfall_percentage_1
+                    - entity: input_number.irrigation_rainfall_percentage_2
+                    - entity: input_number.irrigation_rainfall_percentage_3
+                    - entity: input_number.irrigation_rainfall_percentage_4
+                  card_mod:
+                    style: >
+                      ha-card {
+                        font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                        }
+                #=== Style needed for pop-up title
+                style:
+                  $: |
+                    .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+                        font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                      }
+
+      #=== YESTERDAY
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_rainfall_percentage_1
+            name: Yesterday
+            tap_action: none
+            padding: 0.3em 0em 0em 0em
+
+      #=== TWO DAYS AGO
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_rainfall_percentage_2
+            name: Two days ago
+            tap_action: none
+
+      #=== THREE DAYS AGO
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_rainfall_percentage_3
+            name: Three days ago
+            tap_action: none
+
+      #=== FOUR DAYS AGO
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_rainfall_percentage_4
+            tap_action: none
+            name: Four days ago
+            padding: 0em 0em 0.3em 0em
+
+      #-------------------------
+      - type: custom:hui-element
+        row_type: divider
+      #-------------------------
+
+      #=== RAINFALL DATA
+      - type: custom:button-card  
+        show_icon: false
+        name: RAINFALL DATA
+        tap_action:
+          action: none
+        styles: *title_style
+
+      #=== MULTIPLIER USED IN CALCULATIONS
+      - !include
+          - ../item_settings_multiplier_line.yaml
+          - entity: input_number.irrigation_rainfall_multiplier
+            name: "Current Multiplier ( ℹ️ )"
+            label: Calculated based on rainfall and threshold
+
+      #=== RAINFALL TODAY
+      - !include
+          - ../item_settings_line.yaml
+          - entity: sensor.irrigation_sensor_rainfall_today
+            name: Rainfall Today
+            icon: mdi:weather-rainy
+            round: 1
+            tap_action: none
+
+      #=== RAINFALL YESTERDAY
+      - !include
+          - ../item_settings_line.yaml
+          - entity: sensor.irrigation_sensor_rainfall_yesterday
+            name: Yesterday
+            icon: mdi:weather-rainy
+            round: 1
+            tap_action: none
+            display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 1 ? 'none' : 'unset' ]]]"
+
+      #=== RAINFALL TWO DAYS AGO
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_rainfall_2
+            name: Two days ago
+            round: 1
+            tap_action: none
+            display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 2 ? 'none' : 'unset' ]]]"
+
+      #=== RAINFALL THREE DAYS AGO
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_rainfall_3
+            name: Three days ago
+            round: 1
+            tap_action: none
+            display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 3 ? 'none' : 'unset' ]]]"
+
+      #=== RAINFALL FOUR DAYS AGO
+      - !include
+          - ../item_settings_line.yaml
+          - entity: input_number.irrigation_rainfall_4
+            name: Four days ago
+            round: 1
+            tap_action: none
+            display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 4 ? 'none' : 'unset' ]]]"
+            padding: 0em 0em 0.3em 0em
+
+      #=== SMARTWEATHER STATIONS USED
+      - !include item_settings_smartweather_stations_used.yaml
+
+      #-------------------------
+      - type: custom:hui-element
+        row_type: divider
+      #-------------------------
+
+      #=== FORECAST RAIN VS. ACTUAL RAIN
+      - type: custom:button-card  
+        show_icon: false
+        name:  RAINFALL - <font color=IndianRed>Forecast</font> vs. <font color=SteelBlue>Actual</font>
+        tap_action:
+          action: none
+        styles: *title_style
+
+      #=== FORECAST VS. ACTUAL RIAN GRAPH
+      - !include item_settings_rainfall_graph.yaml
+
+card_mod:
+  style: >
+    ha-card {
+      box-shadow: none;
+    }
