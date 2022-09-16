@@ -56,19 +56,20 @@ cards:
     tap_action:
       action: fire-dom-event
       browser_mod:
-        command: popup
-        title: Cycle {{ cycle }} Settings
-        card:
-          type: entities
-          entities:
-            - entity: input_text.irrigation_cycle{{ cycle }}_name
-              name: Name
-              icon: mdi:alphabetical-variant
-          card_mod:
-            style: >
-              ha-card {
-                font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-              }
+        service: browser_mod.popup
+        data:
+          title: Cycle {{ cycle }} Settings
+          content:
+            type: entities
+            entities:
+              - entity: input_text.irrigation_cycle{{ cycle }}_name
+                name: Name
+                icon: mdi:alphabetical-variant
+            card_mod:
+              style: >
+                ha-card {
+                  font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                }
 
   #=== CYCLE RUNNING ICON
   - type: custom:button-card

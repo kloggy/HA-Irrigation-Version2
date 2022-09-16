@@ -77,31 +77,32 @@ state:
 tap_action:
   action: {{ tap_action | default('fire-dom-event') }}
   browser_mod:
-    command: popup
-    title: {{ name }}
-    card:
-      type: entities
-      entities:
-        - entity: {{ entity }}
-          name: {{ name }}
-          icon: {{ icon }}
-          card_mod:
-            style: # Wrap text
-              hui-generic-entity-row:
-                $: |
-                  .info {
-                    text-overflow: unset !important;
-                    white-space: unset !important;
-                  }
-      card_mod:
-        style: >
-          ha-card {
-            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-          }
-    #=== Style needed for pop-up title
-    style:
-      $: |
-        .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-            font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-          }
+    service: browser_mod.popup
+    data:
+      title: {{ name }}
+      content:
+        type: entities
+        entities:
+          - entity: {{ entity }}
+            name: {{ name }}
+            icon: {{ icon }}
+            card_mod:
+              style: # Wrap text
+                hui-generic-entity-row:
+                  $: |
+                    .info {
+                      text-overflow: unset !important;
+                      white-space: unset !important;
+                    }
+        card_mod:
+          style: >
+            ha-card {
+              font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+            }
+      #=== Style needed for pop-up title
+      style:
+        $: |
+          .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+              font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+            }
   

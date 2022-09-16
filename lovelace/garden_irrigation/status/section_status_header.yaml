@@ -188,22 +188,23 @@ entities:
                 return 'none';
             ]]]
           browser_mod:
-            command: popup
-            title: "⚠️ CYCLE SCHEDULE CLASH"
-            card:
-              type: markdown
-              content: |
-                #### WARNING! You have overlapping cycle schedules...
+            service: browser_mod.popup
+            data:
+              title: "⚠️ CYCLE SCHEDULE CLASH"
+              content:
+                type: markdown
+                content: |
+                  #### WARNING! You have overlapping cycle schedules...
 
-                {{ state_attr('binary_sensor.irrigation_cycle_start_clash', 'clash_text') }}
+                  {{ state_attr('binary_sensor.irrigation_cycle_start_clash', 'clash_text') }}
 
-                Please check and correct.
-            #=== Style needed for pop-up title
-            style:
-              $: |
-                .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
-                    font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
-                  }
+                  Please check and correct.
+              #=== Style needed for pop-up title
+              style:
+                $: |
+                  .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
+                      font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                    }
 
 
       #=== STOP BUTTON
