@@ -5,7 +5,7 @@ __Please note that I recommend some understanding of Home Assistant in general a
 
 # November 2022
 
-I have been tinkering with this package over the last few months mainly to keep it up to date with changes in HA as well as some small cosmetic improvements and code clean-ups. I will put all the changed files up here hopefully today but certainly in the next day or so (I am writing this on 20 November 2022)
+I have been tinkering with this package over the last few months mainly to keep it up to date with changes in HA as well as some small cosmetic improvements and code clean-ups. I have uploaded new files.
 
 PLEASE make sure you keep a backup copy just in case. Everything has been working for me over the summer!
 
