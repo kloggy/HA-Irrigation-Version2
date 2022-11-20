@@ -28,7 +28,6 @@ entities:
                 ]]]
             - background: none
             - margin: 0.1em 0em 0em 0em
-            - box-shadow: none
 
         #=== SHOW WHOLE WATERING TIME OVERVIEW
         tap_action:
@@ -180,9 +179,7 @@ entities:
 style: >
   ha-card {
     background: none;
-    box-shadow: none;
     margin-top: -0.5em;
-    margin-bottom: -0.75em;
   }
 
 

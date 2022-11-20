@@ -36,7 +36,6 @@ styles:
     - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
     - padding: 0px
     - background: none
-    - box-shadow: none
   name:
     - justify-self: end
     - color: var(--secondary-text-color)
@@ -50,19 +49,11 @@ custom_fields:
   total_yesterday: >
     [[[
       var zone = '{{ zone }}';
-      var time = states['sensor.irrigation_' + zone + '_total_time_yesterday'].attributes.value;
-      if(time){
-        time = time.replace("h", "hr ");
-        time = time.replace("m", " min");
-        return time; }
+      return states['sensor.irrigation_' + zone + '_total_time_yesterday'].state;
     ]]]
   total_today: >
     [[[
       var zone = '{{ zone }}';
-      var time = states['sensor.irrigation_' + zone + '_total_time_today'].attributes.value;
-      if(time){
-        time = time.replace("h", "hr ");
-        time = time.replace("m", " min");
-        return time; }
+      return states['sensor.irrigation_' + zone + '_total_time_today'].state;
     ]]]
 

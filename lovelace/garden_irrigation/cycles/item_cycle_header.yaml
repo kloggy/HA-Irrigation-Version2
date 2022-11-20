@@ -32,10 +32,10 @@ cards:
         - width: 2em
       card:
         - font-family: "[[[ return states['input_text.irrigation_ui_font_family'].state ]]]"
-        - border-radius: 0px
         - margin-left: 0em
-        - box-shadow: none
         - background: none
+        - margin-top: -0.75em
+        - margin-bottom: -0.75em
       name:
         - font-size: 18px
         - color: var(--secondary-text-color)
@@ -43,15 +43,16 @@ cards:
         - border-left: 3px solid var(--accent-color)
         - padding-left: 0.5em
       icon:
-        - padding-left: 0.5em
+        - padding-left: 0.7em
+        - padding-top: 0.4em
         - align-self: start
       state:
         - font-size: 13px
         - text-align: left
         - justify-self: start
-        - margin-top: 0.2em
         - padding-left: 0.4em
-    
+        - padding-top: 0.5em
+
     #=== ALLOW CYCLE NAME TO BE EDITED
     tap_action:
       action: fire-dom-event
@@ -83,7 +84,6 @@ cards:
         - background: none
         - height: 45px
         - width: 45px
-        - box-shadow: none
         - margin-top: -0.3em
       icon:
         - width: 25px
@@ -108,7 +108,6 @@ cards:
         - background: none
         - height: 45px
         - width: 45px
-        - box-shadow: none
         - margin-top: -0.1em
         - display: >
             [[[
@@ -125,7 +124,6 @@ cards:
           card:
             - color: var(--secondary-text-color)
             - opacity: 50%
-            - box-shadow: none
           icon:
             - color: var(--secondary-text-color)
       - value: 'on'
@@ -192,7 +190,6 @@ cards:
         - background: none
         - height: 45px
         - width: 45px
-        - box-shadow: none
         - margin-top: -0.1em
         - display: >
             [[[
@@ -208,3 +205,4 @@ cards:
       - value: 'on'
         icon: mdi:stop-circle-outline
         color: red
+

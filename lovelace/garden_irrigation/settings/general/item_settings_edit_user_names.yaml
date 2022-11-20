@@ -28,7 +28,6 @@ cards:
         - font-size: 12px
         - padding: 0em 0.2em 0em
         - margin-top: 0em
-        - box-shadow: none
       name:
         - color: var(--secondary-text-color)
         - justify-self: right
@@ -105,4 +104,4 @@ cards:
               .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
                   font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
                 }
-        
+      

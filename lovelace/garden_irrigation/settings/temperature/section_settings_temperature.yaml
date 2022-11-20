@@ -20,7 +20,6 @@ entities:
         styles: &title_style
           card:
             - color: var(--secondary-text-color)
-            - box-shadow: none
             - border-radius: 0em
             - background: none
             - padding-top: 0em
@@ -152,8 +151,3 @@ entities:
             round: 1
             tap_action: none
 
-card_mod:
-  style: >
-    ha-card {
-      box-shadow: none;
-    }

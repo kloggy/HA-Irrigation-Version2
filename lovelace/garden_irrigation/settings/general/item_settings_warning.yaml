@@ -31,7 +31,6 @@ styles:
           return states['input_text.irrigation_ui_font_family'].state
         ]]]
     - font-size: 12px
-    - box-shadow: none
     - background-color: transparent
     - padding-top: 0em 
     - margin-top: 0em

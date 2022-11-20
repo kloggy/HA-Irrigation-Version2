@@ -56,6 +56,18 @@ styles:
           return states['input_text.irrigation_ui_font_family'].state
         ]]]
     - padding: 0em
+    - padding-right: >
+        [[[
+          var columns = '{{ columns | default('2') }}';
+          if (columns == '1')
+            return '1em';
+        ]]]
+    - padding-left: >
+        [[[
+          var columns = '{{ columns | default('2') }}';
+          if (columns == '1')
+            return '1em';
+        ]]]
     - height: {{ card_height | default('2.5em') }}
     - font-size: {{ card_font_size | default('14px') }}
     - border-radius: {{ card_border_radius | default('5px') }}

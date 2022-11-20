@@ -34,7 +34,6 @@ styles:
     - font-size: 15px
     - padding: 0em 1.5em 0em 0em
     - background: none
-    - box-shadow: none
   icon:
     - color: var(--paper-item-icon-color)
   name: 
@@ -84,6 +83,10 @@ tap_action:
                         }
               - entity: input_number.irrigation_controller_offline_wait
                 name: Seconds To Wait If Offline
+                card_mod:
+                  style: *text_wrap_style
+              - entity: input_number.irrigation_controller_log_unavailable_seconds_threshold
+                name: Seconds To Wait Before Logging
                 card_mod:
                   style: *text_wrap_style
               - type: section

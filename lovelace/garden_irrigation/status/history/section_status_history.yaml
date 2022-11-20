@@ -29,7 +29,6 @@ entities:
             - grid-template-rows: 1fr
           card:
             - background: none
-            - box-shadow: none
             - padding: 0em
             - font-size: 16px
             - font-family: >
@@ -116,7 +115,6 @@ entities:
         ha-card {
           # margin-bottom: -1em;
           background: none;
-          box-shadow: none;
         }
         #states {
           {% raw %}
@@ -128,8 +126,3 @@ entities:
           padding-top: 0em;
           padding-bottom: 0em;
         }
-card_mod:
-  style: |
-    ha-card {
-      box-shadow: none;
-    }

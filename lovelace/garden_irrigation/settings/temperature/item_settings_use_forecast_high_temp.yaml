@@ -36,7 +36,6 @@ cards:
                   return states['input_text.irrigation_ui_font_family'].state
                 ]]]
             - font-size: 14px
-            - box-shadow: none
             - background: none
           state:
             - justify-self: right
@@ -75,4 +74,4 @@ cards:
                   .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
                       font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
                     }
-              
+            

@@ -21,7 +21,6 @@ entities:
         - padding: 0em
         - border-radius: 0em
         - background: none
-        - box-shadow: none
       state:
         - justify-self: start
         - padding-left: 0.5em 
@@ -230,7 +229,6 @@ entities:
 card_mod:
   style: >
     ha-card {
-      box-shadow: none;
       margin-top: -0.5em;
     }
     #states {

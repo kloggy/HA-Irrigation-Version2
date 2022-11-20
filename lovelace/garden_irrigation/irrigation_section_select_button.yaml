@@ -21,6 +21,7 @@ tap_action:
   service_data:
     entity_id: {{ entity }}
     option: {{ option }}
+tooltip: {{ tooltip | default('') }}
 styles:
   card:
     - border-radius: 0.5em

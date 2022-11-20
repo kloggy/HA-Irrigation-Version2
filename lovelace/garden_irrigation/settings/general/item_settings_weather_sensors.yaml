@@ -22,7 +22,6 @@ styles:
     - font-size: 15px
     - padding: 0em 1.5em 0.5em 0.2em
     - background: none
-    - box-shadow: none
   icon:
     - color: var(--paper-item-icon-color)
   name: 
@@ -46,7 +45,6 @@ tap_action:
                 ha-card {
                   font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
                   font-size: 16px;
-                  box-shadow: none;
                   }
           - type: markdown
             content: >
@@ -57,7 +55,6 @@ tap_action:
                     font-family: Monospace; 
                     font-size: 14px;
                     text-align: center;
-                    box-shadow: none;
                   }
           - type: entities
             entities:

@@ -39,7 +39,6 @@ styles:
     - font-size: 15px
     - padding: 0em 0em 0.5em 0em
     - background: none
-    - box-shadow: none
   icon:
     - color: var(--paper-item-icon-color)
   name: 

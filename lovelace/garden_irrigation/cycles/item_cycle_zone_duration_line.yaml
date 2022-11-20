@@ -228,23 +228,22 @@ card:
                           .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
                               font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
                             }
-                  card_mod:
-                    style: |
-                      :host {
-                        {% raw %}
-                        {% set zone = {% endraw %} {{ zone }} {% raw %} %}
-                        {% set cycle = {% endraw %} {{ cycle }} {% raw %} %}
-                        {% if is_state('input_number.irrigation_cycle' ~ cycle ~'_zone' ~ zone ~ '_duration', '0.0') %} 
-                          color: var(--secondary-text-color);
-                          opacity: 50%;
-                        {% endif %}
-                        {% endraw %}
-                      }
+                card_mod:
+                  style: |
+                    :host {
+                      {% raw %}
+                      {% set zone = {% endraw %} {{ zone }} {% raw %} %}
+                      {% set cycle = {% endraw %} {{ cycle }} {% raw %} %}
+                      {% if is_state('input_number.irrigation_cycle' ~ cycle ~'_zone' ~ zone ~ '_duration', '0.0') %} 
+                        color: var(--secondary-text-color);
+                        opacity: 50%;
+                      {% endif %}
+                      {% endraw %}
+                    }
 
             card_mod:
               style: |
                 ha-card {
-                  box-shadow: none;
                   background: none;
                   overflow: visible !important;
                 }

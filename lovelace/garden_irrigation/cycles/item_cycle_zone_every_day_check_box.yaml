@@ -19,7 +19,6 @@ styles:
     - width: 5em
     - height: 4em
     - font-size: 12px
-    - box-shadow: none
     - background: none
     - display: >
         [[[

@@ -24,7 +24,6 @@ card:
                 return states['input_text.irrigation_ui_font_family'].state
               ]]]
           - background: none
-          - box-shadow: none
           - color: var(--secondary-text-color)
           - margin-top: 0.5em
       tap_action:

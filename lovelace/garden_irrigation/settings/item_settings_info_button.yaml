@@ -11,7 +11,6 @@ styles:
   card:
     - background: none
     - width: 1.9em
-    - box-shadow: none
   icon:
     - color: var(--accent-color)
 tap_action:

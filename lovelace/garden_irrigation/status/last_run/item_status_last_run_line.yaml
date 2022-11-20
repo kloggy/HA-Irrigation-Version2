@@ -49,7 +49,6 @@ styles:
     - color: var(--secondary-text-color)
     - padding: 0px
     - background: none
-    - box-shadow: none
   name:
     - justify-self: end
   label:

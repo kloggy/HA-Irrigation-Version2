@@ -30,7 +30,6 @@ styles:
     - color: var(--secondary-text-color)
     - border-radius: 0em
     - background: none
-    - box-shadow: none
     - padding-top: 0em
     - padding-bottom: 0em
     - font-family: >

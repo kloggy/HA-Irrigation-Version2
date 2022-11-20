@@ -27,7 +27,6 @@ entities:
                 ]]]
             - background: none
             - margin: 0.1em 0em 0em 0em
-            - box-shadow: none
         tap_action:
           action: none
 
@@ -63,7 +62,6 @@ card_mod:
   style: >
     ha-card {
       background: none;
-      box-shadow: none;
       margin-top: -0.5em;
       margin-bottom: -1em;
     }

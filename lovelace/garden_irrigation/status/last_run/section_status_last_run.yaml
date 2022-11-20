@@ -60,7 +60,6 @@ entities:
         - color: var(--secondary-text-color)
         - padding: 0.5em 0em 0em 10px
         - background: none
-        - box-shadow: none
       label:
         - justify-self: start
       name:
@@ -96,7 +95,6 @@ entities:
         - padding: 0em 0em 0em 10px
         - margin-top: -0em
         - background: none
-        - box-shadow: none
       name:
         - justify-self: start
       label:
@@ -191,7 +189,6 @@ entities:
       style: |
         ha-card {
           background: none;
-          box-shadow: none;
         }
         #states {
           {% raw %}
@@ -204,8 +201,3 @@ entities:
           padding-bottom: 0em;
         }
 
-card_mod:
-  style: |
-    ha-card {
-      box-shadow: none;
-    }

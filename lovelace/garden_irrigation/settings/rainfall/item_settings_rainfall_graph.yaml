@@ -13,15 +13,15 @@ entities:
     color: SteelBlue
     show_legend: false
   #=== DAY/NIGHT
-  - entity: binary_sensor.above_horizon
+  - entity: sensor.night_or_day
     name: Night
     y_axis: secondary
     color: black
-    show_line: false
     show_points: true
+    show_line: false
     show_legend: false
-lower_bound: 0
-line_width: 2
+# lower_bound: 0
+line_width: 1
 hours_to_show: 48
 points_per_hour: 4
 aggregate_func: min
@@ -29,21 +29,15 @@ show:
   fill: fade
   name: false
   state: false
-  labels: false
+  labels: true
   points: false
   labels_secondary: false
   icon: false
-state_map:
-  - value: 'on'
-    label: 'Day'
-  - value: 'off'
-    label: 'Night'
 tap_action:
   action: none
 card_mod:
   style: >
     ha-card {
-      box-shadow: none;
       background: none;
       border-radius: 0px;
     }

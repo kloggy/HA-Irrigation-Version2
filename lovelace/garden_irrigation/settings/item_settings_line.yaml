@@ -54,7 +54,6 @@ styles:
     - font-size: 15px
     - padding: {{ padding | default('0em 0em 0em 0em') }}
     - background: none
-    - box-shadow: none
   icon:
     - color: var(--paper-item-icon-color)
   name: 
@@ -105,4 +104,4 @@ tap_action:
           .mdc-dialog .mdc-dialog__container .mdc-dialog__surface {
               font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
             }
-  
+    
