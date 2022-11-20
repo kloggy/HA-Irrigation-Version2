@@ -84,7 +84,15 @@ script:
                     none
                   {% endif %}
                 value: 0
-            
+
+
+      #=== Write To Log
+      - service: script.irrigation_write_to_log
+        data:
+          log_event: SINGLE_ZONE_STARTING
+          zone: >
+            {{ zone }}
+
       #=== Start Cycle 3
       - service: input_boolean.turn_on
         entity_id: input_boolean.irrigation_cycle3_running

@@ -9,6 +9,7 @@ automation:
   - alias: Irrigation Set Default Forecast High Temperature Sensor
     id: irrigation_set_default_forecast_high_temperature_sensor
     trigger:
+      #=== If HA starts
       - platform: homeassistant
         event: start
 
@@ -40,6 +41,7 @@ automation:
   - alias: Irrigation Set Default Current Temperature Sensor
     id: irrigation_set_default_current_temperature_sensor
     trigger:
+      #=== If HA starts
       - platform: homeassistant
         event: start
 
@@ -71,6 +73,7 @@ automation:
   - alias: Irrigation Initialise Temperature Sensors
     id: irrigation_initialise_temperature_sensors
     trigger:
+      #=== If HA starts
       - platform: homeassistant
         event: start
 

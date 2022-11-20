@@ -1,0 +1,54 @@
+
+#==================
+#=== Input Numbers
+#==================
+input_number:
+  irrigation_controller_log_unavailable_seconds_threshold:
+    name: Unavailable Seconds Threshold
+    min: 0
+    max: 30
+    icon: mdi:lightbulb-alert
+
+
+#================
+#=== Automations
+#================
+automation:
+  #======================================
+  #=== Irrigation Controller Unavailable
+  #======================================
+  - alias: Irrigation Controller Unavailable
+    id: irrigation_controller__log_unavailable
+    mode: queued
+    trigger:
+      - platform: template
+        value_template: >
+          {{ states(states('input_text.irrigation_external_sensor_controller_wifi'))  == 'unavailable' }}
+        for: 
+          seconds: >
+            {{ input_number.irrigation_controller_log_unavailable_seconds_threshold }}
+
+    action:
+      #=== Write To Log
+      - service: script.irrigation_write_to_log
+        data:
+          log_event: CONTROLLER_UNAVAILABLE
+
+
+  #====================================
+  #=== Irrigation Controller Available
+  #====================================
+  - alias: Irrigation Controller Available
+    id: irrigation_controller__log_Available
+    mode: queued
+    trigger:
+      - platform: template
+        value_template: >
+          {{ states(states('input_text.irrigation_external_sensor_controller_wifi'))  != 'unavailable' }}
+
+    action:
+      #=== Write To Log
+      - service: script.irrigation_write_to_log
+        data:
+          log_event: CONTROLLER_AVAILABLE
+

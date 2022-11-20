@@ -4,7 +4,7 @@
 #============
 mqtt:
   sensor:
-  # Irrigation Remote Control
+    # Irrigation Remote Control
     - name: Irrigation Remote Control
       state_topic: "433/Irrigation_Remote_Control"
       expire_after: 2
@@ -106,6 +106,7 @@ automation:
   - alias: Irrigation Remote Control Switch
     id: irrigation_remote_control_switch
     trigger:
+      #=== If HA starts
       - platform: homeassistant
         event: start
 
@@ -113,7 +114,7 @@ automation:
         entity_id: input_boolean.irrigation_remote_control
 
     action:
-      - service_template: >
+      - service: >
           automation.turn_{{ states('input_boolean.irrigation_remote_control') }}
         data_template:
           entity_id: >
@@ -147,9 +148,9 @@ automation:
         data:
           cycle: cycle3
           zone: >
-            {% for timer in states.timer if timer.object_id.startswith('irrigation_zone') %}
-              {% if timer.state == 'active' %}
-                {{ timer.object_id.split('_')[1] }}
+            {% for zone_timer in states.timer if zone_timer.object_id.startswith('irrigation_zone') %}
+              {% if zone_timer.state == 'active' %}
+                {{ zone_timer.object_id.split('_')[1] }}
               {% endif %}
             {% endfor %}
 
@@ -158,13 +159,19 @@ automation:
         data:
           entity_id: scene.irrigation_cycle3
 
+
+      #=== Write To Log
+      - service: script.irrigation_remote_write_to_log
+        data:
+          log_event: REMOTE_CANCEL
+          reason: Button AB pressed (Cancel Irrigation)
+
       #=== Announce
       - service: script.notify
         data:
           say: true
           sonos:
             - kitchen
-          volume: 0.3
           message: Irrigation cancelled
 
 
@@ -185,6 +192,7 @@ automation:
           - 'Button_AC'
           - 'Button_AD'
           - 'Button_BC'
+          - 'Button_CD'
 
     condition:
       #=== Only continue if automation.irrigation_remote_control_button_pressed is active
@@ -200,22 +208,23 @@ automation:
           say: true
           sonos:
             - kitchen
-          volume: 0.3
           message: >
             {% if trigger.to_state.state == 'Button_A' %}
               Lawn irrigation queued
             {% elif trigger.to_state.state == 'Button_B' %}
-              Left bed irrigation queued
+              Sunny side irrigation queued
             {% elif trigger.to_state.state == 'Button_C' %}
-              Right bed irrigation queued
+              Shady side irrigation queued
             {% elif trigger.to_state.state == 'Button_D' %}
               Fern irrigation queued
             {% elif trigger.to_state.state == 'Button_AC' %}
               Lawn and Both Beds irrigation queued
             {% elif trigger.to_state.state == 'Button_AD' %}
-              Lawn, Left and Right Bed and Fern Spray irrigation queued
+              Lawn, both beds and Fern Spray irrigation queued
             {% elif trigger.to_state.state == 'Button_BC' %}
-              Left and Right Beds irrigation queued
+              Sunny and Shady Beds irrigation queued
+            {% elif trigger.to_state.state == 'Button_CD' %}
+              Betty wee-wee watering irrigation queued
             {% else %}
               Unknown button pressed
             {% endif %}
@@ -238,6 +247,7 @@ automation:
           - 'Button_AC'
           - 'Button_AD'
           - 'Button_BC'
+          - 'Button_CD'
 
     condition:
       #=== Only continue if no Cycles are running
@@ -263,6 +273,13 @@ automation:
           {% endif %}
 
     action:
+        #=== Write To Log
+        - service: script.irrigation_remote_write_to_log
+          data:
+            log_event: REMOTE_BUTTON_PRESS
+            button: >
+              {{ trigger.to_state.state }}
+
         #=== Save current settings
         - service: scene.create
           data:
@@ -305,7 +322,6 @@ automation:
                     say: True
                     sonos:
                       - kitchen
-                    volume: 0.3
                     message: "The irrigation appears to be already running"
                       
 
@@ -362,7 +378,7 @@ automation:
                           {% endif %}
 
 
-                #=== BUTTON B - Run Left Bed (Zone 5)
+                #=== BUTTON B - Run Sunny Bed (Zone 5)
                 - conditions:
                     - condition: template
                       value_template: >
@@ -468,7 +484,7 @@ automation:
                           {{ 'Lawn and both beds irrigation starting for ' ~ duration ~ ' minutes' }}
 
 
-                #=== BUTTON BC - Run Left and Right Bed (Zones 5 & 6)
+                #=== BUTTON BC - Run Sunny and Shady Bed (Zones 5 & 6)
                 - conditions:
                     - condition: template
                       value_template: >
@@ -495,10 +511,10 @@ automation:
                         message: >
                           {% set duration = states('input_number.irrigation_remote_control_zone5_duration') | int +
                                             states('input_number.irrigation_remote_control_zone6_duration') | int %}
-                          {{ 'Left and right beds irrigation starting for a total off ' ~ duration ~ ' minutes' }}
+                          {{ states('input_text.irrigation_zone5_name') ~ ' and ' ~ states('input_text.irrigation_zone6_name') ~ ' irrigation starting for a total off ' ~ duration ~ ' minutes' }}
 
 
-                #=== BUTTON AD - Run Lawn, Left and Right Bed and Fern Spray (Zones 1 to 7)
+                #=== BUTTON AD - Run Lawn, Both Beds and Fern Spray (Zones 1 to 7)
                 - conditions:
                     - condition: template
                       value_template: >
@@ -544,6 +560,34 @@ automation:
                           {{ 'Lawn, both beds and ' + zone7_name + ' starting for ' ~ duration ~ ' minutes' }}
 
 
+                #=== BUTTON CD - Run Lawn Zones for one minute each
+                - conditions:
+                    - condition: template
+                      value_template: >
+                        {{ trigger.to_state.state == 'Button_CD' }}
+
+                  sequence:
+                    #=== Set Zones 1 to 4 to 1 minute
+                    - service: input_number.set_value
+                      data:
+                        entity_id: 
+                          - input_number.irrigation_cycle3_zone1_duration
+                          - input_number.irrigation_cycle3_zone2_duration
+                          - input_number.irrigation_cycle3_zone3_duration
+                          - input_number.irrigation_cycle3_zone4_duration
+                        value: 1
+
+                    #=== Run Cycle 3
+                    - service: script.irrigation_remote_control_run_cycle
+                      data:
+                        message: > 
+                          {% set duration = states('input_number.irrigation_remote_control_zone1_duration') | int +
+                                            states('input_number.irrigation_remote_control_zone2_duration') | int +
+                                            states('input_number.irrigation_remote_control_zone3_duration') | int +
+                                            states('input_number.irrigation_remote_control_zone4_duration') | int %}
+                          {{ 'Betty wee-wee watering starting for four minutes' }}
+
+
 #============
 #=== Scripts
 #============
@@ -568,21 +612,28 @@ script:
                 data:
                   say: True
                   sonos:
-                    - kitchen
-                  volume: 0.3
+                    - kitchen, 0.35, 0.25
                   message: "Warning! The irrigation switches are disabled."
 
       - service: script.notify
-        data_template:
+        data:
+          initiated_by: >
+            {{ this.entity_id }}
           say: true
           sonos:
-            - kitchen
-          volume: 0.3
-          message: "{{ message }}"
+            - kitchen, 0.35, 0.25
+          message: >
+            {{ message }}
 
       #=== Start Cycle 3
       - service: input_boolean.turn_on
         entity_id: input_boolean.irrigation_cycle3_running
+
+      #=== Write To Log
+      - service: script.irrigation_write_to_log
+        data:
+          log_event: CYCLE_STARTING
+          cycle: 3
 
       #=== Wait for Cycle 3 to start
       - wait_template: >

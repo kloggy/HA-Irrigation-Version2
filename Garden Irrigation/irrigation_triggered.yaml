@@ -95,6 +95,12 @@ automation:
                 data:
                   entity_id: input_boolean.irrigation_cycle1_running
 
+              #=== Write To Log
+              - service: script.irrigation_write_to_log
+                data:
+                  log_event: CYCLE_STARTING
+                  cycle: 1
+
           #=== Cycle 2
           - conditions:
               condition: trigger
@@ -104,6 +110,12 @@ automation:
                 data:
                   entity_id: input_boolean.irrigation_cycle2_running
 
+              #=== Write To Log
+              - service: script.irrigation_write_to_log
+                data:
+                  log_event: CYCLE_STARTING
+                  cycle: 2
+
           #=== Cycle 3
           - conditions:
               condition: trigger
@@ -112,3 +124,10 @@ automation:
               - service: homeassistant.turn_on
                 data:
                   entity_id: input_boolean.irrigation_cycle3_running
+
+              #=== Write To Log
+              - service: script.irrigation_write_to_log
+                data:
+                  log_event: CYCLE_STARTING
+                  cycle: 3
+

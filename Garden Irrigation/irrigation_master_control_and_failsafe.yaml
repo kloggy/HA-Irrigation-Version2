@@ -20,6 +20,7 @@ automation:
   - alias: Irrigation Master Control Switch ON
     id: irrigation_master_control_switch_on
     trigger:
+      #=== If HA starts
       - platform: homeassistant
         event: start
 
@@ -49,6 +50,7 @@ automation:
   - alias: Irrigation Master Control Switch OFF
     id: irrigation_master_control_switch_off
     trigger:
+      #=== If HA starts
       - platform: homeassistant
         event: start
 

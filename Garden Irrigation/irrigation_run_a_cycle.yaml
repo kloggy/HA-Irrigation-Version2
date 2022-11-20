@@ -31,6 +31,15 @@ script:
                 {{ states('input_number.irrigation_number_of_zones') | int == repeat.index }}
 
           sequence:
+            #=== Write To Log
+            - service: script.irrigation_write_to_log
+              data:
+                log_event: ZONE_STARTING
+                zone: >
+                  {{ repeat.index }}
+                seconds: >
+                  {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int }}
+
             - choose:
                 #=== If duration for this zone is not zero
                 - conditions:
@@ -92,6 +101,13 @@ script:
                         duration: >
                           {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int }}
 
+                    #=== Write To Log
+                    - service: script.irrigation_write_to_log
+                      data:
+                        log_event: ZONE_WATERING
+                        zone: >
+                          {{ repeat.index }}
+
                     #=== Wait for the timer to start (Probably unnecessary but...)
                     - wait_template: >
                         {% set entity_id = 'timer.irrigation_zone' ~ repeat.index ~ '_timer' %}
@@ -112,6 +128,15 @@ script:
                                 {{ states('input_text.irrigation_zone' ~ repeat.index ~ '_switch_entity_id') }}
 
                     #=== Wait for the timer to end
+                    #===
+                    #=== As of v2022.04 timers resume after a restart so this would be better than a wait_template
+                    # - wait_for trigger:
+                    #     - platform: event
+                    #       event_type: timer.finished
+                    #       event_data:
+                    #         entity_id: >
+                    #           {{ 'timer.irrigation_zone' ~ repeat.index ~ '_timer' }}
+
                     - wait_template: >
                         {% set entity_id = 'timer.irrigation_zone' ~ repeat.index ~ '_timer' %}
                         {{ is_state(entity_id, 'idle') }}
@@ -121,6 +146,13 @@ script:
                       data_template:
                         entity_id: >
                           {{ states('input_text.irrigation_zone' ~ repeat.index ~ '_switch_entity_id') }}
+
+                    #=== Write To Log
+                    - service: script.irrigation_write_to_log
+                      data:
+                        log_event: ZONE_STOPPING
+                        zone: >
+                          {{ repeat.index }}
 
                     #=== Update last run time for this zone
                     - service: input_text.set_value
@@ -186,4 +218,10 @@ script:
           entity_id: input_text.irrigation_current_status
           value: SYSTEM IDLE
 
+      #=== Write To Log
+      - service: script.irrigation_write_to_log
+        data:
+          log_event: CYCLE_ENDED
+          cycle: >
+            {{ cycle[-1] }}
 

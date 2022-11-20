@@ -1,0 +1,120 @@
+
+#============
+#=== Scripts
+#============
+script:
+  
+  #============================
+  #=== Irrigation Write To Log
+  #============================
+  irrigation_write_to_log:
+    alias: Irrigation Write To Log
+    mode: queued
+    sequence:
+
+      - condition: state
+        entity_id: input_boolean.logging_irrigation
+        state: 'on'
+
+      - choose:
+          #=== CONTROLLER_UNAVAILABLE
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'CONTROLLER_UNAVAILABLE' }}
+            sequence:
+              - service: notify.log_irrigation
+                data:
+                  message: >
+                    {{ as_timestamp(now()) | timestamp_custom('%X') }} - IRRIGATION - Controller UNAVAILABLE (RSSI: {{ states(states('input_text.irrigation_external_sensor_controller_wifi')) }})
+
+          #=== CONTROLLER_AVAILABLE
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'CONTROLLER_AVAILABLE' }}
+            sequence:
+              - service: notify.log_irrigation
+                data:
+                  message: >
+                    {{ as_timestamp(now()) | timestamp_custom('%X') }} - IRRIGATION - Controller AVAILABLE (RSSI: {{ states(states('input_text.irrigation_external_sensor_controller_wifi')) }})
+
+          #=== SINGLE ZONE STARTING
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'SINGLE_ZONE_STARTING' }}
+            sequence:
+              - service: notify.log_irrigation
+                data:
+                  message: >
+                    {% set zone_name =  states('input_text.irrigation_zone' ~ zone ~ '_name') %}
+                    {{ as_timestamp(now()) | timestamp_custom('%X') }} - IRRIGATION - Single zone starting (zone {{ zone }}, {{zone_name}})
+
+          #=== CYCLE STARTING
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'CYCLE_STARTING' }}
+            sequence:
+              - service: notify.log_irrigation
+                data:
+                  message: >
+                    {% set cycle_name =  states('input_text.irrigation_cycle' ~ cycle ~ '_name') %}
+                    {{ as_timestamp(now()) | timestamp_custom('%X') }} - IRRIGATION - Cycle {{ cycle }} ({{ cycle_name }}) starting
+
+          #=== CYCLE ENDED
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'CYCLE_ENDED' }}
+            sequence:
+              - service: notify.log_irrigation
+                data:
+                  message: >
+                    {% set cycle_name =  states('input_text.irrigation_cycle' ~ cycle ~ '_name') %}
+                    {{ as_timestamp(now()) | timestamp_custom('%X') }} - IRRIGATION - Cycle {{ cycle }} ({{ cycle_name }}) ended
+                    
+                    ===
+
+          #=== ZONE STARTING
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'ZONE_STARTING' }}
+            sequence:
+              - service: notify.log_irrigation
+                data:
+                  message: >
+                    {% set zone_name =  states('input_text.irrigation_zone' ~ zone ~ '_name') %}
+                    {% if seconds != 0 %}
+                      {{ as_timestamp(now()) | timestamp_custom('%X') }} - IRRIGATION - Zone {{ zone }} ({{ zone_name }}) starting for {{ seconds }} seconds
+                    {% else %}
+                      {{ as_timestamp(now()) | timestamp_custom('%X') }} - IRRIGATION - Zone {{ zone }} ({{ zone_name }}) Not Watering (duration zero)
+                    {% endif %}
+
+          #=== ZONE WATERING
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'ZONE_WATERING' }}
+            sequence:
+              - service: notify.log_irrigation
+                data:
+                  message: >
+                    {% set zone_name =  states('input_text.irrigation_zone' ~ zone ~ '_name') %}
+                    {{ as_timestamp(now()) | timestamp_custom('%X') }} - IRRIGATION - Zone {{ zone }} ({{ zone_name }}) watering
+
+          #=== ZONE STOPING
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'ZONE_STOPPING' }}
+            sequence:
+              - service: notify.log_irrigation
+                data:
+                  message: >
+                    {% set zone_name =  states('input_text.irrigation_zone' ~ zone ~ '_name') %}
+                    {{ as_timestamp(now()) | timestamp_custom('%X') }} - IRRIGATION - Zone {{ zone }} ({{ zone_name }}) stopping
+
+

@@ -19,6 +19,7 @@ automation:
   - alias: Irrigation Create Groups
     id: irrigation_create_groups
     trigger:
+      #=== If HA starts
       - platform: homeassistant
         event: start
         

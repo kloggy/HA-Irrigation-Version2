@@ -1,0 +1,10 @@
+
+#=============
+#=== Recorder
+#=============
+recorder:
+
+  exclude:
+    entity_globs:
+      - input_text.*
+      - input_number.*

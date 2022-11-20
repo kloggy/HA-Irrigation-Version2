@@ -50,6 +50,7 @@ automation:
   - alias: Irrigation Set Default Controller WiFi Signal Sensor
     id: irrigation_set_default_controller_wifi_signal_sensor
     trigger:
+      #=== If HA starts
       - platform: homeassistant
         event: start
 

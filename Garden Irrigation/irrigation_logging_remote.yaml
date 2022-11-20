@@ -1,0 +1,90 @@
+#============
+#=== Scripts
+#============
+script:
+  
+  #===================================
+  #=== Irrigation Remote Write To Log
+  #===================================
+  irrigation_remote_write_to_log:
+    alias: Irrigation Remote Write To Log
+    mode: queued
+    sequence:
+
+      - condition: state
+        entity_id: input_boolean.logging_irrigation
+        state: 'on'
+
+      - choose:
+          #=== REMOTE CANCEL
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'REMOTE_CANCEL' }}
+            sequence:
+              - service: notify.log_irrigation
+                data:
+                  message: >
+                    {{ as_timestamp(now()) | timestamp_custom('%X') }} - REMOTE CONTROL - {{ reason }}
+
+          #=== REMOTE BUTTON PRESS
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'REMOTE_BUTTON_PRESS' }}
+            sequence:
+              - service: notify.log_irrigation
+                data:
+                  message: >
+                    {{ as_timestamp(now()) | timestamp_custom('%X') }} - REMOTE CONTROL - {{ button }} pressed
+
+
+#================
+#=== Automations
+#================
+automation:
+  
+  #=============================
+  #=== IRRIGATION_REMOTE_CANCEL
+  #=============================
+  - alias: Irrigation Remote Event IRRIGATION REMOTE CANCEL
+    id: irrigation_remote_event_irrigation_remote_cancel
+    mode: queued
+    trigger:
+      - platform: event
+        event_type: IRRIGATION_REMOTE_CANCEL
+
+    condition:
+      - condition: state
+        entity_id: input_boolean.logging_irrigation
+        state: 'on'
+
+    action:
+      - service: notify.log_irrigation
+        data:
+          message: >
+            {{ as_timestamp(now()) | timestamp_custom('%X') }} - REMOTE CONTROL - Button AB pressed (Cancel Irrigation)
+
+
+  #===================================
+  #=== IRRIGATION_REMOTE_BUTTON_PRESS
+  #===================================
+  - alias: Irrigation Remote Event IRRIGATION REMOTE BUTTON PRESS
+    id: irrigation_remote_event_irrigation_remote_button_press
+    mode: queued
+    trigger:
+      - platform: event
+        event_type: IRRIGATION_REMOTE_BUTTON_PRESS
+
+    condition:
+      - condition: state
+        entity_id: input_boolean.logging_irrigation
+        state: 'on'
+
+    action:
+      - service: notify.log_irrigation
+        data:
+          message: >
+            {{ as_timestamp(now()) | timestamp_custom('%X') }} - REMOTE CONTROL - Button {{ trigger.event.data.button | upper }} pressed
+
+

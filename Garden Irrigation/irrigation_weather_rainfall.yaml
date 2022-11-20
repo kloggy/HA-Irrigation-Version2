@@ -9,6 +9,7 @@ automation:
   - alias: Irrigation Set Default Rainfall Today Sensor
     id: irrigation_set_default_rainfall_today_sensor
     trigger:
+      #=== If HA starts
       - platform: homeassistant
         event: start
 
@@ -40,6 +41,7 @@ automation:
   - alias: Irrigation Set Default Rainfall Yesterday Sensor
     id: irrigation_set_default_rainfall_yesterday_sensor
     trigger:
+      #=== If HA starts
       - platform: homeassistant
         event: start
 
@@ -71,6 +73,7 @@ automation:
   - alias: Irrigation Set Default Raining Now Sensor
     id: irrigation_set_default_raining_now_sensor
     trigger:
+      #=== If HA starts
       - platform: homeassistant
         event: start
 
@@ -102,6 +105,7 @@ automation:
   - alias: Irrigation Set Default Forecast Rain Sensor
     id: irrigation_set_default_forecast_rain_sensor
     trigger:
+      #=== If HA starts
       - platform: homeassistant
         event: start
 
@@ -133,6 +137,7 @@ automation:
   - alias: Irrigation Initialise Rainfall Sensors
     id: irrigation_initialise_rainfall_sensors
     trigger:
+      #=== If HA starts
       - platform: homeassistant
         event: start
 
