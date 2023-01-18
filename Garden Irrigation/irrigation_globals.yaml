@@ -170,7 +170,10 @@ template:
             {% set day_tomorrow = as_timestamp(now() + timedelta(days=1)) | timestamp_custom('%a') | lower %}
             {% set number_of_zones = states('input_number.irrigation_number_of_zones') | int %}
 
-            {% set ns = namespace() %}
+            {% set ns = namespace(cycle1_runs_today = false,
+                                  cycle1_runs_tomorrow = false,
+                                  cycle2_runs_today = false,
+                                  cycle2_runs_tomorrow = false) %}
 
             {% for zone in range(number_of_zones) %}
 
