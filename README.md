@@ -3,6 +3,40 @@
 
 __Please note that I recommend some understanding of Home Assistant in general and of Lovelace in particular if you choose to try this out.__
 
+# May 2023
+
+I have just realised that when I last updated the files here I included a couple that were not really part of the irrigation system. In the same way that I handle notifications centrally I also have a way to log events for all my sub-systems (packages) centrally. If you want to make use of it either just for Irrigation or wider then you need to add a few helpers and to make full use of it a couple of scripts and automations as well.
+
+I will add them to a seperate folder called **Logging** but bear in mind they are unlikely to ever be updated they are here just for you to make use of and customise if you want any extra features.
+
+Briefly, 
+
+`logging.yaml` - This file contains any automations you want to run for **all** logging. I have it create seperators and trim the file to a predefined period of time
+
+`logging_irrigation.yaml` - Every package you want to create logging for needs a file like this to set things up for that package
+
+An example of how it is used can be found in `irrigation_run_a_cycle.yaml`
+
+```
+            #=== Write To Log
+            - service: script.irrigation_write_to_log
+              data:
+                log_event: ZONE_STARTING
+                zone: >
+                  {{ repeat.index }}
+                seconds: >
+                  {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int }}
+                event_time: >
+                  {{ now() }}
+```
+
+It should be pretty easy for you to add any logging event that fits your needs. Note that the data passed can be anything, you just need to make sure that `irrigation_logging.yaml` is expecting it.
+
+-----------
+
+I don't really want to support this but I will within reason ;-) try to answer any questions.
+
+
 # November 2022
 
 I have been tinkering with this package over the last few months mainly to keep it up to date with changes in HA as well as some small cosmetic improvements and code clean-ups. I have uploaded new files.
