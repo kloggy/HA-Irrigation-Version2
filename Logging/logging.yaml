@@ -1,0 +1,167 @@
+
+#================================================================================
+#=== IMPORTANT NOTE:
+#=== ---------------
+#===
+#=== For each new log file created a new 'File Size' integration must be created
+#=== (Go to: Settings, Add Integration, File Size)
+#================================================================================
+
+
+#================
+#=== Automations
+#================
+automation:
+  #============================
+  #=== Logging New Day Actions
+  #============================
+  - alias: Logging New Day Actions
+    id: logging_new_day_actions
+    trigger: 
+      - platform: time
+        at: '00:00:00'
+
+    variables:
+      logs: >
+        {{
+          expand(states.input_boolean) |
+              selectattr('entity_id', 'search', 'input_boolean.logging') | 
+              rejectattr('entity_id', 'search', 'input_boolean.logging_option') | 
+              rejectattr('entity_id', 'search', '_debugging_mode') | 
+              map(attribute = 'entity_id') | list | sort
+        }}
+
+    action:
+      - repeat:
+          for_each: >
+            {{ logs }}
+          sequence:
+            #=== New Day
+            - if: 
+                #=== Check logging is on for this log type 
+                - condition: template
+                  value_template: >
+                    {{ states(repeat.item) == 'on' }}
+              then:
+                #=== Add New Day seperator
+                - service: >
+                    notify.log_{{ repeat.item.split('logging_')[1] }}
+                  data:
+                    message: >
+                      -------------------------------------------------------------------------------
+
+
+                      ===== {{ as_timestamp(now()) | timestamp_custom('%a %d %b %Y') }} =====
+
+                #=== Clear the log file of old data
+                - service: script.logging_clear_log_of_old_data
+                  data:
+                    log_type: >
+                      {{ repeat.item.split('logging_')[1] }}
+
+      #=== Create Persistent notification for logs size
+      - service: script.notify
+        data:
+          show: True
+          notification_id: logging_on_warning
+          title: Logging On
+
+          #=== Note: File Size sensors are created by the File Size integration
+          message: >
+            |Log|Size | | |
+
+            |:---|:---|:---:|:---|
+            {%- for log in logs %}
+              {%- set log = log.split('logging_')[1] %}
+              {%- set size = states('sensor.my_log_' ~ log ~ '_log_size') %}
+              {%- if size == 'unavailable' %}
+                {%- set size = 'Log file empty' %}
+              {%- elif size | float(0.0) > 0.2 %}
+                {%- set size = '<font color=Red>' ~ size ~ ' MB</font> ⚠️' %}
+              {%- elif size | float(0.0) > 0.05 %}
+                {%- set size = '<font color=DarkOrange>' ~ size ~ ' MB</font> ⚠️' %}
+              {%- elif size | float(0.0) > 0.0 %}
+                {%- set size = '<font color=Green>' ~ size ~ ' MB</font>' %}
+              {%- else %}
+                {%- set size = size ~ ' MB' %}
+              {%- endif %}
+              {%- set keep_days = states('input_number.logging_' ~ log ~ '_days_to_keep') %}
+              {%- if keep_days == 'unknown' %}
+                {%- set keep_days = '' %}
+              {%- elif keep_days | int == 0 %}
+                {%- set keep_days = '- Keeping all days' %}
+              {%- elif keep_days | int == 1 %}
+                {%- set keep_days = '- Keeping ' ~ keep_days | int ~ ' day' %}
+              {%- else %}
+                {%- set keep_days = '- Keeping ' ~ keep_days | int ~ ' days' %}
+              {%- endif %}
+              {%- set on_off = states('input_boolean.logging_' ~ log) | title %}
+              {%- if on_off == 'Off' %}
+                {%- set on_off = '<font color=SteelBlue>' ~ on_off ~ '</font>' %}
+              {%- endif %}
+              | {{ log.replace('_', ' ') | title }} | {{ size }} | {{ on_off }} | {{ keep_days }}
+            {%- endfor %}
+
+
+#===================
+#=== Scripts
+#===================
+script:
+
+  #===================================
+  #=== Clear the log file of old data
+  #===================================
+  logging_clear_log_of_old_data:
+    alias: Logging Clear Log Of Old Data
+    mode: parallel
+    max: 30
+    sequence:
+      #=== Check log is not empty
+      - condition: template
+        value_template: >
+          {{
+            states('sensor.my_log_' ~ log_type ~ '_log_size_bytes') not in ['none', 'unknown'] and
+            states('sensor.my_log_' ~ log_type ~ '_log_size_bytes') | float(0) > 0
+          }}
+
+      #=== Check not keeping all data
+      - condition: template
+        value_template: >
+          {{ states('input_number.logging_' ~ log_type ~ '_days_to_keep') | int > 0 }}
+
+      #=== Get the first line of the log
+      - service: homeassistant.update_entity
+        data:
+          entity_id: >
+            {{ 'sensor.logging_my_log_' ~ log_type ~ '_first_line' }}
+
+      - repeat:
+          while:
+            - condition: template
+              value_template: >
+                {% set days_to_keep = states('input_number.logging_' ~ log_type ~ '_days_to_keep') | int(0) %}
+                {% set last_day_to_keep = strptime(states('sensor.date'), "%Y-%m-%d") - timedelta(days=days_to_keep) %}  
+
+                {% set first_line = states('sensor.logging_my_log_' ~ log_type ~ '_first_line') %}
+                {% set first_line_date = strptime(first_line, "===== %a %d %b %Y =====", false) %}
+
+                {{ not first_line_date or (as_timestamp(first_line_date) < as_timestamp(last_day_to_keep)) }}
+
+            #=== Failsafe to stop endless loop
+            - condition: template
+              value_template: >
+                {{
+                  states('sensor.my_log_' ~ log_type ~ '_log_size_bytes') not in ['none', 'unknown'] and
+                  states('sensor.my_log_' ~ log_type ~ '_log_size_bytes') | float(0) > 0
+                }}
+
+          sequence:
+            #=== Delete first line of the log
+            - service: >
+                {{ 'shell_command.logging_my_log_' ~ log_type ~ '_delete_first_line' }}
+
+            #=== Get the new first line of the log
+            - service: homeassistant.update_entity
+              data:
+                entity_id: >
+                  {{ 'sensor.logging_my_log_' ~ log_type ~ '_first_line' }}
