@@ -199,6 +199,32 @@ card:
                           - entity: input_number.irrigation_cycle{{ cycle }}_zone{{ zone }}_duration_box
                             name: Duration
 
+                          #=== SHOW WEATHER ADJUSTED DURATION
+                          - type: conditional
+                            conditions:
+                              - entity: input_boolean.irrigation_cycle1_adjust_for_rainfall
+                                state: "on"
+                            row:
+                              type: custom:hui-element
+                              card_type: markdown
+                              content: >
+                                {% raw %}
+                                {% set cycle = {% endraw %} {{ cycle }} {% raw %} %}
+                                {% set zone = {% endraw %} {{ zone }} {% raw %} %}
+                                {%
+                                  if cycle != '3' and
+                                      (
+                                        states('input_boolean.irrigation_cycle' ~ cycle ~ '_adjust_for_rainfall') == 'on' or
+                                        states('input_boolean.irrigation_cycle' ~ cycle ~ '_adjust_for_temperature') == 'on'
+                                      ) 
+                                %}
+                                  {% set duration = states('sensor.irrigation_cycle' ~ cycle ~ '_zone' ~ zone ~ '_actual_duration_in_seconds') %}
+                                  {% set min = ((duration | float) / 60) | int %}
+                                  {% set sec = ((((duration | float) / 60) - min) * 60) | int %}
+                                  <font color=var(--primary-text-color)><center>Duration adjusted for rainfall and temperature: {{ min }} min  {{ sec }} sec</center></font>
+                                {% endif %}
+                                {% endraw %}
+
                           #=== CHANGE DURATION WHEN USING REMOTE CONTROL (If Remote Control is active)
                           - type: conditional
                             conditions:
