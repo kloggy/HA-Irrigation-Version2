@@ -51,27 +51,38 @@ automation:
       #=== Check this cycle is enabled. NOTE: don't check this for cycle 3 
       - condition: template
         value_template: >
-          {% if trigger.entity_id == 'input_boolean.irrigation_cycle3_running' %}
-            {% set cycle_triggered = 'cycle3' %}
-          {% elif trigger.now.strftime('%H:%M') == states('input_datetime.irrigation_cycle1_start_time')[0:5] %}
-            {% set cycle_triggered = 'cycle1' %}
-          {% elif trigger.now.strftime('%H:%M') == states('input_datetime.irrigation_cycle2_start_time')[0:5] %}
-            {% set cycle_triggered = 'cycle2' %}
-          {% endif %}
-
-          {% if (cycle_triggered == 'cycle1' and is_state('input_boolean.irrigation_cycle1_schedule_enabled', 'on')) or
-                (cycle_triggered == 'cycle2' and is_state('input_boolean.irrigation_cycle2_schedule_enabled', 'on')) or
-                (cycle_triggered == 'cycle3') %}
+          {% if is_state('input_boolean.irrigation_' ~ trigger.id ~ '_schedule_enabled', 'on') or
+                trigger.id == 'cycle3' %}
             True
           {% else %}
             False
           {% endif %}
           
+      # #=== Check this cycle is enabled. NOTE: don't check this for cycle 3 
+      # - condition: template
+      #   value_template: >
+      #     {% if trigger.entity_id == 'input_boolean.irrigation_cycle3_running' %}
+      #       {% set cycle_triggered = 'cycle3' %}
+      #     {% elif trigger.now.strftime('%H:%M') == states('input_datetime.irrigation_cycle1_start_time')[0:5] %}
+      #       {% set cycle_triggered = 'cycle1' %}
+      #     {% elif trigger.now.strftime('%H:%M') == states('input_datetime.irrigation_cycle2_start_time')[0:5] %}
+      #       {% set cycle_triggered = 'cycle2' %}
+      #     {% endif %}
+
+      #     {% if (cycle_triggered == 'cycle1' and is_state('input_boolean.irrigation_cycle1_schedule_enabled', 'on')) or
+      #           (cycle_triggered == 'cycle2' and is_state('input_boolean.irrigation_cycle2_schedule_enabled', 'on')) or
+      #           (cycle_triggered == 'cycle3') %}
+      #       True
+      #     {% else %}
+      #       False
+      #     {% endif %}
+
+
       #=== Check it is not raining if that option is enabled. NOTE: don't check this for cycle 3
       - condition: template
         value_template: >
           {% if is_state('input_boolean.irrigation_ignore_schedule_if_raining', 'off') or 
-                trigger.entity_id == 'input_boolean.irrigation_cycle3_running' %}
+                trigger.id == 'cycle3' %}
             True
           {% elif states('input_boolean.irrigation_ignore_schedule_if_raining') == 'on' and
                   states(states('input_text.irrigation_external_sensor_raining_now')) in ['off', 'unknown'] %}
@@ -84,50 +95,143 @@ automation:
     #=== ACTIONS
     #============
     action:
+      #=== Check if there is an entity state to wait for (cycle 1 and 2)
+      - if:
+          - condition: template
+            value_template: >
+              {{ states('input_boolean.irrigation_' ~ trigger.id ~ '_wait_for_entity') == 'on' }}
+
+        then:
+          #=== Write To Log
+          - service: script.irrigation_write_to_log
+            data:
+              log_event: CYCLE_WAITING_FOR_ENTITY
+              cycle: >
+                {{ trigger.id[-1] }}
+              event_time: >
+                {{ now() }}
+      
+          - wait_template: >
+              {% set wait_for_entity_name = states('input_text.irrigation_' ~ trigger.id ~ '_wait_for_entity_name') %}
+              {% set wait_for_entity_state = states('input_text.irrigation_' ~ trigger.id ~ '_wait_for_entity_state') %}
+              {% set wait_for_entity_name_timeout_continue = states('input_text.irrigation_' ~ trigger.id ~ '_wait_for_entity_name_timeout_continue') %}
+              {% if wait_for_entity_state.startswith('not') %}
+                {% set chosen_states = wait_for_entity_state.replace('not in', '')
+                                                            .replace('not', '')
+                                                            .replace(' ','').split(',') %}
+                {{ states(wait_for_entity_name) not in chosen_states }}
+              {% else %}
+                {% set chosen_states = wait_for_entity_state.replace(' ','').split(',') %}
+                {{ states(wait_for_entity_name) in chosen_states }}
+              {% endif %}
+            timeout: >
+              {{ states('input_number.irrigation_' ~ trigger.id ~ '_wait_for_entity_name_timeout_duration') }}
+
+          #=== Write To Log
+          - service: script.irrigation_write_to_log
+            data:
+              log_event: CYCLE_WAITING_FOR_ENTITY_COMPLETE
+              cycle: >
+                {{ trigger.id[-1] }}
+              wait_completed: >
+                {{ wait.completed }}
+              event_time: >
+                {{ now() }}
+      
+          #=== Check for timeout and stop if condition wasn't met and option set to not continue
+          - if:
+              - condition: template
+                value_template: >
+                  {% set timeout_continue = states('input_boolean.irrigation_' ~ trigger.id ~ '_wait_for_entity_name_timeout_continue') %}
+                  {{ not wait.completed and timeout_continue == 'off' }}
+            then:
+              #=== Write To Log
+              - service: script.irrigation_write_to_log
+                data:
+                  log_event: CYCLE_ABORTED_WAITING_FOR_ENTITY
+                  cycle: >
+                    {{ trigger.id[-1] }}
+                  event_time: >
+                    {{ now() }}
+
+              #=== Persistent notification
+              - service: persistent_notification.create
+                data:
+                  title: Irrigation Warning
+                  message: >
+                    {% set cycle_name =  states('input_text.irrigation_' ~ trigger.id ~ '_name') %}
+                    Cycle {{ trigger.id[-1] }} ({{ cycle_name }}) Cycle ABBORTED - Wait for entity state timed out.
+
+                    (See Irrigation Log)
+
+              #=== Stop processing (End the cycle)
+              - stop: Wait for entity state failed
+
       #== Set the cycle to be running
-      - choose:
-          #=== Cycle 1
-          - conditions:
-              condition: trigger
-              id: cycle1
-            sequence:
-              - service: homeassistant.turn_on
-                data:
-                  entity_id: input_boolean.irrigation_cycle1_running
+      - service: homeassistant.turn_on
+        data:
+          entity_id: >
+            input_boolean.irrigation_{{ trigger.id }}_running
 
-              #=== Write To Log
-              - service: script.irrigation_write_to_log
-                data:
-                  log_event: CYCLE_STARTING
-                  cycle: 1
+      #=== Write To Log
+      - service: script.irrigation_write_to_log
+        data:
+          log_event: CYCLE_STARTING
+          cycle: >
+            {{ trigger.id[-1] }}
+          event_time: >
+            {{ now() }}
+      
+      # #== Set the cycle to be running
+      # - choose:
+      #     #=== Cycle 1
+      #     - conditions:
+      #         condition: trigger
+      #         id: cycle1
+      #       sequence:
+      #         - service: homeassistant.turn_on
+      #           data:
+      #             entity_id: input_boolean.irrigation_cycle1_running
 
-          #=== Cycle 2
-          - conditions:
-              condition: trigger
-              id: cycle2
-            sequence:
-              - service: homeassistant.turn_on
-                data:
-                  entity_id: input_boolean.irrigation_cycle2_running
+      #         #=== Write To Log
+      #         - service: script.irrigation_write_to_log
+      #           data:
+      #             log_event: CYCLE_STARTING
+      #             cycle: 1
+      #             event_time: >
+      #               {{ now() }}
 
-              #=== Write To Log
-              - service: script.irrigation_write_to_log
-                data:
-                  log_event: CYCLE_STARTING
-                  cycle: 2
+      #     #=== Cycle 2
+      #     - conditions:
+      #         condition: trigger
+      #         id: cycle2
+      #       sequence:
+      #         - service: homeassistant.turn_on
+      #           data:
+      #             entity_id: input_boolean.irrigation_cycle2_running
 
-          #=== Cycle 3
-          - conditions:
-              condition: trigger
-              id: cycle3
-            sequence:
-              - service: homeassistant.turn_on
-                data:
-                  entity_id: input_boolean.irrigation_cycle3_running
+      #         #=== Write To Log
+      #         - service: script.irrigation_write_to_log
+      #           data:
+      #             log_event: CYCLE_STARTING
+      #             cycle: 2
+      #             event_time: >
+      #               {{ now() }}
 
-              #=== Write To Log
-              - service: script.irrigation_write_to_log
-                data:
-                  log_event: CYCLE_STARTING
-                  cycle: 3
+      #     #=== Cycle 3
+      #     - conditions:
+      #         condition: trigger
+      #         id: cycle3
+      #       sequence:
+      #         - service: homeassistant.turn_on
+      #           data:
+      #             entity_id: input_boolean.irrigation_cycle3_running
+
+      #         #=== Write To Log
+      #         - service: script.irrigation_write_to_log
+      #           data:
+      #             log_event: CYCLE_STARTING
+      #             cycle: 3
+      #             event_time: >
+      #               {{ now() }}
 

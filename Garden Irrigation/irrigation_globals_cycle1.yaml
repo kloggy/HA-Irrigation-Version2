@@ -283,6 +283,18 @@ input_number:
     icon: mdi:numeric-6-box-outline
 
 
+  #=============================================
+  #=== Cycle 1 Wait For Entity Timeout Duration
+  #=============================================
+  irrigation_cycle1_wait_for_entity_name_timeout_duration:
+    name: Irrigation Cycle 1 Wait For Entity Timeout Duration
+    min: 1
+    max: 86400
+    mode: box
+    unit_of_measurement: sec
+    icon: mdi:clock-end
+
+
 #================
 #=== Input Texts
 #================
@@ -295,6 +307,22 @@ input_text:
     name: Cycle 1 Name
     min: 1
     max: 15
+
+  #=================================
+  #=== Cycle 1 Wait For Entity Name
+  #=================================
+  irrigation_cycle1_wait_for_entity_name:
+    name: Irrigation Cycle 1 Wait For Entity Name
+    min: 1
+    max: 50
+
+  #==================================
+  #=== Cycle 1 Wait For Entity State
+  #==================================
+  irrigation_cycle1_wait_for_entity_state:
+    name: Irrigation Cycle 1 Wait For Entity State
+    min: 1
+    max: 50
 
 
 #====================
@@ -348,6 +376,22 @@ input_boolean:
   irrigation_cycle1_adjust_for_rainfall:
     name: Cycle 1 Adjust For Rainfall
     icon: mdi:weather-rainy
+
+
+  #============================
+  #=== Cycle 1 wait for entity
+  #============================
+  irrigation_cycle1_wait_for_entity:
+    name: Cycle 1 Wait For Entity
+    icon: mdi:timer-lock-open-outline
+
+
+  #===============================================
+  #=== Cycle 1 Wait For Entity Timeout Continue
+  #===============================================
+  irrigation_cycle1_wait_for_entity_name_timeout_continue:
+    name: Irrigation Cycle 1 Wait For Entity Timeout Continue
+    icon: mdi:clock-check-outline
 
 
 #============
