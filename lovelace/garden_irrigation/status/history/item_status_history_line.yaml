@@ -49,11 +49,42 @@ custom_fields:
   total_yesterday: >
     [[[
       var zone = '{{ zone }}';
-      return states['sensor.irrigation_' + zone + '_total_time_yesterday'].state;
+      var duration = states['sensor.irrigation_' + zone + '_total_time_yesterday'].state;
+      var duration_s = parseFloat(duration) * 3600;
+      var h = Math.floor(duration_s / 3600);
+      var m = Math.floor(duration_s % 3600 / 60);
+      var s = Math.floor(duration_s % 3600 % 60);
+
+      var hDisplay = h > 0 ? h + "h " : "";
+      var mDisplay = h > 0 ? m + "m " : m > 0 ? m + "m " : ""; 
+      var sDisplay = s + "s ";
+
+      return hDisplay + mDisplay + sDisplay;
     ]]]
   total_today: >
     [[[
       var zone = '{{ zone }}';
-      return states['sensor.irrigation_' + zone + '_total_time_today'].state;
+      var duration = states['sensor.irrigation_' + zone + '_total_time_today'].state;
+      var duration_s = parseFloat(duration) * 3600;
+      var h = Math.floor(duration_s / 3600);
+      var m = Math.floor(duration_s % 3600 / 60);
+      var s = Math.floor(duration_s % 3600 % 60);
+
+      var hDisplay = h > 0 ? h + "h " : "";
+      var mDisplay = h > 0 ? m + "m " : m > 0 ? m + "m " : ""; 
+      var sDisplay = s + "s ";
+
+      return hDisplay + mDisplay + sDisplay;
     ]]]
 
+# custom_fields:
+#   total_yesterday: >
+#     [[[
+#       var zone = '{{ zone }}';
+#       return states['sensor.irrigation_' + zone + '_total_time_yesterday'].state;
+#     ]]]
+#   total_today: >
+#     [[[
+#       var zone = '{{ zone }}';
+#       return states['sensor.irrigation_' + zone + '_total_time_today'].state;
+#     ]]]
