@@ -169,6 +169,68 @@ tap_action:
                     - entity: input_number.irrigation_cycle{{ cycle }}_start_time_sunset_offset
                       name: Offset in minutes
 
+              - type: custom:hui-element
+                card_type: markdown
+                content: >
+                  <font color=var(--primary-text-color)>
+                  At the cycle start time it is possible to wait for an entity to be in a certain state.
+                  </font>
+                style: >
+                  ha-card {
+                    font-size: 16px;
+                  }
+
+              #=== Wait for entity
+              - entity: input_boolean.irrigation_cycle{{ cycle }}_wait_for_entity
+                name: Wait For Entity
+
+              #=== Wait For Entity Details
+              - type: custom:hui-element
+                card_type: conditional
+                conditions:
+                  - entity: input_boolean.irrigation_cycle{{ cycle }}_wait_for_entity
+                    state: 'on'
+                card:
+                  type: entities
+                  entities:
+                    - entity: input_text.irrigation_cycle{{ cycle }}_wait_for_entity_name
+                      name: Entity Name
+
+                    - entity: input_text.irrigation_cycle{{ cycle }}_wait_for_entity_state
+                      name: Entity State
+
+                    - entity: input_boolean.irrigation_cycle{{ cycle }}_wait_for_entity_name_timeout_continue
+                      name: Wait Timeout Continue
+
+                    - entity: input_number.irrigation_cycle{{ cycle }}_wait_for_entity_name_timeout_duration
+                      name: Wait Timeout Duration
+
+              - type: custom:hui-element
+                card_type: conditional
+                conditions:
+                  - entity: input_boolean.irrigation_cycle{{ cycle }}_wait_for_entity
+                    state: 'on'
+                card:
+                  type: markdown
+                  content: >
+                    <font color=var(--primary-text-color)>
+                    Entity state can be a comma seperated list of states and may be prefixed with 'not in'.
+
+                    e.g.
+
+                    - open
+
+                    - open, closed
+
+                    - not open
+
+                    - not in open, closed
+                    </font>
+                  style: >
+                    ha-card {
+                      font-size: 16px;
+                    }
+
             card_mod:
               style: >
                 ha-card {
