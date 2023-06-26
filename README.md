@@ -3,6 +3,12 @@
 
 __Please note that I recommend some understanding of Home Assistant in general and of Lovelace in particular if you choose to try this out.__
 
+# June 2023
+
+A few small updates.
+
+Please see https://community.home-assistant.io/t/my-garden-irrigation/99686/1762 for details
+
 # May 2023
 
 I have just realised that when I last updated the files here I included a couple that were not really part of the irrigation system. In the same way that I handle notifications centrally I also have a way to log events for all my sub-systems (packages) centrally. If you want to make use of it either just for Irrigation or wider then you need to add a few helpers and to make full use of it a couple of scripts and automations as well.
