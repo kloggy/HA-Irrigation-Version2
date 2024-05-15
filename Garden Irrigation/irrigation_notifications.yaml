@@ -172,7 +172,7 @@ automation:
           I thought you'd like to know that the {{ cycle_name }} has just started.
 
 
-          The total watering time should be about {{ (states('sensor.irrigation_' ~ trogger.id ~ '_duration_in_seconds') | int / 60) | int }} minutes but I'll let you know when it has finished.
+          The total watering time should be about {{ (states('sensor.irrigation_' ~ trigger.id ~ '_duration_in_seconds') | int / 60) | int }} minutes but I'll let you know when it has finished.
         {% else %}
           All the {{ cycle_name }} watering is done.
         {% endif %}
