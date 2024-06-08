@@ -44,9 +44,10 @@ automation:
                     {{ states(repeat.item) == 'on' }}
               then:
                 #=== Add New Day seperator
-                - service: >
-                    notify.log_{{ repeat.item.split('logging_')[1] }}
+                - service: notify.send_message
                   data:
+                    entity_id: >
+                      notify.log_{{ repeat.item.split('logging_')[1] }}
                     message: >
                       -------------------------------------------------------------------------------
 
