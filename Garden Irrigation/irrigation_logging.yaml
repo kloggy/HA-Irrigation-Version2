@@ -13,6 +13,210 @@ script:
     sequence:
 
       - condition: state
+#============
+#=== Scripts
+#============
+script:
+  
+  #============================
+  #=== Irrigation Write To Log
+  #============================
+  irrigation_write_to_log:
+    alias: Irrigation Write To Log
+    mode: queued
+    sequence:
+
+      - condition: state
+        entity_id: input_boolean.logging_irrigation
+        state: 'on'
+
+      - variables:
+          #=== Event Time With Millisceonds
+          event_time: >
+            {{ as_timestamp(event_time | default(now())) | timestamp_custom('%X.%f') }}
+
+      - choose:
+          #=== CONTROLLER_UNAVAILABLE
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'CONTROLLER_UNAVAILABLE' }}
+            sequence:
+              - service: notify.send_message
+                entity_id: notify.log_irrigation
+                data:
+                  message: >
+                    {{ event_time }} - WARNING - Controller UNAVAILABLE
+
+          #=== CONTROLLER_AVAILABLE
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'CONTROLLER_AVAILABLE' }}
+            sequence:
+              - service: notify.send_message
+                entity_id: notify.log_irrigation
+                data:
+                  message: >
+                    {% set unavailable_formatted = (timedelta(seconds = unavailable_seconds)) %}
+                    {{ event_time }} - WARNING - Controller AVAILABLE (after {{ unavailable_formatted }})
+
+          #=== SINGLE ZONE STARTING
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'SINGLE_ZONE_STARTING' }}
+            sequence:
+              - service: notify.send_message
+                entity_id: notify.log_irrigation
+                data:
+                  message: >
+                    {% set zone_name =  states('input_text.irrigation_zone' ~ zone ~ '_name') %}
+                    {{ event_time }} - Single zone starting - {{ zone }} ({{ zone_name }})
+
+          #=== CYCLE_WAITING_FOR_ENTITY
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'CYCLE_WAITING_FOR_ENTITY' }}
+            sequence:
+              - service: notify.send_message
+                entity_id: notify.log_irrigation
+                data:
+                  message: >
+                    {% set cycle_name =  states('input_text.irrigation_cycle' ~ cycle ~ '_name') %}
+                    {% set wait_for_entity_name = states('input_text.irrigation_cycle' ~ cycle ~ '_wait_for_entity_name') %}
+                    {% set wait_for_entity_state = states('input_text.irrigation_cycle' ~ cycle ~ '_wait_for_entity_state') %}
+                    {{ event_time }} - Cycle {{ cycle }} ({{ cycle_name }}) WARNING! Waiting for entity
+                    {{ '\n' }}{{ "{:>18}".format('') }}Entity: {{ wait_for_entity_name }}
+                    {{ '\n' }}{{ "{:>18}".format('') }}Waiting for state:  {{ wait_for_entity_state }}
+                    {{ '\n' }}{{ "{:>18}".format('') }}Current state:  {{ states(wait_for_entity_name) }}
+
+          #=== CYCLE_WAITING_FOR_ENTITY_COMPLETE
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'CYCLE_WAITING_FOR_ENTITY_COMPLETE' }}
+            sequence:
+              - service: notify.send_message
+                entity_id: notify.log_irrigation
+                data:
+                  message: >
+                    {% set cycle_name =  states('input_text.irrigation_cycle' ~ cycle ~ '_name') %}
+                    {% set wait_for_entity_name = states('input_text.irrigation_cycle' ~ cycle ~ '_wait_for_entity_name') %}
+                    {{ event_time }} - Cycle {{ cycle }} ({{ cycle_name }}) WARNING! Finished waiting for entity 
+                    {{ '\n' }}{{ "{:>18}".format('') }}Wait Complete: {{ wait_completed }}
+                    {{ '\n' }}{{ "{:>18}".format('') }}State:  {{ states(wait_for_entity_name) }}
+
+          #=== CYCLE_ABORTED_WAITING_FOR_ENTITY
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'CYCLE_ABORTED_WAITING_FOR_ENTITY' }}
+            sequence:
+              - service: notify.send_message
+                entity_id: notify.log_irrigation
+                data:
+                  message: >
+                    {% set cycle_name =  states('input_text.irrigation_cycle' ~ cycle ~ '_name') %}
+                    {% set wait_for_entity_name = states('input_text.irrigation_cycle' ~ cycle ~ '_wait_for_entity_name') %}
+                    {{ event_time }} - Cycle {{ cycle }} ({{ cycle_name }}) WARNING! Cycle ABBORTED - Wait for entity state timed out.
+                    {{ '\n' }}{{ "{:>18}".format('') }}State:  {{ states(wait_for_entity_name) }}
+
+          #=== CYCLE_CONTINUES_UNEXPECTED_STATE
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'CYCLE_CONTINUES_UNEXPECTED_STATE' }}
+            sequence:
+              - service: notify.send_message
+                entity_id: notify.log_irrigation
+                data:
+                  message: >
+                    {% set cycle_name =  states('input_text.irrigation_cycle' ~ cycle ~ '_name') %}
+                    {% set wait_for_entity_name = states('input_text.irrigation_cycle' ~ cycle ~ '_wait_for_entity_name') %}
+                    {{ event_time }} - Cycle {{ cycle }} ({{ cycle_name }}) WARNING! Cycle CONTINUING with unexpected state.
+                    {{ '\n' }}{{ "{:>18}".format('') }}State:  {{ states(wait_for_entity_name) }}
+
+          #=== CYCLE STARTING
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'CYCLE_STARTING' }}
+            sequence:
+              - service: notify.send_message
+                entity_id: notify.log_irrigation
+                data:
+                  message: >
+                    {% set cycle_name =  states('input_text.irrigation_cycle' ~ cycle ~ '_name') %}
+                    {{ event_time }} - Cycle {{ cycle }} ({{ cycle_name }}) Starting
+
+          #=== CYCLE ENDED
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'CYCLE_ENDED' }}
+            sequence:
+              - service: notify.send_message
+                entity_id: notify.log_irrigation
+                data:
+                  message: >
+                    {% set cycle_name =  states('input_text.irrigation_cycle' ~ cycle ~ '_name') %}
+                    {{ event_time }} - Cycle {{ cycle }} ({{ cycle_name }}) Ended
+                    
+                    ===========================
+
+          #=== ZONE STARTING
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'ZONE_STARTING' }}
+            sequence:
+              - service: notify.send_message
+                entity_id: notify.log_irrigation
+                data:
+                  message: >
+                    {% set zone_name =  states('input_text.irrigation_zone' ~ zone ~ '_name') %}
+                    {% if seconds != 0 %}
+                      {{ event_time }} - Zone {{ zone }} ({{ zone_name }}) starting for {{ seconds }} seconds
+                    {% else %}
+                      {{ event_time }} - Zone {{ zone }} ({{ zone_name }}) Not Watering (duration zero)
+                    {% endif %}
+
+          #=== ZONE WATERING
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'ZONE_WATERING' }}
+            sequence:
+              - service: notify.send_message
+                entity_id: notify.log_irrigation
+                data:
+                  message: >
+                    {% set zone_name =  states('input_text.irrigation_zone' ~ zone ~ '_name') %}
+                    {{ event_time }} - Zone {{ zone }} ({{ zone_name }}) watering
+
+          #=== ZONE STOPING
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'ZONE_STOPPING' }}
+            sequence:
+              - service: notify.send_message
+                entity_id: notify.log_irrigation
+                data:
+                  message: >
+                    {% set zone_name =  states('input_text.irrigation_zone' ~ zone ~ '_name') %}
+                    {{ event_time }} - Zone {{ zone }} ({{ zone_name }}) stopping
+
+        default:
+          - service: notify.send_message
+            entity_id: notify.log_irrigation
+            data:
+              message: >
+                {{ event_time }} - {{ log_event | default('Unknown Log Event') }} (Initiated_by: {{ initiated_by | default('Not Given') }})
+
+
         entity_id: input_boolean.logging_irrigation
         state: 'on'
 
