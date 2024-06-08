@@ -22,7 +22,8 @@ script:
                 value_template: >
                   {{ log_event == 'REMOTE_CANCEL' }}
             sequence:
-              - service: notify.log_irrigation
+              - service: notify.send_message
+                entity_id: notify.log_irrigation
                 data:
                   message: >
                     {{ as_timestamp(now()) | timestamp_custom('%X') }} - REMOTE CONTROL - {{ reason }}
@@ -33,7 +34,8 @@ script:
                 value_template: >
                   {{ log_event == 'REMOTE_BUTTON_PRESS' }}
             sequence:
-              - service: notify.log_irrigation
+              - service: notify.send_message
+                entity_id: notify.log_irrigation
                 data:
                   message: >
                     {{ as_timestamp(now()) | timestamp_custom('%X') }} - REMOTE CONTROL - {{ button }} pressed
@@ -60,7 +62,8 @@ automation:
         state: 'on'
 
     action:
-      - service: notify.log_irrigation
+      - service: notify.send_message
+        entity_id: notify.log_irrigation
         data:
           message: >
             {{ as_timestamp(now()) | timestamp_custom('%X') }} - REMOTE CONTROL - Button AB pressed (Cancel Irrigation)
@@ -82,7 +85,8 @@ automation:
         state: 'on'
 
     action:
-      - service: notify.log_irrigation
+      - service: notify.send_message
+        entity_id: notify.log_irrigation
         data:
           message: >
             {{ as_timestamp(now()) | timestamp_custom('%X') }} - REMOTE CONTROL - Button {{ trigger.event.data.button | upper }} pressed
