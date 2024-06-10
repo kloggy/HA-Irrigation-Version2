@@ -1,31 +1,14 @@
 
-#===========
-#=== Notify
-#===========
-notify:
-  - platform: file
-    name: log_irrigation
-    filename: my_log_irrigation.log
-
-
-#============
-#=== Sensors
-#============
-sensor:
+#=================
+#=== Command Line
+#=================
+command_line:
   #=== Get first line of log file
-  - platform: command_line
-    name: Logging My Log Irrigation First Line
-    unique_id: logging_my_log_irrigation_first_line
-    command: head -n 1 -c 27 /config/my_log_irrigation.log
-    scan_interval: 86400
-
-
-#===================
-#=== Shell Commands
-#===================
-shell_command:
-  #=== Delete first line of the log file
-  logging_my_log_irrigation_delete_first_line: "sed -i '1d' /config/my_log_irrigation.log"
+  - sensor:
+      name: Logging My Log Irrigation First Line
+      unique_id: logging_my_log_irrigation_first_line
+      command: head -n 1 -c 27 /config/my_log_irrigation.log
+      scan_interval: 86400
 
 
 #===================
@@ -44,8 +27,6 @@ input_number:
   logging_irrigation_days_to_keep:
     name: Days to keep
     min: 0
-    max: 5
+    max: 15
     mode: box
     icon: mdi:notebook-multiple
-
-
