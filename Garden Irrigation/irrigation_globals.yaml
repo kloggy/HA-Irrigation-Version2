@@ -67,7 +67,7 @@ input_number:
   irrigation_weather_adjusted_minimum_duration_in_seconds: 
     name: Minimum Duration After Weather Adjustment In Seconds
     min: 3
-    max: 60
+    max: 1800 # 30 minutes
     step: 1
     mode: box
     unit_of_measurement: secs
