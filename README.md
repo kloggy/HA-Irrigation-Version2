@@ -5,7 +5,7 @@ __Please note that I recommend some understanding of Home Assistant in general a
 
 # July 2025
 
-Rolling 24 hour periods are now allowed for.
+Rolling 24 hour periods of rainfall are now allowed for.
 
 * We are having very little rain at the moment so I have only tested this during one three day period of rain last week so I suggest you might want to keep a copy of your working verison before using this 'improved' one.
 
