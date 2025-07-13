@@ -1,0 +1,28 @@
+# lovelace_gen
+
+#===========================================================
+#=== ITEM SETTINGS RAINFALL LINE
+#===
+#=== Used for rainfall history based on whether or not
+#=== rolling values or absolute day periods are selected
+#===
+#===  entity:  The entity_id being displayed
+#=== rolling:  'on' or 'off'
+#=== name_on:  Name to be used if rolling is on (optional)
+#=== name_off: Name to be used if rolling is off (optional)
+#===========================================================
+type: custom:hui-element
+card_type: conditional
+conditions:
+  - entity: input_boolean.irrigation_rainfall_use_rolling_values
+    state: '{{ rolling }}'
+card:
+  !include
+    - ../item_settings_line.yaml
+    - entity: {{ entity }}
+      name: {{ name }}
+      tap_action: none
+      round: {{ round | default(0) }}
+      padding: {{ padding | default('0em 0em 0em 0em') }}
+
+

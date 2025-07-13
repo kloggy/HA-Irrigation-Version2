@@ -23,7 +23,7 @@ styles:
     - padding: 0em 1.5em 0.5em 0.2em
     - background: none
   icon:
-    - color: var(--paper-item-icon-color)
+    - color: var(--state-icon-color)
   name: 
     - justify-self: start
 
@@ -46,6 +46,7 @@ tap_action:
                   font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
                   font-size: 16px;
                   }
+
           - type: markdown
             content: >
               sensor.irrigation_weather_outlook
@@ -56,6 +57,7 @@ tap_action:
                     font-size: 14px;
                     text-align: center;
                   }
+
           - type: entities
             entities:
               - type: section
@@ -68,32 +70,118 @@ tap_action:
                           text-overflow: unset !important;
                           white-space: unset !important;
                         }
+
+              - entity: input_boolean.irrigation_rainfall_use_rolling_values
+
+              #=== Using Rolling Values
+              - type: custom:hui-element
+                card_type: conditional
+                conditions:
+                  - entity: input_boolean.irrigation_rainfall_use_rolling_values
+                    state: 'on'
+                card:
+                  type: entities
+                  entities:
+                    - entity: input_text.irrigation_external_sensor_rainfall_last_twenty_four_hours
+                      card_mod:
+                        style: *text_wrap_style
+
+              - type: custom:hui-element
+                card_type: conditional
+                conditions:
+                  - entity: input_boolean.irrigation_rainfall_use_rolling_values
+                    state: 'on'
+                card:
+                  type: entities
+                  entities:
+                    - entity: input_text.irrigation_external_sensor_rainfall_between_24_and_48_hours_ago
+                      card_mod:
+                        style: *text_wrap_style
+
+              - type: custom:hui-element
+                card_type: conditional
+                conditions:
+                  - entity: input_boolean.irrigation_rainfall_use_rolling_values
+                    state: 'on'
+                card:
+                  type: entities
+                  entities:
+                    - entity: input_text.irrigation_external_sensor_rainfall_between_48_and_72_hours_ago
+                      card_mod:
+                        style: *text_wrap_style
+
+              - type: custom:hui-element
+                card_type: conditional
+                conditions:
+                  - entity: input_boolean.irrigation_rainfall_use_rolling_values
+                    state: 'on'
+                card:
+                  type: entities
+                  entities:
+                    - entity: input_text.irrigation_external_sensor_rainfall_between_72_and_96_hours_ago
+                      card_mod:
+                        style: *text_wrap_style
+
+              - type: custom:hui-element
+                card_type: conditional
+                conditions:
+                  - entity: input_boolean.irrigation_rainfall_use_rolling_values
+                    state: 'on'
+                card:
+                  type: entities
+                  entities:
+                    - entity: input_text.irrigation_external_sensor_rainfall_between_96_and_120_hours_ago
+                      card_mod:
+                        style: *text_wrap_style
+
+
+              #=== Using Daily Values
+              - type: custom:hui-element
+                card_type: conditional
+                conditions:
+                  - entity: input_boolean.irrigation_rainfall_use_rolling_values
+                    state: 'off'
+                card:
+                  type: entities
+                  entities:
+                    - entity: input_text.irrigation_external_sensor_rainfall_today
+                      name: Rain Today
+                      card_mod:
+                        style: *text_wrap_style
+
+              - type: custom:hui-element
+                card_type: conditional
+                conditions:
+                  - entity: input_boolean.irrigation_rainfall_use_rolling_values
+                    state: 'off'
+                card:
+                  type: entities
+                  entities:
+                    - entity: input_text.irrigation_external_sensor_rainfall_yesterday
+                      name: Rain Yesterday
+                      card_mod:
+                        style: *text_wrap_style
+
+              - type: divider
+
               - entity: input_text.irrigation_external_sensor_raining_now
                 name: Raining Now
                 card_mod:
                   style: *text_wrap_style
-              - entity: input_text.irrigation_external_sensor_rainfall_today
-                name: Rain Today
-                card_mod:
-                  style: *text_wrap_style
-              - entity: input_text.irrigation_external_sensor_rainfall_yesterday
-                name: Rain Yesterday
-                card_mod:
-                  style: *text_wrap_style
+
               - entity: input_text.irrigation_external_sensor_forecast_rain
                 name: Forecast Rain
                 card_mod:
                   style: *text_wrap_style
-              - entity: input_boolean.irrigation_show_smartweather_stations
-                name: Using SmartWeather (show stations)
-                card_mod:
-                  style: *text_wrap_style
+
               - type: section
                 label: Temperature Sensors (leave blank to reset default)
+
               - entity: input_text.irrigation_external_sensor_forecast_high_temp
                 name: Forecast High Temperature
                 card_mod:
                   style: *text_wrap_style
+
               - entity: input_text.irrigation_external_sensor_current_temp
                 name: Current Temperature
                 card_mod:

@@ -56,14 +56,35 @@ entities:
               on_icon: mdi:notebook-check
               off_icon: mdi:notebook-remove-outline
 
-          - !include
-            - ../item_settings_check_box_with_entity_icon.yaml
-            - entity: input_boolean.logging_irrigation_clear_log
-              name: Clear log at midnight
-              on_icon: mdi:notebook-outline
-              off_icon: mdi:notebook
-              double_tap_action: call-service
-              double_tap_action_service: shell_command.logging_my_log_irrigation_clear
+          - type: entities
+            entities:
+              - entity: input_number.logging_irrigation_days_to_keep
+                card_mod:
+                  style:
+                    ha-textfield $: |
+                      .mdc-text-field {
+                        height: 2em !important;
+                      }
+                    .: |
+                      :host {
+                        --text-field-padding: 0px 0px 0px 0.5em;
+                        --state-icon-color: {% raw %}{{ 'var(--secondary-text-color)' if states('input_boolean.logging_irrigation') == 'off' }}{% endraw %};
+                        font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                        color: {% raw %}{{ 'var(--secondary-text-color)' if states('input_boolean.logging_irrigation') == 'off' }}{% endraw %}; 
+            card_mod:
+              style: |
+                ha-card .card-content {
+                  padding: 0px;
+                }
+
+          # - !include
+          #   - ../item_settings_check_box_with_entity_icon.yaml
+          #   - entity: input_boolean.logging_irrigation_clear_log
+          #     name: Clear log at midnight
+          #     on_icon: mdi:notebook-outline
+          #     off_icon: mdi:notebook
+          #     double_tap_action: call-service
+          #     double_tap_action_service: shell_command.logging_my_log_irrigation_clear
 
       #=== NOTIFY USERS
       - !include item_settings_notify_users.yaml
@@ -113,19 +134,45 @@ entities:
         row_type: divider
       #-------------------------
 
-      #=== CONTROLLER WIFI SIGNAL
+
+
+      #=== CONTROLLER WiFi lines curently only show if the controller wifi strength 
+      #=== entity_id is manually entered into
+      #===    input_text.irrigation_external_sensor_controller_[1, 2, ...]_wifi
+
+      #=== TODO:
+      #=== Redo the globals for this in the same way as zones so as to allow a
+      #=== user defined number of controllers
+
+
+
+      #=== CONTROLLER 1 WIFI SIGNAL
       - type: custom:config-template-card
         variables:
-          CONTROLLER: states['input_text.irrigation_external_sensor_controller_wifi'].state
+          CONTROLLER: states['input_text.irrigation_external_sensor_controller_1_wifi'].state
         entities:
-          - input_text.irrigation_external_sensor_controller_wifi
-          - ${states['input_text.irrigation_external_sensor_controller_wifi'].state}
+          - input_text.irrigation_external_sensor_controller_1_wifi
+          - ${states['input_text.irrigation_external_sensor_controller_1_wifi'].state}
           - input_text.irrigation_ui_font_family
         card:
           !include
             - item_settings_controller_wifi_signal.yaml
             - entity: "${CONTROLLER}"
-              name: Irrigation Controller
+              name: 'Irrigation Controller 1'
+
+      #=== CONTROLLER 2 WIFI SIGNAL
+      - type: custom:config-template-card
+        variables:
+          CONTROLLER: states['input_text.irrigation_external_sensor_controller_2_wifi'].state
+        entities:
+          - input_text.irrigation_external_sensor_controller_2_wifi
+          - ${states['input_text.irrigation_external_sensor_controller_2_wifi'].state}
+          - input_text.irrigation_ui_font_family
+        card:
+          !include
+            - item_settings_controller_wifi_signal.yaml
+            - entity: "${CONTROLLER}"
+              name: Irrigation Controller 2
 
       #=== TESTING MODE WARNING
       - !include

@@ -35,7 +35,7 @@ styles:
     - padding: 0em 1.5em 0em 0em
     - background: none
   icon:
-    - color: var(--paper-item-icon-color)
+    - color: var(--state-icon-color)
   name: 
     - justify-self: start
 state:
@@ -54,7 +54,8 @@ tap_action:
   browser_mod:
     service: browser_mod.popup
     data:
-      title: Irrigation Controller
+      title: {{ name }}
+      # title: Irrigation Controller
       content:
         type: vertical-stack
         cards:
@@ -69,10 +70,12 @@ tap_action:
                   font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
                   font-size: 16px;
                 }
+
           - type: entities
             entities:
-              - entity: input_text.irrigation_external_sensor_controller_wifi
-                name: Sensor Name
+              # - entity: input_text.irrigation_external_sensor_controller_wifi
+              - entity: input_text.irrigation_external_sensor_controller_{{ name[-1] }}_wifi
+                name: {{ name }}
                 card_mod:
                   style: &text_wrap_style
                     hui-generic-entity-row:
@@ -81,20 +84,40 @@ tap_action:
                           text-overflow: unset !important;
                           white-space: unset !important;
                         }
-              - entity: input_number.irrigation_controller_offline_wait
-                name: Seconds To Wait If Offline
-                card_mod:
-                  style: *text_wrap_style
-              - entity: input_number.irrigation_controller_log_unavailable_seconds_threshold
-                name: Seconds To Wait Before Logging
-                card_mod:
-                  style: *text_wrap_style
+
               - type: section
+
             card_mod:
               style: >
                 ha-card {
                   font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
                 }
+
+
+          - type: markdown
+            content: >
+              ### Settings for all controllers.
+              
+              You can decide how long to wait if a controller is offline.
+            card_mod:
+              style: >
+                ha-card {
+                  font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
+                  font-size: 16px;
+                }
+
+          - type: entities
+            entities:
+              - entity: input_number.irrigation_controller_offline_wait
+                name: Seconds To Wait If Offline
+                card_mod:
+                  style: *text_wrap_style
+
+              - entity: input_number.irrigation_controller_log_unavailable_seconds_threshold
+                name: Seconds To Wait Before Logging
+                card_mod:
+                  style: *text_wrap_style
+
           - type: markdown
             content: You can disable the switches to prevent irrigation while testing.
             card_mod:
@@ -103,6 +126,7 @@ tap_action:
                   font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
                   font-size: 16px;
                 }
+
           - type: entities
             entities:
               - entity: input_boolean.irrigation_disable_switches
@@ -113,6 +137,7 @@ tap_action:
                 ha-card {
                   font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
                 }
+
           - type: markdown
             content: Choose notifications for Controller WiFi events.
             card_mod:
@@ -121,6 +146,7 @@ tap_action:
                   font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
                   font-size: 16px;
                 }
+
           - type: entities
             entities:
               - entity: input_boolean.irrigation_ha_notify_of_controller_wifi_events
@@ -136,6 +162,7 @@ tap_action:
                 ha-card {
                   font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
                 }
+
     #=== Style needed for pop-up title
       style:
         $: |

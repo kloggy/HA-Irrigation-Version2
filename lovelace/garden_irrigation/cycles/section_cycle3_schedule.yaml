@@ -51,6 +51,8 @@ entities:
                 return 'Total Runtime: ' + mins + mins_s;
             }
           ]]]
+        tap_action:
+          action: none
         styles:
           card:
             - padding: 0em 0.1em 0em 0em

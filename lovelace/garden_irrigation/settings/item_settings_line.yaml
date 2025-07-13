@@ -55,7 +55,7 @@ styles:
     - padding: {{ padding | default('0em 0em 0em 0em') }}
     - background: none
   icon:
-    - color: var(--paper-item-icon-color)
+    - color: var(--state-icon-color)
   name: 
     - justify-self: start
   label:

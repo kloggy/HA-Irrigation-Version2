@@ -21,7 +21,7 @@ label: >
       var minutes = Math.floor(total_seconds / 60);
       var seconds = (total_seconds % 60).toFixed();
       while (seconds.length < 2) {seconds = "0" + seconds};
-      return minutes + "' " + seconds + '"';
+      return minutes + "m " + seconds + 's';
   ]]]
 show_label: true
 show_icon: false

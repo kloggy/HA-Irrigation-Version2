@@ -94,10 +94,44 @@ entities:
                   content:
                     type: entities
                     entities:
-                      - entity: input_number.irrigation_rainfall_percentage_1
-                      - entity: input_number.irrigation_rainfall_percentage_2
-                      - entity: input_number.irrigation_rainfall_percentage_3
-                      - entity: input_number.irrigation_rainfall_percentage_4
+                      - entity: input_boolean.irrigation_rainfall_use_rolling_values
+
+                      #=== Rolling values
+                      - type: custom:hui-element
+                        card_type: conditional
+                        conditions:
+                          - entity: input_boolean.irrigation_rainfall_use_rolling_values
+                            state: 'on'
+                        card:
+                          type: entities
+                          entities:
+                            - entity: input_number.irrigation_rainfall_percentage_1
+                              name: 24 to 48 hours ago
+                            - entity: input_number.irrigation_rainfall_percentage_2
+                              name: 48 to 72 hours ago
+                            - entity: input_number.irrigation_rainfall_percentage_3
+                              name: 72 to 96 hours ago
+                            - entity: input_number.irrigation_rainfall_percentage_4
+                              name: 96 to 120 hours ago
+
+                      #=== Absolute day values
+                      - type: custom:hui-element
+                        card_type: conditional
+                        conditions:
+                          - entity: input_boolean.irrigation_rainfall_use_rolling_values
+                            state: 'off'
+                        card:
+                          type: entities
+                          entities:
+                            - entity: input_number.irrigation_rainfall_percentage_1
+                              name: Yesterday
+                            - entity: input_number.irrigation_rainfall_percentage_2
+                              name: Two days ago
+                            - entity: input_number.irrigation_rainfall_percentage_3
+                              name: Three days ago
+                            - entity: input_number.irrigation_rainfall_percentage_4
+                              name: Four days ago
+
                     card_mod:
                       style: >
                         ha-card {
@@ -110,35 +144,63 @@ entities:
                           font-family: {% raw %}{{ states('input_text.irrigation_ui_font_family') }}{% endraw %};
                         }
 
+      #=== 24 to 48 hours ago
+      - !include
+          - ../rainfall/item_settings_rainfall_line.yaml
+          - entity: input_number.irrigation_rainfall_percentage_1
+            name: 24 to 48 hours ago
+            rolling: 'on'
+            padding: 0.3em 0em 0em 0em
+
+      #=== 48 to 72 hours ago
+      - !include
+          - ../rainfall/item_settings_rainfall_line.yaml
+          - entity: input_number.irrigation_rainfall_percentage_2
+            name: 48 to 72 hours ago
+            rolling: 'on'
+
+      #=== 72 to 96 hours ago
+      - !include
+          - ../rainfall/item_settings_rainfall_line.yaml
+          - entity: input_number.irrigation_rainfall_percentage_3
+            name: 72 to 96 hours ago
+            rolling: 'on'
+
+      #=== 96 to 120 hours ago
+      - !include
+          - ../rainfall/item_settings_rainfall_line.yaml
+          - entity: input_number.irrigation_rainfall_percentage_4
+            name: 96 to 120 hours ago
+            rolling: 'on'
+
       #=== YESTERDAY
       - !include
-          - ../item_settings_line.yaml
+          - ../rainfall/item_settings_rainfall_line.yaml
           - entity: input_number.irrigation_rainfall_percentage_1
             name: Yesterday
-            tap_action: none
+            rolling: 'off'
             padding: 0.3em 0em 0em 0em
 
       #=== TWO DAYS AGO
       - !include
-          - ../item_settings_line.yaml
+          - ../rainfall/item_settings_rainfall_line.yaml
           - entity: input_number.irrigation_rainfall_percentage_2
             name: Two days ago
-            tap_action: none
+            rolling: 'off'
 
       #=== THREE DAYS AGO
       - !include
-          - ../item_settings_line.yaml
+          - ../rainfall/item_settings_rainfall_line.yaml
           - entity: input_number.irrigation_rainfall_percentage_3
             name: Three days ago
-            tap_action: none
+            rolling: 'off'
 
       #=== FOUR DAYS AGO
       - !include
-          - ../item_settings_line.yaml
+          - ../rainfall/item_settings_rainfall_line.yaml
           - entity: input_number.irrigation_rainfall_percentage_4
-            tap_action: none
             name: Four days ago
-            padding: 0em 0em 0.3em 0em
+            rolling: 'off'
 
       #-------------------------
       - type: custom:hui-element
@@ -160,55 +222,235 @@ entities:
             name: "Current Multiplier ( ℹ️ )"
             label: Calculated based on rainfall and threshold
 
-      #=== RAINFALL TODAY
+      #=== Rolling values
       - !include
-          - ../item_settings_line.yaml
-          - entity: sensor.irrigation_sensor_rainfall_today
-            name: Rainfall Today
-            icon: mdi:weather-rainy
+          - ../rainfall/item_settings_rainfall_line.yaml
+          - entity: sensor.irrigation_sensor_rainfall_last_twenty_four_hours
+            name: Last 24 hours
+            rolling: 'on'
             round: 1
-            tap_action: none
+            padding: 0.3em 0em 0em 0em
 
-      #=== RAINFALL YESTERDAY
       - !include
-          - ../item_settings_line.yaml
-          - entity: sensor.irrigation_sensor_rainfall_yesterday
-            name: Yesterday
-            icon: mdi:weather-rainy
+          - ../rainfall/item_settings_rainfall_line.yaml
+          - entity: sensor.irrigation_sensor_rainfall_between_24_and_48_hours_ago
+            name: 24 to 48 hours ago
+            rolling: 'on'
             round: 1
-            tap_action: none
-            display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 1 ? 'none' : 'unset' ]]]"
 
-      #=== RAINFALL TWO DAYS AGO
       - !include
-          - ../item_settings_line.yaml
-          - entity: input_number.irrigation_rainfall_2
-            name: Two days ago
+          - ../rainfall/item_settings_rainfall_line.yaml
+          - entity: sensor.irrigation_sensor_rainfall_between_48_and_72_hours_ago
+            name: 48 to 72 hours ago
+            rolling: 'on'
             round: 1
-            tap_action: none
-            display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 2 ? 'none' : 'unset' ]]]"
 
-      #=== RAINFALL THREE DAYS AGO
       - !include
-          - ../item_settings_line.yaml
-          - entity: input_number.irrigation_rainfall_3
-            name: Three days ago
+          - ../rainfall/item_settings_rainfall_line.yaml
+          - entity: sensor.irrigation_sensor_rainfall_between_72_and_96_hours_ago
+            name: 72 to 96 hours ago
+            rolling: 'on'
             round: 1
-            tap_action: none
-            display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 3 ? 'none' : 'unset' ]]]"
 
-      #=== RAINFALL FOUR DAYS AGO
       - !include
-          - ../item_settings_line.yaml
-          - entity: input_number.irrigation_rainfall_4
-            name: Four days ago
+          - ../rainfall/item_settings_rainfall_line.yaml
+          - entity: sensor.irrigation_sensor_rainfall_between_96_and_120_hours_ago
+            name: 96 to 120 hours ago
+            rolling: 'on'
             round: 1
-            tap_action: none
-            display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 4 ? 'none' : 'unset' ]]]"
             padding: 0em 0em 0.3em 0em
 
-      #=== SMARTWEATHER STATIONS USED
-      - !include item_settings_smartweather_stations_used.yaml
+
+      #=== Absolute daily values
+      - !include
+          - ../rainfall/item_settings_rainfall_line.yaml
+          - entity: sensor.irrigation_sensor_rainfall_today
+            name: Rainfall today
+            rolling: 'off'
+            round: 1
+            padding: 0.3em 0em 0em 0em
+
+      - !include
+          - ../rainfall/item_settings_rainfall_line.yaml
+          - entity: sensor.irrigation_sensor_rainfall_yesterday
+            name: Yesterday
+            rolling: 'off'
+            round: 1
+
+      - !include
+          - ../rainfall/item_settings_rainfall_line.yaml
+          - entity: input_number.irrigation_rainfall_2
+            name: Two days ago
+            rolling: 'off'
+            round: 1
+
+      - !include
+          - ../rainfall/item_settings_rainfall_line.yaml
+          - entity: input_number.irrigation_rainfall_3
+            name: Three days ago
+            rolling: 'off'
+            round: 1
+
+      - !include
+          - ../rainfall/item_settings_rainfall_line.yaml
+          - entity: input_number.irrigation_rainfall_4
+            name: Four days ago
+            rolling: 'off'
+            round: 1
+            padding: 0em 0em 0.3em 0em
+
+
+
+      # #===
+      # #=== USING ROLLING VALUES
+      # #===
+
+      # #=== LAST 24 HOURS
+      # - type: conditional
+      #   conditions:
+      #     - entity: input_boolean.irrigation_rainfall_use_rolling_values
+      #       state: 'on'
+      #   card:
+      #     !include
+      #       - ../item_settings_line.yaml
+      #       - entity: sensor.irrigation_sensor_rainfall_last_twenty_four_hours
+      #         name: Last 24 hours
+      #         icon: mdi:weather-rainy
+      #         round: 1
+      #         tap_action: none
+
+      # #=== 24 TO 48 HOURS AGO
+      # - type: conditional
+      #   conditions:
+      #     - entity: input_boolean.irrigation_rainfall_use_rolling_values
+      #       state: 'on'
+      #   card:
+      #     !include
+      #       - ../item_settings_line.yaml
+      #       - entity: sensor.irrigation_sensor_rainfall_between_24_and_48_hours_ago
+      #         name: 24 to 48 hours ago
+      #         icon: mdi:weather-rainy
+      #         round: 1
+      #         tap_action: none
+
+      # #=== 48 TO 72 HOURS AGO
+      # - type: conditional
+      #   conditions:
+      #     - entity: input_boolean.irrigation_rainfall_use_rolling_values
+      #       state: 'on'
+      #   card:
+      #     !include
+      #       - ../item_settings_line.yaml
+      #       - entity: sensor.irrigation_sensor_rainfall_between_48_and_72_hours_ago
+      #         name: 48 to 72 hours ago
+      #         icon: mdi:weather-rainy
+      #         round: 1
+      #         tap_action: none
+
+      # #=== 72 TO 96 HOURS AGO
+      # - type: conditional
+      #   conditions:
+      #     - entity: input_boolean.irrigation_rainfall_use_rolling_values
+      #       state: 'on'
+      #   card:
+      #     !include
+      #       - ../item_settings_line.yaml
+      #       - entity: sensor.irrigation_sensor_rainfall_between_72_and_96_hours_ago
+      #         name: 72 to 96 hours ago
+      #         icon: mdi:weather-rainy
+      #         round: 1
+      #         tap_action: none
+
+      # #=== 96 TO 120 HOURS AGO
+      # - type: conditional
+      #   conditions:
+      #     - entity: input_boolean.irrigation_rainfall_use_rolling_values
+      #       state: 'on'
+      #   card:
+      #     !include
+      #       - ../item_settings_line.yaml
+      #       - entity: sensor.irrigation_sensor_rainfall_between_96_and_120_hours_ago
+      #         name: 96 to 120 hours ago
+      #         icon: mdi:weather-rainy
+      #         round: 1
+      #         tap_action: none
+
+
+      # #===
+      # #=== USING DAILY VALUES
+      # #===
+
+      # #=== RAINFALL TODAY
+      # - type: conditional
+      #   conditions:
+      #     - entity: input_boolean.irrigation_rainfall_use_rolling_values
+      #       state: 'off'
+      #   card:
+      #     !include
+      #       - ../item_settings_line.yaml
+      #       - entity: sensor.irrigation_sensor_rainfall_today
+      #         name: Rainfall Today
+      #         icon: mdi:weather-rainy
+      #         round: 1
+      #         tap_action: none
+
+      # #=== RAINFALL YESTERDAY
+      # - type: conditional
+      #   conditions:
+      #     - entity: input_boolean.irrigation_rainfall_use_rolling_values
+      #       state: 'off'
+      #   card:
+      #     !include
+      #       - ../item_settings_line.yaml
+      #       - entity: sensor.irrigation_sensor_rainfall_yesterday
+      #         name: Yesterday
+      #         icon: mdi:weather-rainy
+      #         round: 1
+      #         tap_action: none
+      #         display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 1 ? 'none' : 'unset' ]]]"
+
+      # #=== RAINFALL TWO DAYS AGO
+      # - type: conditional
+      #   conditions:
+      #     - entity: input_boolean.irrigation_rainfall_use_rolling_values
+      #       state: 'off'
+      #   card:
+      #     !include
+      #       - ../item_settings_line.yaml
+      #       - entity: input_number.irrigation_rainfall_2
+      #         name: Two days ago
+      #         round: 1
+      #         tap_action: none
+      #         display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 2 ? 'none' : 'unset' ]]]"
+
+      # #=== RAINFALL THREE DAYS AGO
+      # - type: conditional
+      #   conditions:
+      #     - entity: input_boolean.irrigation_rainfall_use_rolling_values
+      #       state: 'off'
+      #   card:
+      #     !include
+      #       - ../item_settings_line.yaml
+      #       - entity: input_number.irrigation_rainfall_3
+      #         name: Three days ago
+      #         round: 1
+      #         tap_action: none
+      #         display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 3 ? 'none' : 'unset' ]]]"
+
+      # #=== RAINFALL FOUR DAYS AGO
+      # - type: conditional
+      #   conditions:
+      #     - entity: input_boolean.irrigation_rainfall_use_rolling_values
+      #       state: 'off'
+      #   card:
+      #     !include
+      #       - ../item_settings_line.yaml
+      #       - entity: input_number.irrigation_rainfall_4
+      #         name: Four days ago
+      #         round: 1
+      #         tap_action: none
+      #         display_condition: "[[[ return states['input_number.irrigation_days_of_rainfall_history_used'].state < 4 ? 'none' : 'unset' ]]]"
+      #         padding: 0em 0em 0.3em 0em
 
       #-------------------------
       - type: custom:hui-element

@@ -10,7 +10,7 @@ entities:
   - !include
     - ../item_status_include_section_check_box.yaml
     - entity: input_boolean.irrigation_ui_show_status_history
-      name: HISTORY TOTALS
+      name: HISTORY TOTALS (approx<br>due to history sensor)
 
   #=== HISTORY COLUMN HEADINGS
   - type: custom:hui-element

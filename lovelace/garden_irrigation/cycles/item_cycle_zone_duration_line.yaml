@@ -291,7 +291,7 @@ card:
                   {% set cycle = {% endraw %} {{ cycle }} {% raw %} %}
                   {% if is_state('timer.irrigation_zone' ~ zone ~ '_timer', 'active') and 
                         cycle_ui == 3 %}
-                    --paper-item-icon-color: var(--paper-item-icon-active-color);
+                    --state-icon-color: var(--paper-item-icon-active-color);
                   {% endif %}
                   {% endraw %}
                 }
