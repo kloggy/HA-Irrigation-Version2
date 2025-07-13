@@ -3,6 +3,43 @@
 
 __Please note that I recommend some understanding of Home Assistant in general and of Lovelace in particular if you choose to try this out.__
 
+# July 2025
+
+Rolling 24 hour periods are now allowed for.
+
+* We are having very little rain at the moment so I have only tested this during one three day period of rain last week so I suggest you might want to keep a copy of your working verison before using this 'improved' one.
+
+This requires the relavent `history_stats` sensor to be created.
+
+For example I have:
+
+```
+      - name: Rain Gauge Rainfall Last Twenty Four Hours
+        unique_id: rain_gauge_rainfall_last_twenty_four_hours
+        state: >
+          {% set count = states('sensor.rain_gauge_tips_last_twenty_four_hours') | int(0) %}
+          {% set mm_per_tip = 0.3 %}
+          {{ (count * mm_per_tip) | round(1) }}
+        availability: >
+          {{ states('sensor.rain_gauge_tips_last_twenty_four_hours') not in ['unknown', 'unavailable', 'none'] }}
+        unit_of_measurement: mm
+        icon: mdi:water
+
+      - name: Rain Gauge Rainfall Between 24 and 48 Hours Ago
+        unique_id: rain_gauge_rainfall_between_24_and_48_hours_ago
+        state: >
+          {% set count = states('sensor.rain_gauge_tips_between_24_and_48_hours_ago') | int(0) %}
+          {% set mm_per_tip = 0.3 %}
+          {{ (count * mm_per_tip) | round(1) }}
+        availability: >
+          {{ states('sensor.rain_gauge_tips_between_24_and_48_hours_ago') not in ['unknown', 'unavailable', 'none'] }}
+        unit_of_measurement: mm
+        icon: mdi:water
+```
+
+<img width="662" height="890" alt="image" src="https://github.com/user-attachments/assets/9f952b77-3eda-4fcd-a12a-097309a50476" />
+
+
 # June 2023
 
 A few small updates.
