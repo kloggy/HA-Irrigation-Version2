@@ -43,6 +43,10 @@ automation:
               {{- automation.entity_id }}{% if not loop.last %}, {% endif -%}
             {% endfor %}
 
+      #===  Trigger Automations required for setting up globals
+      - service: automation.trigger
+        entity_id: automation.irrigation_create_groups
+
 
   #==============================
   #=== Master Control switch OFF

@@ -17,8 +17,14 @@ input_boolean:
 #================
 input_text:
 
-  irrigation_external_sensor_controller_wifi:
-    name: Irrigation Controller WiFi Signal Strength
+  irrigation_external_sensor_controller_1_wifi:
+    name: Irrigation Controller 1 WiFi Signal Strength
+    icon: mdi:wifi
+    min: 0
+    max: 100
+
+  irrigation_external_sensor_controller_2_wifi:
+    name: Irrigation Controller 2 WiFi Signal Strength
     icon: mdi:wifi
     min: 0
     max: 100
@@ -30,7 +36,7 @@ input_text:
 input_number:
 
   irrigation_controller_offline_wait: 
-    name: Time to wait for controller when offline
+    name: Time to wait for Controller when offline
     min: 1
     max: 60
     step: 1
@@ -44,35 +50,69 @@ input_number:
 #================
 automation:
 
-  #==============================================
-  #=== Set default Controller WiFi Signal Sensor
-  #==============================================
-  - alias: Irrigation Set Default Controller WiFi Signal Sensor
-    id: irrigation_set_default_controller_wifi_signal_sensor
+  #================================================
+  #=== Set default Controller 1 WiFi Signal Sensor
+  #================================================
+  - alias: Irrigation Set Default Controller 1 WiFi Signal Sensor
+    id: irrigation_set_default_controller_wifi_1_signal_sensor
     trigger:
       #=== If HA starts
       - platform: homeassistant
         event: start
 
       - platform: state
-        entity_id: input_text.irrigation_external_sensor_controller_wifi
+        entity_id: input_text.irrigation_external_sensor_controller_1_wifi
         to: ''
 
     condition:
       condition: or
       conditions:
         - condition: state
-          entity_id: input_text.irrigation_external_sensor_controller_wifi
+          entity_id: input_text.irrigation_external_sensor_controller_1_wifi
           state: 'unknown'
 
         - condition: state
-          entity_id: input_text.irrigation_external_sensor_controller_wifi
+          entity_id: input_text.irrigation_external_sensor_controller_1_wifi
           state: ''
 
     action:
       - service: input_text.set_value
         data:
-          entity_id: input_text.irrigation_external_sensor_controller_wifi
-          value: sensor.esphome_irrigation_controller_wifi_signal
+          entity_id: input_text.irrigation_external_sensor_controller_1_wifi
+          value: Not set
+          # value: sensor.esphome_irrigation_controller_wifi_signal
+
+
+  #================================================
+  #=== Set default Controller 2 WiFi Signal Sensor
+  #================================================
+  - alias: Irrigation Set Default Controller 2 WiFi Signal Sensor
+    id: irrigation_set_default_controller_2_wifi_signal_sensor
+    trigger:
+      #=== If HA starts
+      - platform: homeassistant
+        event: start
+
+      - platform: state
+        entity_id: input_text.irrigation_external_sensor_controller_2_wifi
+        to: ''
+
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_controller_2_wifi
+          state: 'unknown'
+
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_controller_2_wifi
+          state: ''
+
+    action:
+      - service: input_text.set_value
+        data:
+          entity_id: input_text.irrigation_external_sensor_controller_2_wifi
+          value: Not set
+          # value: sensor.esphome_irrigation_controller_2_wifi_signal
 
 

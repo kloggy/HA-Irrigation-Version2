@@ -1,29 +1,40 @@
 
-#============
-#=== Sensors
-#============
-sensor:
-  - platform: template
+#==============
+#=== Templates
+#==============
+template:
+  - sensor:
 
-    #=========================================================
-    #=== Internal sensors that are based on the external ones
-    #=== that have been user defined in the input texts.
-    #===
-    #=== These sensors are synchronised manually in an
-    #=== automation when the external ones change
-    #=========================================================
-    sensors:
-      irrigation_sensor_forecast_high_temp:
-        value_template: >
-          {{ states(states('input_text.irrigation_external_sensor_forecast_high_temp')) }}
-        icon_template: mdi:thermometer-high
+      #=========================================================
+      #=== Internal sensors that are based on the external ones
+      #=== that have been user defined in the input texts.
+      #===
+      #=== These sensors are synchronised manually in an
+      #=== automation when the external ones change
+      #=========================================================
+      - name: Irrigation Sensor Forecast High Temp
+        unique_id: irrigation_sensor_forecast_high_temp
+        state: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_forecast_high_temp') %}
+          {{ states(sensor_name) }}
+        availability: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_forecast_high_temp') %}
+          {{ is_number(states(sensor_name)) }}
+        icon: mdi:thermometer-high
         unit_of_measurement: '°C'
+        device_class: temperature
 
-      irrigation_sensor_current_temp:
-        value_template: >
-          {{ states(states('input_text.irrigation_external_sensor_current_temp')) }}
-        icon_template: mdi:thermometer-low
+      - name: Irrigation Sensor Current Temp
+        unique_id: irrigation_sensor_current_temp
+        state: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_current_temp') %}
+          {{ states(sensor_name) }}
+        availability: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_current_temp') %}
+          {{ is_number(states(sensor_name)) }}
+        icon: mdi:thermometer-low
         unit_of_measurement: '°C'
+        device_class: temperature
 
 
 #================

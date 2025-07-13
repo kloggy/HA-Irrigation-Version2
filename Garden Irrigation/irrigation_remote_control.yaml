@@ -6,6 +6,7 @@ mqtt:
   sensor:
     # Irrigation Remote Control
     - name: Irrigation Remote Control
+      unique_id: irrigation_remote_control
       state_topic: "433/Irrigation_Remote_Control"
       expire_after: 2
 
@@ -92,6 +93,14 @@ input_number:
     unit_of_measurement: min
     icon: mdi:numeric-8-box-outline
 
+  irrigation_remote_control_zone9_duration: 
+    name: Remote Control Zone9 Duration
+    min: 0
+    max: 60
+    mode: box
+    unit_of_measurement: min
+    icon: mdi:numeric-9-box-outline
+
 
 #================
 #=== Automations
@@ -167,12 +176,14 @@ automation:
           reason: Button AB pressed (Cancel Irrigation)
 
       #=== Announce
-      - service: script.notify
+      - service: script.announcement
         data:
-          say: true
-          sonos:
-            - kitchen
-          message: Irrigation cancelled
+          initiated_by: >
+            {{ this.entity_id }}
+          media_players:
+            - entity_id: media_player.sonos_kitchen
+          announcement:
+            - tts: Irrigation cancelled
 
 
   #===================================================================
@@ -203,31 +214,34 @@ automation:
         above: 0
 
     action:
-      - service: script.notify
+      - service: script.announcement
         data_template:
-          say: true
-          sonos:
-            - kitchen
-          message: >
-            {% if trigger.to_state.state == 'Button_A' %}
-              Lawn irrigation queued
-            {% elif trigger.to_state.state == 'Button_B' %}
-              Sunny side irrigation queued
-            {% elif trigger.to_state.state == 'Button_C' %}
-              Shady side irrigation queued
-            {% elif trigger.to_state.state == 'Button_D' %}
-              Fern irrigation queued
-            {% elif trigger.to_state.state == 'Button_AC' %}
-              Lawn and Both Beds irrigation queued
-            {% elif trigger.to_state.state == 'Button_AD' %}
-              Lawn, both beds and Fern Spray irrigation queued
-            {% elif trigger.to_state.state == 'Button_BC' %}
-              Sunny and Shady Beds irrigation queued
-            {% elif trigger.to_state.state == 'Button_CD' %}
-              Betty wee-wee watering irrigation queued
-            {% else %}
-              Unknown button pressed
-            {% endif %}
+          initiated_by: >
+            {{ this.entity_id }}
+          media_players:
+            - entity_id: media_player.sonos_kitchen
+              quiet_time_volume: USE_TARGET_VOLUME
+          announcement:
+            - tts: >
+                {% if trigger.to_state.state == 'Button_A' %}
+                  Lawn irrigation queued
+                {% elif trigger.to_state.state == 'Button_B' %}
+                  Sunny side irrigation queued
+                {% elif trigger.to_state.state == 'Button_C' %}
+                  Shady side irrigation queued
+                {% elif trigger.to_state.state == 'Button_D' %}
+                  Fern irrigation queued
+                {% elif trigger.to_state.state == 'Button_AC' %}
+                  Lawn and Both Beds irrigation queued
+                {% elif trigger.to_state.state == 'Button_AD' %}
+                  Lawn, both beds and Fern Spray irrigation queued
+                {% elif trigger.to_state.state == 'Button_BC' %}
+                  Sunny and Shady Beds irrigation queued
+                {% elif trigger.to_state.state == 'Button_CD' %}
+                  Betty wee-wee watering irrigation queued
+                {% else %}
+                  Unknown button pressed
+                {% endif %}
 
 
   #=============================================
@@ -317,13 +331,14 @@ automation:
                       entity_id: input_boolean.irrigation_cycle3_running
                       state: 'on'
               sequence:
-                - service: script.notify
+                - service: script.announcement
                   data:
-                    say: True
-                    sonos:
-                      - kitchen
-                    message: "The irrigation appears to be already running"
-                      
+                    initiated_by: >
+                      {{ this.entity_id }}
+                    media_players:
+                      - entity_id: media_player.sonos_kitchen
+                    announcement:
+                      - tts: The irrigation appears to be already running
 
           #=== Irrigation not already running - CONTINUE
           default:
@@ -608,22 +623,28 @@ script:
                 entity_id: input_boolean.irrigation_disable_switches
                 state: 'on'
             sequence:
-              - service: script.notify
+              - service: script.announcement
                 data:
-                  say: True
-                  sonos:
-                    - kitchen, 0.35, 0.25
-                  message: "Warning! The irrigation switches are disabled."
+                  initiated_by: >
+                    {{ this.entity_id }}
+                  media_players:
+                    - entity_id: media_player.sonos_kitchen
+                      target_volume: 0.35
+                      quiet_time_volume: 0.25
+                  announcement:
+                    - tts: Warning! The irrigation switches are disabled.
 
-      - service: script.notify
+      - service: script.announcement
         data:
           initiated_by: >
             {{ this.entity_id }}
-          say: true
-          sonos:
-            - kitchen, 0.35, 0.25
-          message: >
-            {{ message }}
+          media_players:
+            - entity_id: media_player.sonos_kitchen
+              target_volume: 0.35
+              quiet_time_volume: 0.25
+          announcement:
+            - tts: >
+                {{ message }}
 
       #=== Start Cycle 3
       - service: input_boolean.turn_on
@@ -634,6 +655,8 @@ script:
         data:
           log_event: CYCLE_STARTING
           cycle: 3
+          event_time: >
+            {{ now() }}
 
       #=== Wait for Cycle 3 to start
       - wait_template: >

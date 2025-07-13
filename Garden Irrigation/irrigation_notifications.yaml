@@ -19,7 +19,7 @@ input_boolean:
 automation:
 
   #========================================================================
-  #=== Persistant notification when the Irrigation Controller goes Offline
+  #=== Persistent notification when the Irrigation Controller goes Offline
   #========================================================================
   - alias: Irrigation Notify When Controller Goes Offline
     id: irrigation_notify_when_controller_goes_offline
@@ -160,6 +160,7 @@ automation:
           - condition: state
             entity_id: input_boolean.irrigation_notify_user1
             state: 'on'
+
           - condition: state
             entity_id: input_boolean.irrigation_notify_user2
             state: 'on'         
@@ -169,12 +170,31 @@ automation:
         {% set cycle_name = states('input_text.irrigation_' ~ trigger.id ~ '_name') %}
 
         {% if trigger.to_state.state == 'on' %}
-          I thought you'd like to know that the {{ cycle_name }} has just started.
+          The {{ cycle_name }} cycle has started.
+          The total watering time should be about {{ (states('sensor.irrigation_' ~ trigger.id ~ '_duration_in_seconds') | int / 60) | int }} mins
 
-
-          The total watering time should be about {{ (states('sensor.irrigation_' ~ trigger.id ~ '_duration_in_seconds') | int / 60) | int }} minutes but I'll let you know when it has finished.
+          Multipliers:
+          Rain - {{ states('input_number.irrigation_rainfall_multiplier') }}
+          Temp - {{ states('input_number.irrigation_temp_multiplier') }}
         {% else %}
-          All the {{ cycle_name }} watering is done.
+          {{ cycle_name }} finished
+
+          Total Watering Today 
+
+          --------------------
+          {% set zone_count = states('input_number.irrigation_number_of_zones') | int %}
+          {%- for zones in range(zone_count) %}
+            {%- set zone_name = states('input_text.irrigation_zone' ~ loop.index ~ '_name') %}
+            {%- set hours = states('sensor.irrigation_zone' ~ loop.index ~ '_total_time_today') | float %}
+            {%- set hrs = (hours // 1) | int %}
+            {%- set min = ((hours % 1) * 60) | int %}
+            {%- set sec = (((hours % 1) * 3600) % 60) | int %}
+            {%- if hours > 1 %}
+              {{ '{:<13}'.format(zone_name) }} - {{ '{:1d}h {:01d}m {:01d}s'.format(hrs, min, sec) }}
+            {%- else %}
+              {{ '{:<13}'.format(zone_name) }} - {{ '{:01d}m {:01d}s'.format(min, sec) }}
+            {%- endif %}
+          {%- endfor %}
         {% endif %}
 
     action:

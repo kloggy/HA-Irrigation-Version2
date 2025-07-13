@@ -39,6 +39,8 @@ script:
                   {{ repeat.index }}
                 seconds: >
                   {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int }}
+                event_time: >
+                  {{ now() }}
 
             - choose:
                 #=== If duration for this zone is not zero
@@ -48,18 +50,27 @@ script:
                       {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int != 0 }}
 
                   sequence:
-                    #=== Update Status with Zone being watered
-                    - service: input_text.set_value
-                      data_template:
-                        entity_id: input_text.irrigation_current_status
-                        value: Watering...
-
                     #=== Set FAILSAFE time to 10 seconds longer than the zone runtime
                     - service: input_number.set_value
                       data_template:        
                         entity_id: input_number.irrigation_failsafe_time_in_seconds
                         value: >
                           {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int + 10 }}
+
+                    #=== Write To Log
+                    - service: script.irrigation_write_to_log
+                      data:
+                        log_event: FAILSAFE_SET
+                        zone: >
+                          {{ repeat.index }}
+                        event_time: >
+                          {{ now() }}
+
+                    #=== Update Status with Zone being watered
+                    - service: input_text.set_value
+                      data_template:
+                        entity_id: input_text.irrigation_current_status
+                        value: Watering...
 
                     #=== Update last run details for this zone
                     - service: input_text.set_value
@@ -107,6 +118,8 @@ script:
                         log_event: ZONE_WATERING
                         zone: >
                           {{ repeat.index }}
+                        event_time: >
+                          {{ now() }}
 
                     #=== Wait for the timer to start (Probably unnecessary but...)
                     - wait_template: >
@@ -153,6 +166,8 @@ script:
                         log_event: ZONE_STOPPING
                         zone: >
                           {{ repeat.index }}
+                        event_time: >
+                          {{ now() }}
 
                     #=== Update last run time for this zone
                     - service: input_text.set_value
@@ -224,4 +239,6 @@ script:
           log_event: CYCLE_ENDED
           cycle: >
             {{ cycle[-1] }}
+          event_time: >
+            {{ now() }}
 

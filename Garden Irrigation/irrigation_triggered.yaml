@@ -102,6 +102,12 @@ automation:
               {{ states('input_boolean.irrigation_' ~ trigger.id ~ '_wait_for_entity') == 'on' }}
 
         then:
+          - variables:
+              wait_for_entity_name: >
+                {{ states('input_text.irrigation_' ~ trigger.id ~ '_wait_for_entity_name') }}
+              wait_for_entity_state: >
+                {{ states('input_text.irrigation_' ~ trigger.id ~ '_wait_for_entity_state') }}
+
           #=== Write To Log
           - service: script.irrigation_write_to_log
             data:
@@ -112,8 +118,6 @@ automation:
                 {{ now() }}
       
           - wait_template: >
-              {% set wait_for_entity_name = states('input_text.irrigation_' ~ trigger.id ~ '_wait_for_entity_name') %}
-              {% set wait_for_entity_state = states('input_text.irrigation_' ~ trigger.id ~ '_wait_for_entity_state') %}
               {% set wait_for_entity_name_timeout_continue = states('input_text.irrigation_' ~ trigger.id ~ '_wait_for_entity_name_timeout_continue') %}
               {% if wait_for_entity_state.startswith('not') %}
                 {% set chosen_states = wait_for_entity_state.replace('not in', '')
@@ -154,18 +158,68 @@ automation:
                   event_time: >
                     {{ now() }}
 
-              #=== Persistent notification
-              - service: persistent_notification.create
-                data:
-                  title: Irrigation Warning
+              #=== Notify
+              - service: script.notify
+                data_template:
+                  show: true
+                  tell: >
+                    {{ states('input_text.notifications_user1_name') | lower }}
+                  type: app_notification
+                  title: Irrigation WARNING
                   message: >
                     {% set cycle_name =  states('input_text.irrigation_' ~ trigger.id ~ '_name') %}
-                    Cycle {{ trigger.id[-1] }} ({{ cycle_name }}) Cycle ABBORTED - Wait for entity state timed out.
+                    Cycle {{ trigger.id[-1] }} ({{ cycle_name }}) Cycle ABORTED - Wait for entity state timed out.
+
+                    Entity: {{ wait_for_entity_name }}
+                    
+                    Waiting for state: {{ wait_for_entity_state }}
+                    
+                    Current state: {{ states(wait_for_entity_name) }}
+
 
                     (See Irrigation Log)
 
-              #=== Stop processing (End the cycle)
+              #=== STOP processing (End the cycle)
               - stop: Wait for entity state failed
+
+          #=== Log warning if continuing with an unknown state after (only possible when wait timeout is false)
+          - if:
+              - condition: template
+                value_template: >
+                  {{ not wait.completed and
+                     not wait_for_entity_state.startswith('not') and
+                     states(wait_for_entity_name) not in wait_for_entity_state }}
+            then:
+              #=== Write To Log
+              - service: script.irrigation_write_to_log
+                data:
+                  log_event: CYCLE_CONTINUES_UNEXPECTED_STATE
+                  cycle: >
+                    {{ trigger.id[-1] }}
+                  event_time: >
+                    {{ now() }}
+
+              #=== Notify
+              - service: script.notify
+                data_template:
+                  show: true
+                  tell: >
+                    {{ states('input_text.notifications_user1_name') | lower }}
+                  type: app_notification
+                  title: Irrigation WARNING
+                  message: >
+                    {% set cycle_name =  states('input_text.irrigation_' ~ trigger.id ~ '_name') %}
+                    Cycle {{ trigger.id[-1] }} ({{ cycle_name }}) Cycle continuing with unexpected state.
+
+                    Entity: {{ wait_for_entity_name }}
+
+                    Waiting For state: {{ wait_for_entity_state }}
+                    
+                    Current state: {{ states(wait_for_entity_name) }}
+
+
+                    (See Irrigation Log)
+
 
       #== Set the cycle to be running
       - service: homeassistant.turn_on

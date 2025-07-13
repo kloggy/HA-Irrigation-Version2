@@ -22,7 +22,7 @@ automation:
       #=== If HA starts
       - platform: homeassistant
         event: start
-        
+
       - platform: event
         event_type: call_service
         event_data:

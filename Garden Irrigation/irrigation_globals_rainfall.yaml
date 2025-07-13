@@ -1,48 +1,128 @@
 
-#============
-#=== Sensors
-#============
-sensor:
-  - platform: template
+#==============
+#=== Templates
+#==============
+template:
+  - sensor:
 
-    #=========================================================
-    #=== Internal sensors that are based on the external ones
-    #=== that have been user defined in the input texts.
-    #===
-    #=== These sensors are synchronised manually in an
-    #=== automation when the external ones change
-    #=========================================================
-    sensors:
-      irrigation_sensor_rainfall_today:
-        value_template: >
-          {{ states(states('input_text.irrigation_external_sensor_rainfall_today')) }}
-        icon_template: mdi:weather-rainy
+      #=========================================================
+      #=== Internal sensors that are based on the external ones
+      #=== that have been user defined in the input texts.
+      #===
+      #=== These sensors are synchronised manually in an
+      #=== automation when the external ones change
+      #=========================================================
+      
+      #=== Daily Rainfall
+      - name: Irrigation Sensor Rainfall Today
+        unique_id: irrigation_sensor_rainfall_today
+        state: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_rainfall_today') %}
+          {{ states(sensor_name) }}
+        availability: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_rainfall_today') %}
+          {{ is_number(states(sensor_name)) }}
+        icon: mdi:weather-rainy
         unit_of_measurement: mm
+        device_class: precipitation
 
-
-      irrigation_sensor_rainfall_yesterday:
-        value_template: >
-          {{ states(states('input_text.irrigation_external_sensor_rainfall_yesterday')) }}
-        icon_template: mdi:weather-rainy
+      - name: irrigation Sensor Rainfall Yesterday
+        unique_id: irrigation_sensor_rainfall_yesterday
+        state: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_rainfall_yesterday') %}
+          {{ states(sensor_name) }}
+        availability: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_rainfall_yesterday') %}
+          {{ is_number(states(sensor_name)) }}
+        icon: mdi:weather-rainy
         unit_of_measurement: mm
+        device_class: precipitation
 
-      irrigation_sensor_forecast_rain:
-        value_template: >
-          {{ states(states('input_text.irrigation_external_sensor_forecast_rain')) }}
-        icon_template: mdi:weather-rainy
+
+      #=== Rolling Rainfall
+      - name: Irrigation Sensor Rainfall Last Twenty Four Hours
+        unique_id: irrigation_sensor_rainfall_last_twenty_four_hours
+        state: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_rainfall_last_twenty_four_hours') %}
+          {{ states(sensor_name) }}
+        availability: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_rainfall_last_twenty_four_hours') %}
+          {{ is_number(states(sensor_name)) }}
+        icon: mdi:weather-rainy
         unit_of_measurement: mm
+        device_class: precipitation
+
+      - name: Irrigation Sensor Rainfall Between 24 and 48 Hours Ago
+        unique_id: irrigation_sensor_rainfall_between_24_and_48_hours_ago
+        state: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_rainfall_between_24_and_48_hours_ago') %}
+          {{ states(sensor_name) }}
+        availability: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_rainfall_between_24_and_48_hours_ago') %}
+          {{ is_number(states(sensor_name)) }}
+        icon: mdi:weather-rainy
+        unit_of_measurement: mm
+        device_class: precipitation
+
+      - name: Irrigation Sensor Rainfall Between 48 and 72 Hours Ago
+        unique_id: irrigation_sensor_rainfall_between_48_and_72_hours_ago
+        state: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_rainfall_between_48_and_72_hours_ago') %}
+          {{ states(sensor_name) }}
+        availability: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_rainfall_between_48_and_72_hours_ago') %}
+          {{ is_number(states(sensor_name)) }}
+        icon: mdi:weather-rainy
+        unit_of_measurement: mm
+        device_class: precipitation
+
+      - name: Irrigation Sensor Rainfall Between 72 and 96 Hours Ago
+        unique_id: irrigation_sensor_rainfall_between_72_and_96_hours_ago
+        state: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_rainfall_between_72_and_96_hours_ago') %}
+          {{ states(sensor_name) }}
+        availability: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_rainfall_between_72_and_96_hours_ago') %}
+          {{ is_number(states(sensor_name)) }}
+        icon: mdi:weather-rainy
+        unit_of_measurement: mm
+        device_class: precipitation
+
+      - name: Irrigation Sensor Rainfall Between 96 and 120 Hours Ago
+        unique_id: irrigation_sensor_rainfall_between_96_and_120_hours_ago
+        state: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_rainfall_between_96_and_120_hours_ago') %}
+          {{ states(sensor_name) }}
+        availability: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_rainfall_between_96_and_120_hours_ago') %}
+          {{ is_number(states(sensor_name)) }}
+        icon: mdi:weather-rainy
+        unit_of_measurement: mm
+        device_class: precipitation
 
 
-#===================
-#=== Binary Sensors
-#===================
-binary_sensor:
-  - platform: template
-    sensors:
-      irrigation_sensor_raining_now:
-        value_template: >
-          {{ states(states('input_text.irrigation_external_sensor_raining_now')) }}
-        icon_template: mdi:weather-pouring
+      #=== Forcast Rain
+      - name: Irrigation Sensor Forecast Rain
+        unique_id: irrigation_sensor_forecast_rain
+        state: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_forecast_rain') %}
+          {{ states(sensor_name) }}
+        availability: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_forecast_rain') %}
+          {{ is_number(states(sensor_name)) }}
+        icon: mdi:weather-rainy
+        unit_of_measurement: mm
+        device_class: precipitation
+
+
+  - binary_sensor:
+      #=== Raining Now
+      - name: Irrigation Sensor Raining Now
+        unique_id: irrigation_sensor_raining_now
+        state: >
+          {% set sensor_name = states('input_text.irrigation_external_sensor_raining_now') %}
+          {{ states(sensor_name) | default('off') }}
+        icon: mdi:weather-pouring
 
 
 #===================
@@ -50,13 +130,13 @@ binary_sensor:
 #===================
 input_boolean:
 
-  irrigation_show_smartweather_stations:
-    name: Show SmartWeather Stations
-    icon: mdi:weather-rainy
-
   irrigation_ignore_schedule_if_raining:
     name: Ignore schedules if it is raining
     icon: mdi:calendar-remove
+
+  irrigation_rainfall_use_rolling_values:
+    name: Use rolling 24hr values
+    icon: mdi:timer-refresh
 
 
 #================
@@ -80,6 +160,38 @@ input_text:
     icon: mdi:weather-pouring
     min: 0
     max: 100
+
+  #=== Sensors for rolling rainfall
+  irrigation_external_sensor_rainfall_last_twenty_four_hours:
+    name: Rainfall Last Twenty Four Hours
+    icon: mdi:weather-pouring
+    min: 0
+    max: 100
+
+  irrigation_external_sensor_rainfall_between_24_and_48_hours_ago:
+    name: Rainfall Between 24 and 48 Hours Ago
+    icon: mdi:weather-pouring
+    min: 0
+    max: 100
+
+  irrigation_external_sensor_rainfall_between_48_and_72_hours_ago:
+    name: Rainfall Between 48 and 72 Hours Ago
+    icon: mdi:weather-pouring
+    min: 0
+    max: 100
+
+  irrigation_external_sensor_rainfall_between_72_and_96_hours_ago:
+    name: Rainfall Between 72 and 96 Hours Ago
+    icon: mdi:weather-pouring
+    min: 0
+    max: 100
+
+  irrigation_external_sensor_rainfall_between_96_and_120_hours_ago:
+    name: Rainfall Between 96 and 120 Hours Ago
+    icon: mdi:weather-pouring
+    min: 0
+    max: 100
+
 
   #=== Sensor for raining now
   irrigation_external_sensor_raining_now:

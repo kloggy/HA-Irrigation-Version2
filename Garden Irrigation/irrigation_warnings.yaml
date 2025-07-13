@@ -10,6 +10,15 @@ input_number:
     icon: mdi:lightbulb-alert
 
 
+# #====================
+# #=== Input Datetimes
+# #====================
+# input_datetime:
+#   irrigation_controller_time_became_unavailable:
+#     has_date: true
+#     has_time: true
+
+
 #================
 #=== Automations
 #================
@@ -17,38 +26,144 @@ automation:
   #======================================
   #=== Irrigation Controller Unavailable
   #======================================
-  - alias: Irrigation Controller Unavailable
-    id: irrigation_controller__log_unavailable
+  - alias: Irrigation Warning Controller Unavailable
+    id: irrigation_warning_controller_unavailable
     mode: queued
+
     trigger:
       - platform: template
         value_template: >
           {{ states(states('input_text.irrigation_external_sensor_controller_wifi'))  == 'unavailable' }}
-        for: 
-          seconds: >
-            {{ input_number.irrigation_controller_log_unavailable_seconds_threshold }}
+
+    condition:
+      #=== Don't run if HA is shutting down as that causes false positives
+      - condition: state
+        entity_id: input_boolean.system_ha_stopping
+        state: 'off'
+
+      #=== Only run if HA start delay is complete
+      - condition: state
+        entity_id: binary_sensor.system_ha_start_delay_complete
+        state: 'on'
 
     action:
+      # #=== Update the time controller became Unavailable
+      # - service: input_datetime.set_datetime
+      #   target:
+      #     entity_id: input_datetime.irrigation_controller_time_became_unavailable
+      #   data:
+      #     timestamp: >
+      #       {{ now().timestamp() }}
+
       #=== Write To Log
-      - service: script.irrigation_write_to_log
+      - service: script.turn_on
+        entity_id: script.irrigation_write_to_log
         data:
-          log_event: CONTROLLER_UNAVAILABLE
+          variables:
+            log_event: CONTROLLER_UNAVAILABLE
+            event_time: >
+              {{ now() }}
+
+      #=== Persistent Notification
+      - service: script.notify
+        data_template:
+          show: true
+          title: ⚠️ Irrigation Warning ⚠️
+          message: >
+            Irrigation Controller is UNAVAILABLE
+
+            At: {{ states('sensor.date_time_iso') }}
+          # notification_id: CONTROLLER_UNAVAILABLE
+
+      #=== Notify
+      - if:
+          condition: state
+          entity_id: input_boolean.irrigation_notify_user1
+          state: 'on'
+        then:
+          - service: script.notify
+            data_template:
+              tell: >
+                {{ states('input_text.notifications_user1_name') }}
+              type: app_notification
+              title: ⚠️ Irrigation Warning ⚠️
+              message: >
+                Irrigation Controller is UNAVAILABLE
+
+                At: {{ states('sensor.date_time_iso') }}
+              mobile_app_tag: CONTROLLER_UNAVAILABLE
+
+      - if:
+          condition: state
+          entity_id: input_boolean.irrigation_notify_user2
+          state: 'on'
+        then:
+          - service: script.notify
+            data_template:
+              tell: >
+                {{ states('input_text.notifications_user1_name') }}
+              type: app_notification
+              title: ⚠️ Irrigation Warning ⚠️
+              message: >
+                Irrigation Controller is UNAVAILABLE
+
+                At: {{ states('sensor.date_time_iso') }}
+              mobile_app_tag: CONTROLLER_UNAVAILABLE
 
 
   #====================================
   #=== Irrigation Controller Available
   #====================================
-  - alias: Irrigation Controller Available
-    id: irrigation_controller__log_Available
+  - alias: Irrigation Warning Controller Available
+    id: irrigation_warning_controller_available
     mode: queued
+
     trigger:
       - platform: template
         value_template: >
           {{ states(states('input_text.irrigation_external_sensor_controller_wifi'))  != 'unavailable' }}
 
+    variables:
+      controller_offline_for: >
+        {% set last_changed = trigger.from_state.last_changed %}
+        {% set last_changed = last_changed | as_local %}
+        {{ as_datetime(last_changed) | time_since(0) }}
+
+    condition:
+      #=== Only run if HA start delay is complete
+      - condition: state
+        entity_id: binary_sensor.system_ha_start_delay_complete
+        state: 'on'
+
     action:
       #=== Write To Log
-      - service: script.irrigation_write_to_log
+      - service: script.turn_on
+        entity_id: script.irrigation_write_to_log
         data:
-          log_event: CONTROLLER_AVAILABLE
+          variables:
+            log_event: CONTROLLER_AVAILABLE
+            event_time: >
+              {{ now() }}
+            controller_offline_for: >
+              {{ controller_offline_for }}
+            # unavailable_seconds: >
+            #   {{ (as_timestamp(now()) - state_attr('input_datetime.irrigation_controller_time_became_unavailable', 'timestamp')) | round }}
+
+      #=== Persistent Notification
+      - service: script.notify
+        data_template:
+          show: true
+          title: ⚠️ Irrigation Warning ⚠️
+          message: >
+            Irrigation Controller is now AVAILABLE (after {{ controller_offline_for }})
+
+            At: {{ states('sensor.date_time_iso') }}
+
+          # message: >
+          #   {% set unavailable_seconds = (as_timestamp(now()) - state_attr('input_datetime.irrigation_controller_time_became_unavailable', 'timestamp')) | round %}
+          #   {% set unavailable_formatted = (timedelta(seconds = unavailable_seconds)) %}
+
+          #   Irrigation Controller is now AVAILABLE (after {{ unavailable_formatted }})
+
+          #   At: {{ states('sensor.date_time_iso') }}
 

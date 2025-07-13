@@ -32,7 +32,7 @@ automation:
       - service: input_text.set_value
         data_template:
           entity_id: input_text.irrigation_external_sensor_rainfall_today
-          value: sensor.smartweather_average_rain_today
+          value: sensor.rain_gauge
 
 
   #==========================================
@@ -64,7 +64,163 @@ automation:
       - service: input_text.set_value
         data_template:
           entity_id: input_text.irrigation_external_sensor_rainfall_yesterday
-          value: sensor.smartweather_average_rain_yesterday
+          value: sensor.rain_gauge_yesterday
+
+
+  #=======================================================
+  #=== Set Default Rainfall Last Twenty Four Hours Sensor
+  #=======================================================
+  - alias: Irrigation Set Default Rainfall Last Twenty Four Hours Sensor
+    id: irrigation_set_default_rainfall_last_twenty_four_hours_sensor
+    trigger:
+      #=== If HA starts
+      - platform: homeassistant
+        event: start
+
+      - platform: state
+        entity_id: input_text.irrigation_external_sensor_rainfall_last_twenty_four_hours
+        to: ''
+
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_rainfall_last_twenty_four_hours
+          state: 'unknown'
+
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_rainfall_last_twenty_four_hours
+          state: ''
+
+    action:
+      - service: input_text.set_value
+        data_template:
+          entity_id: input_text.irrigation_external_sensor_rainfall_last_twenty_four_hours
+          value: sensor.rain_gauge_rainfall_last_twenty_four_hours
+
+  #=====================================================
+  #=== Set Default Rainfall Between 24 and 48 Hours Ago
+  #=====================================================
+  - alias: Irrigation Set Default Rainfall Between 24 and 48 Hours Ago
+    id: irrigation_set_default_rainfall_between_24_and_48_hours_ago
+    trigger:
+      #=== If HA starts
+      - platform: homeassistant
+        event: start
+
+      - platform: state
+        entity_id: input_text.irrigation_external_sensor_rainfall_between_24_and_48_hours_ago
+        to: ''
+
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_rainfall_between_24_and_48_hours_ago
+          state: 'unknown'
+
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_rainfall_between_24_and_48_hours_ago
+          state: ''
+
+    action:
+      - service: input_text.set_value
+        data_template:
+          entity_id: input_text.irrigation_external_sensor_rainfall_between_24_and_48_hours_ago
+          value: sensor.rain_gauge_rainfall_between_24_and_48_hours_ago
+
+  #=====================================================
+  #=== Set Default Rainfall Between 48 and 72 Hours Ago
+  #=====================================================
+  - alias: Irrigation Set Default Rainfall Between 48 and 72 Hours Ago
+    id: irrigation_set_default_rainfall_between_48_and_72_hours_ago
+    trigger:
+      #=== If HA starts
+      - platform: homeassistant
+        event: start
+
+      - platform: state
+        entity_id: input_text.irrigation_external_sensor_rainfall_between_48_and_72_hours_ago
+        to: ''
+
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_rainfall_between_48_and_72_hours_ago
+          state: 'unknown'
+
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_rainfall_between_48_and_72_hours_ago
+          state: ''
+
+    action:
+      - service: input_text.set_value
+        data_template:
+          entity_id: input_text.irrigation_external_sensor_rainfall_between_48_and_72_hours_ago
+          value: sensor.rain_gauge_rainfall_between_48_and_72_hours_ago
+
+  #=====================================================
+  #=== Set Default Rainfall Between 72 and 96 Hours Ago
+  #=====================================================
+  - alias: Irrigation Set Default Rainfall Between 72 and 96 Hours Ago
+    id: irrigation_set_default_rainfall_between_72_and_96_hours_ago
+    trigger:
+      #=== If HA starts
+      - platform: homeassistant
+        event: start
+
+      - platform: state
+        entity_id: input_text.irrigation_external_sensor_rainfall_between_72_and_96_hours_ago
+        to: ''
+
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_rainfall_between_72_and_96_hours_ago
+          state: 'unknown'
+
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_rainfall_between_48_and_72_hours_ago
+          state: ''
+
+    action:
+      - service: input_text.set_value
+        data_template:
+          entity_id: input_text.irrigation_external_sensor_rainfall_between_72_and_96_hours_ago
+          value: sensor.rain_gauge_rainfall_between_72_and_96_hours_ago
+
+  #======================================================
+  #=== Set Default Rainfall Between 96 and 120 Hours Ago
+  #======================================================
+  - alias: Irrigation Set Default Rainfall Between 96 and 120 Hours Ago
+    id: irrigation_set_default_rainfall_between_96_and_120_hours_ago
+    trigger:
+      #=== If HA starts
+      - platform: homeassistant
+        event: start
+
+      - platform: state
+        entity_id: input_text.irrigation_external_sensor_rainfall_between_96_and_120_hours_ago
+        to: ''
+
+    condition:
+      condition: or
+      conditions:
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_rainfall_between_96_and_120_hours_ago
+          state: 'unknown'
+
+        - condition: state
+          entity_id: input_text.irrigation_external_sensor_rainfall_between_96_and_120_hours_ago
+          state: ''
+
+    action:
+      - service: input_text.set_value
+        data_template:
+          entity_id: input_text.irrigation_external_sensor_rainfall_between_96_and_120_hours_ago
+          value: sensor.rain_gauge_rainfall_between_96_and_120_hours_ago
 
 
   #===================================
@@ -158,7 +314,7 @@ automation:
     id: irrigation_rainfall_nightly_update
     trigger: 
       - platform: time
-        at: "00:00:01"
+        at: "23:59:00"
 
     action:
       - service: input_number.set_value
@@ -187,9 +343,6 @@ automation:
   #=== based on the difference between the rainfall threshold and the amount of
   #=== rain over the last few days. If the threshold is reached then it will
   #=== stop watering completely.
-  #===
-  #=== Note that sensor.smartweather_average_rain_today is an average of several
-  #=== different weather sensors reporting rainfall today for this area.
   #==============================================================================
   - alias: Irrigation Rainfall Calculate Multiplier
     id: irrigation_rainfall_calculate_multiplier
@@ -197,6 +350,7 @@ automation:
     trigger:
       - platform: state
         entity_id:
+          - input_boolean.irrigation_rainfall_use_rolling_values
           - input_number.irrigation_days_of_rainfall_history_used
           - input_number.irrigation_rainfall_threshold
           - input_number.irrigation_rainfall_percentage_1
@@ -208,17 +362,30 @@ automation:
           - input_number.irrigation_rainfall_2
           - input_number.irrigation_rainfall_3
           - input_number.irrigation_rainfall_4
+          - sensor.irrigation_sensor_rainfall_last_twenty_four_hours
+          - sensor.irrigation_sensor_rainfall_between_24_and_48_hours_ago
+          - sensor.irrigation_sensor_rainfall_between_48_and_72_hours_ago
+          - sensor.irrigation_sensor_rainfall_between_72_and_96_hours_ago
+          - sensor.irrigation_sensor_rainfall_between_96_and_120_hours_ago
 
     action:
       - service: input_number.set_value
         data_template:
           entity_id: input_number.irrigation_rainfall_multiplier
           value: >
-            {% set rain_0 = states('sensor.irrigation_sensor_rainfall_today') | float %}
-            {% set rain_1 = states('sensor.irrigation_sensor_rainfall_yesterday') | float %}
-            {% set rain_2 = states('input_number.irrigation_rainfall_2')  | float%}
-            {% set rain_3 = states('input_number.irrigation_rainfall_3')  | float%}
-            {% set rain_4 = states('input_number.irrigation_rainfall_4')  | float%}
+            {% if states('input_boolean.irrigation_rainfall_use_rolling_values') == 'on' %}
+              {% set rain_0 = states('sensor.irrigation_sensor_rainfall_last_twenty_four_hours') | float %}
+              {% set rain_1 = states('sensor.irrigation_sensor_rainfall_between_24_and_48_hours_ago') | float %}
+              {% set rain_2 = states('sensor.irrigation_sensor_rainfall_between_48_and_72_hours_ago')  | float%}
+              {% set rain_3 = states('sensor.irrigation_sensor_rainfall_between_72_and_96_hours_ago')  | float%}
+              {% set rain_4 = states('sensor.irrigation_sensor_rainfall_between_96_and_120_hours_ago')  | float%}
+            {% else %}
+              {% set rain_0 = states('sensor.irrigation_sensor_rainfall_today') | float %}
+              {% set rain_1 = states('sensor.irrigation_sensor_rainfall_yesterday') | float %}
+              {% set rain_2 = states('input_number.irrigation_rainfall_2')  | float%}
+              {% set rain_3 = states('input_number.irrigation_rainfall_3')  | float%}
+              {% set rain_4 = states('input_number.irrigation_rainfall_4')  | float%}
+            {% endif %}
 
             {% set percent_1 = states('input_number.irrigation_rainfall_percentage_1') | float / 100 %}
             {% set percent_2 = states('input_number.irrigation_rainfall_percentage_2') | float / 100 %}

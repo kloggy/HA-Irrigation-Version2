@@ -57,8 +57,21 @@ script:
                 entity_id: notify.log_irrigation
                 data:
                   message: >
-                    {% set zone_name =  states('input_text.irrigation_zone' ~ zone ~ '_name') %}
+                    {% set zone_name = states('input_text.irrigation_zone' ~ zone ~ '_name') %}
                     {{ event_time }} - Single zone starting - {{ zone }} ({{ zone_name }})
+
+          #=== FAILSAFE_SET
+          - conditions:
+              - condition: template
+                value_template: >
+                  {{ log_event == 'FAILSAFE_SET' }}
+            sequence:
+              - service: notify.send_message
+                entity_id: notify.log_irrigation
+                data:
+                  message: >
+                    {% set failsafe_time = states('input_number.irrigation_failsafe_time_in_seconds') %}
+                    {{ event_time }} - failsafe time {{ failsafe_time }} seconds
 
           #=== CYCLE_WAITING_FOR_ENTITY
           - conditions:
@@ -70,7 +83,7 @@ script:
                 entity_id: notify.log_irrigation
                 data:
                   message: >
-                    {% set cycle_name =  states('input_text.irrigation_cycle' ~ cycle ~ '_name') %}
+                    {% set cycle_name = states('input_text.irrigation_cycle' ~ cycle ~ '_name') %}
                     {% set wait_for_entity_name = states('input_text.irrigation_cycle' ~ cycle ~ '_wait_for_entity_name') %}
                     {% set wait_for_entity_state = states('input_text.irrigation_cycle' ~ cycle ~ '_wait_for_entity_state') %}
                     {{ event_time }} - Cycle {{ cycle }} ({{ cycle_name }}) WARNING! Waiting for entity

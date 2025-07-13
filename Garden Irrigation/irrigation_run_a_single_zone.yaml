@@ -92,6 +92,8 @@ script:
           log_event: SINGLE_ZONE_STARTING
           zone: >
             {{ zone }}
+          event_time: >
+            {{ now() }}
 
       #=== Start Cycle 3
       - service: input_boolean.turn_on
