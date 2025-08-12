@@ -1,0 +1,14 @@
+input_select:
+  language_gui:
+    name: Lingua GUI
+    icon: mdi:translate
+    options:
+      - it
+      - en
+    initial: it
+
+# Helper opzionale per mettere in pausa in caso di pioggia (usato negli esempi)
+input_boolean:
+  irrigation_pause_due_rain:
+    name: Pausa irrigazione per pioggia
+    icon: mdi:weather-pouring

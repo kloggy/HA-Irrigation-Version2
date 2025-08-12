@@ -1,0 +1,22 @@
+title: Garden Irrigation
+path: garden_irrigation
+icon: mdi:sprinkler
+cards:
+  - type: entities
+    title: Controller
+    entities:
+      - input_text.irrigation_external_sensor_controller_1_wifi
+      - input_text.irrigation_external_sensor_controller_2_wifi
+      - input_boolean.irrigation_ha_notify_of_controller_wifi_events
+      - input_boolean.irrigation_user_notify_of_controller_wifi_events
+
+  - type: entities
+    title: State & Pause
+    entities:
+      - input_boolean.irrigation_pause_due_rain
+      - input_number.irrigation_controller_offline_wait
+
+  - type: entities
+    title: Language
+    entities:
+      - input_select.language_gui
