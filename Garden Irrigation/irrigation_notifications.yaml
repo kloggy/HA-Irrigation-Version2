@@ -25,11 +25,11 @@ automation:
     id: irrigation_notify_when_controller_goes_offline
     mode: queued
     trigger:
-      - platform: state
+      - trigger: state
         entity_id: sensor.esphome_irrigation_controller_wifi_signal
         to: unavailable
 
-      - platform: state
+      - trigger: state
         entity_id: sensor.esphome_irrigation_controller_wifi_signal
         from: unavailable
 
@@ -39,8 +39,8 @@ automation:
         state: 'on'
 
     action:
-      - service: script.notify
-        data_template:
+      - action: script.notify
+        data:
           show: true
           notification_id: >
             notifications_{{ now() | string }}
@@ -60,11 +60,11 @@ automation:
   - alias: Irrigation Notify About Cycle WiFi Interruption
     id: irrigation_notify_about_cycle_wifi_interruption
     trigger:
-      - platform: state
+      - trigger: state
         entity_id: sensor.esphome_irrigation_controller_wifi_signal
         to: unavailable
 
-      - platform: state
+      - trigger: state
         entity_id: sensor.esphome_irrigation_controller_wifi_signal
         from: unavailable
 
@@ -117,8 +117,8 @@ automation:
           entity_id: input_boolean.irrigation_notify_user1
           state: 'on'
         then:
-          - service: script.notify
-            data_template:
+          - action: script.notify
+            data:
               tell: >
                 {{ states('input_text.notifications_user1_name') }}
               type: app_notification
@@ -131,8 +131,8 @@ automation:
           entity_id: input_boolean.irrigation_notify_user2
           state: 'on'
         then:
-          - service: script.notify
-            data_template:
+          - action: script.notify
+            data:
               tell: >
                 {{ states('input_text.notifications_user2_name') }}
               type: app_notification
@@ -147,11 +147,11 @@ automation:
   - alias: Irrigation Notify When Cycle Starts Or Stops
     id: irrigation_notify_when_cycle_starts_or_stops
     trigger:
-      - platform: state
+      - trigger: state
         entity_id: input_boolean.irrigation_cycle1_running
         id: cycle1
 
-      - platform: state
+      - trigger: state
         entity_id: input_boolean.irrigation_cycle2_running
         id: cycle2
 
@@ -203,8 +203,8 @@ automation:
           entity_id: input_boolean.irrigation_notify_user1
           state: 'on'
         then:
-          - service: script.notify
-            data_template:
+          - action: script.notify
+            data:
               tell: >
                 {{ states('input_text.notifications_user1_name') | lower }}
               type: app_notification
@@ -217,8 +217,8 @@ automation:
           entity_id: input_boolean.irrigation_notify_user2
           state: 'on'
         then:
-          - service: script.notify
-            data_template:
+          - action: script.notify
+            data:
               tell: >
                 {{ states('input_text.notifications_user2_name') | lower }}
               type: app_notification

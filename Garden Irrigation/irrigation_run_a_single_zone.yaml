@@ -38,7 +38,7 @@ script:
         state: 'off'
 
       #=== Save current settings
-      - service: scene.create
+      - action: scene.create
         data:
           scene_id: irrigation_cycle3
           snapshot_entities:
@@ -62,7 +62,7 @@ script:
             - input_number.irrigation_cycle3_zone16_duration
 
       #=== Disable schedules for Cycles 1 and 2
-      - service: input_boolean.turn_off
+      - action: input_boolean.turn_off
         entity_id:
           - input_boolean.irrigation_cycle1_schedule_enabled
           - input_boolean.irrigation_cycle2_schedule_enabled
@@ -74,8 +74,8 @@ script:
                 {{ states('input_number.irrigation_number_of_zones') | int == repeat.index }}
 
           sequence:
-            - service: input_number.set_value
-              data_template:
+            - action: input_number.set_value
+              data:
                 entity_id: >
                   {% set zoneindex = 'zone' ~ repeat.index | string %}
                   {% if zone != zoneindex %}
@@ -87,7 +87,7 @@ script:
 
 
       #=== Write To Log
-      - service: script.irrigation_write_to_log
+      - action: script.irrigation_write_to_log
         data:
           log_event: SINGLE_ZONE_STARTING
           zone: >
@@ -96,7 +96,7 @@ script:
             {{ now() }}
 
       #=== Start Cycle 3
-      - service: input_boolean.turn_on
+      - action: input_boolean.turn_on
         entity_id: input_boolean.irrigation_cycle3_running
 
       #=== Wait for Cycle 3 to start
@@ -108,6 +108,6 @@ script:
           {{ is_state('input_boolean.irrigation_cycle3_running', 'off') }}
 
       #=== Restore previous settings
-      - service: scene.turn_on
+      - action: scene.turn_on
         data:
           entity_id: scene.irrigation_cycle3

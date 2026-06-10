@@ -31,7 +31,7 @@ automation:
     mode: queued
 
     trigger:
-      - platform: template
+      - trigger: template
         value_template: >
           {{ states(states('input_text.irrigation_external_sensor_controller_wifi'))  == 'unavailable' }}
 
@@ -56,7 +56,7 @@ automation:
       #       {{ now().timestamp() }}
 
       #=== Write To Log
-      - service: script.turn_on
+      - action: script.turn_on
         entity_id: script.irrigation_write_to_log
         data:
           variables:
@@ -65,8 +65,8 @@ automation:
               {{ now() }}
 
       #=== Persistent Notification
-      - service: script.notify
-        data_template:
+      - action: script.notify
+        data:
           show: true
           title: ⚠️ Irrigation Warning ⚠️
           message: >
@@ -81,8 +81,8 @@ automation:
           entity_id: input_boolean.irrigation_notify_user1
           state: 'on'
         then:
-          - service: script.notify
-            data_template:
+          - action: script.notify
+            data:
               tell: >
                 {{ states('input_text.notifications_user1_name') }}
               type: app_notification
@@ -98,8 +98,8 @@ automation:
           entity_id: input_boolean.irrigation_notify_user2
           state: 'on'
         then:
-          - service: script.notify
-            data_template:
+          - action: script.notify
+            data:
               tell: >
                 {{ states('input_text.notifications_user1_name') }}
               type: app_notification
@@ -119,7 +119,7 @@ automation:
     mode: queued
 
     trigger:
-      - platform: template
+      - trigger: template
         value_template: >
           {{ states(states('input_text.irrigation_external_sensor_controller_wifi'))  != 'unavailable' }}
 
@@ -137,7 +137,7 @@ automation:
 
     action:
       #=== Write To Log
-      - service: script.turn_on
+      - action: script.turn_on
         entity_id: script.irrigation_write_to_log
         data:
           variables:
@@ -150,8 +150,8 @@ automation:
             #   {{ (as_timestamp(now()) - state_attr('input_datetime.irrigation_controller_time_became_unavailable', 'timestamp')) | round }}
 
       #=== Persistent Notification
-      - service: script.notify
-        data_template:
+      - action: script.notify
+        data:
           show: true
           title: ⚠️ Irrigation Warning ⚠️
           message: >

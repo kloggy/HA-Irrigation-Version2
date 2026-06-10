@@ -21,10 +21,10 @@ automation:
     id: irrigation_master_control_switch_on
     trigger:
       #=== If HA starts
-      - platform: homeassistant
+      - trigger: homeassistant
         event: start
 
-      - platform: state
+      - trigger: state
         entity_id: input_boolean.irrigation_master_control_switch
         to: 'on'
 
@@ -35,8 +35,8 @@ automation:
     
     action:
       #=== Turn ON Automations
-      - service: automation.turn_on
-        data_template:
+      - action: automation.turn_on
+        data:
           entity_id: >
             {% for automation in states.automation if automation.object_id.startswith('irrigation') and
                                                       'irrigation_remote_control' not in automation.object_id %}
@@ -44,7 +44,7 @@ automation:
             {% endfor %}
 
       #===  Trigger Automations required for setting up globals
-      - service: automation.trigger
+      - action: automation.trigger
         entity_id: automation.irrigation_create_groups
 
 
@@ -55,10 +55,10 @@ automation:
     id: irrigation_master_control_switch_off
     trigger:
       #=== If HA starts
-      - platform: homeassistant
+      - trigger: homeassistant
         event: start
 
-      - platform: state
+      - trigger: state
         entity_id: input_boolean.irrigation_master_control_switch
         to: 'off'
 
@@ -69,8 +69,8 @@ automation:
     
     action:
       #=== Turn OFF Automations
-      - service: automation.turn_off
-        data_template:
+      - action: automation.turn_off
+        data:
           entity_id: >
             {% for automation in states.automation if automation.object_id.startswith('irrigation') and
                                                       'irrigation_remote_control_switch' not in automation.object_id and
@@ -79,14 +79,14 @@ automation:
             {% endfor %}
 
       #=== Turn OFF all schedules
-      - service: input_boolean.turn_off
+      - action: input_boolean.turn_off
         entity_id:
           - input_boolean.irrigation_cycle1_schedule_enabled
           - input_boolean.irrigation_cycle2_schedule_enabled
 
       #=== Turn off all zone valves explicitly 
-      - service: switch.turn_off
-        data_template:
+      - action: switch.turn_off
+        data:
           entity_id: > 
             {% for switch_name in states.input_text if switch_name.object_id.startswith('irrigation_zone') and
                                                        switch_name.object_id.endswith('switch_entity_id') and
@@ -97,6 +97,6 @@ automation:
             {%- endfor %}
 
       #=== Turn OFF remote control
-      - service: input_boolean.turn_off
+      - action: input_boolean.turn_off
         entity_id:
           - input_boolean.irrigation_remote_control

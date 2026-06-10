@@ -15,18 +15,18 @@ automation:
   - alias: Irrigation Cycle1 Start Time Sunrise Offset
     id: irrigation_cycle1_start_time_sunrise_offset
     trigger:
-      - platform: state
+      - trigger: state
         entity_id: sun.sun
         attribute: next_rising
 
-      - platform: state
+      - trigger: state
         entity_id: input_select.irrigation_cycle1_start_time_type
         to: Sunrise Offset
 
-      - platform: state
+      - trigger: state
         entity_id: input_number.irrigation_cycle1_start_time_sunrise_offset
 
-      - platform: state
+      - trigger: state
         entity_id: input_boolean.irrigation_cycle1_running
         from: 'on'
         to: 'off'
@@ -37,9 +37,9 @@ automation:
         state: Sunrise Offset
 
     action:
-      - service: input_datetime.set_datetime
+      - action: input_datetime.set_datetime
         entity_id: input_datetime.irrigation_cycle1_start_time
-        data_template:
+        data:
           time: >
             {% set offset_secs = states('input_number.irrigation_cycle1_start_time_sunrise_offset') | int * 60 %}
             {% set start_time = as_timestamp(state_attr('sun.sun', 'next_rising')) | int + offset_secs %}
@@ -52,18 +52,18 @@ automation:
   - alias: Irrigation Cycle1 Start Time Sunset Offset
     id: irrigation_cycle1_start_time_sunset_offset
     trigger: 
-      - platform: state
+      - trigger: state
         entity_id: sun.sun
         attribute: next_setting
 
-      - platform: state
+      - trigger: state
         entity_id: input_select.irrigation_cycle1_start_time_type
         to: Sunset Offset
 
-      - platform: state
+      - trigger: state
         entity_id: input_number.irrigation_cycle1_start_time_sunset_offset
 
-      - platform: state
+      - trigger: state
         entity_id: input_boolean.irrigation_cycle1_running
         from: 'on'
         to: 'off'
@@ -74,9 +74,9 @@ automation:
         state: Sunset Offset
 
     action:
-      - service: input_datetime.set_datetime
+      - action: input_datetime.set_datetime
         entity_id: input_datetime.irrigation_cycle1_start_time
-        data_template:
+        data:
           time: >
             {% set offset_secs = states('input_number.irrigation_cycle1_start_time_sunset_offset') | int * 60 %}
             {% set start_time = as_timestamp(state_attr('sun.sun', 'next_setting')) | int + offset_secs %}
@@ -89,18 +89,18 @@ automation:
   - alias: Irrigation Cycle2 Start Time Sunrise Offset
     id: irrigation_cycle2_start_time_sunrise_offset
     trigger: 
-      - platform: state
+      - trigger: state
         entity_id: sun.sun
         attribute: next_rising
 
-      - platform: state
+      - trigger: state
         entity_id: input_select.irrigation_cycle2_start_time_type
         to: Sunrise Offset
 
-      - platform: state
+      - trigger: state
         entity_id: input_number.irrigation_cycle2_start_time_sunrise_offset
 
-      - platform: state
+      - trigger: state
         entity_id: input_boolean.irrigation_cycle2_running
         from: 'on'
         to: 'off'
@@ -111,9 +111,9 @@ automation:
         state: Sunrise Offset
 
     action:
-      - service: input_datetime.set_datetime
+      - action: input_datetime.set_datetime
         entity_id: input_datetime.irrigation_cycle2_start_time
-        data_template:
+        data:
           time: >
             {% set offset_secs = states('input_number.irrigation_cycle2_start_time_sunrise_offset') | int * 60 %}
             {% set start_time = as_timestamp(state_attr('sun.sun', 'next_rising')) | int + offset_secs %}
@@ -126,18 +126,18 @@ automation:
   - alias: Irrigation Cycle2 Start Time Sunset Offset
     id: irrigation_cycle2_start_time_sunset_offset
     trigger: 
-      - platform: state
+      - trigger: state
         entity_id: sun.sun
         attribute: next_setting
 
-      - platform: state
+      - trigger: state
         entity_id: input_select.irrigation_cycle2_start_time_type
         to: Sunset Offset
 
-      - platform: state
+      - trigger: state
         entity_id: input_number.irrigation_cycle2_start_time_sunset_offset
 
-      - platform: state
+      - trigger: state
         entity_id: input_boolean.irrigation_cycle2_running
         from: 'on'
         to: 'off'
@@ -148,9 +148,9 @@ automation:
         state: Sunset Offset
 
     action:
-      - service: input_datetime.set_datetime
+      - action: input_datetime.set_datetime
         entity_id: input_datetime.irrigation_cycle2_start_time
-        data_template:
+        data:
           time: >
             {% set offset_secs = states('input_number.irrigation_cycle2_start_time_sunset_offset') | int * 60 %}
             {% set start_time = as_timestamp(state_attr('sun.sun', 'next_setting')) | int + offset_secs %}

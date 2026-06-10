@@ -10,22 +10,22 @@ automation:
   - alias: Irrigation Triggered Cycle Start
     id: irrigation_triggered_cycle_start
     trigger:
-      - platform: state
+      - trigger: state
         entity_id: input_boolean.irrigation_cycle1_running
         to: 'on'
         
-      - platform: state
+      - trigger: state
         entity_id: input_boolean.irrigation_cycle2_running
         to: 'on'
 
-      - platform: state
+      - trigger: state
         entity_id: input_boolean.irrigation_cycle3_running
         to: 'on'
 
     action:
       #=== Set previous run times for all zones to ' '
-      - service: input_text.set_value
-        data_template:
+      - action: input_text.set_value
+        data:
           entity_id: >
             {% for input_text in states.input_text if input_text.object_id.startswith('irrigation_zone') and
                                                       input_text.object_id.endswith('_previous_duration_in_seconds')  -%}
@@ -35,20 +35,20 @@ automation:
           value: ''
       
       #=== Set previous total watering time to 'none'
-      - service: input_text.set_value
+      - action: input_text.set_value
         data:
           entity_id: input_text.irrigation_previous_total_watering_time
           value: None
 
       #=== Set previous cycle total time to zero
-      - service: input_text.set_value
+      - action: input_text.set_value
         data:
           entity_id: input_text.irrigation_previous_total_watering_time
           value: 0
 
       #=== Update Last Run cycle name
-      - service: input_text.set_value
-        data_template:
+      - action: input_text.set_value
+        data:
           entity_id: input_text.irrigation_previous_run_cycle_name
           value: >
             {% if 'cycle1' in trigger.entity_id %}
@@ -60,22 +60,22 @@ automation:
             {% endif %}
 
       #=== Update Last Run Date
-      - service: input_text.set_value
-        data_template:
+      - action: input_text.set_value
+        data:
           entity_id: input_text.irrigation_previous_run_date
           value: >
             {{ now().strftime("%A %-d %B") }}
 
       #=== Update Last Run Time
-      - service: input_text.set_value
-        data_template:
+      - action: input_text.set_value
+        data:
           entity_id: input_text.irrigation_previous_run_time
           value: >
             {{ now().strftime("%H:%M") }}
 
       #=== START THE PROCESS
-      - service: script.irrigation_run_a_cycle
-        data_template:
+      - action: script.irrigation_run_a_cycle
+        data:
           cycle: >
             {% if trigger.entity_id == 'input_boolean.irrigation_cycle1_running' %}
               cycle1
