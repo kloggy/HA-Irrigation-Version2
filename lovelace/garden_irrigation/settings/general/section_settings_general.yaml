@@ -136,7 +136,7 @@ entities:
 
 
 
-      #=== CONTROLLER WiFi lines curently only show if the controller wifi strength 
+      #=== CONTROLLER connection lines curently only show if the controller sensor
       #=== entity_id is manually entered into
       #===    input_text.irrigation_external_sensor_controller_[1, 2, ...]_wifi
 

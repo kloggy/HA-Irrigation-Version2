@@ -1,22 +1,32 @@
 # lovelace_gen
 
 #====================================================================
-#=== CONTROLLER WIFI SIGNAL
+#=== CONTROLLER CONNECTIVITY
 #===
-#=== entity: entity_id of irrigation device_tracker.unifi_controller
+#=== entity: entity_id of irrigation WiFi signal sensor or online binary_sensor
 #=== name  : Text to display
 #====================================================================
 type: custom:button-card
 entity: {{ entity }}
 name: >
   [[[
-    var statestr = (entity === undefined || entity.state === undefined) ? 'undefined' : entity.state;
-    var unit_om = (statestr != 'undefined' && entity.attributes.unit_of_measurement) ? entity.attributes.unit_of_measurement : '';
-    return '{{ name }}' + ' (' + entity.state + ' ' + unit_om + ')'
+    var stateText = 'Not set';
+    if (entity !== undefined && entity.state !== undefined) {
+      if (entity.entity_id && entity.entity_id.startsWith('binary_sensor.')) {
+        stateText = entity.state === 'on' ? 'Online' : entity.state === 'off' ? 'Offline' : entity.state;
+      } else {
+        var unit_om = entity.attributes.unit_of_measurement ? ' ' + entity.attributes.unit_of_measurement : '';
+        stateText = entity.state + unit_om;
+      }
+    }
+    return '{{ name }}' + ' (' + stateText + ')'
   ]]]
 icon: >
   [[[
-    return (entity === undefined || entity.state == 'unavailable') ? 'mdi:wifi-off' : 'mdi:wifi';
+    if (entity !== undefined && entity.entity_id && entity.entity_id.startsWith('binary_sensor.')) {
+      return entity.state === 'on' ? 'mdi:lan-connect' : 'mdi:lan-disconnect';
+    }
+    return (entity === undefined || ['unavailable', 'unknown'].includes(entity.state)) ? 'mdi:wifi-off' : 'mdi:wifi';
   ]]]
 show_state: true
 state_display: <elt><ha-icon icon=mdi:square-edit-outline></ha-icon></elt>
@@ -47,6 +57,23 @@ state:
       state:
         - color: var(--accent-color)
         - animation: blink 2s ease infinite
+  - value: 'unknown'
+    styles:
+      icon:
+        - color: var(--accent-color)
+        - animation: blink 2s ease infinite
+      state:
+        - color: var(--accent-color)
+        - animation: blink 2s ease infinite
+  - value: 'off'
+    operator: template
+    value: >
+      [[[ return entity && entity.entity_id && entity.entity_id.startsWith('binary_sensor.') && entity.state === 'off'; ]]]
+    styles:
+      icon:
+        - color: var(--accent-color)
+      name:
+        - color: var(--accent-color)
 
 #=== CONFIGURE IRRIGATION CONTROLLER
 tap_action:
@@ -60,7 +87,10 @@ tap_action:
         type: vertical-stack
         cards:
           - type: markdown
-            content: Enter the name of the sensor for your irrigation controller WiFi signal strength.
+            content: Enter the entity_id of the sensor or binary_sensor for your irrigation controller connection status.
+
+
+                    Use a WiFi signal sensor for wireless controllers or an online/offline binary_sensor for ethernet-connected controllers.
 
 
                     Leave blank to reset to default.
@@ -119,7 +149,7 @@ tap_action:
                   style: *text_wrap_style
 
           - type: markdown
-            content: You can disable the switches to prevent irrigation while testing.
+            content: You can disable the switches to prevent irrigation while a controller is offline or while testing.
             card_mod:
               style: >
                 ha-card {
@@ -139,7 +169,7 @@ tap_action:
                 }
 
           - type: markdown
-            content: Choose notifications for Controller WiFi events.
+            content: Choose notifications for controller connectivity events.
             card_mod:
               style: >
                 ha-card {
