@@ -263,97 +263,97 @@ input_text:
   irrigation_zone1_switch_entity_id:
     name: Switch 1 Name
     min: 1
-    max: 50
+    max: 100
     icon: mdi:alphabetical-variant
 
   irrigation_zone2_switch_entity_id:
     name: Switch 2 Name
     min: 1
-    max: 50
+    max: 100
     icon: mdi:alphabetical-variant
 
   irrigation_zone3_switch_entity_id:
     name: Switch 3 Name
     min: 1
-    max: 50
+    max: 100
     icon: mdi:alphabetical-variant
 
   irrigation_zone4_switch_entity_id:
     name: Switch 4 Name
     min: 1
-    max: 50
+    max: 100
     icon: mdi:alphabetical-variant
 
   irrigation_zone5_switch_entity_id:
     name: Switch 5 Name
     min: 1
-    max: 50
+    max: 100
     icon: mdi:alphabetical-variant
 
   irrigation_zone6_switch_entity_id:
     name: Switch 6 Name
     min: 1
-    max: 50
+    max: 100
     icon: mdi:alphabetical-variant
 
   irrigation_zone7_switch_entity_id:
     name: Switch 7 Name
     min: 1
-    max: 50
+    max: 100
     icon: mdi:alphabetical-variant
 
   irrigation_zone8_switch_entity_id:
     name: Switch 8 Name
     min: 1
-    max: 50
+    max: 100
     icon: mdi:alphabetical-variant
 
   irrigation_zone9_switch_entity_id:
     name: Switch 9 Name
     min: 1
-    max: 50
+    max: 100
     icon: mdi:alphabetical-variant
 
   irrigation_zone10_switch_entity_id:
     name: Switch 10 Name
     min: 1
-    max: 50
+    max: 100
     icon: mdi:alphabetical-variant
 
   irrigation_zone11_switch_entity_id:
     name: Switch 11 Name
     min: 1
-    max: 50
+    max: 100
     icon: mdi:alphabetical-variant
 
   irrigation_zone12_switch_entity_id:
     name: Switch 12 Name
     min: 1
-    max: 50
+    max: 100
     icon: mdi:alphabetical-variant
 
   irrigation_zone13_switch_entity_id:
     name: Switch 13 Name
     min: 1
-    max: 50
+    max: 100
     icon: mdi:alphabetical-variant
 
   irrigation_zone14_switch_entity_id:
     name: Switch 14 Name
     min: 1
-    max: 50
+    max: 100
     icon: mdi:alphabetical-variant
 
   irrigation_zone15_switch_entity_id:
     name: Switch 15 Name
     min: 1
-    max: 50
+    max: 100
     icon: mdi:alphabetical-variant
 
   irrigation_zone16_switch_entity_id:
     name: Switch 16 Name
     min: 1
-    max: 50
+    max: 100
     icon: mdi:alphabetical-variant
 
 
