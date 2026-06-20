@@ -13,8 +13,8 @@ script:
   irrigation_cancel_irrigation:
     alias: Irrigation Cancel Irrigation
     sequence:
-      - service: input_boolean.turn_off
-        data_template:
+      - action: input_boolean.turn_off
+        data:
           entity_id: >
             input_boolean.irrigation_{{ cycle }}_running
 
@@ -22,8 +22,8 @@ script:
       #====================
       #=== TURN VALVES OFF
       #====================
-      - service: switch.turn_off
-        data_template:
+      - action: switch.turn_off
+        data:
           entity_id: > 
             {% for switch_name in states.input_text if switch_name.object_id.startswith('irrigation_zone') and
                                                       switch_name.object_id.endswith('switch_entity_id') -%}
@@ -41,14 +41,14 @@ script:
       #=== UPDATE SOME HEADINGS
       #=========================
       #=== Update Status to Idle
-      - service: input_text.set_value
+      - action: input_text.set_value
         data:
           entity_id: input_text.irrigation_current_status
           value: SYSTEM IDLE
 
       #=== Update previous cycle name to show cycle cancelled
-      - service: input_text.set_value
-        data_template:
+      - action: input_text.set_value
+        data:
           entity_id: input_text.irrigation_previous_run_cycle_name
           value: >
             {{ states('input_text.irrigation_previous_run_cycle_name') ~ ' (Cancelled)' }}
@@ -65,8 +65,8 @@ script:
           {{ zone != 'none' }}
 
       #=== Pause zone timer to get time elapsed
-      - service: timer.pause
-        data_template:
+      - action: timer.pause
+        data:
           entity_id: >
             timer.irrigation_{{ zone }}_timer
 
@@ -75,8 +75,8 @@ script:
       #=== SET DETAILS OF LAST RUN
       #============================
       #=== Update last run time for this zone
-      - service: input_text.set_value
-        data_template:
+      - action: input_text.set_value
+        data:
           entity_id: >
             input_text.irrigation_{{ zone }}_previous_duration_in_seconds
           value: >
@@ -89,8 +89,8 @@ script:
             {{ (original_duration - duration_remaining_secs) | string }}
 
       #=== Update last run total watering time
-      - service: input_text.set_value
-        data_template:
+      - action: input_text.set_value
+        data:
           entity_id: input_text.irrigation_previous_total_watering_time
           value: >
             {% set original_duration = states('sensor.irrigation_' ~ cycle ~ '_' ~ zone ~ '_actual_duration_in_seconds') | float %}
@@ -106,8 +106,8 @@ script:
       #=====================
       #=== CANCEL THE TIMER
       #=====================
-      - service: timer.cancel
-        data_template:
+      - action: timer.cancel
+        data:
           entity_id: >
             timer.irrigation_{{ zone }}_timer
 
@@ -115,5 +115,5 @@ script:
       #====================
       #=== STOP THE SCRIPT
       #====================
-      - service: script.turn_off
+      - action: script.turn_off
         entity_id: script.irrigation_run_a_cycle

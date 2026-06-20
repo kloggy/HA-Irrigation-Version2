@@ -22,7 +22,7 @@ script:
                 value_template: >
                   {{ log_event == 'REMOTE_CANCEL' }}
             sequence:
-              - service: notify.send_message
+              - action: notify.send_message
                 entity_id: notify.log_irrigation
                 data:
                   message: >
@@ -34,7 +34,7 @@ script:
                 value_template: >
                   {{ log_event == 'REMOTE_BUTTON_PRESS' }}
             sequence:
-              - service: notify.send_message
+              - action: notify.send_message
                 entity_id: notify.log_irrigation
                 data:
                   message: >
@@ -53,7 +53,7 @@ automation:
     id: irrigation_remote_event_irrigation_remote_cancel
     mode: queued
     trigger:
-      - platform: event
+      - trigger: event
         event_type: IRRIGATION_REMOTE_CANCEL
 
     condition:
@@ -62,7 +62,7 @@ automation:
         state: 'on'
 
     action:
-      - service: notify.send_message
+      - action: notify.send_message
         entity_id: notify.log_irrigation
         data:
           message: >
@@ -76,7 +76,7 @@ automation:
     id: irrigation_remote_event_irrigation_remote_button_press
     mode: queued
     trigger:
-      - platform: event
+      - trigger: event
         event_type: IRRIGATION_REMOTE_BUTTON_PRESS
 
     condition:
@@ -85,7 +85,7 @@ automation:
         state: 'on'
 
     action:
-      - service: notify.send_message
+      - action: notify.send_message
         entity_id: notify.log_irrigation
         data:
           message: >

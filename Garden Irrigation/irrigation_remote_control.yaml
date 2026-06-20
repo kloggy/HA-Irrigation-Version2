@@ -116,16 +116,16 @@ automation:
     id: irrigation_remote_control_switch
     trigger:
       #=== If HA starts
-      - platform: homeassistant
+      - trigger: homeassistant
         event: start
 
-      - platform: state
+      - trigger: state
         entity_id: input_boolean.irrigation_remote_control
 
     action:
-      - service: >
+      - action: >
           automation.turn_{{ states('input_boolean.irrigation_remote_control') }}
-        data_template:
+        data:
           entity_id: >
             {% for automation in states.automation if automation.object_id.startswith('irrigation_remote_control')  and
                                                       automation.object_id != 'irrigation_remote_control_switch'%}
@@ -139,7 +139,7 @@ automation:
   - alias: Irrigation Remote Control Cancel
     id: irrigation_remote_control_cancel
     trigger:
-      - platform: state
+      - trigger: state
         entity_id: sensor.irrigation_remote_control
         to: Button_AB
 
@@ -153,7 +153,7 @@ automation:
 
     action:
       #=== Stop Cycle 3
-      - service: script.irrigation_cancel_irrigation
+      - action: script.irrigation_cancel_irrigation
         data:
           cycle: cycle3
           zone: >
@@ -164,19 +164,19 @@ automation:
             {% endfor %}
 
       #=== Restore previous settings
-      - service: scene.turn_on
+      - action: scene.turn_on
         data:
           entity_id: scene.irrigation_cycle3
 
 
       #=== Write To Log
-      - service: script.irrigation_remote_write_to_log
+      - action: script.irrigation_remote_write_to_log
         data:
           log_event: REMOTE_CANCEL
           reason: Button AB pressed (Cancel Irrigation)
 
       #=== Announce
-      - service: script.announcement
+      - action: script.announcement
         data:
           initiated_by: >
             {{ this.entity_id }}
@@ -193,7 +193,7 @@ automation:
     id: irrigation_remote_control_queued_notification
     mode: queued
     trigger:
-      - platform: state
+      - trigger: state
         entity_id: sensor.irrigation_remote_control
         to: 
           - 'Button_A'
@@ -214,8 +214,8 @@ automation:
         above: 0
 
     action:
-      - service: script.announcement
-        data_template:
+      - action: script.announcement
+        data:
           initiated_by: >
             {{ this.entity_id }}
           media_players:
@@ -251,7 +251,7 @@ automation:
     id: irrigation_remote_control_button_pressed
     mode: queued
     trigger:
-      - platform: state
+      - trigger: state
         entity_id: sensor.irrigation_remote_control
         to: 
           - 'Button_A'
@@ -288,14 +288,14 @@ automation:
 
     action:
         #=== Write To Log
-        - service: script.irrigation_remote_write_to_log
+        - action: script.irrigation_remote_write_to_log
           data:
             log_event: REMOTE_BUTTON_PRESS
             button: >
               {{ trigger.to_state.state }}
 
         #=== Save current settings
-        - service: scene.create
+        - action: scene.create
           data:
             scene_id: irrigation_cycle3
             snapshot_entities:
@@ -311,7 +311,7 @@ automation:
               - input_number.irrigation_cycle3_zone8_duration
 
         #=== Disable schedules for Cycles 1 and 2
-        - service: input_boolean.turn_off
+        - action: input_boolean.turn_off
           entity_id:
             - input_boolean.irrigation_cycle1_schedule_enabled
             - input_boolean.irrigation_cycle2_schedule_enabled
@@ -331,7 +331,7 @@ automation:
                       entity_id: input_boolean.irrigation_cycle3_running
                       state: 'on'
               sequence:
-                - service: script.announcement
+                - action: script.announcement
                   data:
                     initiated_by: >
                       {{ this.entity_id }}
@@ -350,8 +350,8 @@ automation:
                       {{ states('input_number.irrigation_number_of_zones') | int == repeat.index }}
 
                 sequence:
-                  - service: input_number.set_value
-                    data_template:
+                  - action: input_number.set_value
+                    data:
                       entity_id: >
                         {% set zoneindex = 'zone' ~ repeat.index | string %}
                         {{ 'input_number.irrigation_cycle3_' ~ zoneindex ~ '_duration' }}
@@ -372,10 +372,10 @@ automation:
 
                   sequence:
                     #=== Set all Lawn zones (1-4)
-                    - service: script.irrigation_remote_set_all_lawn_zones
+                    - action: script.irrigation_remote_set_all_lawn_zones
 
                     #=== Run Cycle 3
-                    - service: script.irrigation_remote_control_run_cycle
+                    - action: script.irrigation_remote_control_run_cycle
                       data:
                         message: >
                           {% if states('input_number.irrigation_remote_control_zone1_duration') ==
@@ -401,14 +401,14 @@ automation:
 
                   sequence:
                     #=== Set Zone 5 duration
-                    - service: input_number.set_value
+                    - action: input_number.set_value
                       data:
                         entity_id: input_number.irrigation_cycle3_zone5_duration
                         value: >
                           {{ states('input_number.irrigation_remote_control_zone5_duration') }}
 
                     #=== Run Cycle 3
-                    - service: script.irrigation_remote_control_run_cycle
+                    - action: script.irrigation_remote_control_run_cycle
                       data:
                         message: >
                           {% set duration = states('input_number.irrigation_remote_control_zone5_duration') | int %}
@@ -424,14 +424,14 @@ automation:
 
                   sequence:
                     #=== Set Zone 6 duration
-                    - service: input_number.set_value
+                    - action: input_number.set_value
                       data:
                         entity_id: input_number.irrigation_cycle3_zone6_duration
                         value: >
                           {{ states('input_number.irrigation_remote_control_zone6_duration') }}
 
                     #=== Run Cycle 3
-                    - service: script.irrigation_remote_control_run_cycle
+                    - action: script.irrigation_remote_control_run_cycle
                       data:
                         message: >
                           {% set duration = states('input_number.irrigation_remote_control_zone6_duration') | int %}
@@ -447,14 +447,14 @@ automation:
 
                   sequence:
                     #=== Set Zone 7 duration
-                    - service: input_number.set_value
+                    - action: input_number.set_value
                       data:
                         entity_id: input_number.irrigation_cycle3_zone7_duration
                         value: >
                           {{ states('input_number.irrigation_remote_control_zone7_duration') }}
 
                     #=== Run Cycle 3
-                    - service: script.irrigation_remote_control_run_cycle
+                    - action: script.irrigation_remote_control_run_cycle
                       data:
                         message: >
                           {% set duration = states('input_number.irrigation_remote_control_zone7_duration') | int %}
@@ -470,24 +470,24 @@ automation:
 
                   sequence:
                     #=== Set all Lawn zones (1-4)
-                    - service: script.irrigation_remote_set_all_lawn_zones
+                    - action: script.irrigation_remote_set_all_lawn_zones
 
                     #=== Set Zone 5 duration
-                    - service: input_number.set_value
+                    - action: input_number.set_value
                       data:
                         entity_id: input_number.irrigation_cycle3_zone5_duration
                         value: >
                           {{ states('input_number.irrigation_remote_control_zone5_duration') }}
 
                     #=== Set Zone 6 duration
-                    - service: input_number.set_value
+                    - action: input_number.set_value
                       data:
                         entity_id: input_number.irrigation_cycle3_zone6_duration
                         value: >
                           {{ states('input_number.irrigation_remote_control_zone6_duration') }}
 
                     #=== Run Cycle 3
-                    - service: script.irrigation_remote_control_run_cycle
+                    - action: script.irrigation_remote_control_run_cycle
                       data:
                         message: >
                           {% set duration = states('input_number.irrigation_remote_control_zone1_duration') | int +
@@ -507,21 +507,21 @@ automation:
 
                   sequence:
                     #=== Set Zone 5 duration
-                    - service: input_number.set_value
+                    - action: input_number.set_value
                       data:
                         entity_id: input_number.irrigation_cycle3_zone5_duration
                         value: >
                           {{ states('input_number.irrigation_remote_control_zone5_duration') }}
 
                     #=== Set Zone 6 duration
-                    - service: input_number.set_value
+                    - action: input_number.set_value
                       data:
                         entity_id: input_number.irrigation_cycle3_zone6_duration
                         value: >
                           {{ states('input_number.irrigation_remote_control_zone6_duration') }}
 
                     #=== Run Cycle 3
-                    - service: script.irrigation_remote_control_run_cycle
+                    - action: script.irrigation_remote_control_run_cycle
                       data:
                         message: >
                           {% set duration = states('input_number.irrigation_remote_control_zone5_duration') | int +
@@ -537,31 +537,31 @@ automation:
 
                   sequence:
                     #=== Set all Lawn zones (1-4)
-                    - service: script.irrigation_remote_set_all_lawn_zones
+                    - action: script.irrigation_remote_set_all_lawn_zones
 
                     #=== Set Zone 5 duration
-                    - service: input_number.set_value
+                    - action: input_number.set_value
                       data:
                         entity_id: input_number.irrigation_cycle3_zone5_duration
                         value: >
                           {{ states('input_number.irrigation_remote_control_zone5_duration') }}
 
                     #=== Set Zone 6 duration
-                    - service: input_number.set_value
+                    - action: input_number.set_value
                       data:
                         entity_id: input_number.irrigation_cycle3_zone6_duration
                         value: >
                           {{ states('input_number.irrigation_remote_control_zone6_duration') }}
 
                     #=== Set Zone 7 duration
-                    - service: input_number.set_value
+                    - action: input_number.set_value
                       data:
                         entity_id: input_number.irrigation_cycle3_zone7_duration
                         value: >
                           {{ states('input_number.irrigation_remote_control_zone7_duration') }}
 
                     #=== Run Cycle 3
-                    - service: script.irrigation_remote_control_run_cycle
+                    - action: script.irrigation_remote_control_run_cycle
                       data:
                         message: > 
                           {% set duration = states('input_number.irrigation_remote_control_zone1_duration') | int +
@@ -583,7 +583,7 @@ automation:
 
                   sequence:
                     #=== Set Zones 1 to 4 to 1 minute
-                    - service: input_number.set_value
+                    - action: input_number.set_value
                       data:
                         entity_id: 
                           - input_number.irrigation_cycle3_zone1_duration
@@ -593,7 +593,7 @@ automation:
                         value: 1
 
                     #=== Run Cycle 3
-                    - service: script.irrigation_remote_control_run_cycle
+                    - action: script.irrigation_remote_control_run_cycle
                       data:
                         message: > 
                           {% set duration = states('input_number.irrigation_remote_control_zone1_duration') | int +
@@ -623,7 +623,7 @@ script:
                 entity_id: input_boolean.irrigation_disable_switches
                 state: 'on'
             sequence:
-              - service: script.announcement
+              - action: script.announcement
                 data:
                   initiated_by: >
                     {{ this.entity_id }}
@@ -634,7 +634,7 @@ script:
                   announcement:
                     - tts: Warning! The irrigation switches are disabled.
 
-      - service: script.announcement
+      - action: script.announcement
         data:
           initiated_by: >
             {{ this.entity_id }}
@@ -647,11 +647,11 @@ script:
                 {{ message }}
 
       #=== Start Cycle 3
-      - service: input_boolean.turn_on
+      - action: input_boolean.turn_on
         entity_id: input_boolean.irrigation_cycle3_running
 
       #=== Write To Log
-      - service: script.irrigation_write_to_log
+      - action: script.irrigation_write_to_log
         data:
           log_event: CYCLE_STARTING
           cycle: 3
@@ -667,7 +667,7 @@ script:
           {{ is_state('input_boolean.irrigation_cycle3_running', 'off') }}
 
       #=== Restore previous settings
-      - service: scene.turn_on
+      - action: scene.turn_on
         data:
           entity_id: scene.irrigation_cycle3
 
@@ -683,28 +683,28 @@ script:
     alias: Irrigation Remote Set All Lawn Zones
     sequence:
       #=== Set Zone 1 duration
-      - service: input_number.set_value
+      - action: input_number.set_value
         data:
           entity_id: input_number.irrigation_cycle3_zone1_duration
           value: >
             {{ states('input_number.irrigation_remote_control_zone1_duration') }}
 
       #=== Set Zone 2 duration
-      - service: input_number.set_value
+      - action: input_number.set_value
         data:
           entity_id: input_number.irrigation_cycle3_zone2_duration
           value: >
             {{ states('input_number.irrigation_remote_control_zone2_duration') }}
 
       #=== Set Zone 3 duration
-      - service: input_number.set_value
+      - action: input_number.set_value
         data:
           entity_id: input_number.irrigation_cycle3_zone3_duration
           value: >
             {{ states('input_number.irrigation_remote_control_zone3_duration') }}
 
       #=== Set Zone 4 duration
-      - service: input_number.set_value
+      - action: input_number.set_value
         data:
           entity_id: input_number.irrigation_cycle3_zone4_duration
           value: >

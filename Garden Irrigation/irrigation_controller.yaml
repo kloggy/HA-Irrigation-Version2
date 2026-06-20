@@ -57,10 +57,10 @@ automation:
     id: irrigation_set_default_controller_wifi_1_signal_sensor
     trigger:
       #=== If HA starts
-      - platform: homeassistant
+      - trigger: homeassistant
         event: start
 
-      - platform: state
+      - trigger: state
         entity_id: input_text.irrigation_external_sensor_controller_1_wifi
         to: ''
 
@@ -76,7 +76,7 @@ automation:
           state: ''
 
     action:
-      - service: input_text.set_value
+      - action: input_text.set_value
         data:
           entity_id: input_text.irrigation_external_sensor_controller_1_wifi
           value: Not set
@@ -90,10 +90,10 @@ automation:
     id: irrigation_set_default_controller_2_wifi_signal_sensor
     trigger:
       #=== If HA starts
-      - platform: homeassistant
+      - trigger: homeassistant
         event: start
 
-      - platform: state
+      - trigger: state
         entity_id: input_text.irrigation_external_sensor_controller_2_wifi
         to: ''
 
@@ -109,7 +109,7 @@ automation:
           state: ''
 
     action:
-      - service: input_text.set_value
+      - action: input_text.set_value
         data:
           entity_id: input_text.irrigation_external_sensor_controller_2_wifi
           value: Not set

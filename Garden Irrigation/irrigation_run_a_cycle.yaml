@@ -32,13 +32,13 @@ script:
 
           sequence:
             #=== Write To Log
-            - service: script.irrigation_write_to_log
+            - action: script.irrigation_write_to_log
               data:
                 log_event: ZONE_STARTING
                 zone: >
                   {{ repeat.index }}
                 seconds: >
-                  {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int }}
+                  {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int(0) }}
                 event_time: >
                   {{ now() }}
 
@@ -47,18 +47,18 @@ script:
                 - conditions:
                     condition: template
                     value_template: >
-                      {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int != 0 }}
+                      {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int(0) != 0 }}
 
                   sequence:
                     #=== Set FAILSAFE time to 10 seconds longer than the zone runtime
-                    - service: input_number.set_value
-                      data_template:        
+                    - action: input_number.set_value
+                      data:
                         entity_id: input_number.irrigation_failsafe_time_in_seconds
                         value: >
-                          {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int + 10 }}
+                          {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int(0) + 10 }}
 
                     #=== Write To Log
-                    - service: script.irrigation_write_to_log
+                    - action: script.irrigation_write_to_log
                       data:
                         log_event: FAILSAFE_SET
                         zone: >
@@ -67,14 +67,14 @@ script:
                           {{ now() }}
 
                     #=== Update Status with Zone being watered
-                    - service: input_text.set_value
-                      data_template:
+                    - action: input_text.set_value
+                      data:
                         entity_id: input_text.irrigation_current_status
                         value: Watering...
 
                     #=== Update last run details for this zone
-                    - service: input_text.set_value
-                      data_template:
+                    - action: input_text.set_value
+                      data:
                         entity_id: >
                           input_text.irrigation_zone{{ repeat.index }}_previous_duration_in_seconds
                         value: >
@@ -94,7 +94,7 @@ script:
       
                           sequence:
                             #=== Update Status
-                            - service: input_text.set_value
+                            - action: input_text.set_value
                               data:
                                 entity_id: input_text.irrigation_current_status
                                 value: Waiting for offline controller...
@@ -105,15 +105,15 @@ script:
                                   {{ states('input_number.irrigation_controller_offline_wait') | int }}
 
                     #=== Start the timer
-                    - service: timer.start
-                      data_template:
+                    - action: timer.start
+                      data:
                         entity_id: >
                           timer.irrigation_zone{{ repeat.index }}_timer
                         duration: >
-                          {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int }}
+                          {{ states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int(0) }}
 
                     #=== Write To Log
-                    - service: script.irrigation_write_to_log
+                    - action: script.irrigation_write_to_log
                       data:
                         log_event: ZONE_WATERING
                         zone: >
@@ -135,8 +135,8 @@ script:
 
                         sequence:
                           #=== Start watering
-                          - service: switch.turn_on
-                            data_template:
+                          - action: switch.turn_on
+                            data:
                               entity_id: >
                                 {{ states('input_text.irrigation_zone' ~ repeat.index ~ '_switch_entity_id') }}
 
@@ -155,13 +155,13 @@ script:
                         {{ is_state(entity_id, 'idle') }}
 
                     #=== Stop Watering
-                    - service: switch.turn_off
-                      data_template:
+                    - action: switch.turn_off
+                      data:
                         entity_id: >
                           {{ states('input_text.irrigation_zone' ~ repeat.index ~ '_switch_entity_id') }}
 
                     #=== Write To Log
-                    - service: script.irrigation_write_to_log
+                    - action: script.irrigation_write_to_log
                       data:
                         log_event: ZONE_STOPPING
                         zone: >
@@ -170,8 +170,8 @@ script:
                           {{ now() }}
 
                     #=== Update last run time for this zone
-                    - service: input_text.set_value
-                      data_template:
+                    - action: input_text.set_value
+                      data:
                         entity_id: >
                           input_text.irrigation_zone{{ repeat.index }}_previous_duration_in_seconds
                         value: >
@@ -187,18 +187,18 @@ script:
                           {% endif %}
 
                     #=== Update last run total watering time
-                    - service: input_text.set_value
-                      data_template:
+                    - action: input_text.set_value
+                      data:
                         entity_id: >
                           input_text.irrigation_previous_total_watering_time
                         value: >
-                          {% set duration = states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int %}
-                          {% set current_total = states('input_text.irrigation_previous_total_watering_time') | float %}
+                          {% set duration = states('sensor.irrigation_' ~ cycle ~ '_zone' ~ repeat.index ~ '_actual_duration_in_seconds') | int(0) %}
+                          {% set current_total = states('input_text.irrigation_previous_total_watering_time') | float(0) %}
 
                           {{ (current_total + duration) | string }}
 
                     #=== Update Status
-                    - service: input_text.set_value
+                    - action: input_text.set_value
                       data:
                         entity_id: input_text.irrigation_current_status
                         value: Changing Zone...
@@ -209,8 +209,8 @@ script:
                             {{ states('input_number.irrigation_pause_between_zones_in_seconds') | int }}
 
       #=== CYCLE END PROCESSING
-      - service: input_boolean.turn_off
-        data_template:
+      - action: input_boolean.turn_off
+        data:
           entity_id: >
             input_boolean.irrigation_{{ cycle }}_running
 
@@ -221,20 +221,20 @@ script:
               value_template: >
                 {{ is_state('input_boolean.irrigation_' + cycle + '_schedule_today_only', 'on') }}
             sequence:
-              - service: homeassistant.turn_off
+              - action: homeassistant.turn_off
                 data:
                   entity_id:
                     - input_boolean.irrigation_{{ cycle }}_schedule_today_only
                     - input_boolean.irrigation_{{ cycle }}_schedule_enabled
 
       #=== Update Status to Idle
-      - service: input_text.set_value
+      - action: input_text.set_value
         data:
           entity_id: input_text.irrigation_current_status
           value: SYSTEM IDLE
 
       #=== Write To Log
-      - service: script.irrigation_write_to_log
+      - action: script.irrigation_write_to_log
         data:
           log_event: CYCLE_ENDED
           cycle: >

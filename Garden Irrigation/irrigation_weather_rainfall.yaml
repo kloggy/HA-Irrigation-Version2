@@ -10,10 +10,10 @@ automation:
     id: irrigation_set_default_rainfall_today_sensor
     trigger:
       #=== If HA starts
-      - platform: homeassistant
+      - trigger: homeassistant
         event: start
 
-      - platform: state
+      - trigger: state
         entity_id: input_text.irrigation_external_sensor_rainfall_today
         to: ''
 
@@ -29,8 +29,8 @@ automation:
           state: ''
 
     action:
-      - service: input_text.set_value
-        data_template:
+      - action: input_text.set_value
+        data:
           entity_id: input_text.irrigation_external_sensor_rainfall_today
           value: sensor.rain_gauge
 
@@ -42,10 +42,10 @@ automation:
     id: irrigation_set_default_rainfall_yesterday_sensor
     trigger:
       #=== If HA starts
-      - platform: homeassistant
+      - trigger: homeassistant
         event: start
 
-      - platform: state
+      - trigger: state
         entity_id: input_text.irrigation_external_sensor_rainfall_yesterday
         to: ''
 
@@ -61,8 +61,8 @@ automation:
           state: ''
 
     action:
-      - service: input_text.set_value
-        data_template:
+      - action: input_text.set_value
+        data:
           entity_id: input_text.irrigation_external_sensor_rainfall_yesterday
           value: sensor.rain_gauge_yesterday
 
@@ -74,10 +74,10 @@ automation:
     id: irrigation_set_default_rainfall_last_twenty_four_hours_sensor
     trigger:
       #=== If HA starts
-      - platform: homeassistant
+      - trigger: homeassistant
         event: start
 
-      - platform: state
+      - trigger: state
         entity_id: input_text.irrigation_external_sensor_rainfall_last_twenty_four_hours
         to: ''
 
@@ -93,8 +93,8 @@ automation:
           state: ''
 
     action:
-      - service: input_text.set_value
-        data_template:
+      - action: input_text.set_value
+        data:
           entity_id: input_text.irrigation_external_sensor_rainfall_last_twenty_four_hours
           value: sensor.rain_gauge_rainfall_last_twenty_four_hours
 
@@ -105,10 +105,10 @@ automation:
     id: irrigation_set_default_rainfall_between_24_and_48_hours_ago
     trigger:
       #=== If HA starts
-      - platform: homeassistant
+      - trigger: homeassistant
         event: start
 
-      - platform: state
+      - trigger: state
         entity_id: input_text.irrigation_external_sensor_rainfall_between_24_and_48_hours_ago
         to: ''
 
@@ -124,8 +124,8 @@ automation:
           state: ''
 
     action:
-      - service: input_text.set_value
-        data_template:
+      - action: input_text.set_value
+        data:
           entity_id: input_text.irrigation_external_sensor_rainfall_between_24_and_48_hours_ago
           value: sensor.rain_gauge_rainfall_between_24_and_48_hours_ago
 
@@ -136,10 +136,10 @@ automation:
     id: irrigation_set_default_rainfall_between_48_and_72_hours_ago
     trigger:
       #=== If HA starts
-      - platform: homeassistant
+      - trigger: homeassistant
         event: start
 
-      - platform: state
+      - trigger: state
         entity_id: input_text.irrigation_external_sensor_rainfall_between_48_and_72_hours_ago
         to: ''
 
@@ -155,8 +155,8 @@ automation:
           state: ''
 
     action:
-      - service: input_text.set_value
-        data_template:
+      - action: input_text.set_value
+        data:
           entity_id: input_text.irrigation_external_sensor_rainfall_between_48_and_72_hours_ago
           value: sensor.rain_gauge_rainfall_between_48_and_72_hours_ago
 
@@ -167,10 +167,10 @@ automation:
     id: irrigation_set_default_rainfall_between_72_and_96_hours_ago
     trigger:
       #=== If HA starts
-      - platform: homeassistant
+      - trigger: homeassistant
         event: start
 
-      - platform: state
+      - trigger: state
         entity_id: input_text.irrigation_external_sensor_rainfall_between_72_and_96_hours_ago
         to: ''
 
@@ -186,8 +186,8 @@ automation:
           state: ''
 
     action:
-      - service: input_text.set_value
-        data_template:
+      - action: input_text.set_value
+        data:
           entity_id: input_text.irrigation_external_sensor_rainfall_between_72_and_96_hours_ago
           value: sensor.rain_gauge_rainfall_between_72_and_96_hours_ago
 
@@ -198,10 +198,10 @@ automation:
     id: irrigation_set_default_rainfall_between_96_and_120_hours_ago
     trigger:
       #=== If HA starts
-      - platform: homeassistant
+      - trigger: homeassistant
         event: start
 
-      - platform: state
+      - trigger: state
         entity_id: input_text.irrigation_external_sensor_rainfall_between_96_and_120_hours_ago
         to: ''
 
@@ -217,8 +217,8 @@ automation:
           state: ''
 
     action:
-      - service: input_text.set_value
-        data_template:
+      - action: input_text.set_value
+        data:
           entity_id: input_text.irrigation_external_sensor_rainfall_between_96_and_120_hours_ago
           value: sensor.rain_gauge_rainfall_between_96_and_120_hours_ago
 
@@ -230,10 +230,10 @@ automation:
     id: irrigation_set_default_raining_now_sensor
     trigger:
       #=== If HA starts
-      - platform: homeassistant
+      - trigger: homeassistant
         event: start
 
-      - platform: state
+      - trigger: state
         entity_id: input_text.irrigation_external_sensor_raining_now
         to: ''
 
@@ -249,8 +249,8 @@ automation:
           state: ''
 
     action:
-      - service: input_text.set_value
-        data_template:
+      - action: input_text.set_value
+        data:
           entity_id: input_text.irrigation_external_sensor_raining_now
           value: binary_sensor.raining_now
 
@@ -262,10 +262,10 @@ automation:
     id: irrigation_set_default_forecast_rain_sensor
     trigger:
       #=== If HA starts
-      - platform: homeassistant
+      - trigger: homeassistant
         event: start
 
-      - platform: state
+      - trigger: state
         entity_id: input_text.irrigation_external_sensor_forecast_rain
         to: ''
 
@@ -281,8 +281,8 @@ automation:
           state: ''
 
     action:
-      - service: input_text.set_value
-        data_template:
+      - action: input_text.set_value
+        data:
           entity_id: input_text.irrigation_external_sensor_forecast_rain
           value: sensor.openweathermap_forecast_precipitation
 
@@ -294,11 +294,11 @@ automation:
     id: irrigation_initialise_rainfall_sensors
     trigger:
       #=== If HA starts
-      - platform: homeassistant
+      - trigger: homeassistant
         event: start
 
     action:
-      - service: homeassistant.update_entity
+      - action: homeassistant.update_entity
         data:
           entity_id: 
             - sensor.irrigation_sensor_rainfall_today
@@ -313,25 +313,25 @@ automation:
   - alias: Irrigation Rainfall Nightly Update
     id: irrigation_rainfall_nightly_update
     trigger: 
-      - platform: time
+      - trigger: time
         at: "23:59:00"
 
     action:
-      - service: input_number.set_value
+      - action: input_number.set_value
         entity_id: input_number.irrigation_rainfall_4
-        data_template:
+        data:
           value: >
             {{ states('input_number.irrigation_rainfall_3') }}
 
-      - service: input_number.set_value
+      - action: input_number.set_value
         entity_id: input_number.irrigation_rainfall_3
-        data_template:
+        data:
           value: >
             {{ states('input_number.irrigation_rainfall_2') }}
 
-      - service: input_number.set_value
+      - action: input_number.set_value
         entity_id: input_number.irrigation_rainfall_2
-        data_template:
+        data:
           value: >
             {{ states(states('input_text.irrigation_external_sensor_rainfall_yesterday')) | float }}
 
@@ -348,7 +348,7 @@ automation:
     id: irrigation_rainfall_calculate_multiplier
     mode: queued
     trigger:
-      - platform: state
+      - trigger: state
         entity_id:
           - input_boolean.irrigation_rainfall_use_rolling_values
           - input_number.irrigation_days_of_rainfall_history_used
@@ -369,28 +369,28 @@ automation:
           - sensor.irrigation_sensor_rainfall_between_96_and_120_hours_ago
 
     action:
-      - service: input_number.set_value
-        data_template:
+      - action: input_number.set_value
+        data:
           entity_id: input_number.irrigation_rainfall_multiplier
           value: >
             {% if states('input_boolean.irrigation_rainfall_use_rolling_values') == 'on' %}
-              {% set rain_0 = states('sensor.irrigation_sensor_rainfall_last_twenty_four_hours') | float %}
-              {% set rain_1 = states('sensor.irrigation_sensor_rainfall_between_24_and_48_hours_ago') | float %}
-              {% set rain_2 = states('sensor.irrigation_sensor_rainfall_between_48_and_72_hours_ago')  | float%}
-              {% set rain_3 = states('sensor.irrigation_sensor_rainfall_between_72_and_96_hours_ago')  | float%}
-              {% set rain_4 = states('sensor.irrigation_sensor_rainfall_between_96_and_120_hours_ago')  | float%}
+              {% set rain_0 = states('sensor.irrigation_sensor_rainfall_last_twenty_four_hours') | float(0) %}
+              {% set rain_1 = states('sensor.irrigation_sensor_rainfall_between_24_and_48_hours_ago') | float(0) %}
+              {% set rain_2 = states('sensor.irrigation_sensor_rainfall_between_48_and_72_hours_ago')  | float(0)%}
+              {% set rain_3 = states('sensor.irrigation_sensor_rainfall_between_72_and_96_hours_ago')  | float(0)%}
+              {% set rain_4 = states('sensor.irrigation_sensor_rainfall_between_96_and_120_hours_ago')  | float(0)%}
             {% else %}
-              {% set rain_0 = states('sensor.irrigation_sensor_rainfall_today') | float %}
-              {% set rain_1 = states('sensor.irrigation_sensor_rainfall_yesterday') | float %}
-              {% set rain_2 = states('input_number.irrigation_rainfall_2')  | float%}
-              {% set rain_3 = states('input_number.irrigation_rainfall_3')  | float%}
-              {% set rain_4 = states('input_number.irrigation_rainfall_4')  | float%}
+              {% set rain_0 = states('sensor.irrigation_sensor_rainfall_today') | float(0) %}
+              {% set rain_1 = states('sensor.irrigation_sensor_rainfall_yesterday') | float(0) %}
+              {% set rain_2 = states('input_number.irrigation_rainfall_2')  | float(0)%}
+              {% set rain_3 = states('input_number.irrigation_rainfall_3')  | float(0)%}
+              {% set rain_4 = states('input_number.irrigation_rainfall_4')  | float(0)%}
             {% endif %}
 
-            {% set percent_1 = states('input_number.irrigation_rainfall_percentage_1') | float / 100 %}
-            {% set percent_2 = states('input_number.irrigation_rainfall_percentage_2') | float / 100 %}
-            {% set percent_3 = states('input_number.irrigation_rainfall_percentage_3') | float / 100 %}
-            {% set percent_4 = states('input_number.irrigation_rainfall_percentage_4') | float / 100 %}
+            {% set percent_1 = states('input_number.irrigation_rainfall_percentage_1') | float(0) / 100 %}
+            {% set percent_2 = states('input_number.irrigation_rainfall_percentage_2') | float(0) / 100 %}
+            {% set percent_3 = states('input_number.irrigation_rainfall_percentage_3') | float(0) / 100 %}
+            {% set percent_4 = states('input_number.irrigation_rainfall_percentage_4') | float(0) / 100 %}
             
             {% set rain_1 = rain_1 * percent_1 %}
             {% set rain_2 = rain_2 * percent_2 %}
