@@ -1,0 +1,10 @@
+extends: default
+rules:
+  line-length:
+    max: 140
+    level: warning
+  truthy:
+    allowed-values: ["true", "false", "on", "off", "yes", "no"]
+    check-keys: false
+  indentation:
+    indent-sequences: consistent

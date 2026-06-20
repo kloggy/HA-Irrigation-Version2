@@ -1,0 +1,61 @@
+blueprint:
+  name: Irrigation — Weather Adjust (Temperature, i18n)
+  description: >
+    Scala la durata base di irrigazione in funzione della temperatura media.
+  domain: automation
+  input:
+    temperature_sensor:
+      name: Sensore temperatura (°C)
+      selector:
+        entity:
+          domain: sensor
+    base_minutes:
+      name: Minuti base
+      default: 10
+      selector:
+        number:
+          min: 1
+          max: 120
+          step: 1
+    scale_low:
+      name: Fattore a 15°C
+      default: 0.7
+      selector:
+        number:
+          min: 0.3
+          max: 2.0
+          step: 0.05
+    scale_high:
+      name: Fattore a 32°C
+      default: 1.5
+      selector:
+        number:
+          min: 0.3
+          max: 3.0
+          step: 0.05
+    output_number:
+      name: Output input_number (minuti calcolati)
+      selector:
+        entity:
+          domain: input_number
+mode: restart
+variables:
+  lang: "{{ states('input_select.language_gui') or 'it' }}"
+  i18n:
+    it:
+      set: "Minuti irrigazione aggiornati"
+    en:
+      set: "Irrigation minutes updated"
+trigger:
+  - platform: state
+    entity_id: !input temperature_sensor
+action:
+  - variables:
+      t: "{{ states( temperature_sensor ) | float(20) }}"
+      m: "{{ ( (t - 15) / (32 - 15) ) | float }}"
+      scale: "{{ (scale_low | float(0.7)) + m * ( (scale_high | float(1.5)) - (scale_low | float(0.7)) ) }}"
+      minutes: "{{ (base_minutes | float(10)) * scale }}"
+  - service: input_number.set_value
+    data:
+      entity_id: !input output_number
+      value: "{{ minutes | round(0) }}"

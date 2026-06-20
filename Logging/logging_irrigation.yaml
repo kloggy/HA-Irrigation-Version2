@@ -1,32 +1,10 @@
-
-#=================
-#=== Command Line
-#=================
-command_line:
-  #=== Get first line of log file
-  - sensor:
-      name: Logging My Log Irrigation First Line
-      unique_id: logging_my_log_irrigation_first_line
-      command: head -n 1 -c 27 /config/my_log_irrigation.log
-      scan_interval: 86400
-
-
-#===================
-#=== Input Booleans
-#===================
-input_boolean:
-  logging_irrigation:
-    name: Log irrigation
-    icon: mdi:notebook
-
-
-#==================
-#=== Input Numbers
-#==================
-input_number:
-  logging_irrigation_days_to_keep:
-    name: Days to keep
-    min: 0
-    max: 15
-    mode: box
-    icon: mdi:notebook-multiple
+template:
+  - trigger:
+      - platform: event
+        event_type: IRRIGATION_EVENT
+    action:
+      - service: logbook.log
+        data:
+          name: "Irrigation"
+          message: "{{ trigger.event.data.message | default('event') }}"
+          entity_id: "{{ trigger.event.data.entity_id | default('') }}"

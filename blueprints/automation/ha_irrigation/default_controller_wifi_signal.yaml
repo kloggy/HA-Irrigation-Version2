@@ -1,0 +1,46 @@
+blueprint:
+  name: Irrigation — Default Controller WiFi Signal (i18n)
+  description: >
+    Imposta un valore di default su un input_text associato al WiFi del controller
+    quando Home Assistant parte o quando l'entity è vuota/unknown.
+  domain: automation
+  input:
+    wifi_input_text:
+      name: Input Text WiFi
+      description: Entity input_text.* per il valore WiFi del controller
+      selector:
+        entity:
+          domain: input_text
+    default_value_it:
+      name: Valore di default (IT)
+      default: "Non impostato"
+      selector:
+        text: {}
+    default_value_en:
+      name: Default value (EN)
+      default: "Not set"
+      selector:
+        text: {}
+mode: restart
+max_exceeded: silent
+variables:
+  lang: "{{ states('input_select.language_gui') or 'it' }}"
+  default_value: >-
+    {{ (i18n_default[lang] if lang in i18n_default else i18n_default['it']) }}
+  i18n_default:
+    it: "{{ default_value_it }}"
+    en: "{{ default_value_en }}"
+trigger:
+  - platform: homeassistant
+    event: start
+  - platform: state
+    entity_id: !input wifi_input_text
+    to: ""
+  - platform: state
+    entity_id: !input wifi_input_text
+    to: "unknown"
+action:
+  - service: input_text.set_value
+    data:
+      entity_id: !input wifi_input_text
+      value: "{{ default_value }}"

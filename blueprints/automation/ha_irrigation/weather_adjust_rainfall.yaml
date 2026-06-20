@@ -1,0 +1,67 @@
+blueprint:
+  name: Irrigation — Weather Adjust (Rainfall, i18n)
+  description: >
+    Riduce/azzera l'irrigazione se la pioggia attesa/registrata supera una soglia.
+  domain: automation
+  input:
+    rainfall_sensor:
+      name: Sensore pioggia (mm)
+      selector:
+        entity:
+          domain: sensor
+    threshold_mm:
+      name: Soglia mm
+      default: 3.0
+      selector:
+        number:
+          min: 0
+          max: 50
+          step: 0.1
+    boolean_pause_entity:
+      name: Boolean per sospendere irrigazione (input_boolean)
+      selector:
+        entity:
+          domain: input_boolean
+    notify_service:
+      name: Servizio notify (opzionale)
+      default: ""
+      selector:
+        text: {}
+mode: restart
+variables:
+  lang: "{{ states('input_select.language_gui') or 'it' }}"
+  i18n:
+    it:
+      paused: "Irrigazione sospesa per pioggia"
+      resumed: "Irrigazione ripristinata (pioggia sotto soglia)"
+    en:
+      paused: "Irrigation paused due to rainfall"
+      resumed: "Irrigation resumed (rainfall below threshold)"
+trigger:
+  - platform: state
+    entity_id: !input rainfall_sensor
+action:
+  - variables:
+      rain: "{{ states( rainfall_sensor ) | float(0) }}"
+      thr: "{{ threshold_mm | float(3.0) }}"
+  - choose:
+      - conditions: "{{ rain >= thr }}"
+        sequence:
+          - service: input_boolean.turn_on
+            target: { entity_id: !input boolean_pause_entity }
+          - choose:
+              - conditions: "{{ (notify_service|default('')) != '' }}"
+                sequence:
+                  - service: "{{ notify_service }}"
+                    data:
+                      message: "{{ i18n[lang].paused }} ({{ rain }} mm ≥ {{ thr }} mm)"
+      - conditions: "{{ rain < thr }}"
+        sequence:
+          - service: input_boolean.turn_off
+            target: { entity_id: !input boolean_pause_entity }
+          - choose:
+              - conditions: "{{ (notify_service|default('')) != '' }}"
+                sequence:
+                  - service: "{{ notify_service }}"
+                    data:
+                      message: "{{ i18n[lang].resumed }} ({{ rain }} mm < {{ thr }} mm)"

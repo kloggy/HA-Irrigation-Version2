@@ -1,0 +1,36 @@
+blueprint:
+  name: Irrigation — Cancel Program (i18n)
+  description: Cancella immediatamente i cicli in corso.
+  domain: automation
+  input:
+    entities_to_turn_off:
+      name: Entità da spegnere (switch)
+      selector:
+        target:
+          entity:
+            domain: switch
+    notify_service:
+      name: Servizio notify (opzionale)
+      default: ""
+      selector:
+        text: {}
+mode: single
+variables:
+  lang: "{{ states('input_select.language_gui') or 'it' }}"
+  i18n:
+    it:
+      canceled: "Irrigazione annullata"
+    en:
+      canceled: "Irrigation cancelled"
+trigger:
+  - platform: event
+    event_type: IRRIGATION_CANCEL
+action:
+  - service: switch.turn_off
+    target: !input entities_to_turn_off
+  - choose:
+      - conditions: "{{ (notify_service|default('')) != '' }}"
+        sequence:
+          - service: "{{ notify_service }}"
+            data:
+              message: "{{ i18n[lang].canceled }}"
